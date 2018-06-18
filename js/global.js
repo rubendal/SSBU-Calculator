@@ -185,7 +185,7 @@ var paramsList = [
     new Parameter("kbReceived", "1"),
     new Parameter("traction", "0.055"),
     new Parameter("setWeight", "0"),
-    new Parameter("theme", "Ultimate"),
+    new Parameter("theme", "SSBU"),
     new Parameter("launchRate", "1"),
     new Parameter("pParalConst", defaultParameters.paralyzer.constant),
     new Parameter("pParalMult", defaultParameters.paralyzer.mult),

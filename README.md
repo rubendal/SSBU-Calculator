@@ -15,7 +15,7 @@ This project will be updated when SSBU releases, I'm just leaving this so people
 * Rage calculation is using Smash 4 values, which could be also used on SSBU
 * LSI might not be on the game, you can remove it by setting on Parameters the LSI multipliers to 1
 * Knockback formula and hitstun scaling should be the same as Smash 4 based on some gameplay research when considering hitboxes using Smash 4 BKB/KBG values
-* Still using Smash 4 character attributes, character from SSBU that weren't on Smash 4 are still missing these
+* Still using Smash 4 character attributes, characters from SSBU that aren't on Smash 4 are still missing these files. Also these characters don't have move data
 * Inkling and Ridley are just there on the character select so you can see their icons lol
 
 ### How to use it
