@@ -208,7 +208,12 @@ app.controller('calculator', function ($scope) {
 				$scope.attackerModifiers.push(attacker.modifiers[i]);
 		}
 		$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
-        getMoveset(attacker, $scope);
+		if (newCharacters.indexOf(attacker.display_name) == -1) {
+			getMoveset(attacker, $scope);
+		}
+		else {
+			$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+		}
         $scope.move = "0";
         $scope.preDamage = 0;
         $scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
