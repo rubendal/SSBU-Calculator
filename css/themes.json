@@ -1,0 +1,26 @@
+﻿[
+  {
+    "name": "SSBU",
+    "main": "css/style.css",
+    "visualSettings": {
+      "stick_color": "#000000",
+      "visualizer_bg": "#FCFCFF"
+    }
+  },
+  {
+    "name": "Smash 4",
+    "main": "css/smash4/style.css",
+    "visualSettings": {
+      "stick_color": "#000000",
+      "visualizer_bg": "#FCFCFF"
+    }
+  },
+  {
+    "name": "Dark",
+    "main": "css/dark/style.css",
+    "visualSettings": {
+      "stick_color": "#FFFFFF",
+      "visualizer_bg": "#212121"
+    }
+  }
+]
