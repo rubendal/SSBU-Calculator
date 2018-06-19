@@ -1103,6 +1103,8 @@ class Visualizer {
 					for (var i = 0; i < points.length; i++) {
 						var point = points[i].point;
 
+						visualizer.context.globalAlpha = points[i].opacity;
+
 						visualizer.context.fillStyle = "#000000";
 						visualizer.context.beginPath();
 						//stageCanvas.context.fillRect(((point.position.x + stageCanvas.prevTranslate.x) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, ((point.position.y + stageCanvas.prevTranslate.y) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, stageCanvas.prevScale / 2, stageCanvas.prevScale / 2);
@@ -1110,11 +1112,15 @@ class Visualizer {
 						visualizer.context.closePath();
 						visualizer.context.fill();
 
+						visualizer.context.globalAlpha = 1;
+
 					}
 
 					//Line
 					for (var i = 0; i < points.length; i++) {
 						var point = points[i].point;
+
+						visualizer.context.globalAlpha = points[i].opacity;
 
 						visualizer.context.strokeStyle = point.color; //Color
 
@@ -1128,7 +1134,7 @@ class Visualizer {
 
 						visualizer.context.stroke();
 
-
+						visualizer.context.globalAlpha = 1;
 						dy -= d;
 					}
 
