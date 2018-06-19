@@ -10,6 +10,7 @@ This project will be updated when SSBU releases, I'm just leaving this so people
 * Launch speed decay is not a constant in this calculator, it uses (launch speed / hitstun)
 * 1v1 flag is an option on Character selection to enable the 1.2x damage multiplier
 * Training mode data display has been removed since we don't know anything about it
+* Smash 4 launches can still be visualized to comparison, these use the vanilla launch speed multiplier and constant decay. It also ignores the 1v1 damage multiplier on the KB calculation.
 
 ### Notes
 * Rage calculation is using Smash 4 values, which could be also used on SSBU
@@ -21,7 +22,7 @@ This project will be updated when SSBU releases, I'm just leaving this so people
 ### How to use it
 Just input your data, the calculator will update the results when you change something
 
-A lot of hitbox data has been ported from Smash 4 so still using KH API to load them, however keep in mind that some hitboxes have new base damages and might have BKB/KBG/WBKB changed, you input move data manually as well
+A lot of hitbox data has been ported from Smash 4 so still using KH API to load them, however keep in mind that some hitboxes have new base damages and might have BKB/KBG/WBKB changed, you can input move data manually as well
 
 ## Credits
 * [@KuroganeHammer](https://twitter.com/KuroganeHammer) [frame data repository](http://kuroganehammer.com/Smash4)
