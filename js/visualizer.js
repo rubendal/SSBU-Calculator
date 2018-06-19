@@ -34,6 +34,10 @@ class Visualizer {
 		this.storedLaunches = [];
 		this.diLines = null;
 
+		//Compare with Smash 4 launch stuff
+		this.launch2 = null;
+		this.launch2Points = [];
+
 		this.dataPoints = [];
 		this.launchPoints = [];
 		this.diPoints = [];
@@ -64,7 +68,7 @@ class Visualizer {
 			this.origin = { x: 0, y: 0 };
 			this.scale = 1;
 
-			this.context.translate(this.canvasSize.width / 2, this.canvasSize.height/2);
+			this.context.translate(this.canvasSize.width / 2, this.canvasSize.height / 2);
 
 			this.prevTranslate.x += this.canvasSize.width / 2;
 			this.prevTranslate.y += this.canvasSize.height / 2;
@@ -102,7 +106,7 @@ class Visualizer {
 		}
 
 		this.MoveTo = function (x, y) {
-			this.context.moveTo( x, -y);
+			this.context.moveTo(x, -y);
 		}
 
 		this.LineTo = function (x, y) {
@@ -254,6 +258,59 @@ class Visualizer {
 			this.Draw();
 		}
 
+		this.SetSmash4Launch = function (launch) {
+
+			this.launch2 = launch;
+
+			this.launch2Points = [];
+
+			if (launch == null)
+				return;
+
+			var style = settings.visualizer_colors.upward;
+
+			for (var i = 0; i < launch.positions.length; i++) {
+				if (i <= launch.hitstun) {
+					if (i < launch.airdodgeCancel) {
+						if (i < launch.positions.length - 1) {
+							if (launch.positions[i].y > launch.positions[i + 1].y) {
+								style = settings.visualizer_colors.downward;
+							} else {
+								style = settings.visualizer_colors.upward;
+							}
+						}
+					} else {
+						if (i < launch.aerialCancel) {
+							style = settings.visualizer_colors.aerial;
+						}
+						else {
+							style = settings.visualizer_colors.airdodge;
+						}
+					}
+				} else {
+					style = settings.visualizer_colors.actionable;
+				}
+				if (i == 0)
+					this.launch2Points.push(new DataPoint(launch.positions[i], "Launch position (%x, %y)", style));
+				else
+					this.launch2Points.push(new DataPoint(launch.positions[i], "Frame " + i + " (%x, %y)", style));
+
+				if (i == launch.hitstun)
+					this.launch2Points.push(new DataPoint(launch.finalPosition, "Frame " + launch.hitstun + " Hitstun end", settings.visualizer_colors.hitstunEnd));
+
+				if (i == launch.faf)
+					this.launch2Points.push(new DataPoint(launch.positions[launch.faf], "Frame " + launch.faf + " Attacker's FAF", settings.visualizer_colors.attackerFAF));
+
+				if (i == launch.KOFrame)
+					this.launch2Points.push(new DataPoint(launch.positions[launch.KOFrame], "Frame " + launch.KOFrame + " KO", settings.visualizer_colors.ko));
+
+			}
+
+
+			this.ClearCanvas();
+			this.Draw();
+		}
+
 		this.SetStoredLaunches = function (storedLaunches) {
 			this.storedLaunches = storedLaunches;
 
@@ -300,7 +357,7 @@ class Visualizer {
 					this.diPoints.push(new DataPoint(lines[i].position, "Best DI angle " + lines[i].angle + " (%x, %y)", style));
 				else if (lines[i].angle == -2)
 					this.diPoints.push(new DataPoint(lines[i].position, "KO's without tumble (%x, %y)", style));
-				else if(lines[i].angle == -1)
+				else if (lines[i].angle == -1)
 					this.diPoints.push(new DataPoint(lines[i].position, "KO's at 0% (%x, %y)", style));
 
 			}
@@ -314,6 +371,7 @@ class Visualizer {
 			var stage = this.stage;
 			var context = this.context;
 			var launch = this.launch;
+			var launch2 = this.launch2;
 
 			context.lineWidth = 2 / context.prevScale;
 
@@ -527,7 +585,7 @@ class Visualizer {
 
 						context.beginPath();
 
-						context.arc( launch.positions[launch.KOFrame].x, - launch.positions[launch.KOFrame].y, r2, 0, Math.PI * 2);
+						context.arc(launch.positions[launch.KOFrame].x, - launch.positions[launch.KOFrame].y, r2, 0, Math.PI * 2);
 
 						context.closePath();
 						context.fill();
@@ -535,11 +593,145 @@ class Visualizer {
 				}
 			}
 
+			//Smash 4 launch
+			this.context.globalAlpha = 0.5;
+
+			if (this.launch2 != null) {
+
+				var r = 3 / visualizer.prevScale;
+				var r2 = 6 / visualizer.prevScale;
+
+				var style = settings.visualizer_colors.upward;
+				var prevStyle = style;
+
+				context.strokeStyle = style;
+				context.fillStyle = style;
+
+				//Lines
+				context.beginPath();
+
+				for (var i = 0; i < launch2.positions.length; i++) {
+					if (i < launch2.hitstun) {
+						if (i < launch2.airdodgeCancel) {
+							if (i < launch2.positions.length - 1) {
+								if (launch2.positions[i].y > launch2.positions[i + 1].y) {
+									style = settings.visualizer_colors.downward;
+								} else {
+									style = settings.visualizer_colors.upward;
+								}
+							}
+						} else {
+							if (i < launch2.aerialCancel) {
+								style = settings.visualizer_colors.aerial;
+							}
+							else {
+								style = settings.visualizer_colors.airdodge;
+							}
+						}
+					} else {
+						style = settings.visualizer_colors.actionable;
+					}
+
+					if (style != prevStyle) {
+						prevStyle = style;
+
+						context.stroke();
+						context.beginPath();
+						context.strokeStyle = style;
+
+						if (i > 0)
+							this.MoveTo(launch2.positions[i - 1].x, launch2.positions[i - 1].y);
+					}
+
+					if (i == 0)
+						this.MoveTo(launch2.positions[i].x, launch2.positions[i].y);
+					else
+						this.LineTo(launch2.positions[i].x, launch2.positions[i].y);
+
+				}
+				context.stroke();
+
+				style = settings.visualizer_colors.upward;
+
+				//Markers
+
+				for (var i = 0; i < launch2.positions.length; i++) {
+					if (i < launch2.hitstun) {
+						if (i < launch2.airdodgeCancel) {
+							if (i < launch2.positions.length - 1) {
+								if (launch2.positions[i].y > launch2.positions[i + 1].y) {
+									style = settings.visualizer_colors.downward;
+								} else {
+									style = settings.visualizer_colors.upward;
+								}
+							}
+						} else {
+							if (i < launch2.aerialCancel) {
+								style = settings.visualizer_colors.aerial;
+							}
+							else {
+								style = settings.visualizer_colors.airdodge;
+							}
+						}
+					} else {
+						style = settings.visualizer_colors.actionable;
+					}
+					context.fillStyle = style;
+					context.beginPath();
+
+					context.arc(launch2.positions[i].x, - launch2.positions[i].y, r, 0, Math.PI * 2);
+
+					context.closePath();
+					context.fill();
+
+
+				}
+
+				if (launch2.hitstun < launch2.positions.length) {
+					context.fillStyle = settings.visualizer_colors.hitstunEnd;
+
+					context.beginPath();
+
+					context.arc(launch2.finalPosition.x, - launch2.finalPosition.y, r2, 0, Math.PI * 2);
+
+					context.closePath();
+					context.fill();
+
+				}
+
+				if (launch2.faf >= 0) {
+					if (launch2.faf < launch2.positions.length) {
+						context.fillStyle = settings.visualizer_colors.attackerFAF;
+
+						context.beginPath();
+
+						context.arc(launch2.positions[launch2.faf].x, - launch2.positions[launch2.faf].y, r2, 0, Math.PI * 2);
+
+						context.closePath();
+						context.fill();
+					}
+				}
+
+				if (launch2.KOFrame != -1) {
+					if (launch2.KOFrame < launch2.positions.length) {
+						context.fillStyle = settings.visualizer_colors.ko;
+
+						context.beginPath();
+
+						context.arc(launch2.positions[launch2.KOFrame].x, - launch2.positions[launch2.KOFrame].y, r2, 0, Math.PI * 2);
+
+						context.closePath();
+						context.fill();
+					}
+				}
+			}
+
+			this.context.globalAlpha = 1;
+
 			//Stored Launches
 			if (this.storedLaunches != null) {
 				this.context.globalAlpha = 0.5;
-				for (var si = 0; si < this.storedLaunches.length; si++)
-				{
+				for (var si = 0; si < this.storedLaunches.length; si++) {
 					var r = 3 / visualizer.prevScale;
 					var r2 = 6 / visualizer.prevScale;
 
@@ -682,8 +874,7 @@ class Visualizer {
 					var point = { x: this.diLines[i].position.x, y: this.diLines[i].position.y };
 					var angle = this.diLines[i].angle;
 
-					if (angle == -1)
-					{
+					if (angle == -1) {
 						if (!this.diLines[i].interpolated)
 							this.context.fillStyle = settings.visualizer_colors.diLine;
 						else
@@ -694,8 +885,7 @@ class Visualizer {
 						this.context.closePath();
 						this.context.fill();
 					}
-					else
-					{
+					else {
 						if (!this.diLines[i].interpolated)
 							this.context.strokeStyle = settings.visualizer_colors.diLine;
 						else
@@ -712,17 +902,17 @@ class Visualizer {
 						var head_angle = 135;
 
 						this.LineTo((point.x + ((d / 3) * Math.cos((angle + head_angle) * Math.PI / 180))),
-						(point.y + ((d / 3) * Math.sin((angle + head_angle) * Math.PI / 180))));
+							(point.y + ((d / 3) * Math.sin((angle + head_angle) * Math.PI / 180))));
 
 						this.LineTo(point.x, point.y);
 
 						this.LineTo((point.x + ((d / 3) * Math.cos((angle - head_angle) * Math.PI / 180))),
 							(point.y + ((d / 3) * Math.sin((angle - head_angle) * Math.PI / 180))));
-						
+
 						this.context.stroke();
 					}
-					
-					
+
+
 				}
 			}
 
@@ -846,7 +1036,15 @@ class Visualizer {
 					var l = LineLength({ x: x, y: y }, point.position);
 
 					if (l < r)
-						points.push({ p: i, r: l, point: point });
+						points.push({ p: i, r: l, point: point, opacity: 1 });
+				}
+
+				for (var i = 0; i < visualizer.launch2Points.length; i++) {
+					var point = visualizer.launch2Points[i];
+					var l = LineLength({ x: x, y: y }, point.position);
+
+					if (l < r)
+						points.push({ p: i, r: l, point: point, opacity: 0.5 });
 				}
 
 				for (var i = 0; i < visualizer.diPoints.length; i++) {
@@ -854,7 +1052,7 @@ class Visualizer {
 					var l = LineLength({ x: x, y: y }, point.position);
 
 					if (l < r)
-						points.push({ p: i, r: l, point: point });
+						points.push({ p: i, r: l, point: point, opacity: 1 });
 				}
 
 				points.sort(function (a, b) { //Sort them by distance closer to mouse pointer
@@ -942,6 +1140,8 @@ class Visualizer {
 					for (var i = 0; i < points.length; i++) {
 						var point = points[i].point;
 
+						visualizer.context.globalAlpha = points[i].opacity;
+
 						visualizer.context.strokeStyle = point.color; //Color
 						visualizer.context.fillStyle = point.color; //Color
 
@@ -952,6 +1152,8 @@ class Visualizer {
 						visualizer.context.font = "12px sans-serif";
 						visualizer.context.fillText(point.text, mousex + dx * 2, mousey - dy + 5);
 						//stageCanvas.context.fillText(point.text, (point.position.x + stageCanvas.prevTranslate.x) * stageCanvas.prevScale, ((point.position.y + stageCanvas.prevTranslate.y) * stageCanvas.prevScale) - 5 - y);
+
+						visualizer.context.globalAlpha = 1;
 
 						dy -= d;
 					}

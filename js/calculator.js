@@ -138,6 +138,8 @@ app.controller('calculator', function ($scope) {
 	$scope.visualizer.SetBackground(settings.visualizer_colors.background);
 	$scope.visualizer.SetSize(45);
 
+	$scope.compareSmash4 = false;
+
 	$scope.getStage = function () {
 		for (var i = 0; i < $scope.stages.length; i++) {
 			if ($scope.stages[i].stage == $scope.stageName) {
@@ -662,14 +664,14 @@ app.controller('calculator', function ($scope) {
         //}
 
         
-        var trainingDistance;
+        //var trainingDistance;
         var vsDistance;
         if (game_mode == "training") {
-			vsDistance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.base_angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
-            trainingDistance = distance;
+			vsDistance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
+            //trainingDistance = distance;
         } else {
             vsDistance = distance;
-			trainingDistance = new Distance(trainingkb.kb, trainingkb.horizontal_launch_speed, trainingkb.vertical_launch_speed, trainingkb.hitstun, trainingkb.base_angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
+			//trainingDistance = new Distance(trainingkb.kb, trainingkb.horizontal_launch_speed, trainingkb.vertical_launch_speed, trainingkb.hitstun, trainingkb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
         }
         trainingkb.bounce(bounce);
         vskb.bounce(bounce);
@@ -775,8 +777,8 @@ app.controller('calculator', function ($scope) {
         resultList.push(new Result("Horizontal Launch Speed", +trainingkb.horizontal_launch_speed.toFixed(6), +vskb.horizontal_launch_speed.toFixed(6)));
         resultList.push(new Result("Gravity boost", +trainingkb.add_gravity_speed.toFixed(6), +vskb.add_gravity_speed.toFixed(6), trainingkb.add_gravity_speed == 0, vskb.add_gravity_speed == 0));
         resultList.push(new Result("Vertical Launch Speed",trainingkb.vertical_launch_speed,vskb.vertical_launch_speed));
-        resultList.push(new Result("Max Horizontal Distance", +trainingDistance.max_x.toFixed(6), +vsDistance.max_x.toFixed(6)));
-        resultList.push(new Result("Max Vertical Distance", +trainingDistance.max_y.toFixed(6), +vsDistance.max_y.toFixed(6)));
+        resultList.push(new Result("Max Horizontal Distance", 0 /*+trainingDistance.max_x.toFixed(6)*/, +vsDistance.max_x.toFixed(6)));
+        resultList.push(new Result("Max Vertical Distance", 0 /*+trainingDistance.max_y.toFixed(6)*/, +vsDistance.max_y.toFixed(6)));
 
 
 		resultList.push(new Result("Hit Advantage", HitAdvantage(trainingkb.hitstun, is_projectile ? hitframe + Hitlag(damage, hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf), HitAdvantage(vskb.hitstun, is_projectile ? hitframe + Hitlag(StaleDamage(damage, stale, ignoreStale), hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf)));
@@ -829,6 +831,35 @@ app.controller('calculator', function ($scope) {
 		if (graph) {
 			$scope.visualizer.SetStage(stage);
 			$scope.visualizer.SetLaunch(distance.launchData);
+
+			if ($scope.compareSmash4) {
+				var lsm = parameters.launch_speed;
+				parameters.launch_speed = 0.03;
+
+				damage = base_damage;
+				damage *= attacker.modifier.damage_dealt;
+				damage *= target.modifier.damage_taken;
+				preDamage *= attacker.modifier.damage_dealt;
+				preDamage *= target.modifier.damage_taken;
+
+				var smash4kb;
+				if (wbkb == 0) {
+					smash4kb = VSKB(target_percent + (preDamage * StaleNegation(stale, ignoreStale)), base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, stale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+					smash4kb.addModifier(attacker.modifier.kb_dealt);
+					smash4kb.addModifier(target.modifier.kb_received);
+				} else {
+					smash4kb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, target_percent, StaleDamage(damage, stale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+					smash4kb.addModifier(target.modifier.kb_received);
+				}
+
+				parameters.launch_speed = lsm;
+				
+				var smash4Distance = new Distance(smash4kb.kb, smash4kb.horizontal_launch_speed, smash4kb.vertical_launch_speed, smash4kb.hitstun, smash4kb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames), true);
+				$scope.visualizer.SetSmash4Launch(smash4Distance.launchData);
+			} else {
+				$scope.visualizer.SetSmash4Launch(null);
+			}
+
 			$scope.visualizer_extra = distance.extra;
 		} else {
 			$scope.visualizer_extra = [];

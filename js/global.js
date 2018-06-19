@@ -1525,7 +1525,7 @@ class DILine {
 }
 
 class Distance{
-    constructor(kb, x_launch_speed, y_launch_speed, hitstun, angle, gravity, faf, fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames){
+    constructor(kb, x_launch_speed, y_launch_speed, hitstun, angle, gravity, faf, fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch){
         this.kb = kb;
         this.x_launch_speed = x_launch_speed;
         this.y_launch_speed = y_launch_speed;
@@ -1587,6 +1587,10 @@ class Distance{
         if(Math.sin(angle * Math.PI / 180) < 0){
 			y_speed *= -1;
 			decay.y *= -1;
+		}
+
+		if (ssb4Launch) {
+			decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 		}
 
         this.x = [this.position.x];
@@ -1663,6 +1667,9 @@ class Distance{
 					previousCollisionIntersection = c.collision_data.intersection;
 					slidingDirection = c.collision_data.slideDirection;
 					decay = { 'x': launch_speed.x / hitstun, 'y': launch_speed.y / hitstun };
+					if (ssb4Launch) {
+						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
+					}
 					if (Math.cos(angle * Math.PI / 180) < 0) {
 						decay.x *= -1;
 					}

@@ -475,12 +475,12 @@
                         <select name="stageSelect" ng-model="stageValue" ng-change="updateStage()">
                             <option ng-selected="$first" ng:repeat="stage in stages" ng-attr-value="{{$index}}">{{stage.stage}}</option>
                         </select>
-                        <br/>
+                        <br />
                         Set position on spawn:
                         <select name="spawn" ng-model="spawn" ng-change="setPositionSpawn()">
                             <option ng-selected="$first" ng:repeat="s in spawns" ng-attr-value="{{s}}">{{s}}</option>
                         </select>
-                        <br/>
+                        <br />
                         Target position when hit
                         <table>
                             <tr>
@@ -500,11 +500,16 @@
                         Display <input name="extra_frames" type="number" min="0" max="200" step="1" ng-model="extra_vis_frames" ng-change="update()" /> additional actionable frames
                         <br />
                         <br />
-                        <div>
-                            <button ng-click="storeDistanceCalculation()" ng-disabled="!show_graph">Store distance calculation</button>
-                            <br/>
-                            <button ng-click="clearVisualizerList()" ng-disabled="!show_graph">Clear list</button>
-                        </div>
+                        <input type="checkbox" ng-model="compareSmash4" ng-change="update()" /> Compare with Smash 4 launch speed data
+                        <br />
+                        <!--
+    <br />
+    <div>
+        <button ng-click="storeDistanceCalculation()" ng-disabled="!show_graph">Store distance calculation</button>
+        <br/>
+        <button ng-click="clearVisualizerList()" ng-disabled="!show_graph">Clear list</button>
+    </div>
+              -->
                     </div>
                     <div class="pos-right pos-mod">
                         <!--Game mode
