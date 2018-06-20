@@ -13,7 +13,7 @@
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.04,
+    launch_speed: 0.045,
     tumble_threshold: 32,
     hitlag: {
         mult: 0.3846154,
@@ -151,8 +151,8 @@ function StaleNegation(queue, ignoreStale) {
 function Hitstun(kb, windbox, electric, ignoreReeling) {
     if (windbox) {
         return 0;
-    }
-    var hitstun = Math.floor(kb * parameters.hitstun) - 1;
+	}
+	var hitstun = (kb * parameters.hitstun);
     //if (!ignoreReeling) {
     //    if (kb * parameters.hitstun >= parameters.tumble_threshold) {
     //        hitstun++;
@@ -164,8 +164,15 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
     }
     if (hitstun < 0) {
         return 0;
-    }
-    return hitstun;
+	}
+
+	if (hitstun + 1 >= parameters.tumble_threshold) {
+		//Tumble hitstun seems to be affected by an additional factor
+
+		hitstun -= (hitstun - parameters.tumble_threshold) * parameters.hitstun; //Approximated, somewhat accurate
+	}
+
+	return Math.floor(hitstun) - 1;
 }
 
 function LumaHitstun(kb, windbox, electric) {

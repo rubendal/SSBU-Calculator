@@ -768,8 +768,8 @@ app.controller('calculator', function ($scope) {
         resultList.push(new Result("Tumble", trainingkb.tumble ? "Yes" : "No", vskb.tumble ? "Yes" : "No"));
 
         resultList.push(new Result("Reeling/Spin animation", trainingkb.reeling ? "30%" : "0%", vskb.reeling ? "30%" : "0%", !trainingkb.reeling, !vskb.reeling));
-        resultList.push(new Result("Reeling hitstun", trainingkb.reeling ? Hitstun(trainingkb.base_kb, windbox, electric, true) : Hitstun(trainingkb.base_kb, windbox, electric), vskb.reeling ? Hitstun(vskb.base_kb, windbox, electric, true) : Hitstun(vskb.base_kb, windbox, electric), !trainingkb.reeling, !vskb.reeling));
-        resultList.push(new Result("Reeling FAF", FirstActionableFrame(trainingkb.base_kb, windbox, electric, true), FirstActionableFrame(vskb.base_kb, windbox, electric, true), !trainingkb.reeling, !vskb.reeling));
+        //resultList.push(new Result("Reeling hitstun", trainingkb.reeling ? Hitstun(trainingkb.base_kb, windbox, electric, true) : Hitstun(trainingkb.base_kb, windbox, electric), vskb.reeling ? Hitstun(vskb.base_kb, windbox, electric, true) : Hitstun(vskb.base_kb, windbox, electric), !trainingkb.reeling, !vskb.reeling));
+        //resultList.push(new Result("Reeling FAF", FirstActionableFrame(trainingkb.base_kb, windbox, electric, true), FirstActionableFrame(vskb.base_kb, windbox, electric, true), !trainingkb.reeling, !vskb.reeling));
 
         resultList.push(new Result("Can Jab lock", trainingkb.can_jablock ? "Yes" : "No", vskb.can_jablock ? "Yes" : "No"));
 

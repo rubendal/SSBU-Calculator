@@ -39,7 +39,7 @@ var defaultParameters = {
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.04,
+    launch_speed: 0.045,
     tumble_threshold: 32,
     hitlag: {
         mult: 0.3846154,

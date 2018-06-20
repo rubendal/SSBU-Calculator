@@ -6,13 +6,15 @@ Currently the calculator has a few changes compared to the Sm4sh Calculator base
 This project will be updated when SSBU releases, I'm just leaving this so people can test visualizations of the launch speed changes
 
 ### Changes from Sm4sh Calculator
-* Launch speed multiplier increased (using 0.04 for now)
+* Launch speed multiplier increased (using 0.045 for now)
+* Hitstun scaling being slowed down after tumble is considered on this calculator (using the operation hitstun - (hitstun - tumble threshold) * hitstun scaling)
 * Launch speed decay is not a constant in this calculator, it uses (launch speed / hitstun)
 * 1v1 flag is an option on Character selection to enable the 1.2x damage multiplier
 * Training mode data display has been removed since we don't know anything about it
-* Smash 4 launches can still be visualized to comparison, these use the vanilla launch speed multiplier and constant decay. It also ignores the 1v1 damage multiplier on the KB calculation.
+* Smash 4 launches can still be visualized for comparison, these use the vanilla launch speed multiplier and constant decay. It also ignores the 1v1 damage multiplier on the KB calculation.
 
 ### Notes
+* Don't expect it to be 100% accurate with the SSBU E3 build, changes were based on observation of recorded gameplay and it's most likely not accurate
 * Rage calculation is using Smash 4 values, which could be also used on SSBU
 * LSI might not be on the game, you can remove it by setting on Parameters the LSI multipliers to 1
 * Knockback formula and hitstun scaling should be the same as Smash 4 based on some gameplay research when considering hitboxes using Smash 4 BKB/KBG values
