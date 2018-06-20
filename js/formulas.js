@@ -175,6 +175,26 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 	return Math.floor(hitstun) - 1;
 }
 
+function S4Hitstun(kb, windbox, electric, ignoreReeling) {
+	if (windbox) {
+		return 0;
+	}
+	var hitstun = Math.floor(kb * parameters.hitstun) - 1;
+	if (!ignoreReeling) {
+		if (kb * parameters.hitstun >= parameters.tumble_threshold) {
+			hitstun++;
+		}
+	}
+	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521
+	if (electric) {
+		hitstun++;
+	}
+	if (hitstun < 0) {
+		return 0;
+	}
+	return hitstun;
+}
+
 function LumaHitstun(kb, windbox, electric) {
 	if (windbox) {
 		return 0;

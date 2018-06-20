@@ -853,8 +853,8 @@ app.controller('calculator', function ($scope) {
 				}
 
 				parameters.launch_speed = lsm;
-				
-				var smash4Distance = new Distance(smash4kb.kb, smash4kb.horizontal_launch_speed, smash4kb.vertical_launch_speed, smash4kb.hitstun, smash4kb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames), true);
+
+				var smash4Distance = new Distance(smash4kb.kb, smash4kb.horizontal_launch_speed, smash4kb.vertical_launch_speed, S4Hitstun(smash4kb.kb, smash4kb.windbox, smash4kb.electric, true), smash4kb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames), true);
 				$scope.visualizer.SetSmash4Launch(smash4Distance.launchData);
 			} else {
 				$scope.visualizer.SetSmash4Launch(null);
