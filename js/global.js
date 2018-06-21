@@ -42,7 +42,7 @@ var defaultParameters = {
     launch_speed: 0.045,
     tumble_threshold: 32,
     hitlag: {
-        mult: 0.3846154,
+		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
         constant: 5
     },
     hitstunCancel: {
