@@ -39,6 +39,10 @@ input, select {
         width: 5em;
     }
 
+    input:invalid {
+        box-shadow: none;
+    }
+
 .mod-select {
     min-width: 90px;
 }
