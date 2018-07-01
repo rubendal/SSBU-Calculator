@@ -121,8 +121,8 @@ table, td, tr {
     height: auto;
     text-align: left;
     display: inline-block;
-    background: #FFFFFF;
-    color: black;
+    background: #222222;
+    color: white;
     padding-bottom: 15px;
 }
 
@@ -147,6 +147,10 @@ table, td, tr {
 #header-icon {
     float: left;
     margin-left: 10px;
+}
+
+.invert {
+    filter: invert(100%);
 }
 
 #header-text {
@@ -187,7 +191,7 @@ table, td, tr {
 #header-cont h3 {
     display: inline;
     margin-left: 10px;
-    color: black;
+    color: white;
 }
 
 .description {
