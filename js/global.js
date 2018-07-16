@@ -31,7 +31,8 @@ var defaultParameters = {
     gravity: {
         mult: 5,
         constant: 0.075
-    },
+	},
+	shorthop_aerial: 0.85,
     bounce: 0.8,
     crouch_cancelling: 0.85,
     crouch_hitlag: 0.67,

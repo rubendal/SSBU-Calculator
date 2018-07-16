@@ -28,7 +28,8 @@ app.controller('calculator', function ($scope) {
     //$scope.training = List([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     //$scope.vs = List([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     $scope.kb = 0;
-    $scope.kbType = "total";
+	$scope.kbType = "total";
+	$scope.shorthop_aerial = false;
 
     $scope.preDamage = 0;
 
@@ -473,6 +474,10 @@ app.controller('calculator', function ($scope) {
 		if ($scope.is_1v1) {
 			damage *= 1.2;
 			preDamage *= 1.2;
+		}
+		if ($scope.shorthop_aerial) {
+			damage *= parameters.shorthop_aerial;
+			preDamage *= parameters.shorthop_aerial;
 		}
 
         set_weight = $scope.set_weight;

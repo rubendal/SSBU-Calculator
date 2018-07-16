@@ -5,7 +5,8 @@
     gravity:{
         mult: 5,
         constant: 0.075
-    },
+	},
+	shorthop_aerial: 0.85,
     bounce: 0.8,
     crouch_cancelling: 0.85,
     crouch_hitlag: 0.67,
@@ -134,7 +135,8 @@ function StaleNegation(queue, ignoreStale) {
     //if (timesInQueue == 0) {
     //    return 1.05;
     //}
-    var S = [0.08, 0.07594, 0.06782, 0.06028, 0.05274, 0.04462, 0.03766, 0.02954, 0.022];
+	//	var S = [0.08, 0.07594, 0.06782, 0.06028, 0.05274, 0.04462, 0.03766, 0.02954, 0.022]; Smash 4
+	var S = [0.09, 0.085, 0.075, 0.06028, 0.05274, 0.04462, 0.03766, 0.02954, 0.022];
     var s = 1;
     for (var i = 0; i < queue.length; i++)
     {

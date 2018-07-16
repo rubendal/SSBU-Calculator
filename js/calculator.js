@@ -31,6 +31,7 @@ app.controller('calculator', function ($scope) {
     $scope.faf = faf;
     $scope.shieldDamage = 0;
 	$scope.charging_frames_type = "Frames charged";
+	$scope.shorthop_aerial = false;
 
 	$scope.effects = effects;
 	$scope.effect = effects[0].name;
@@ -633,6 +634,11 @@ app.controller('calculator', function ($scope) {
 		if ($scope.is_1v1) {
 			damage *= 1.2;
 			preDamage *= 1.2;
+		}
+
+		if ($scope.shorthop_aerial) {
+			damage *= parameters.shorthop_aerial;
+			preDamage *= parameters.shorthop_aerial;
 		}
 
         if (wbkb == 0) {

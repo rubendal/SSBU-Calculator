@@ -303,7 +303,7 @@
                         <br />
                         <br />
                         <input type="checkbox" ng-model="is_smash" ng-change="charging()" /> {{charge_special ? "Chargeable" : "Smash attack"}}
-                        <br/>
+                        <br />
                         <span ng-style="is_smash_visibility">
                             <span ng-style="is_megaman">
                                 <input type="checkbox" ng-model="megaman_fsmash" ng-change="update()" /> Fsmash
@@ -311,8 +311,12 @@
                             </span>
                             <span ng-style="is_bayonetta">
                                 <input type="checkbox" ng-model="witch_time_charge" ng-change="update()" /> Witch Time active
-                                <br/>
+                                <br />
                             </span>
+                        </span>
+                        <span ng-style="is_aerial">
+                            <input type="checkbox" ng-model="shorthop_aerial" ng-change="update()" /> Shorthop aerial
+                            <br />
                         </span>
                         <input type="checkbox" ng-model="is_projectile" ng-change="update()" /> Projectile
                         <br />
@@ -323,10 +327,10 @@
                         <input type="checkbox" name="ignoreStale" ng-model="ignoreStale" ng-change="update()" /> Ignores staleness
                         <br />
                         <input type="checkbox" name="set_weight" ng-model="set_weight" ng-change="update()" /> Set weight
-                        <br/>
+                        <br />
                         <input type="checkbox" name="isFinishingTouch" ng-model="isFinishingTouch" ng-change="update()" /> Finishing Touch
                         <br />
-                        
+
                     </div>
                 </div>
             </div>

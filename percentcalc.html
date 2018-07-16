@@ -302,6 +302,10 @@
                                 <br />
                             </span>
                         </span>
+                        <span ng-style="is_aerial">
+                            <input type="checkbox" ng-model="shorthop_aerial" ng-change="update()" /> Shorthop aerial
+                            <br />
+                        </span>
                         <input type="checkbox" ng-model="windbox" ng-change="updateAttackData()" /> Windbox/Flinchless
                         <br />
                         <input type="checkbox" name="ignoreStale" ng-model="ignoreStale" ng-change="update()" /> Ignores staleness

@@ -303,6 +303,10 @@
                                 <br />
                             </span>
                         </span>
+                        <span ng-style="is_aerial">
+                            <input type="checkbox" ng-model="shorthop_aerial" ng-change="update()" /> Shorthop aerial
+                            <br />
+                        </span>
                         <input type="checkbox" ng-model="is_projectile" ng-change="update()" /> Projectile
                         <br />
                         <input type="checkbox" ng-model="in_air" ng-change="updateAttackData()" /> Target in air
