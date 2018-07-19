@@ -6,12 +6,20 @@ Currently the calculator has a few changes compared to the Sm4sh Calculator base
 This project will be updated when SSBU releases, I'm just leaving this so people can test visualizations of the launch speed changes
 
 ### Changes from Sm4sh Calculator
+
+#### Changes based on confirmed stuff
+* 1v1 flag is an option on Character selection to enable the 1.2x damage multiplier
+* Short hop aerial multiplier is an option displayed when selecting an aerial, this will apply the 0.85x damage multiplier
+
+#### Changes based on approximation
 * Launch speed multiplier increased (using 0.045 for now)
 * Hitstun scaling being slowed down after tumble is considered on this calculator (using the operation hitstun - (hitstun - tumble threshold) * hitstun scaling)
 * Launch speed decay is not a constant in this calculator, it uses (launch speed / hitstun)
-* 1v1 flag is an option on Character selection to enable the 1.2x damage multiplier
+* Staleness queue positions 1-3 reduction factors added (2 and 3 are somewhat inaccurate), the rest still uses Smash 4 values
+
+#### Other changes
 * Training mode data display has been removed since we don't know anything about it
-* Smash 4 launches can still be visualized for comparison, these use the vanilla launch speed multiplier and constant decay. It also ignores the 1v1 damage multiplier on the KB calculation.
+* Smash 4 launches can still be visualized for comparison, these use the vanilla launch speed multiplier and constant decay. It also ignores the 1v1 and short hop aerials damage multipliers on the KB calculation.
 
 ### Notes
 * Don't expect it to be 100% accurate with the SSBU E3 build, changes were based on observation of recorded gameplay and it's most likely not accurate

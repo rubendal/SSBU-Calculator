@@ -123,16 +123,22 @@ app.controller('calculator', function ($scope) {
 	};
 
     $scope.check = function () {
-		$scope.is_megaman = attacker.name == "Mega Man" ? {} : { 'display': 'none' };
-        if (attacker.name != "Mega Man") {
-            $scope.megaman_fsmash = false;
-        }
-		$scope.is_bayonetta = attacker.name == "Bayonetta" ? {} : { 'display': 'none' };
-        if(attacker.name != "Bayonetta"){
-            $scope.witch_time_charge = false;
-        }
+		$scope.is_megaman = attacker.name == "Mega Man" ? { 'display': 'block' } : { 'display': 'none' };
+		if (attacker.name != "Mega Man") {
+			$scope.megaman_fsmash = false;
+		}
+		$scope.is_bayonetta = attacker.name == "Bayonetta" ? { 'display': 'block' } : { 'display': 'none' };
+		if (attacker.name != "Bayonetta") {
+			$scope.witch_time_charge = false;
+		}
         var a = parseFloat($scope.angle);
 		$scope.st_jab_lock = (a == 361 || (a >= 230 && a <= 310)) ? {} : { "display": 'none' };
+
+		if ($scope.selected_move != null) {
+			$scope.shorthop_aerial = $scope.selected_move.aerial ? $scope.shorthop_aerial : false;
+		} else {
+			$scope.shorthop_aerial = false;
+		}
     }
 
     $scope.check_move = function(){

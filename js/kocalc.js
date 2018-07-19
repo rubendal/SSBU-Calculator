@@ -360,14 +360,19 @@ app.controller('calculator', function ($scope) {
 	};
 
     $scope.check = function () {
-		$scope.is_megaman = attacker.name == "Mega Man" ? {} : { 'display': 'none' };
-        if (attacker.name != "Mega Man") {
-            $scope.megaman_fsmash = false;
-        }
-		$scope.is_bayonetta = attacker.name == "Bayonetta" ? {} : { 'display': 'none' };
-        if(attacker.name != "Bayonetta"){
-            $scope.witch_time_charge = false;
-        }
+		$scope.is_megaman = attacker.name == "Mega Man" ? { 'display': 'block' } : { 'display': 'none' };
+		if (attacker.name != "Mega Man") {
+			$scope.megaman_fsmash = false;
+		}
+		$scope.is_bayonetta = attacker.name == "Bayonetta" ? { 'display': 'block' } : { 'display': 'none' };
+		if (attacker.name != "Bayonetta") {
+			$scope.witch_time_charge = false;
+		}
+		if ($scope.selected_move != null) {
+			$scope.shorthop_aerial = $scope.selected_move.aerial ? $scope.shorthop_aerial : false;
+		} else {
+			$scope.shorthop_aerial = false;
+		}
     }
 
     $scope.updateAttr = function () {
