@@ -708,6 +708,9 @@ app.controller('calculator', function ($scope) {
 		if ($scope.is_1v1) {
 			resultList.push(new Result("1v1 Damage increase", "x1.2", "x1.2"));
 		}
+		if ($scope.shorthop_aerial) {
+			resultList.push(new Result("Short hop aerial", "x0.85", "x0.85"));
+		}
 		if (attacker.name == "Lucario") {
 			resultList.push(new Result("Aura", "x" + +Aura(attacker_percent, stock_dif, game_format).toFixed(6), "x" + +Aura(attacker_percent, stock_dif, game_format).toFixed(6)));
 		}
