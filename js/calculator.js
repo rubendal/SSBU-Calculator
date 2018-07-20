@@ -818,6 +818,9 @@ app.controller('calculator', function ($scope) {
 
 		if (!unblockable) {
 			var damageOnShield = base_damage * attacker.modifier.damage_dealt;
+			if ($scope.shorthop_aerial) {
+				damageOnShield *= parameters.shorthop_aerial;
+			}
 			var s = (damageOnShield * 1.19) + (shieldDamage * 1.19);
 			var sv = (StaleDamage(damageOnShield, stale, ignoreStale) * 1.19) + (shieldDamage * 1.19);
             if (!powershield) {
