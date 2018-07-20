@@ -155,24 +155,19 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
         return 0;
 	}
 	var hitstun = (kb * parameters.hitstun);
-    //if (!ignoreReeling) {
-    //    if (kb * parameters.hitstun >= parameters.tumble_threshold) {
-    //        hitstun++;
-    //    }
-    //}
-    //Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521
-	if (electric) {
-        hitstun++;
-    }
     if (hitstun < 0) {
         return 0;
 	}
 
-	if (hitstun + 1 >= parameters.tumble_threshold) {
+	if (hitstun >= parameters.tumble_threshold) {
 		//Tumble hitstun seems to be affected by an additional factor
-
-		hitstun -= (hitstun - parameters.tumble_threshold) * parameters.hitstun; //Approximated, somewhat accurate
+		hitstun -= (hitstun - parameters.tumble_threshold) * parameters.hitstun; //Possible additional operation, cannot be certain since hitboxes can have BKB/KBG changed
 	}
+
+	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
+	if (electric) {
+        hitstun++;
+    }
 
 	return Math.floor(hitstun) - 1;
 }
