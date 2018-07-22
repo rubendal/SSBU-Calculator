@@ -1624,7 +1624,7 @@ class Distance{
 		var slidingDirection = 0;
 
 		var hc = HitstunCancel(kb, x_launch_speed, y_launch_speed, angle, false);
-		this.launchData = new LaunchData([{ x: this.position.x, y: this.position.y }], { x: 0, y: 0 }, [], hitstun, hc.airdodge, hc.aerial, -1, -1);
+		this.launchData = new LaunchData([{ x: this.position.x, y: this.position.y }], { x: 0, y: 0 }, [], hitstun, hc.airdodge, hc.aerial, faf, -1);
 
 		for (var i = 0; i < limit; i++){
 
@@ -2372,15 +2372,15 @@ function getTitle(attribute) {
         { "attribute": "KB dealt", "title": "Additional KB multiplier mostly used by attacker Buster/Smash Monado Arts" },
         { "attribute": "KB received", "title": "Additional KB multiplier mostly used by target Shield/Smash Monado Arts" },
         { "attribute": "Charged Smash", "title": "Damage multiplier used when using a charged smash attack" },
-        { "attribute": "Damage taken", "title": "Additional damage multiplier target receives caused by the target used in multiple powerups like Jump/Shield/Buster Monado Arts and Deep Breathing" },
-		{ "attribute": "Damage dealt", "title": "Additional damage multiplier target receives caused by the attacker used in multiple powerups like Speed/Buster/Smash Monado Arts and Deep Breathing" },
+        { "attribute": "Damage taken", "title": "Additional damage multiplier target receives caused by the target, it only affects hurtboxes" },
+		{ "attribute": "Damage dealt", "title": "Additional damage multiplier target receives caused by the attacker" },
 		{ "attribute": "1v1 Damage increase", "title": "Damage is increased by 20% on 1v1 battles on SSBU, this damage increase works like a damage taken multiplier which doesn't affect move's base damage on the KB calculation" },
 		{ "attribute": "Short hop aerial", "title": "On SSBU aerials done after a short hop have their damage multiplier by 0.85, works like a damage dealt multiplier which doesn't affect move's base damage on the KB calculation" },
 		{ "attribute": "Before launch damage", "title": "Throws can deal some damage during their animations like Pikachu's fthrow, this is added to the target percent before calculating KB" },
 		{ "attribute": "Freshness bonus", "title": "Move damage is increased by 5% since it hasn't been on the last 9 used moves queue" },
         { "attribute": "Stale-move negation", "title": "Damage reduction caused when using an attack repeatedly, if the attack isn't in the queue it gets a freshness bonus and increases damage a little" },
         { "attribute": "Tumble", "title": "Target will enter tumble if KB > 80" },
-        { "attribute": "Reeling/Spin animation", "title": "Also called Untechable spin, special animation caused when KB > 80, angle isn't between 71 and 109 and target's percent is 100 or higher after the attack damage" },
+        { "attribute": "Reeling", "title": "Special animation caused when KB > 80, angle isn't between 71 and 109 and target's percent is 100 or higher after the attack damage" },
         { "attribute": "Can Jab lock", "title": "If target is in the ground after tumble during the bounce animation the attack can jab lock if Y = 0 or for spikes KB <= 80 and is grounded" },
         { "attribute": "Angle with DI", "title": "Angle the target is launched affected by DI" },
         { "attribute": "Launch angle", "title": "Angle the target is launched with gravity boost" },

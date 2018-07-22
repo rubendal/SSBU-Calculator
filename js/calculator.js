@@ -746,12 +746,7 @@ app.controller('calculator', function ($scope) {
 			resultList.push(new Result("Buried removed", trainingkb.kb >= parameters.buried_kb_threshold ? "Yes" : "No", vskb.kb >= parameters.buried_kb_threshold ? "Yes" : "No"));
 		}
 
-        //resultList.push(new Result("Angle with DI", +trainingkb.angle_with_di.toFixed(6), +vskb.angle_with_di.toFixed(6), !trainingkb.di_able, !vskb.di_able));
         resultList.push(new Result("Launch angle", +trainingkb.angle.toFixed(6), +vskb.angle.toFixed(6)));
-        /*if (angle <= 361) {
-            resultList.push(new Result("X", +trainingkb.x.toFixed(6), +vskb.x.toFixed(6)));
-            resultList.push(new Result("Y", +trainingkb.y.toFixed(6), +vskb.y.toFixed(6)));
-		}*/
 		if (effect == "Paralyze") {
             resultList.push(new Result("Paralysis time", ParalysisTime(trainingkb.kb, damage, hitlag, HitlagCrouch(crouch)), ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch))));
 		}
@@ -781,7 +776,7 @@ app.controller('calculator', function ($scope) {
 
         resultList.push(new Result("Tumble", trainingkb.tumble ? "Yes" : "No", vskb.tumble ? "Yes" : "No"));
 
-        resultList.push(new Result("Reeling/Spin animation", trainingkb.reeling ? "30%" : "0%", vskb.reeling ? "30%" : "0%", !trainingkb.reeling, !vskb.reeling));
+        resultList.push(new Result("Reeling", trainingkb.reeling ? "30%" : "0%", vskb.reeling ? "30%" : "0%", !trainingkb.reeling, !vskb.reeling));
         //resultList.push(new Result("Reeling hitstun", trainingkb.reeling ? Hitstun(trainingkb.base_kb, windbox, electric, true) : Hitstun(trainingkb.base_kb, windbox, electric), vskb.reeling ? Hitstun(vskb.base_kb, windbox, electric, true) : Hitstun(vskb.base_kb, windbox, electric), !trainingkb.reeling, !vskb.reeling));
         //resultList.push(new Result("Reeling FAF", FirstActionableFrame(trainingkb.base_kb, windbox, electric, true), FirstActionableFrame(vskb.base_kb, windbox, electric, true), !trainingkb.reeling, !vskb.reeling));
 
