@@ -191,7 +191,9 @@ var paramsList = [
     new Parameter("pParalConst", defaultParameters.paralyzer.constant),
     new Parameter("pParalMult", defaultParameters.paralyzer.mult),
 	new Parameter("useLandingLag", "no"),
-	new Parameter("isFinishingTouch","0")
+	new Parameter("isFinishingTouch", "0"),
+	new Parameter("1v1", "1"),
+	new Parameter("shorthop", "0")
 ];
 
 function checkUndefined(value) {
@@ -442,6 +444,12 @@ function buildParams($scope) {
 		}
 		if (paramsList[73].value != boolToString($scope.isFinishingTouch)) {
 			params.push(new Parameter(paramsList[73].param, boolToString($scope.isFinishingTouch)));
+		}
+		if (paramsList[74].value != boolToString($scope.is_1v1)) {
+			params.push(new Parameter(paramsList[74].param, boolToString($scope.is_1v1)));
+		}
+		if (paramsList[75].value != boolToString($scope.shorthop_aerial)) {
+			params.push(new Parameter(paramsList[75].param, boolToString($scope.shorthop_aerial)));
 		}
     } else if ($scope.app == "kbcalculator") {
         if (paramsList[43].value != $scope.kb) {
@@ -875,6 +883,18 @@ function mapParams($scope) {
 	if (param) {
 		if ($scope.isFinishingTouch != undefined) {
 			$scope.isFinishingTouch = param == 1;
+		}
+	}
+	param = Parameter.get(get_params, "1v1");
+	if (param) {
+		if ($scope.is_1v1 != undefined) {
+			$scope.is_1v1 = param == 1;
+		}
+	}
+	param = Parameter.get(get_params, "shorthop");
+	if (param) {
+		if ($scope.shorthop_aerial != undefined) {
+			$scope.delayed_shorthop_aerial = param == 1;
 		}
 	}
 }

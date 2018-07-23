@@ -134,7 +134,8 @@ app.controller('calculator', function ($scope) {
 
 	$scope.launch_rate = launch_rate;
 
-    $scope.delayed_landing_lag = null;
+	$scope.delayed_landing_lag = null;
+	$scope.delayed_shorthop_aerial = null;
 
     $scope.params = parameters;
 
@@ -249,7 +250,14 @@ app.controller('calculator', function ($scope) {
                 }, 10);
             } else {
                 $scope.use_landing_lag = "no";
-            }
+			}
+			if ($scope.delayed_shorthop_aerial != null) {
+				$scope.shorthop_aerial = $scope.delayed_shorthop_aerial;
+				setTimeout(function () {
+					$scope.delayed_shorthop_aerial = null;
+					$scope.$apply();
+				}, 10);
+			}
 			$scope.is_aerial = $scope.selected_move.aerial ? {} : { 'display': 'none' };
 			$scope.prev_hf = { 'display': 'none' };
 			$scope.next_hf = { 'display': $scope.selected_move.hitboxActive.length > 1 ? 'inline' : 'none' };

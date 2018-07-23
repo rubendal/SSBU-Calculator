@@ -91,7 +91,9 @@ app.controller('calculator', function ($scope) {
 
     $scope.charging_frames_type = "Frames charged";
 
-    $scope.launch_rate = launch_rate;
+	$scope.launch_rate = launch_rate;
+
+	$scope.delayed_shorthop_aerial = null;
 
 	$scope.checkSmashVisibility = function () {
 		$scope.is_smash_visibility = $scope.is_smash ? {} : { 'display': 'none' };
@@ -147,7 +149,15 @@ app.controller('calculator', function ($scope) {
             $scope.charge_max = 60;
             $scope.charge_special = false;
             $scope.charging_frames_type = "Frames charged";
-        }else{
+		} else {
+			if ($scope.delayed_shorthop_aerial != null) {
+				$scope.shorthop_aerial = $scope.delayed_shorthop_aerial;
+				setTimeout(function () {
+					$scope.delayed_shorthop_aerial = null;
+					$scope.$apply();
+				}, 10);
+			}
+
             if($scope.selected_move.chargeable){
                 if($scope.selected_move.charge != null){
                     $scope.charge_data = $scope.selected_move.charge;
