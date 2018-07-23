@@ -637,7 +637,11 @@ app.controller('calculator', function ($scope) {
         if (attacker.name == "Lucario") {
             base_damage *= Aura(attacker_percent, stock_dif, game_format);
             preDamage *= Aura(attacker_percent, stock_dif, game_format);
-        }
+		}
+
+		base_damage *= attacker.modifier.base_damage;
+		preDamage *= attacker.modifier.base_damage;
+
         var damage = base_damage;
         damage *= attacker.modifier.damage_dealt;
         damage *= target.modifier.damage_taken;
@@ -724,6 +728,9 @@ app.controller('calculator', function ($scope) {
 		}
 		if (is_smash && $scope.charge_data == null) {
 			resultList.push(new Result("Charged Smash", "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge).toFixed(6), "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge).toFixed(6)));
+		}
+		if (attacker.modifier.base_damage != 1) {
+			resultList.push(new Result("Base damage multiplier", "x" + +attacker.modifier.base_damage.toFixed(6), "x" + +attacker.modifier.base_damage.toFixed(6)));
 		}
 		if (preDamage != 0) {
 			resultList.push(new Result("Before launch damage", "+" + +preDamage.toFixed(6) + "%", "+" + +(preDamage * StaleNegation(stale, ignoreStale)).toFixed(6) + "%"));

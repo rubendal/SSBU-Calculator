@@ -935,16 +935,17 @@ var KHcharacters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And 
 var gameNames = ["mario", "luigi", "peach", "koopa", "yoshi", "rosetta", "koopajr", "wario", "donkey", "diddy", "gamewatch", "littlemac", "link", "zelda", "sheik", "ganon", "toonlink", "samus", "szerosuit", "pit", "palutena", "marth", "ike", "reflet", "duckhunt", "kirby", "dedede", "metaknight", "fox", "falco", "pikachu", "lizardon", "lucario", "purin", "gekkouga", "robot", "ness", "captain", "murabito", "pikmin", "wiifit", "shulk", "drmario", "pitb", "lucina", "pacman", "rockman", "sonic", "mewtwo", "lucas", "roy", "ryu", "cloud", "kamui", "bayonetta", "miiswordsman", "miifighter", "miigunner", "iceclimbers", "pichu", "younglink", "snake", "zenigame", "fushigisou", "wolf", "inkling", "daisy", "ridley"];
 
 class Modifier {
-	constructor(name, damage_dealt, damage_taken, kb_dealt, kb_received, gravity, fall_speed, shield, air_friction, traction, attackerShow, targetShow) {
+	constructor(name, base_damage, damage_dealt, damage_taken, kb_dealt, kb_received, gravity, fall_speed, shield, air_friction, traction, attackerShow, targetShow) {
 		this.name = name;
-        this.damage_dealt = damage_dealt;
-        this.damage_taken = damage_taken;
-        this.kb_dealt = kb_dealt;
-        this.kb_received = kb_received;
-        this.gravity = gravity;
-        this.fall_speed = fall_speed;
-        this.shield = shield;
-        this.air_friction = air_friction;
+		this.base_damage = base_damage;
+		this.damage_dealt = damage_dealt;
+		this.damage_taken = damage_taken;
+		this.kb_dealt = kb_dealt;
+		this.kb_received = kb_received;
+		this.gravity = gravity;
+		this.fall_speed = fall_speed;
+		this.shield = shield;
+		this.air_friction = air_friction;
 		this.traction = traction;
 
 		if (attackerShow == undefined)
@@ -956,31 +957,31 @@ class Modifier {
 			this.targetShow = true;
 		else
 			this.targetShow = targetShow;
-    }
+	}
 };
 
 var monado = [
-    new Modifier("Jump", 1, 1.22, 1, 1, 1.3, 1.22, 1, 1, 1),
-    new Modifier("Speed", 0.8, 1, 1, 1, 1, 1, 1, 1, 1.5),
-    new Modifier("Shield", 0.7, 0.67, 1, .78, 1, 1, 1.5, 1, 1),
-    new Modifier("Buster", 1.4, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
-    new Modifier("Smash", 0.5, 1, 1.18, 1.07, 1, 1, 1, 1, 1)
+	new Modifier("Jump", 1, 1, 1.22, 1, 1, 1.3, 1.22, 1, 1, 1),
+	new Modifier("Speed", 1, 0.8, 1, 1, 1, 1, 1, 1, 1, 1.5),
+	new Modifier("Shield", 1, 0.7, 0.67, 1, .78, 1, 1, 1.5, 1, 1),
+	new Modifier("Buster", 1, 1.4, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
+	new Modifier("Smash", 1, 0.5, 1, 1.18, 1.07, 1, 1, 1, 1, 1)
 ];
 
 var decisive_monado = [
-    new Modifier("Decisive Jump", 1, 1.22, 1, 1, 1.43, 1.342, 1, 1, 1),
-    new Modifier("Decisive Speed", 0.8, 1, 1, 1, 1.1, 1, 1, 1, 1.65),
-    new Modifier("Decisive Shield", .7, 0.603, 1, .702, 1, 1, 1.5*1.1, 1, 1),
-    new Modifier("Decisive Buster", 1.4 * 1.1, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
-    new Modifier("Decisive Smash", 0.5, 1, 1.18 * 1.1, 1.07, 1, 1, 1, 1, 1)
+	new Modifier("Decisive Jump", 1, 1, 1.22, 1, 1, 1.43, 1.342, 1, 1, 1),
+	new Modifier("Decisive Speed", 1, 0.8, 1, 1, 1, 1.1, 1, 1, 1, 1.65),
+	new Modifier("Decisive Shield", 1, .7, 0.603, 1, .702, 1, 1, 1.5 * 1.1, 1, 1),
+	new Modifier("Decisive Buster", 1, 1.4 * 1.1, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
+	new Modifier("Decisive Smash", 1, 0.5, 1, 1.18 * 1.1, 1.07, 1, 1, 1, 1, 1)
 ];
 
 var hyper_monado = [
-    new Modifier("Hyper Jump", 1, 1.22*1.2, 1, 1, 1.56, 1.464, 1, 1, 1),
-    new Modifier("Hyper Speed", 0.64, 1, 1, 1, 1.2, 1, 1, 1, 1.8),
-    new Modifier("Hyper Shield", 0.56, 0.536, 1, .624, 1, 1, 1.5*1.2, 1, 1),
-    new Modifier("Hyper Buster", 1.4 * 1.2, 1.13 * 1.2, 0.544, 1, 1, 1, 1, 1, 1),
-    new Modifier("Hyper Smash", 0.4, 1, 1.18 * 1.2, 1.07 * 1.2, 1, 1, 1, 1, 1)
+	new Modifier("Hyper Jump", 1, 1, 1.22 * 1.2, 1, 1, 1.56, 1.464, 1, 1, 1),
+	new Modifier("Hyper Speed", 1, 0.64, 1, 1, 1, 1.2, 1, 1, 1, 1.8),
+	new Modifier("Hyper Shield", 1, 0.56, 0.536, 1, .624, 1, 1, 1.5 * 1.2, 1, 1),
+	new Modifier("Hyper Buster", 1, 1.4 * 1.2, 1.13 * 1.2, 0.544, 1, 1, 1, 1, 1, 1),
+	new Modifier("Hyper Smash", 1, 0.4, 1, 1.18 * 1.2, 1.07 * 1.2, 1, 1, 1, 1, 1)
 ];
 
 class Character {
@@ -991,38 +992,38 @@ class Character {
         this.addModifier = function (modifier) {
             this.modifier = modifier;
         }
-		this.modifier = new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, false);
-        this.modifiers = [];
-        if (this.name == null) {
-            this.name = name;
-        }
+		this.modifier = new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false);
+		this.modifiers = [];
+		if (this.name == null) {
+			this.name = name;
+		}
 		if (this.name == "Shulk") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)];
 			this.modifiers = this.modifiers.concat(monado);
 			this.modifiers = this.modifiers.concat(decisive_monado);
 			this.modifiers = this.modifiers.concat(hyper_monado);
 		} else if (this.name == "Kirby") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)];
 			this.modifiers = this.modifiers.concat(monado);
 		} else if (this.name == "Bowser Jr") {
-			this.modifiers = [new Modifier("Clown Kart", 1, 0.88, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Body", 1, 1.15, 1, 1, 1, 1, 1, 1, 1, false)];
+			this.modifiers = [new Modifier("Clown Kart", 1, 1, 0.88, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Body", 1, 1, 1.15, 1, 1, 1, 1, 1, 1, 1, false)];
 			this.modifier = this.modifiers[0];
 		} else if (this.name == "Wii Fit Trainer") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1), new Modifier("Fast Deep Breathing", 1.2, 0.9, 1, 1, 1, 1, 1, 1, 1), new Modifier("Slow Deep Breathing", 1.16, 0.9, 1, 1, 1, 1, 1, 1, 1)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), new Modifier("Fast Deep Breathing", 1.2, 1, 0.9, 1, 1, 1, 1, 1, 1, 1), new Modifier("Slow Deep Breathing", 1.16, 1, 0.9, 1, 1, 1, 1, 1, 1, 1)];
 
 		} else if (this.name == "Cloud") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Limit Break", 1, 1, 1, 1, 1.1, 1.1, 1, 1.15, 1.15, false)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Limit Break", 1, 1, 1, 1, 1, 1.1, 1.1, 1, 1.15, 1.15, false)];
 		}
 		else if (this.name == "King Dedede") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Character Inhaled", 1, 1, 1, 1, 1, 1, 1, 1, 1, false)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Character Inhaled", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false)];
 		}
 		else if (this.name == "Palutena") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Lightweight", 1, 1.1, 1, 1, 1, 0.8, 1, 1, 1, false)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Lightweight", 1, 1, 1.1, 1, 1, 1, 0.8, 1, 1, 1, false)];
 		}
 
         this.getModifier = function (name) {
             if (this.modifiers.length == 0) {
-				return new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, false);
+				return new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false);
             }
             for(var i=0;i<this.modifiers.length;i++){
                 if(this.modifiers[i].name == name){
@@ -2392,8 +2393,9 @@ function getTitle(attribute) {
         { "attribute": "KB dealt", "title": "Additional KB multiplier mostly used by attacker Buster/Smash Monado Arts" },
         { "attribute": "KB received", "title": "Additional KB multiplier mostly used by target Shield/Smash Monado Arts" },
         { "attribute": "Charged Smash", "title": "Damage multiplier used when using a charged smash attack" },
-        { "attribute": "Damage taken", "title": "Additional damage multiplier target receives caused by the target, it only affects hurtboxes" },
-		{ "attribute": "Damage dealt", "title": "Additional damage multiplier target receives caused by the attacker" },
+		{ "attribute": "Damage taken", "title": "Additional damage multiplier target receives caused by the target, it only affects hurtboxes and doesn't affect hitbox base damage" },
+		{ "attribute": "Damage dealt", "title": "Additional damage multiplier target receives caused by the attacker, it doesn't affect hitbox base damage" },
+		{ "attribute": "Base damage multiplier", "title": "Base damage multiplier" },
 		{ "attribute": "1v1 Damage increase", "title": "Damage is increased by 20% on 1v1 battles on SSBU, this damage increase works like a damage taken multiplier which doesn't affect move's base damage on the KB calculation" },
 		{ "attribute": "Short hop aerial", "title": "On SSBU aerials done after a short hop have their damage multiplier by 0.85, works like a damage dealt multiplier which doesn't affect move's base damage on the KB calculation" },
 		{ "attribute": "Before launch damage", "title": "Throws can deal some damage during their animations like Pikachu's fthrow, this is added to the target percent before calculating KB" },
