@@ -15,7 +15,8 @@ This project will be updated when SSBU releases, I'm just leaving this so people
 * Launch speed multiplier increased (using 0.045 for now)
 * Hitstun scaling being slowed down after tumble is considered on this calculator (applies additional operation if there is tumble hitstun -= (hitstun - tumble threshold) * hitstun scaling)
 * Launch speed decay is not a constant in this calculator, it uses (launch speed / hitstun)
-* Staleness queue positions 1-3 reduction factors added, the rest still uses Smash 4 values
+* Uses Drafix's hitlag formula (https://twitter.com/drafix570/status/1009458115559895040)
+* Some staleness queue positions reduction factors that have been calculated are added (https://docs.google.com/spreadsheets/d/1ykZzWhPsEhxsMrc7M1B6lSit1m3Q2nv4XCZ8Zj39xuw/edit#gid=1417286638), the rest are still using Smash 4 values
 
 #### Other changes
 * Training mode data display has been removed since we don't know anything about it
@@ -28,6 +29,7 @@ This project will be updated when SSBU releases, I'm just leaving this so people
 * Knockback formula and hitstun scaling should be the same as Smash 4 based on some gameplay research when considering hitboxes using Smash 4 BKB/KBG values
 * Still using Smash 4 character attributes, characters from SSBU that aren't on Smash 4 are still missing these files. Also these characters don't have move data
 * Characters from SSBU that aren't on Smash 4, Inkling and Ridley are just there on the character select so you can see their icons lol
+* Everything not mentioned here still uses Smash 4 data and formulas so expect those to be added when research is done on those or after the game releases
 
 ### How to use it
 Just input your data, the calculator will update the results when you change something
