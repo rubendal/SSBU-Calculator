@@ -2079,13 +2079,13 @@ class Knockback {
 			this.vertical_launch_speed = (this.launch_speed * Math.sin(this.angle * Math.PI / 180)) + this.add_gravity_speed;
 
 			if ((this.base_angle == 0 || this.base_angle == 180) && !this.aerial) {
-				this.horizontal_launch_speed = HorizontalGroundedSpeedLimit(this.horizontal_launch_speed);
+				//this.horizontal_launch_speed = HorizontalGroundedSpeedLimit(this.horizontal_launch_speed);
 			} else {
-				this.horizontal_launch_speed = HorizontalSpeedLimit(this.horizontal_launch_speed);
+				//this.horizontal_launch_speed = HorizontalSpeedLimit(this.horizontal_launch_speed);
 				this.angle = GetAngle(this.horizontal_launch_speed, this.vertical_launch_speed);
 			}
 
-			this.vertical_launch_speed = VerticalSpeedLimit(this.vertical_launch_speed);
+			//this.vertical_launch_speed = VerticalSpeedLimit(this.vertical_launch_speed);
 
 			if (this.windbox && !this.aerial)
 				this.vertical_launch_speed = 0;
@@ -2107,8 +2107,8 @@ class Knockback {
 				this.horizontal_launch_speed = this.launch_speed * Math.cos(this.angle * Math.PI / 180);
 				this.vertical_launch_speed = (this.launch_speed * Math.sin(this.angle * Math.PI / 180));
 
-				this.horizontal_launch_speed = HorizontalSpeedLimit(this.horizontal_launch_speed);
-				this.vertical_launch_speed = VerticalSpeedLimit(this.vertical_launch_speed);
+				//this.horizontal_launch_speed = HorizontalSpeedLimit(this.horizontal_launch_speed);
+				//this.vertical_launch_speed = VerticalSpeedLimit(this.vertical_launch_speed);
 				
 			}
 
