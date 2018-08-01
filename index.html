@@ -109,7 +109,7 @@
                                 </select>
                             </div>
                             <div class="percent-div">
-                                <input name="attacker_percent" type="number" min="0" max="999" step="0.5" ng-model="attackerPercent" ng-change="update()" />
+                                <input name="attacker_percent" type="number" min="0" max="999" step="0.1" ng-model="attackerPercent" ng-change="update()" />
                                 %
                             </div>
                             <div id="attacker-mod-sel" ng-style="attacker_mod">
@@ -135,7 +135,7 @@
                                 </select>
                             </div>
                             <div class="percent-div">
-                                <input name="target_percent" type="number" min="0" max="999" step="0.5" ng-model="targetPercent" ng-change="update()" />
+                                <input name="target_percent" type="number" min="0" max="999" step="0.1" ng-model="targetPercent" ng-change="update()" />
                                 %
                             </div>
                             <div id="target-mod-sel" ng-style="target_mod">
@@ -239,13 +239,13 @@
                         <br />
                         <div ng-style="counterStyle">
                             Countered Damage
-                            <input name="countered_base_damage" type="number" min="0" max="999" step="0.5" ng-model="counteredDamage" ng-change="counterDamage()" />
+                            <input name="countered_base_damage" type="number" min="0" max="999" step="0.1" ng-model="counteredDamage" ng-change="counterDamage()" />
                             <span>{{"x" + counterMult}}</span>
                         </div>
                         <table>
                             <tr>
                                 <td>Damage</td>
-                                <td><input name="base_damage" type="number" min="0" max="999" step="0.5" ng-model="baseDamage" ng-change="updateAttackData()" /></td>
+                                <td><input name="base_damage" type="number" min="0" max="999" step="0.1" ng-model="baseDamage" ng-change="updateAttackData()" /></td>
                             </tr>
                             <tr ng-style="is_smash_visibility">
                                 <td>{{charging_frames_type}}</td>
@@ -582,7 +582,7 @@
                     <br />
                     Launch speed
                     <br />
-                    Multiplier <input name="param_launch_speed" type="number" min="0" max="999" step="0.01" ng-model="params.launch_speed" ng-change="updateParameters()" />
+                    Multiplier <input name="param_launch_speed" type="number" min="0" max="999" step="0.001" ng-model="params.launch_speed" ng-change="updateParameters()" />
                     <br />
                     <br />
                     Gravity launch speed influence
