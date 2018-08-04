@@ -379,7 +379,7 @@ app.controller('calculator', function ($scope) {
 		if ($scope.selected_move != null) {
 			$scope.shorthop_aerial = $scope.selected_move.aerial ? $scope.shorthop_aerial : false;
 		} else {
-			$scope.shorthop_aerial = false;
+			//$scope.shorthop_aerial = false;
 		}
     }
 
@@ -531,7 +531,19 @@ app.controller('calculator', function ($scope) {
                 $scope.preDamage = 0;
 				$scope.unblockable = false;
 				$scope.isFinishingTouch = false;
-                $scope.selected_move = null;
+				$scope.selected_move = null;
+
+				//Check if url has short hop aerial multiplier (Possible aerial with hitbox data modified)
+				if ($scope.delayed_shorthop_aerial != null) {
+
+					$scope.is_aerial = {};
+					$scope.shorthop_aerial = $scope.delayed_shorthop_aerial;
+
+					setTimeout(function () {
+						$scope.delayed_shorthop_aerial = null;
+						$scope.$apply();
+					}, 10);
+				}
             }
         }
         

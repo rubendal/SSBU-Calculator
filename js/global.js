@@ -895,6 +895,7 @@ function mapParams($scope) {
 	if (param) {
 		if ($scope.shorthop_aerial != undefined) {
 			$scope.delayed_shorthop_aerial = param == 1;
+			$scope.updateAttackData();
 		}
 	}
 }
