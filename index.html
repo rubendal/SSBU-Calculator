@@ -160,7 +160,6 @@
             </div>
 
             <!-- Characters end -->
-
             <!-- Attributes -->
 
             <a class="select-link cur-link" ng-click="collapse('characterAttributes')">
@@ -169,57 +168,56 @@
                 </div>
             </a>
             <div id="characterAttributes" class="card-block collapse group">
-                    <div class="pos-left">
-                        <table>
-                            <!--<tr>
-                                <td>Attacker</td>
-                            </tr>-->
-                            <tr>
-                                <td>Damage dealt</td>
-                                <td>x <input name="attacker_damage_dealt" type="number" min="0" max="100" step="0.01" ng-model="attacker_damage_dealt" ng-change="updateAttr()" /></td>
-                            </tr>
-                            <tr>
-                                <td>KB dealt</td>
-                                <td>x <input name="attacker_kb_dealt" type="number" min="0" max="100" step="0.01" ng-model="attacker_kb_dealt" ng-change="updateAttr()" /></td>
-                            </tr>
-                        </table>
-                        
-                    </div>
-                    <div class="pos-right pos-attr">
-                        <table>
-                            <!--<tr>
-                                <td>Target</td>
-                            </tr>-->
-                            <tr>
-                                <td>Damage taken</td>
-                                <td>x <input name="target_damage_taken" type="number" min="0" max="100" step="0.01" ng-model="target_damage_taken" ng-change="updateAttr()" /></td>
-                            </tr>
-                            <tr>
-                                <td>KB received</td>
-                                <td>x <input name="target_kb_received" type="number" min="0" max="100" step="0.01" ng-model="target_kb_received" ng-change="updateAttr()" /></td>
-                            </tr>
-                            <tr>
-                                <td>Weight</td>
-                                <td>&nbsp;&nbsp;&nbsp;<input name="target_weight" type="number" min="0" max="999" step="1" ng-model="target_weight" ng-change="updateAttr()" /></td>
-                            </tr>
-                            <tr>
-                                <td>Gravity</td>
-                                <td>&nbsp;&nbsp;&nbsp;<input name="target_gravity" type="number" min="0" max="10" step="0.001" ng-model="target_gravity" ng-change="updateAttr()" /></td>
-                            </tr>
-                            <tr>
-                                <td>Fall speed</td>
-                                <td>&nbsp;&nbsp;&nbsp;<input name="target_fall_speed" type="number" min="0" max="10" step="0.001" ng-model="target_fall_speed" ng-change="updateAttr()" /></td>
-                            </tr>
-                            <tr>
-                                <td>Traction</td>
-                                <td>&nbsp;&nbsp;&nbsp;<input name="target_traction" type="number" min="0" max="1" step="0.001" ng-model="target_traction" ng-change="updateAttr()" /></td>
-                            </tr>
-                        </table>
-                    </div>
+                <div class="pos-left">
+                    <table>
+                        <!--<tr>
+                    <td>Attacker</td>
+                </tr>-->
+                        <tr>
+                            <td>Damage dealt</td>
+                            <td>x <input name="attacker_damage_dealt" type="number" min="0" max="100" step="0.01" ng-model="attacker_damage_dealt" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>KB dealt</td>
+                            <td>x <input name="attacker_kb_dealt" type="number" min="0" max="100" step="0.01" ng-model="attacker_kb_dealt" ng-change="updateAttr()" /></td>
+                        </tr>
+                    </table>
+
                 </div>
+                <div class="pos-right pos-attr">
+                    <table>
+                        <!--<tr>
+                    <td>Target</td>
+                </tr>-->
+                        <tr>
+                            <td>Damage taken</td>
+                            <td>x <input name="target_damage_taken" type="number" min="0" max="100" step="0.01" ng-model="target_damage_taken" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>KB received</td>
+                            <td>x <input name="target_kb_received" type="number" min="0" max="100" step="0.01" ng-model="target_kb_received" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            <td>&nbsp;&nbsp;&nbsp;<input name="target_weight" type="number" min="0" max="999" step="1" ng-model="target_weight" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>Gravity</td>
+                            <td>&nbsp;&nbsp;&nbsp;<input name="target_gravity" type="number" min="0" max="10" step="0.001" ng-model="target_gravity" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>Fall speed</td>
+                            <td>&nbsp;&nbsp;&nbsp;<input name="target_fall_speed" type="number" min="0" max="10" step="0.001" ng-model="target_fall_speed" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>Traction</td>
+                            <td>&nbsp;&nbsp;&nbsp;<input name="target_traction" type="number" min="0" max="1" step="0.001" ng-model="target_traction" ng-change="updateAttr()" /></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
             <!-- Attributes end -->
-
             <!-- Attack -->
 
             <a class="select-link cur-link" ng-click="collapse('attack')">
@@ -284,8 +282,8 @@
                                 </td>
                             </tr>
                         </table>
-                        
-                        <br/>
+
+                        <br />
 
                         Staleness Queue
                         <table>
@@ -303,7 +301,7 @@
                         <br />
                         <button ng-click="updateStaleness('1')">Full queue</button>
                         <button ng-click="updateStaleness('0')">Empty queue</button>
-                        
+
                     </div>
                     <div class="pos-right">
                         <br />
@@ -342,7 +340,6 @@
             </div>
 
             <!-- Attack end -->
-
             <!-- Modifiers -->
 
             <a class="select-link cur-link" ng-click="collapse('modifiers')">
@@ -355,14 +352,14 @@
                     <div class="pos-left">
                         <div class="stick-container">
                             <table>
-                                <tr>
-                                    <td>Controller</td>
-                                    <td>
-                                        <select id="controllers" ng-model="game_controller" ng-change="updateController()">
-                                            <option ng-selected="$first" ng:repeat="c in controllers" ng-attr-value="{{c}}">{{c.name}}</option>
-                                        </select>
-                                    </td>
-                                </tr>
+                                <!--<tr>
+                            <td>Controller</td>
+                            <td>
+                                <select id="controllers" ng-model="game_controller" ng-change="updateController()">
+                                    <option ng-selected="$first" ng:repeat="c in controllers" ng-attr-value="{{c}}">{{c.name}}</option>
+                                </select>
+                            </td>
+                        </tr>-->
                                 <tr>
                                     <td>Input</td>
                                     <td>
@@ -381,11 +378,11 @@
                                 <table>
                                     <tr>
                                         <td>X</td>
-                                        <td><input name="stickX" type="number" min="-127" max="128" step="1" ng-model="stick.X" ng-change="updateDIInput()" /></td>
+                                        <td><input name="stickX" type="number" min="-127" max="127" step="1" ng-model="stick.X" ng-change="updateDIInput()" /></td>
                                     </tr>
                                     <tr>
                                         <td>Y</td>
-                                        <td><input name="stickY" type="number" min="-127" max="128" step="1" ng-model="stick.Y" ng-change="updateDIInput()" /></td>
+                                        <td><input name="stickY" type="number" min="-127" max="127" step="1" ng-model="stick.Y" ng-change="updateDIInput()" /></td>
                                     </tr>
                                     <tr>
                                         <td>Angle</td>
@@ -396,9 +393,9 @@
                         </div>
                         <br />
                         <div style="clear:both;">
-                            <input type="checkbox" name="kbMod_bounce" ng-model="kb_modifier_bounce" ng-change="update()" /> Grounded meteor/Bounce off
-                            <br />
-                            <br />
+                            <!--<input type="checkbox" name="kbMod_bounce" ng-model="kb_modifier_bounce" ng-change="update()" /> Grounded meteor/Bounce off
+                    <br />
+                    <br />-->
                             Launch Rate:
                             <input name="launch_rate" type="number" min="0.5" max="2" step="0.1" ng-model="launch_rate" ng-change="update()" />
                         </div>
@@ -415,13 +412,12 @@
                             <br />
                             <input type="radio" name="kbMod" ng-model="kb_modifier" ng-attr-value="buried" ng-change="update()" /> Buried
                         </div>
-                        <br/>
+                        <br />
                     </div>
                 </div>
             </div>
 
             <!-- Modifiers end -->
-
             <!-- Shield/FAF/Hitframe/Landing options -->
 
             <a class="select-link cur-link" ng-click="collapse('shield')">
@@ -461,7 +457,7 @@
                     <div class="pos-right pos-mod">
                         <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="normal" ng-change="update()" /> Normal shield
                         <br />
-                        <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="power" ng-change="update()" /> Powershield
+                        <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="perfect" ng-change="update()" /> Perfect shield
                         <br />
                     </div>
                 </div>
@@ -471,72 +467,15 @@
 
             <!-- Visualizer settings -->
 
-            <a class="select-link cur-link" ng-click="collapse('visualizerSettings')">
-                <div class="card header-group visualizer-options-header">
+            <!--<a class="select-link cur-link" ng-click="collapse('visualizerSettings')">
+                <div class="card header-res visualizer-options-header">
                     <span class="cur-link header-group-text">Visualizer settings</span>
                 </div>
             </a>
-            <div id="visualizerSettings" class="card-block collapse group">
-                <div id="stage">
-                    <div class="pos-left">
-                        Stage:
-                        <select name="stageSelect" ng-model="stageValue" ng-change="updateStage()">
-                            <option ng-selected="$first" ng:repeat="stage in stages" ng-attr-value="{{$index}}">{{stage.stage}}</option>
-                        </select>
-                        <br />
-                        Set position on spawn:
-                        <select name="spawn" ng-model="spawn" ng-change="setPositionSpawn()">
-                            <option ng-selected="$first" ng:repeat="s in spawns" ng-attr-value="{{s}}">{{s}}</option>
-                        </select>
-                        <br />
-                        Target position when hit
-                        <table>
-                            <tr>
-                                <td>X</td>
-                                <td><input name="position_x" type="number" min="-500" max="500" step="1" ng-model="position_x" ng-change="update()" /></td>
-                            </tr>
-                            <tr>
-                                <td>Y</td>
-                                <td><input name="position_y" type="number" min="-500" max="500" step="1" ng-model="position_y" ng-change="update()" /></td>
-                            </tr>
-                        </table>
-                        <div id="graph_options">
-                            <br />
-                            <input type="checkbox" name="inverseX" ng-model="inverseX" ng-change="updateDI()" /> Target hit from right side
-                        </div>
-                        <br />
-                        Display <input name="extra_frames" type="number" min="0" max="200" step="1" ng-model="extra_vis_frames" ng-change="update()" /> additional actionable frames
-                        <br />
-                        <br />
-                        <input type="checkbox" ng-model="compareSmash4" ng-change="update()" /> Compare with Smash 4 launch speed data
-                        <br />
-                        <!--
-    <br />
-    <div>
-        <button ng-click="storeDistanceCalculation()" ng-disabled="!show_graph">Store distance calculation</button>
-        <br/>
-        <button ng-click="clearVisualizerList()" ng-disabled="!show_graph">Clear list</button>
-    </div>
-              -->
-                    </div>
-                    <div class="pos-right pos-mod">
-                        <!--Game mode
-    <br />-->
-                        <span ng-style="is_lucario">
-                            <select ng-model="format" ng-change="update()">
-                                <option ng:repeat="value in formats" ng-attr-value="{{value}}">{{value}}</option>
-                            </select>
-                            <br />
-                        </span>
-                        <!--
-    <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="training" ng-change="update()" /> Training mode
-    <br />
-    <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="vs" ng-change="update()" /> Vs mode
-    <br />-->
-                    </div>
-                </div>
-                
-            </div>
+            <div id="visualizerSettings" class="card-block collapse in group-res">
+
+
+            </div>-->
 
             <!-- Visualizer settings end -->
 
@@ -552,7 +491,6 @@
             </div>
 
             <!-- Share end -->
-
             <!-- Param mod -->
 
             <a class="select-link cur-link" ng-click="collapse('params')">
@@ -562,8 +500,8 @@
             </a>
             <div id="params" class="card-block collapse group">
                 This section is to modify game parameters, do not use unless you are modding the game
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <div class="pos-left">
                     DI <input name="param_di" type="number" min="0" max="999" step="0.01" ng-model="params.di" ng-change="updateParameters()" />
                     <br />
@@ -626,13 +564,13 @@
                     <br />
                     Buried KB resistance threshold <input name="param_buried_kb_threshold" type="number" min="0" max="999" step="0.01" ng-model="params.buried_kb_threshold" ng-change="updateParameters()" />
                 </div>
-                
-                
+
+
             </div>
 
             <!-- Param mod end -->
 
-            </div>
+        </div>
 
 
 
@@ -651,13 +589,13 @@
                         <tr>
                             <td class="attribute"></td>
                             <!--<td class="value">Training mode</td>
-    <td class="value"></td>-->
+                    <td class="value"></td>-->
                             <td class="value">Vs mode</td>
                         </tr>
                         <tr ng-repeat="x in results.list" ng-class-even="'value-even'">
                             <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
                             <!--<td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val1 }}</td>
-    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.valc }}</td>-->
+                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.valc }}</td>-->
                             <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val2}}</td>
                         </tr>
                     </table>
@@ -666,7 +604,6 @@
             </div>
 
             <!-- Results end -->
-
             <!-- Visualizer -->
 
             <a class="select-link cur-link" ng-click="collapse('visualizer');check_graph();">
@@ -675,6 +612,66 @@
                 </div>
             </a>
             <div id="visualizer" class="card-block collapse group-res">
+
+                <div id="stage">
+                    <div class="pos-left">
+                        Stage:
+                        <select name="stageSelect" ng-model="stageValue" ng-change="updateStage()">
+                            <option ng-selected="$first" ng:repeat="stage in stages" ng-attr-value="{{$index}}">{{stage.stage}}</option>
+                        </select>
+                        <br />
+                        Set position on spawn:
+                        <select name="spawn" ng-model="spawn" ng-change="setPositionSpawn()">
+                            <option ng-selected="$first" ng:repeat="s in spawns" ng-attr-value="{{s}}">{{s}}</option>
+                        </select>
+                        <br />
+                        Target position when hit
+                        <table>
+                            <tr>
+                                <td>X</td>
+                                <td><input name="position_x" type="number" min="-500" max="500" step="1" ng-model="position_x" ng-change="update()" /></td>
+                            </tr>
+                            <tr>
+                                <td>Y</td>
+                                <td><input name="position_y" type="number" min="-500" max="500" step="1" ng-model="position_y" ng-change="update()" /></td>
+                            </tr>
+                        </table>
+                        <div id="graph_options">
+                            <input type="checkbox" name="inverseX" ng-model="inverseX" ng-change="updateDI()" /> Target hit from right side
+                        </div>
+                        <br />
+                        Display <input name="extra_frames" type="number" min="0" max="50" step="1" ng-model="extra_vis_frames" ng-change="update()" style="width:3em;" /> additional actionable frames
+                        <br />
+                        <input type="checkbox" ng-model="compareSmash4" ng-change="update()" /> Compare with Smash 4 launch speed data
+                        <br />
+                        <br />
+                        <!--
+    <br />
+    <div>
+        <button ng-click="storeDistanceCalculation()" ng-disabled="!show_graph">Store distance calculation</button>
+        <br/>
+        <button ng-click="clearVisualizerList()" ng-disabled="!show_graph">Clear list</button>
+    </div>
+              -->
+                    </div>
+                    <div class="pos-right pos-mod">
+                        <!--Game mode
+            <br />-->
+                        <span ng-style="is_lucario">
+                            <select ng-model="format" ng-change="update()">
+                                <option ng:repeat="value in formats" ng-attr-value="{{value}}">{{value}}</option>
+                            </select>
+                            <br />
+                        </span>
+                        <!--
+            <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="training" ng-change="update()" /> Training mode
+            <br />
+            <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="vs" ng-change="update()" /> Vs mode
+            <br />-->
+                    </div>
+                </div>
+
+
                 <canvas id="visualizerCanvas"></canvas>
 
                 <br />
@@ -687,7 +684,10 @@
                         </tr>
                     </table>
                 </div>
+
+                <br />
             </div>
+
 
             <!-- Visualizer end -->
 

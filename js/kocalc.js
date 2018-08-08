@@ -1334,7 +1334,7 @@ app.controller('calculator', function ($scope) {
         r = KBModifier($scope.kb_modifier);
         bounce = $scope.kb_modifier_bounce;
         ignoreStale = $scope.ignoreStale;
-        powershield = $scope.shield == "power";
+        perfectshield = $scope.shield == "perfect";
         is_projectile = $scope.is_projectile == true;
 
         megaman_fsmash = $scope.megaman_fsmash;
