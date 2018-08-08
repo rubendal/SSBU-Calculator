@@ -416,6 +416,7 @@ app.controller('calculator', function ($scope) {
 			getMoveset(attacker, $scope);
 		}
 		else {
+			$scope.moveset_info = null;
 			$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
 		}
         $scope.move = "0";
