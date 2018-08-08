@@ -228,7 +228,7 @@ app.controller('calculator', function ($scope) {
 				$scope.attackerModifiers.push(attacker.modifiers[i]);
 		}
 		$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
-		if (newCharacters.indexOf(attacker.display_name) == -1) {
+		if (notInAPICharacters.indexOf(attacker.display_name) == -1) {
 			getMoveset(attacker, $scope);
 		}
 		else {

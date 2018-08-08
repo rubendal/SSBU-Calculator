@@ -410,7 +410,7 @@ app.controller('calculator', function ($scope) {
 		$scope.attacker_icon = attacker.icon;
 		$scope.attacker_image = attacker.image;
 		$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
-		if (newCharacters.indexOf(attacker.display_name) == -1) {
+		if (notInAPICharacters.indexOf(attacker.display_name) == -1) {
 			getMoveset(attacker, $scope);
 		}
 		else {

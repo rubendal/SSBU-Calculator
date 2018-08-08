@@ -399,7 +399,7 @@ app.controller('calculator', function ($scope) {
 		$scope.attacker_icon = attacker.icon;
 		$scope.attacker_image = attacker.image;
 		$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
-		if (newCharacters.indexOf(attacker.display_name) == -1) {
+		if (notInAPICharacters.indexOf(attacker.display_name) == -1) {
 			getMoveset(attacker, $scope);
 		}
 		else {
@@ -711,10 +711,10 @@ app.controller('calculator', function ($scope) {
         var vsDistance;
         if (game_mode == "training") {
 			vsDistance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
-            //trainingDistance = distance;
+            trainingDistance = distance;
         } else {
             vsDistance = distance;
-			//trainingDistance = new Distance(trainingkb.kb, trainingkb.horizontal_launch_speed, trainingkb.vertical_launch_speed, trainingkb.hitstun, trainingkb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
+			trainingDistance = new Distance(trainingkb.kb, trainingkb.horizontal_launch_speed, trainingkb.vertical_launch_speed, trainingkb.hitstun, trainingkb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
         }
         trainingkb.bounce(bounce);
         vskb.bounce(bounce);
@@ -821,8 +821,8 @@ app.controller('calculator', function ($scope) {
         resultList.push(new Result("Horizontal Launch Speed", +trainingkb.horizontal_launch_speed.toFixed(6), +vskb.horizontal_launch_speed.toFixed(6)));
         resultList.push(new Result("Gravity boost", +trainingkb.add_gravity_speed.toFixed(6), +vskb.add_gravity_speed.toFixed(6), trainingkb.add_gravity_speed == 0, vskb.add_gravity_speed == 0));
         resultList.push(new Result("Vertical Launch Speed",trainingkb.vertical_launch_speed,vskb.vertical_launch_speed));
-        resultList.push(new Result("Max Horizontal Distance", 0 /*+trainingDistance.max_x.toFixed(6)*/, +vsDistance.max_x.toFixed(6)));
-        resultList.push(new Result("Max Vertical Distance", 0 /*+trainingDistance.max_y.toFixed(6)*/, +vsDistance.max_y.toFixed(6)));
+        resultList.push(new Result("Max Horizontal Distance", 0 +trainingDistance.max_x.toFixed(6), +vsDistance.max_x.toFixed(6)));
+        resultList.push(new Result("Max Vertical Distance", 0 +trainingDistance.max_y.toFixed(6), +vsDistance.max_y.toFixed(6)));
 
 
 		resultList.push(new Result("Hit Advantage", HitAdvantage(trainingkb.hitstun, is_projectile ? hitframe + Hitlag(damage, hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf), HitAdvantage(vskb.hitstun, is_projectile ? hitframe + Hitlag(StaleDamage(damage, stale, ignoreStale), hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf)));

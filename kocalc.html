@@ -545,20 +545,20 @@
                         </div>
                     </div>
                     <div class="pos-right pos-mod">
-                        <!--Game mode
-    <br />-->
+                        Game mode
+                        <br />
                         <span ng-style="is_lucario">
                             <select ng-model="format" ng-change="update()">
                                 <option ng:repeat="value in formats" ng-attr-value="{{value}}">{{value}}</option>
                             </select>
                             <br />
                         </span>
-                        <!--
-    <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="training" ng-change="update()" /> Training mode
-    <br />
-    <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="vs" ng-change="update()" /> Vs mode
-    <br />
-        -->
+                        
+                    <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="training" ng-change="update()" /> Training mode
+                    <br />
+                    <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="vs" ng-change="update()" /> Vs mode
+                    <br />
+        
                     </div>
 
                     <div class="vis" style="float:left;clear:both;">
