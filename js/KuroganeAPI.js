@@ -857,6 +857,23 @@ class Move {
 function getMoveset(attacker, $scope) {
     $scope.moveset = [];
 	var api_name = attacker.api_name.toLowerCase().replace("and", "").replace("&", "").split(".").join("").split(" ").join("");
+
+	$scope.moveset_info = null;
+	switch (attacker.display_name) {
+		case "Chrom":
+			api_name = "roy";
+			$scope.moveset_info = "Using Roy moveset";
+			break;
+		case "Dark Samus":
+			api_name = "samus";
+			$scope.moveset_info = "Using Samus moveset";
+			break;
+		case "Daisy":
+			api_name = "daisy";
+			$scope.moveset_info = "Using Peach moveset";
+			break;
+	}
+
 	loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/name/" + api_name, function (character) {
         if (character != null) {
             var id = character.OwnerId;

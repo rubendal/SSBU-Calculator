@@ -138,6 +138,8 @@ app.controller('calculator', function ($scope) {
 
 	$scope.visualizer_extra = [];
 
+	$scope.moveset_info = null;
+
 	$scope.visualizer = new Visualizer(document.getElementById("visualizerCanvas"));
 	$scope.visualizer.SetBackground(settings.visualizer_colors.background);
 	$scope.visualizer.SetSize(45);

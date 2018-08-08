@@ -86,7 +86,9 @@ app.controller('calculator', function ($scope) {
     $scope.charge_frames = 0;
     $scope.attacker_percent = 0;
     $scope.target_percent = 0;
-    $scope.luma_percent = 0;
+	$scope.luma_percent = 0;
+
+	$scope.moveset_info = null;
 
     getMoveset(attacker, $scope);
     $scope.move = "0";

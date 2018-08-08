@@ -240,6 +240,7 @@
                         <select id="moveset" ng-model="move" ng-change="updateAttack()" ng-style="moveset_style">
                             <option ng-selected="$first" ng:repeat="move in moveset" ng-attr-value="{{move.id}}">{{move.name}}</option>
                         </select>
+                        <span ng-hide="moveset_info == null">{{moveset_info}}</span>
                         <br />
                         <a class="select-link" href="http://kuroganehammer.com/Smash4/{{encodedAttackerValue}}" target="_blank">{{attackerName}} frame data</a>
                         <br />
