@@ -468,9 +468,10 @@ input, select {
     float:left;
 }
 
-.percent-div{
-    float:right;
+.percent-div {
+    float: right;
     margin-left: 3px;
+    margin-top: 11px;
 }
 
 /*.data-labels{
@@ -685,6 +686,17 @@ button {
     background: rgba(221, 221, 221, 0.75);
 }
 
+.character-image-cont {
+    padding: 8px 4px;
+    display: inline-block;
+}
+
+.character-image {
+    width: 35px;
+    height: auto;
+    transform: rotate(45deg);
+}
+
 /* --------Screen sizes-------- */
 
 /*Remove floats inside stuff on smaller screens*/
@@ -697,6 +709,7 @@ button {
         clear: both;
         float: right;
         margin-left: 0;
+        margin-top: -9px;
     }
 
     #results-table {
@@ -756,6 +769,7 @@ button {
         display: block;
         float: right;
         margin-left: 3px;
+        margin-top: 9px;
     }
 
     .luma {
@@ -824,7 +838,7 @@ button {
     }
 }
 
-@media screen and (max-width: 635px) {
+@media screen and (max-width: 670px) {
     .pos-left {
         float: none;
     }

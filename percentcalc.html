@@ -123,7 +123,8 @@
                         <div class="pos-left">
                             <div>Attacker</div>
                             <div class="char-select">
-                                <img ng-src="{{attacker_icon}}" class="stock-icon" />
+                                <!--<img ng-src="{{attacker_icon}}" class="stock-icon" />-->
+                                <span class="character-image-cont"><img ng-src="{{attacker_image}}" class="character-image" /></span>
                                 <select name="attackerSelect" ng-model="attackerValue" ng-change="updateAttacker()">
                                     <option ng-selected="$first" ng:repeat="character in attacker_characters" ng-attr-value="{{character}}">{{character}}</option>
                                 </select>
@@ -158,7 +159,8 @@
                         <div class="pos-right">
                             <div>Target</div>
                             <div class="char-select">
-                                <img ng-src="{{target_icon}}" class="stock-icon" />
+                                <!--<img ng-src="{{target_icon}}" class="stock-icon" />-->
+                                <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image" /></span>
                                 <select name="targetSelect" ng-model="targetValue" ng-change="updateTarget()">
                                     <option ng-selected="$first" ng:repeat="character in characters" ng-attr-value="{{character}}">{{character}}</option>
                                 </select>

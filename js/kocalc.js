@@ -15,7 +15,9 @@ app.controller('calculator', function ($scope) {
     $scope.attackerPercent = attacker_percent;
     $scope.targetPercent = target_percent;
     $scope.attacker_icon = attacker.icon;
-    $scope.target_icon = target.icon;
+	$scope.target_icon = target.icon;
+	$scope.attacker_image = attacker.image;
+	$scope.target_image = target.image;
     $scope.baseDamage = base_damage;
     $scope.angle = angle;
     $scope.in_air = in_air;
@@ -405,7 +407,8 @@ app.controller('calculator', function ($scope) {
 			if (attacker.modifiers[i].attackerShow)
 				$scope.attackerModifiers.push(attacker.modifiers[i]);
 		}
-        $scope.attacker_icon = attacker.icon;
+		$scope.attacker_icon = attacker.icon;
+		$scope.attacker_image = attacker.image;
 		$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
 		if (newCharacters.indexOf(attacker.display_name) == -1) {
 			getMoveset(attacker, $scope);
@@ -433,8 +436,10 @@ app.controller('calculator', function ($scope) {
         var mod = attacker.getModifier($scope.attackerMod);
         if (mod != null) {
             attacker.modifier = mod;
-            attacker.updateIcon();
-            $scope.attacker_icon = attacker.icon;
+			attacker.updateIcon();
+			attacker.updateImage();
+			$scope.attacker_icon = attacker.icon;
+			$scope.attacker_image = attacker.image;
             $scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
             $scope.attacker_kb_dealt = attacker.modifier.kb_dealt;
             $scope.update();
@@ -445,8 +450,10 @@ app.controller('calculator', function ($scope) {
         var mod = target.getModifier($scope.targetMod);
         if (mod != null) {
             target.modifier = mod;
-            target.updateIcon();
-            $scope.target_icon = target.icon;
+			target.updateIcon();
+			target.updateImage();
+			$scope.target_icon = target.icon;
+			$scope.target_image = target.image;
 			$scope.target_weight = target.attributes.weight;
 			$scope.target_gravity = +(target.attributes.gravity * target.modifier.gravity).toFixed(6);
 			$scope.target_damage_taken = target.modifier.damage_taken;
@@ -639,7 +646,8 @@ app.controller('calculator', function ($scope) {
 			$scope.targetMod = "Clown Kart";
 		}
 		$scope.target_mod = $scope.targetModifiers.length > 0 ? {} : { 'display': 'none' };
-        $scope.target_icon = target.icon;
+		$scope.target_icon = target.icon;
+		$scope.target_image = target.image;
         $scope.target_weight = target.attributes.weight;
         $scope.target_gravity = target.attributes.gravity * target.modifier.gravity;
         $scope.target_damage_taken = target.modifier.damage_taken;

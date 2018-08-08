@@ -1069,7 +1069,11 @@ class Character {
             //} else {
             //    this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_01.png";
             //}
-        }
+		}
+
+		this.updateImage = function () {
+			this.image = "./img/characters/" + this.display_name.toLowerCase().replace(/\./g, "").replace("& ", "") + ".png";
+		}
         
         this.api_name = this.name;
         if (name == "Game And Watch") {
@@ -1085,6 +1089,7 @@ class Character {
 		}
 
 		this.updateIcon();
+		this.updateImage();
         
     }
 
