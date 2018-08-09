@@ -2,7 +2,8 @@
     di: 0.17,
     lsi_max: 1.095,
 	lsi_min: 0.92,
-	decay: 0.226,
+	decay: 0.051,
+	vertical_decay: 0.051,
     gravity:{
         mult: 5,
         constant: 0.075
@@ -15,7 +16,7 @@
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.06,
+    launch_speed: 0.045,
     tumble_threshold: 32,
     hitlag: {
 		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
@@ -446,8 +447,8 @@ function LSI(stickY, launch_angle) {
 	return 1 - (1 - parameters.lsi_min) * -Y;
 }
 
-function LaunchSpeed(kb){
-    return kb * parameters.launch_speed;
+function LaunchSpeed(kb) {
+	return kb * parameters.launch_speed;
 }
 
 function HorizontalSpeedLimit(speed) {

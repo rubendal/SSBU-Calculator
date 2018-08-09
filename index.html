@@ -104,7 +104,7 @@
                             <div>Attacker</div>
                             <div class="char-select">
                                 <!--<img ng-src="{{attacker_icon}}" class="stock-icon" />-->
-                                <span class="character-image-cont"><img ng-src="{{attacker_image}}" class="character-image" /></span>
+                                <span class="character-image-cont"><img ng-src="{{attacker_image}}" class="character-image attacker-image" /></span>
                                 <select name="attackerSelect" ng-model="attackerValue" ng-change="updateAttacker()">
                                     <option ng-selected="$first" ng:repeat="character in attacker_characters" ng-attr-value="{{character}}">{{character}}</option>
                                 </select>
@@ -131,7 +131,7 @@
                             <div>Target</div>
                             <div class="char-select">
                                 <!--<img ng-src="{{target_icon}}" class="stock-icon" />-->
-                                <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image" /></span>
+                                <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image target-image" /></span>
                                 <select name="targetSelect" ng-model="targetValue" ng-change="updateTarget()">
                                     <option ng-selected="$first" ng:repeat="character in characters" ng-attr-value="{{character}}">{{character}}</option>
                                 </select>
@@ -524,8 +524,10 @@
                     Launch speed
                     <br />
                     Multiplier <input name="param_launch_speed" type="number" min="0" max="999" step="0.001" ng-model="params.launch_speed" ng-change="updateParameters()" />
-                    <br />
+                    <!--<br />
                     Decay <input name="param_decay" type="number" min="0" max="999" step="0.01" ng-model="params.decay" ng-change="updateParameters()" />
+                    <br />
+                    Vertical Decay <input name="param_vertical_decay" type="number" min="0" max="999" step="0.01" ng-model="params.vertical_decay" ng-change="updateParameters()" />-->
                     <br />
                     <br />
                     Gravity launch speed influence

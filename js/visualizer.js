@@ -368,6 +368,8 @@ class Visualizer {
 
 		this.Draw = function () {
 
+			this.DrawGrid();
+
 			var stage = this.stage;
 			var context = this.context;
 			var launch = this.launch;
@@ -918,6 +920,85 @@ class Visualizer {
 
 			context.lineWidth = 1;
 
+		}
+
+		this.DrawGrid = function () {
+
+			if (this.scale > 1.5) {
+
+				var step = 10;
+				
+				if (this.scale > 7) {
+					step = 1;
+				} else if (this.scale > 3) {
+					step = 5;
+				}
+
+				for (var x = -500; x <= 500; x += step) {
+
+					if (x % 100 == 0) {
+						this.context.globalAlpha = 0.6;
+						this.context.strokeStyle = '#FF0000';
+						this.context.lineWidth = 0.5;
+					} else {
+						if (x % 50 == 0) {
+							this.context.globalAlpha = 0.5;
+							this.context.lineWidth = 0.2;
+							this.context.strokeStyle = '#0000FF';
+						} else {
+							this.context.strokeStyle = '#000000';
+							this.context.globalAlpha = 0.3;
+							if (x % 10 == 0) {
+								this.context.lineWidth = 0.1;
+							} else {
+								this.context.lineWidth = 0.05;
+							}
+						}
+					}
+
+					this.context.beginPath();
+
+					this.MoveTo(x, -500);
+
+					this.LineTo(x, 500);
+
+					this.context.stroke();
+				}
+
+				for (var y = -500; y <= 500; y += step) {
+
+					if (y % 100 == 0) {
+						this.context.strokeStyle = '#FF0000';
+						this.context.lineWidth = 0.5;
+						this.context.globalAlpha = 0.6;
+					} else {
+						if (y % 50 == 0) {
+							this.context.lineWidth = 0.2;
+							this.context.strokeStyle = '#0000FF';
+							this.context.globalAlpha = 0.5;
+						} else {
+							this.context.strokeStyle = '#000000';
+							this.context.globalAlpha = 0.3;
+							if (y % 10 == 0) {
+								this.context.lineWidth = 0.1;
+							} else {
+								this.context.lineWidth = 0.05;
+							}
+						}
+					}
+
+					this.context.beginPath();
+
+					this.MoveTo(-500, y);
+
+					this.LineTo(500, y);
+
+					this.context.stroke();
+				}
+			}
+
+			this.context.lineWidth = 1;
+			this.context.globalAlpha = 1;
 		}
 
 

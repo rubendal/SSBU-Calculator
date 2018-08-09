@@ -107,7 +107,7 @@ app.controller('calculator', function ($scope) {
     $scope.surface = false;
     $scope.position_x = 0;
     $scope.position_y = 0;
-    $scope.extra_vis_frames = 5;
+    $scope.extra_vis_frames = 20;
 
     $scope.stages = getStages();
     $scope.stages.unshift({"stage":"No stage"});
@@ -895,7 +895,11 @@ app.controller('calculator', function ($scope) {
 
 				var smash4kb;
 				if (wbkb == 0) {
-					smash4kb = VSKB(target_percent + (preDamage * StaleNegation(stale, ignoreStale)), base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, stale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+					if (game_mode == "training") {
+						smash4kb = TrainingKB(target_percent + (preDamage * StaleNegation(stale, ignoreStale)), base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", 1);
+					} else {
+						smash4kb = VSKB(target_percent + (preDamage * StaleNegation(stale, ignoreStale)), base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, stale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+					}
 					smash4kb.addModifier(attacker.modifier.kb_dealt);
 					smash4kb.addModifier(target.modifier.kb_received);
 				} else {
