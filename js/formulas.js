@@ -1,7 +1,8 @@
 ﻿var parameters = {
     di: 0.17,
     lsi_max: 1.095,
-    lsi_min: 0.92,
+	lsi_min: 0.92,
+	decay: 0.226,
     gravity:{
         mult: 5,
         constant: 0.075
@@ -14,7 +15,7 @@
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.045,
+    launch_speed: 0.06,
     tumble_threshold: 32,
     hitlag: {
 		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040

@@ -824,8 +824,8 @@ app.controller('calculator', function ($scope) {
         resultList.push(new Result("Horizontal Launch Speed", +trainingkb.horizontal_launch_speed.toFixed(6), +vskb.horizontal_launch_speed.toFixed(6)));
         resultList.push(new Result("Gravity boost", +trainingkb.add_gravity_speed.toFixed(6), +vskb.add_gravity_speed.toFixed(6), trainingkb.add_gravity_speed == 0, vskb.add_gravity_speed == 0));
         resultList.push(new Result("Vertical Launch Speed",trainingkb.vertical_launch_speed,vskb.vertical_launch_speed));
-        resultList.push(new Result("Max Horizontal Distance", 0 +trainingDistance.max_x.toFixed(6), +vsDistance.max_x.toFixed(6)));
-        resultList.push(new Result("Max Vertical Distance", 0 +trainingDistance.max_y.toFixed(6), +vsDistance.max_y.toFixed(6)));
+        resultList.push(new Result("Max Horizontal Distance", +trainingDistance.max_x.toFixed(6), +vsDistance.max_x.toFixed(6)));
+        resultList.push(new Result("Max Vertical Distance", +trainingDistance.max_y.toFixed(6), +vsDistance.max_y.toFixed(6)));
 
 
 		resultList.push(new Result("Hit Advantage", HitAdvantage(trainingkb.hitstun, is_projectile ? hitframe + Hitlag(damage, hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf), HitAdvantage(vskb.hitstun, is_projectile ? hitframe + Hitlag(StaleDamage(damage, stale, ignoreStale), hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf)));

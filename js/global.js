@@ -27,7 +27,8 @@ function loadJSONPath(path) {
 var defaultParameters = {
     di: 0.17,
     lsi_max: 1.095,
-    lsi_min: 0.92,
+	lsi_min: 0.92,
+	decay: 0.226,
     gravity: {
         mult: 5,
         constant: 0.075
@@ -40,7 +41,7 @@ var defaultParameters = {
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.045,
+    launch_speed: 0.06,
     tumble_threshold: 32,
     hitlag: {
 		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
@@ -1605,14 +1606,14 @@ class Distance{
         if(this.inverseX){
             angle = InvertXAngle(angle);
 		}
-		var decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
+		var decay = { 'x': parameters.decay * Math.cos(this.angle * Math.PI / 180), 'y': parameters.decay * Math.sin(this.angle * Math.PI / 180) };
         if(Math.cos(angle * Math.PI / 180) < 0){
 			x_speed *= -1;
-			decay.x *= -1;
+			//decay.x *= -1;
         }
         if(Math.sin(angle * Math.PI / 180) < 0){
 			y_speed *= -1;
-			decay.y *= -1;
+			//decay.y *= -1;
 		}
 
 		if (ssb4Launch) {
@@ -1692,16 +1693,16 @@ class Distance{
 					previousCollision = c.collision_data.collision;
 					previousCollisionIntersection = c.collision_data.intersection;
 					slidingDirection = c.collision_data.slideDirection;
-					decay = { 'x': launch_speed.x / hitstun, 'y': launch_speed.y / hitstun };
+					decay = { 'x': parameters.decay * Math.cos(this.angle * Math.PI / 180), 'y': parameters.decay * Math.sin(this.angle * Math.PI / 180) };
 					if (ssb4Launch) {
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 					}
-					if (Math.cos(angle * Math.PI / 180) < 0) {
-						decay.x *= -1;
-					}
-					if (Math.sin(angle * Math.PI / 180) < 0) {
-						decay.y *= -1;
-					}
+					//if (Math.cos(angle * Math.PI / 180) < 0) {
+					//	decay.x *= -1;
+					//}
+					//if (Math.sin(angle * Math.PI / 180) < 0) {
+					//	decay.y *= -1;
+					//}
 
 					if (c.collision_data.resetGravity) {
 						g = 0;
@@ -2121,7 +2122,6 @@ class Knockback {
 
 			this.horizontal_launch_speed = Math.abs(this.horizontal_launch_speed);
 			this.vertical_launch_speed = Math.abs(this.vertical_launch_speed);
-
 
             this.can_jablock = false;
             if (this.angle == 0 || this.angle == 180 || this.angle == 360) {
