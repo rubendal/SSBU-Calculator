@@ -15,11 +15,11 @@ This project will be updated when Smash Ultimate releases
 * Hitstun scaling being slowed down after tumble is considered on this calculator (applies additional operation if there is tumble hitstun -= (hitstun - tumble threshold) * hitstun scaling)
 * Uses Drafix's hitlag formula (https://twitter.com/drafix570/status/1009458115559895040)
 * Some staleness queue positions reduction factors that have been calculated are added (https://docs.google.com/spreadsheets/d/1ykZzWhPsEhxsMrc7M1B6lSit1m3Q2nv4XCZ8Zj39xuw/edit#gid=1417286638), the rest are still using Smash 4 values
+* Launch speed formula changed (kb * 0.04 * (kb / 80)) based on frame 1 position of various launches on known stages like Town & City, decay is still being calculated and tested launch distance isn't accurate
 
 #### Other stuff
 * Training mode data display has been removed since we don't know anything about it
 * Smash 4 launches can still be visualized for comparison, these use the vanilla launch speed multiplier and constant decay. It also ignores the 1v1 and short hop aerials damage multipliers on the KB calculation.
-* Launch speed multiplier increased (using 0.045 for now) and launch speed decay is not a constant in this calculator, it uses (launch speed / hitstun). These however will be changed given current research using training mode launch distance display from Smash direct video
 
 ### Notes
 * Don't expect it to be 100% accurate with the SSBU E3 build or videos from the official site, changes were based on observation of recorded gameplay and it's most likely not accurate
