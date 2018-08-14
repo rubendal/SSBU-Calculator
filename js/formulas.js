@@ -3,7 +3,6 @@
     lsi_max: 1.095,
 	lsi_min: 0.92,
 	decay: 0.051,
-	vertical_decay: 0.051,
     gravity:{
         mult: 5,
         constant: 0.075
@@ -16,7 +15,7 @@
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.045,
+    launch_speed: 0.04,
     tumble_threshold: 32,
     hitlag: {
 		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
@@ -448,7 +447,7 @@ function LSI(stickY, launch_angle) {
 }
 
 function LaunchSpeed(kb) {
-	return kb * parameters.launch_speed;
+	return kb * parameters.launch_speed * (kb / 80);
 }
 
 function HorizontalSpeedLimit(speed) {
@@ -611,6 +610,10 @@ function InterpolatedAngle(a, b) {
 	var t = Math.max(a, b) - Math.min(a, b) % 360;
 	return Math.floor(Math.min(a,b) + ((((2 * t) % 360) - t) * 0.5));
 	
+}
+
+function Magnitude(x, y) {
+	return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 }
 
 //Get the distance between a point and a line

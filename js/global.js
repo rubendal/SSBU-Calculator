@@ -29,7 +29,6 @@ var defaultParameters = {
     lsi_max: 1.095,
 	lsi_min: 0.92,
 	decay: 0.051,
-	vertical_decay: 0.051,
     gravity: {
         mult: 5,
         constant: 0.075
@@ -42,7 +41,7 @@ var defaultParameters = {
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.045,
+    launch_speed: 0.04,
     tumble_threshold: 32,
     hitlag: {
 		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
@@ -1607,15 +1606,19 @@ class Distance{
         if(this.inverseX){
             angle = InvertXAngle(angle);
 		}
-		var decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
-		//var decay = { 'x': parameters.decay * Math.cos(this.angle * Math.PI / 180), 'y': parameters.vertical_decay * Math.sin(this.angle * Math.PI / 180) };
+		//var decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
+
+		var s = (this.kb / 80);
+		var baseDecay = s;
+
+		var decay = { 'x': baseDecay * Math.cos(this.angle * Math.PI / 180), 'y': baseDecay * Math.sin(this.angle * Math.PI / 180) };
         if(Math.cos(angle * Math.PI / 180) < 0){
 			x_speed *= -1;
-			decay.x *= -1;
+			//decay.x *= -1;
         }
         if(Math.sin(angle * Math.PI / 180) < 0){
 			y_speed *= -1;
-			decay.y *= -1;
+			//decay.y *= -1;
 		}
 
 		if (ssb4Launch) {
@@ -1656,6 +1659,19 @@ class Distance{
 
 		for (var i = 0; i < limit; i++){
 
+			if (!ssb4Launch) {
+				//Experimental stuff, decay decreases over time until it reaches same value as Smash 4?
+
+				//Decrease decay
+				baseDecay -= parameters.decay;
+				if (baseDecay < 0.051)
+					baseDecay = 0.051;
+				decay = { 'x': baseDecay * Math.cos(this.angle * Math.PI / 180), 'y': baseDecay * Math.sin(this.angle * Math.PI / 180) };
+
+				//End of experimental stuff
+			}
+
+
             var next_x = character_position.x + launch_speed.x + character_speed.x;
 			var next_y = character_position.y + launch_speed.y + character_speed.y;
 
@@ -1695,17 +1711,17 @@ class Distance{
 					previousCollision = c.collision_data.collision;
 					previousCollisionIntersection = c.collision_data.intersection;
 					slidingDirection = c.collision_data.slideDirection;
-					decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
-					//decay = { 'x': parameters.decay * Math.cos(this.angle * Math.PI / 180), 'y': parameters.decay * Math.sin(this.angle * Math.PI / 180) };
+					//decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
+					decay = { 'x': baseDecay * Math.cos(this.angle * Math.PI / 180), 'y': baseDecay * Math.sin(this.angle * Math.PI / 180) };
 					if (ssb4Launch) {
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 					}
-					if (Math.cos(angle * Math.PI / 180) < 0) {
-						decay.x *= -1;
-					}
-					if (Math.sin(angle * Math.PI / 180) < 0) {
-						decay.y *= -1;
-					}
+					//if (Math.cos(angle * Math.PI / 180) < 0) {
+					//	decay.x *= -1;
+					//}
+					//if (Math.sin(angle * Math.PI / 180) < 0) {
+					//	decay.y *= -1;
+					//}
 
 					if (c.collision_data.resetGravity) {
 						g = 0;
@@ -1921,8 +1937,8 @@ class Distance{
 			this.y.push(+character_position.y.toFixed(6));
 
 			this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
+	
 
-            
             //Maximum position during hitstun
 			if (i < hitstun) {
                 if(Math.cos(angle*Math.PI / 180) < 0){
@@ -2434,7 +2450,7 @@ function getTitle(attribute) {
 };
 
 function getStages(){
-    return loadJSONPath("./Data/Stages/legalstagedata.json");
+    return loadJSONPath("./Data/Stages/ssbustagedata.json");
 }
 
 function sorted_characters() {
@@ -2553,7 +2569,7 @@ var effects = [
 
 var appSelection = [
 	{ appName: "calculator", title: "Calculator", link: "./index.html" },
-	{ appName: "kocalculator", title: "KO Calculator", link: "./kocalc.html" },
+	//{ appName: "kocalculator", title: "KO Calculator", link: "./kocalc.html" },
 	{ appName: "kbcalculator", title: "Percentage Calculator", link: "./percentcalc.html" }/*,
 	{ appName: "movesearch", title: "Move Search", link: "./movesearch.html" },
 	{ appName: "scriptviewer", title: "Script Viewer", link: "./scripts.html" },

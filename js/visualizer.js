@@ -264,9 +264,11 @@ class Visualizer {
 
 			this.launch2Points = [];
 
-			if (launch == null)
+			if (launch == null) {
+				this.ClearCanvas();
+				this.Draw();
 				return;
-
+			}
 			var style = settings.visualizer_colors.upward;
 
 			for (var i = 0; i < launch.positions.length; i++) {
@@ -1012,7 +1014,7 @@ class Visualizer {
 
 			var wheel = event.wheelDelta / 120;
 
-			var zoom = 1 + wheel / 4;
+			var zoom = 1 + wheel / 20; //4
 
 			if (visualizer.scale * zoom >= 0.7 && visualizer.scale * zoom <= 20) {
 
