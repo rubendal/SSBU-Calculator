@@ -34,7 +34,12 @@
     paralyzer: {
         constant: 14,
         mult: 0.025
-    }
+	},
+	test: {
+		decay: 1,
+		decay_reduction: 1,
+		min_decay: 0.051
+	}
 };
 
 function TrainingKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fall_speed, r, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {

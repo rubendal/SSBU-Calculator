@@ -60,7 +60,12 @@ var defaultParameters = {
     paralyzer: {
         constant: 14,
         mult:0.025
-    }
+	},
+	test: {
+		decay: 1,
+		decay_reduction: 1,
+		min_decay: 0.051
+	}
 };
 
 var settings = {
@@ -1609,9 +1614,9 @@ class Distance{
 		//var decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
 
 		var s = (this.kb / 80);
-		var baseDecay = s;
+		var baseDecay = parameters.test.decay;
 
-		var decay = { 'x': baseDecay * Math.cos(this.angle * Math.PI / 180), 'y': baseDecay * Math.sin(this.angle * Math.PI / 180) };
+		var decay = { 'x': baseDecay * Math.cos(angle * Math.PI / 180), 'y': baseDecay * Math.sin(angle * Math.PI / 180) };
         if(Math.cos(angle * Math.PI / 180) < 0){
 			x_speed *= -1;
 			//decay.x *= -1;
@@ -1659,19 +1664,6 @@ class Distance{
 
 		for (var i = 0; i < limit; i++){
 
-			if (!ssb4Launch) {
-				//Experimental stuff, decay decreases over time until it reaches same value as Smash 4?
-
-				//Decrease decay
-				baseDecay -= parameters.decay;
-				if (baseDecay < 0.051)
-					baseDecay = 0.051;
-				decay = { 'x': baseDecay * Math.cos(this.angle * Math.PI / 180), 'y': baseDecay * Math.sin(this.angle * Math.PI / 180) };
-
-				//End of experimental stuff
-			}
-
-
             var next_x = character_position.x + launch_speed.x + character_speed.x;
 			var next_y = character_position.y + launch_speed.y + character_speed.y;
 
@@ -1712,7 +1704,7 @@ class Distance{
 					previousCollisionIntersection = c.collision_data.intersection;
 					slidingDirection = c.collision_data.slideDirection;
 					//decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
-					decay = { 'x': baseDecay * Math.cos(this.angle * Math.PI / 180), 'y': baseDecay * Math.sin(this.angle * Math.PI / 180) };
+					decay = { 'x': baseDecay * Math.cos(angle * Math.PI / 180), 'y': baseDecay * Math.sin(angle * Math.PI / 180) };
 					if (ssb4Launch) {
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 					}
@@ -1960,6 +1952,19 @@ class Distance{
 
 			if (i == 0) {
 				state &= 0xFE; //Clear launch start flag
+			}
+
+
+			if (!ssb4Launch) {
+				//Experimental stuff, decay decreases over time until it reaches same value as Smash 4?
+
+				//Decrease decay
+				baseDecay -= parameters.test.decay_reduction;
+				if (baseDecay < parameters.test.min_decay)
+					baseDecay = parameters.test.min_decay;
+				decay = { 'x': baseDecay * Math.cos(angle * Math.PI / 180), 'y': baseDecay * Math.sin(angle * Math.PI / 180) };
+
+				//End of experimental stuff
 			}
 		}
 
