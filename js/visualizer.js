@@ -214,7 +214,7 @@ class Visualizer {
 
 			var style = settings.visualizer_colors.upward;
 
-			for (var i = 0; i < launch.positions.length; i++) {
+			for (var i = 0; i < 2; i++) { //launch.positions.length
 				if (i <= launch.hitstun) {
 					if (i < launch.airdodgeCancel) {
 						if (i < launch.positions.length - 1) {
@@ -481,7 +481,7 @@ class Visualizer {
 				//Lines
 				context.beginPath();
 
-				for (var i = 0; i < launch.positions.length; i++) {
+				for (var i = 0; i < 2; i++) { //launch.positions.length
 					if (i < launch.hitstun) {
 						if (i < launch.airdodgeCancel) {
 							if (i < launch.positions.length - 1) {
@@ -526,7 +526,7 @@ class Visualizer {
 
 				//Markers
 
-				for (var i = 0; i < launch.positions.length; i++) {
+				for (var i = 0; i < 2; i++) { //launch.positions.length
 					if (i < launch.hitstun) {
 						if (i < launch.airdodgeCancel) {
 							if (i < launch.positions.length - 1) {
@@ -558,7 +558,7 @@ class Visualizer {
 
 				}
 
-				if (launch.hitstun < launch.positions.length) {
+				if (launch.hitstun < 2) { //launch.positions.length
 					context.fillStyle = settings.visualizer_colors.hitstunEnd;
 
 					context.beginPath();
@@ -571,7 +571,7 @@ class Visualizer {
 				}
 
 				if (launch.faf >= 0) {
-					if (launch.faf < launch.positions.length) {
+					if (launch.faf < 2) { //launch.positions.length
 						context.fillStyle = settings.visualizer_colors.attackerFAF;
 
 						context.beginPath();
@@ -584,7 +584,7 @@ class Visualizer {
 				}
 
 				if (launch.KOFrame != -1) {
-					if (launch.KOFrame < launch.positions.length) {
+					if (launch.KOFrame < 2) { //launch.positions.length
 						context.fillStyle = settings.visualizer_colors.ko;
 
 						context.beginPath();
