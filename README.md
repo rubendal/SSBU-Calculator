@@ -15,7 +15,7 @@ This project will be updated when Smash Ultimate releases
 * Hitstun scaling being slowed down after tumble is considered on this calculator (applies additional operation if there is tumble hitstun -= (hitstun - tumble threshold) * hitstun scaling)
 * Uses Drafix's hitlag formula (https://twitter.com/drafix570/status/1009458115559895040)
 * Some staleness queue positions reduction factors that have been calculated are added (https://docs.google.com/spreadsheets/d/1ykZzWhPsEhxsMrc7M1B6lSit1m3Q2nv4XCZ8Zj39xuw/edit#gid=1417286638), the rest are still using Smash 4 values
-* Launch speed formula changed (kb * 0.04 * (kb / 80)) based on frame 1 position of various launches on known stages like Town & City, decay is still being calculated and tested launch distance isn't accurate
+* Launch speed formula changed (kb * 0.035 * (kb / 80)) based on frame 1 position of various launches on known stages like Town & City, decay is still being calculated and tested launch distance isn't accurate
 
 #### Other stuff
 * Training mode data display has been removed since we don't know anything about it
