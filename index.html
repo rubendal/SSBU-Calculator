@@ -3,10 +3,10 @@
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# object: http://ogp.me/ns/object# article: http://ogp.me/ns/article# profile: http://ogp.me/ns/profile#">
     <script>
         (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-81804817-2', 'auto');
@@ -24,6 +24,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
     <link id="favicon" rel="shortcut icon" href="./img/icon.png" type="image/png" />
     <link id="mainStyle" rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/characters.css" />
     <title>Smash Ultimate Calculator</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5" />
@@ -104,7 +105,7 @@
                             <div>Attacker</div>
                             <div class="char-select">
                                 <!--<img ng-src="{{attacker_icon}}" class="stock-icon" />-->
-                                <span class="character-image-cont"><img ng-src="{{attacker_image}}" class="character-image attacker-image" /></span>
+                                <span class="character-image-cont"><img ng-src="{{attacker_image}}" class="character-image" ng-class="attacker_class" /></span>
                                 <select name="attackerSelect" ng-model="attackerValue" ng-change="updateAttacker()">
                                     <option ng-selected="$first" ng:repeat="character in attacker_characters" ng-attr-value="{{character}}">{{character}}</option>
                                 </select>
@@ -131,7 +132,7 @@
                             <div>Target</div>
                             <div class="char-select">
                                 <!--<img ng-src="{{target_icon}}" class="stock-icon" />-->
-                                <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image target-image" /></span>
+                                <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image"  ng-class="target_class" /></span>
                                 <select name="targetSelect" ng-model="targetValue" ng-change="updateTarget()">
                                     <option ng-selected="$first" ng:repeat="character in characters" ng-attr-value="{{character}}">{{character}}</option>
                                 </select>

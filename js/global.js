@@ -1039,7 +1039,10 @@ class Character {
                 }
             }
             return null;
-        }
+		}
+
+		this.filename = this.display_name.toLowerCase().replace(/\./g, "").replace("& ", "");
+		this.class = this.display_name.toLowerCase().replace(/\./g, "").replace("& ", "and ").replace(/ /g, "-");
 
 		this.updateIcon = function () {
 			if (this.name == "Charizard" || this.name == "Squirtle" || this.name == "Ivysaur") {
@@ -1079,7 +1082,7 @@ class Character {
 		}
 
 		this.updateImage = function () {
-			this.image = "./img/characters/" + this.display_name.toLowerCase().replace(/\./g, "").replace("& ", "") + ".png";
+			this.image = "./img/characters/" + this.filename + ".png";
 		}
         
         this.api_name = this.name;

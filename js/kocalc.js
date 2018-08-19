@@ -18,6 +18,8 @@ app.controller('calculator', function ($scope) {
 	$scope.target_icon = target.icon;
 	$scope.attacker_image = attacker.image;
 	$scope.target_image = target.image;
+	$scope.attacker_class = attacker.class;
+	$scope.target_class = target.class;
     $scope.baseDamage = base_damage;
     $scope.angle = angle;
     $scope.in_air = in_air;
@@ -411,6 +413,7 @@ app.controller('calculator', function ($scope) {
 		}
 		$scope.attacker_icon = attacker.icon;
 		$scope.attacker_image = attacker.image;
+		$scope.attacker_class = attacker.class;
 		$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
 		if (notInAPICharacters.indexOf(attacker.display_name) == -1) {
 			getMoveset(attacker, $scope);
@@ -443,6 +446,7 @@ app.controller('calculator', function ($scope) {
 			attacker.updateImage();
 			$scope.attacker_icon = attacker.icon;
 			$scope.attacker_image = attacker.image;
+			$scope.attacker_class = attacker.class;
             $scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
             $scope.attacker_kb_dealt = attacker.modifier.kb_dealt;
             $scope.update();
@@ -457,6 +461,7 @@ app.controller('calculator', function ($scope) {
 			target.updateImage();
 			$scope.target_icon = target.icon;
 			$scope.target_image = target.image;
+			$scope.target_class = target.class;
 			$scope.target_weight = target.attributes.weight;
 			$scope.target_gravity = +(target.attributes.gravity * target.modifier.gravity).toFixed(6);
 			$scope.target_damage_taken = target.modifier.damage_taken;
@@ -651,6 +656,7 @@ app.controller('calculator', function ($scope) {
 		$scope.target_mod = $scope.targetModifiers.length > 0 ? {} : { 'display': 'none' };
 		$scope.target_icon = target.icon;
 		$scope.target_image = target.image;
+		$scope.target_class = target.class;
         $scope.target_weight = target.attributes.weight;
         $scope.target_gravity = target.attributes.gravity * target.modifier.gravity;
         $scope.target_damage_taken = target.modifier.damage_taken;

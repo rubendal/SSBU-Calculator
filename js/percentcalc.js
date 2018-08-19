@@ -12,7 +12,9 @@ app.controller('calculator', function ($scope) {
 	$scope.target_icon = target.icon;
 	$scope.attacker_image = attacker.image;
 	$scope.target_image = target.image;
-    $scope.attackerName = attacker.display_name;
+	$scope.attackerName = attacker.display_name;
+	$scope.attacker_class = attacker.class;
+	$scope.target_class = target.class;
     $scope.attackerModifiers = attacker.modifiers;
     $scope.encodedAttackerValue = encodeURI(attacker.name.split("(")[0].trim());
     $scope.targetValue = target.display_name;
@@ -222,6 +224,7 @@ app.controller('calculator', function ($scope) {
         attacker = new Character($scope.attackerValue);
 		$scope.attacker_icon = attacker.icon;
 		$scope.attacker_image = attacker.image;
+		$scope.attacker_class = attacker.class;
         $scope.attackerName = attacker.display_name;
         $scope.attackerMod = "Normal";
 		$scope.attackerModifiers = [];
@@ -259,6 +262,7 @@ app.controller('calculator', function ($scope) {
 			attacker.updateImage();
 			$scope.attacker_icon = attacker.icon;
 			$scope.attacker_image = attacker.image;
+			$scope.attacker_class = attacker.class;
             $scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
             $scope.attacker_kb_dealt = attacker.modifier.kb_dealt;
             $scope.update();
@@ -273,6 +277,7 @@ app.controller('calculator', function ($scope) {
 			target.updateImage();
 			$scope.target_icon = target.icon;
 			$scope.target_image = target.image;
+			$scope.target_class = target.class;
 			$scope.target_weight = target.attributes.weight;
 			$scope.target_gravity = +(target.attributes.gravity * target.modifier.gravity).toFixed(6);
 			$scope.target_damage_taken = target.modifier.damage_taken;
@@ -449,6 +454,7 @@ app.controller('calculator', function ($scope) {
 		$scope.target_mod = $scope.targetModifiers.length > 0 ? {} : { 'display': 'none' };
 		$scope.target_icon = target.icon;
 		$scope.target_image = target.image;
+		$scope.target_class = target.class;
         $scope.target_weight = target.attributes.weight;
         $scope.target_gravity = target.attributes.gravity * target.modifier.gravity;
         $scope.target_damage_taken = target.modifier.damage_taken;
