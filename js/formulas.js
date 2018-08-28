@@ -232,7 +232,7 @@ function VSKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fall_spee
 }
 
 function WeightBasedKB(weight, bkb, wbkb, kbg, gravity, fall_speed, r, target_percent, damage, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {
-	return new Knockback((((((1 + (wbkb / 2)) * (200 / (weight + 100)) * 1.4 * (dddinhale ? 0.25 : 1)) + 18) * (kbg / 100)) + bkb) * (r * Rage(attacker_percent)), angle, gravity, fall_speed, in_air, windbox, electric, target_percent + damage, set_weight, stick, launch_rate);
+	return new Knockback((((((1 + (wbkb / 2)) * (200 / (weight + 100)) * 1.4 * (dddinhale ? 0.25 : 1)) + 18) * (kbg / 100)) + bkb) * (r), angle, gravity, fall_speed, in_air, windbox, electric, target_percent + damage, set_weight, stick, launch_rate);
 }
 
 function StaleDamage(base_damage, timesInQueue, ignoreStale) {
