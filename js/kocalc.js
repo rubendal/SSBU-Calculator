@@ -974,11 +974,13 @@ app.controller('calculator', function ($scope) {
 				$scope.visualizer_extra.push(new Result("Stick Y", list[0].di.Y, "", false, true));
 				$scope.visualizer_extra.push(new Result("Stick angle", Math.floor(GetAngle(list[0].di.X * (inverseX ? -1 : 1), list[0].di.Y)), "", false, true));
 				$scope.visualizer_extra.push(new Result("Target % with best DI", list[0].percent, "", false, true));
+				data = list[0].data;
 			} else {
 				$scope.visualizer_extra.push(new Result("Stick X", list[list.length - 1].di.X * (inverseX ? -1 : 1), "", false, true));
 				$scope.visualizer_extra.push(new Result("Stick Y", list[list.length - 1].di.Y, "", false, true));
 				$scope.visualizer_extra.push(new Result("Stick angle", Math.floor(GetAngle(list[list.length - 1].di.X * (inverseX ? -1 : 1), list[list.length - 1].di.Y)), "", false, true));
 				$scope.visualizer_extra.push(new Result("Target % with worst DI", list[list.length - 1].percent, "", false, true));
+				data = list[list.length - 1].data;
 			}
 			//$scope.visualizer_extra.push(new Result("KO", data.frame, "", false, true));
 			//var max_x = list[0].data.distance.graph_x + 10;
