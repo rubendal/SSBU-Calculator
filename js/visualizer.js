@@ -47,6 +47,13 @@ class Visualizer {
 		this.prevTranslate = { x: 0, y: 0 };
 		this.prevScale = 1;
 
+		//Touch variables
+		this.prevTouch = null;
+		this.prevTouch2 = null;
+
+		this.isClick = false;
+		this.isZoomingTouch = false;
+
 		var visualizer = this;
 
 		this.SetSize = function (size) {
@@ -1003,6 +1010,41 @@ class Visualizer {
 			this.context.globalAlpha = 1;
 		}
 
+		this.Zoom = function (z) {
+
+			var x = visualizer.canvas.width / 2;
+			var y = visualizer.canvas.height / 2;
+
+			var zoom = z;
+
+			if (visualizer.scale * zoom >= 0.7 && visualizer.scale * zoom <= 20) {
+
+				visualizer.ClearCanvas();
+
+				visualizer.context.translate(visualizer.origin.x, visualizer.origin.y);
+
+				visualizer.prevTranslate.x += visualizer.origin.x;
+				visualizer.prevTranslate.y += visualizer.origin.y;
+
+				visualizer.context.scale(zoom, zoom);
+				visualizer.prevScale *= zoom;
+
+				visualizer.context.translate(
+					-(x / visualizer.scale + visualizer.origin.x - x / (visualizer.scale * zoom)),
+					-(y / visualizer.scale + visualizer.origin.y - y / (visualizer.scale * zoom))
+				);
+
+				visualizer.prevTranslate.x += -(x / visualizer.scale + visualizer.origin.x - x / (visualizer.scale * zoom));
+				visualizer.prevTranslate.y += -(y / visualizer.scale + visualizer.origin.y - y / (visualizer.scale * zoom));
+
+				visualizer.origin.x = (x / visualizer.scale + visualizer.origin.x - x / (visualizer.scale * zoom));
+				visualizer.origin.y = (y / visualizer.scale + visualizer.origin.y - y / (visualizer.scale * zoom));
+				visualizer.scale *= zoom;
+
+				visualizer.Draw();
+			}
+		}
+
 
 		//Events
 
@@ -1251,6 +1293,263 @@ class Visualizer {
 				visualizer.context.restore();
 
 			}
+		}
+
+		//Touch events
+
+		this.canvas.ontouchstart = function (event) {
+			event.preventDefault();
+
+			if (event.touches.length === 1 && event.touches[0].identifier === 0) {
+
+				visualizer.isClick = true;
+
+				//Tooltips
+
+				var r = 10;
+
+				var mousex = event.touches[0].clientX - visualizer.canvas.getBoundingClientRect().left;
+				var mousey = event.touches[0].clientY - visualizer.canvas.getBoundingClientRect().top;
+
+				var x = (mousex / visualizer.prevScale) - visualizer.prevTranslate.x;
+				var y = (mousey / visualizer.prevScale) - visualizer.prevTranslate.y;
+
+				var points = [];
+
+				for (var i = 0; i < visualizer.dataPoints.length; i++) {
+					var point = visualizer.dataPoints[i];
+					var l = LineLength({ x: x, y: y }, point.position);
+
+					if (l < r)
+						points.push({ p: -1, r: l, point: point });
+				}
+
+				points.sort(function (a, b) {
+					if (b.point.vertex.y - a.point.vertex.y != 0)
+						return b.point.vertex.y - a.point.vertex.y;
+					else
+						return a.point.vertex.x - b.point.vertex.x;
+				});
+
+				for (var i = 0; i < visualizer.launchPoints.length; i++) {
+					var point = visualizer.launchPoints[i];
+					var l = LineLength({ x: x, y: y }, point.position);
+
+					if (l < r)
+						points.push({ p: i, r: l, point: point, opacity: 1 });
+				}
+
+				for (var i = 0; i < visualizer.launch2Points.length; i++) {
+					var point = visualizer.launch2Points[i];
+					var l = LineLength({ x: x, y: y }, point.position);
+
+					if (l < r)
+						points.push({ p: i, r: l, point: point, opacity: 0.5 });
+				}
+
+				for (var i = 0; i < visualizer.diPoints.length; i++) {
+					var point = visualizer.diPoints[i];
+					var l = LineLength({ x: x, y: y }, point.position);
+
+					if (l < r)
+						points.push({ p: i, r: l, point: point, opacity: 1 });
+				}
+
+				points.sort(function (a, b) { //Sort them by distance closer to mouse pointer
+					return b.r - a.r;
+				});
+
+				if (points.length > 5) { //Limit to 5 tooltips
+					points.splice(0, points.length - 5);
+
+				}
+
+				points.sort(function (a, b) {
+					if (b.p != -1 && a.p != -1) {
+						return a.p - b.p; //Sort launch points by frame
+					}
+					else {
+
+						if (b.p == -1 && a.p == -1) { //Sort stage points by height
+							if (b.point.vertex.y - a.point.vertex.y != 0)
+								return b.point.vertex.y - a.point.vertex.y;
+							else
+								return a.point.vertex.x - b.point.vertex.x;
+						}
+
+						if (b.p == -1) //Stage points have higher priority
+							return 1;
+						else
+							return -1;
+
+					}
+				});
+
+				visualizer.ClearCanvas();
+				visualizer.Draw();
+
+				visualizer.context.save();
+
+				visualizer.context.setTransform(1, 0, 0, 1, 0, 0);
+
+				if (points.length > 0) {
+					var d = 20;
+					var dy = (points.length - 1) * d;
+					var dx = 5;
+
+					//Draw tooltips
+
+					//Point
+					for (var i = 0; i < points.length; i++) {
+						var point = points[i].point;
+
+						visualizer.context.globalAlpha = points[i].opacity;
+
+						visualizer.context.fillStyle = "#000000";
+						visualizer.context.beginPath();
+						//stageCanvas.context.fillRect(((point.position.x + stageCanvas.prevTranslate.x) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, ((point.position.y + stageCanvas.prevTranslate.y) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, stageCanvas.prevScale / 2, stageCanvas.prevScale / 2);
+						visualizer.context.arc((point.position.x + visualizer.prevTranslate.x) * visualizer.prevScale, (point.position.y + visualizer.prevTranslate.y) * visualizer.prevScale, 2 / visualizer.prevScale, 0, Math.PI * 2);
+						visualizer.context.closePath();
+						visualizer.context.fill();
+
+						visualizer.context.globalAlpha = 1;
+
+					}
+
+					//Line
+					for (var i = 0; i < points.length; i++) {
+						var point = points[i].point;
+
+						visualizer.context.globalAlpha = points[i].opacity;
+
+						visualizer.context.strokeStyle = point.color; //Color
+
+						visualizer.context.beginPath();
+
+						visualizer.context.moveTo(((point.position.x + visualizer.prevTranslate.x) * visualizer.prevScale), ((point.position.y + visualizer.prevTranslate.y) * visualizer.prevScale));
+
+						visualizer.context.lineTo(mousex + dx, mousey - dy);
+
+						visualizer.context.closePath();
+
+						visualizer.context.stroke();
+
+						visualizer.context.globalAlpha = 1;
+						dy -= d;
+					}
+
+					dy = (points.length - 1) * d;
+
+					var fontlength = 12 / 2;
+
+					//Tooltip
+					for (var i = 0; i < points.length; i++) {
+						var point = points[i].point;
+
+						visualizer.context.globalAlpha = points[i].opacity;
+
+						visualizer.context.strokeStyle = point.color; //Color
+						visualizer.context.fillStyle = point.color; //Color
+
+						visualizer.context.clearRect(mousex + dx, mousey - dy - d / 2, point.text.length * fontlength + dx * 4, d);
+
+						visualizer.context.strokeRect(mousex + dx, mousey - dy - d / 2, point.text.length * fontlength + dx * 4, d);
+
+						visualizer.context.font = "12px sans-serif";
+						visualizer.context.fillText(point.text, mousex + dx * 2, mousey - dy + 5);
+						//stageCanvas.context.fillText(point.text, (point.position.x + stageCanvas.prevTranslate.x) * stageCanvas.prevScale, ((point.position.y + stageCanvas.prevTranslate.y) * stageCanvas.prevScale) - 5 - y);
+
+						visualizer.context.globalAlpha = 1;
+
+						dy -= d;
+					}
+				}
+
+				visualizer.context.restore();
+			}
+
+
+		}
+
+		this.canvas.ontouchend = function (event) {
+			event.preventDefault();
+
+			for (var i = 0; i < event.changedTouches.length; i++) {
+
+				if (event.changedTouches[i].identifier === 0) {
+					visualizer.prevTouch = null;
+					visualizer.dragging = false;
+
+
+				} else if (event.changedTouches[i].identifier === 1) {
+					visualizer.prevTouch2 = null;
+					visualizer.isZoomingTouch = false;
+				}
+
+			}
+		}
+
+		this.canvas.ontouchmove = function (event) {
+			event.preventDefault();
+
+			visualizer.isClick = false;
+
+			if (event.touches.length === 1) { //Translate
+
+				if (visualizer.prevTouch !== null) {
+
+					//Drag event
+
+					visualizer.ClearCanvas();
+
+					var mousex = (event.touches[0].pageX - visualizer.prevTouch.pageX);
+					var mousey = (event.touches[0].pageY - visualizer.prevTouch.pageY);
+
+					visualizer.context.translate(- (- mousex) / visualizer.scale, - (- mousey) / visualizer.scale);
+
+					visualizer.prevTranslate.x += - (- mousex) / visualizer.scale;
+					visualizer.prevTranslate.y += - (- mousey) / visualizer.scale;
+
+					visualizer.origin.x += (- mousex) / visualizer.scale;
+					visualizer.origin.y += (- mousey) / visualizer.scale;
+
+					visualizer.prevPosition.x = mousex;
+					visualizer.prevPosition.y = mousey;
+
+
+
+					visualizer.Draw();
+
+					visualizer.prevTouch = event.touches[0];
+
+				}
+				else {
+					visualizer.prevTouch = event.touches[0];
+					visualizer.dragging = true;
+				}
+			} else if (event.touches.length === 2) { //Zoom
+
+				if (visualizer.prevTouch !== null && visualizer.prevTouch2 !== null) {
+					var initial = Math.sqrt(Math.pow(visualizer.prevTouch.pageX - visualizer.prevTouch2.pageX, 2) + Math.pow(visualizer.prevTouch.pageY - visualizer.prevTouch2.pageY, 2));
+
+					var currentDistance = Math.sqrt(Math.pow(event.touches[0].pageX - event.touches[1].pageX, 2) + Math.pow(event.touches[0].pageY - event.touches[1].pageY, 2));
+
+					var zoom = currentDistance / initial;
+
+					visualizer.Zoom(zoom);
+
+					visualizer.prevTouch = event.touches[0];
+					visualizer.prevTouch2 = event.touches[1];
+				}
+				else {
+					visualizer.prevTouch = event.touches[0];
+					visualizer.prevTouch2 = event.touches[1];
+
+					visualizer.isZoomingTouch = true;
+				}
+			}
+
+
 		}
 
 	}
