@@ -2634,3 +2634,21 @@ var StickPositions = [
 	//new StickPosition("Wiimote Down-Left", -127, -127, Controllers.Wiimote),
 	//new StickPosition("Wiimote Down-Right", 127, -127, Controllers.Wiimote)
 ];
+
+function PercentColor(val) {
+	if (isNaN(val) || val < 0) {
+		val = 0;
+	}
+	if (val > 999) {
+		val = 999;
+	}
+	var hsl = {
+		h: 0,
+		s: 100,
+		l: colorLerp(100, 30, val, 50, 200)
+	};
+
+	return {
+		"-webkit-text-fill-color": `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`
+	};
+}

@@ -468,12 +468,6 @@ input, select {
     float:left;
 }
 
-.percent-div {
-    float: right;
-    margin-left: 3px;
-    margin-top: 22px;
-}
-
 /*.data-labels{
     float:right;
 }*/
@@ -685,14 +679,69 @@ button {
 .sorting-header {
     background: rgba(221, 221, 221, 0.75);
 }
+/* --------Character select and percent-------- */
+input[type=number].percent-input + span {
+    font-style: italic;
+    font-weight: 800;
+    font-size: 1.5em;
+    color: black;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+input[type=number].percent-input {
+    width: 2.75em;
+    font-family: 'Century Gothic';
+    font-style: italic;
+    font-weight: 800;
+    font-size: 3.5em;
+    border: none;
+    color: black;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    background: none;
+    text-shadow: 2px 2px black;
+    text-align: right;
+    padding: 0px 5px;
+}
+
+    input[type=number].percent-input:focus {
+        outline: none;
+    }
+
+    input[type=number].percent-input:placeholder-shown {
+        opacity: 0.4;
+    }
+
+    input[type=number].percent-input::selection {
+        color: inherit;
+        background: #6868ff;
+    }
+
+    input[type=number].percent-input::-moz-selection {
+        color: inherit;
+        background: #6868ff;
+    }
+
+    input[type=number].percent-input::-webkit-inner-spin-button,
+    input[type=number].percent-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
 .character-image-cont {
+    z-index: 1;
+    position: relative;
     padding: 12px 8px;
     display: inline-block;
+    background: none;
+    top: 5px;
 }
 
 .character-image {
-    width: 50px;
+    width: 75px;
     height: auto;
     transform: rotate(45deg);
 }
@@ -705,17 +754,57 @@ button {
     background: rgb(66, 112, 255);
 }
 
+select.character-select {
+    border: none;
+    color: white;
+    background: none;
+    position: relative;
+    left: 50px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    width: 170px;
+}
+
+.char-select {
+    float: left;
+}
+
+.character-select-container {
+    display: block;
+    position: relative;
+    top: -35px;
+    left: 45px;
+    background: rgba(21, 21, 21, 0.84);
+    border-top-left-radius: 100px;
+    width: 220px;
+}
+
+.character-select option {
+    color: black;
+    text-transform: none;
+    font-size: 15px;
+}
+
+.percent-div {
+    display: inline-block;
+    position: relative;
+    left: 5px;
+    top: 5px;
+}
+
+
 /* --------Screen sizes-------- */
 
 /*Remove floats inside stuff on smaller screens*/
 @media screen and (max-width: 1290px) {
     .char-select {
-        float: none;
+    }
+
+    .character-image-cont {
     }
 
     .percent-div {
-        clear: both;
-        float: right;
         margin-left: 0;
         margin-top: -9px;
     }
@@ -725,7 +814,7 @@ button {
     }
 }
 
-@media screen and (max-width: 1075px) {
+@media screen and (max-width: 1200px) {
     .pos-left {
         float: none;
     }
@@ -754,6 +843,10 @@ button {
         clear: right;
         float: none;
     }
+
+    .character-select-container {
+        width: 220px;
+    }
 }
 
 /*Mobile screens (or very small screens)*/
@@ -773,9 +866,6 @@ button {
     }
 
     .percent-div {
-        clear: none;
-        display: block;
-        float: right;
         margin-left: 3px;
         margin-top: 21px;
     }
@@ -844,6 +934,10 @@ button {
     button {
         font-size: 15px;
     }
+
+    input[type=number].percent-input {
+        padding: 0px 8px;
+    }
 }
 
 @media screen and (max-width: 720px) {
@@ -901,6 +995,15 @@ button {
         float: none;
         width: 100%;
     }
+
+    .character-select-container {
+        width: 290px;
+        left: 40px;
+    }
+
+    select.character-select {
+        width: 240px;
+    }
 }
 
 @media screen and (max-width: 500px) {
@@ -927,5 +1030,11 @@ button {
     .plot {
         width: 100%;
         height: auto;
+    }
+}
+
+@media screen and (max-width: 385px) {
+    .character-select {
+        position: initial;
     }
 }

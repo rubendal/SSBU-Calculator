@@ -1,279 +1,563 @@
-﻿.mario {
+﻿img.mario {
     background: #ff4026
 }
 
-.donkey-kong {
+img.donkey-kong {
     background: #f9da4a
 }
 
-.link {
+img.link {
     background: #1c94c3
 }
 
-.samus {
+img.samus {
     background: #353f56
 }
 
-.dark-samus {
+img.dark-samus {
     background: #3d395e
 }
 
-.yoshi {
+img.yoshi {
     background: #83cd65
 }
 
-.kirby {
+img.kirby {
     background: #f2c0c4
 }
 
-.fox {
+img.fox {
     background: #307cdf
 }
 
-.pikachu {
+img.pikachu {
     background: #fddd05
 }
 
-.luigi {
+img.luigi {
     background: #5ea444
 }
 
-.ness {
+img.ness {
     background: #de413d
 }
 
-.captain-falcon {
+img.captain-falcon {
     background: #8e8adc
 }
 
-.jigglypuff {
+img.jigglypuff {
     background: #f29bf6
 }
 
-.peach {
+img.peach {
     background: #f5c9f0
 }
 
-.daisy {
+img.daisy {
     background: #f0bb2c
 }
 
-.bowser {
-    background: #44745e 
+img.bowser {
+    background: #44745e
 }
 
-.ice-climbers {
+img.ice-climbers {
     background: #a0cafe
 }
 
-.sheik {
+img.sheik {
     background: #756fd0
 }
 
-.zelda {
+img.zelda {
     background: #fdeaa4
 }
 
-.dr-mario {
+img.dr-mario {
     background: #e86c6d
 }
 
-.pichu {
+img.pichu {
     background: #dedc1f
 }
 
-.falco {
+img.falco {
     background: #69b0de
 }
 
-.marth {
+img.marth {
     background: #5da8c8
 }
 
-.lucina {
+img.lucina {
     background: #7ea6c7
 }
 
-.young-link {
+img.young-link {
     background: #a5d160
 }
 
-.ganondorf {
+img.ganondorf {
     background: #7974a4
 }
 
-.mewtwo {
+img.mewtwo {
     background: #927bc5
 }
 
-.roy {
+img.roy {
     background: #74b65b
 }
 
-.chrom {
+img.chrom {
     background: #b4b4cf
 }
 
-.mr-game-and-watch {
+img.mr-game-and-watch {
     background: #a4a190
 }
 
-.meta-knight {
+img.meta-knight {
     background: #5367b0
 }
 
-.pit {
+img.pit {
     background: #acdafa
 }
 
-.dark-pit {
+img.dark-pit {
     background: #875cbe
 }
 
-.zero-suit-samus {
+img.zero-suit-samus {
     background: #205ba4
 }
 
-.wario {
+img.wario {
     background: #fee71f
 }
 
-.snake {
+img.snake {
     background: #658198
 }
 
-.ike {
+img.ike {
     background: #b64f3e
 }
 
-.squirtle, .ivysaur, .charizard {
+img.squirtle, img.ivysaur, img.charizard {
     background: #ffc004
 }
 
-.diddy-kong {
+img.diddy-kong {
     background: #e05a52
 }
 
-.lucas {
+img.lucas {
     background: #e06833
 }
 
-.sonic {
+img.sonic {
     background: #659deb
 }
 
-.king-dedede {
+img.king-dedede {
     background: #fce87b
 }
 
-.olimar {
+img.olimar {
     background: #ccefb0
 }
 
-.lucario {
+img.lucario {
     background: #b8e3fc
 }
 
-.rob {
+img.rob {
     background: #b2b8bd
 }
 
-.toon-link {
+img.toon-link {
     background: #8ce689
 }
 
-.wolf {
+img.wolf {
     background: #ccc
 }
 
-.villager {
+img.villager {
     background: #83a88e
 }
 
-.mega-man {
+img.mega-man {
     background: #86c1e0
 }
 
-.wii-fit-trainer {
+img.wii-fit-trainer {
     background: #99d481
 }
 
-.rosalina-and-luma {
+img.rosalina-and-luma {
     background: #98d5cd
 }
 
-.little-mac {
+img.little-mac {
     background: #5d8f72
 }
 
-.greninja {
+img.greninja {
     background: #5673a5
 }
 
-.mii-brawler, .mii-swordfighter, .mii-gunner {
+img.mii-brawler, img.mii-swordfighter, img.mii-gunner {
     background: #5dc1e6
 }
 
-.palutena {
+img.palutena {
     background: #91e5c1
 }
 
-.pac-man {
+img.pac-man {
     background: #fcb541
 }
 
-.robin {
+img.robin {
     background: #c387d9
 }
 
-.shulk {
+img.shulk {
     background: #d5647a
 }
 
-.bowser-jr {
+img.bowser-jr {
     background: #59bf38
 }
 
-.duck-hunt {
+img.duck-hunt {
     background: #8c5d3a
 }
 
-.ryu {
+img.ryu {
     background: #d0504d
 }
 
-.cloud {
+img.cloud {
     background: #419384
 }
 
-.bayonetta {
+img.bayonetta {
     background: #a5a1e0
 }
 
-.corrin {
+img.corrin {
     background: #63a7c0
 }
 
-.inkling {
+img.inkling {
     background: #f02d7d
 }
 
-.ridley {
+img.ridley {
     background: #71456f
 }
 
-.simon {
+img.simon {
     background: #76150e
 }
 
-.richter {
+img.richter {
     background: #2a6db0
 }
 
-.king-k-rool {
+img.king-k-rool {
     background: #65873b
 }
 
-.isabelle {
+img.isabelle {
     background: #c4d37e;
+}
+
+
+
+/*----Percent---*/
+
+div.mario {
+    border-top: 5px solid #ff4026
+}
+
+div.donkey-kong {
+    border-top: 5px solid #f9da4a
+}
+
+div.link {
+    border-top: 5px solid #1c94c3
+}
+
+div.samus {
+    border-top: 5px solid #353f56
+}
+
+div.dark-samus {
+    border-top: 5px solid #3d395e
+}
+
+div.yoshi {
+    border-top: 5px solid #83cd65
+}
+
+div.kirby {
+    border-top: 5px solid #f2c0c4
+}
+
+div.fox {
+    border-top: 5px solid #307cdf
+}
+
+div.pikachu {
+    border-top: 5px solid #fddd05
+}
+
+div.luigi {
+    border-top: 5px solid #5ea444
+}
+
+div.ness {
+    border-top: 5px solid #de413d
+}
+
+div.captain-falcon {
+    border-top: 5px solid #8e8adc
+}
+
+div.jigglypuff {
+    border-top: 5px solid #f29bf6
+}
+
+div.peach {
+    border-top: 5px solid #f5c9f0
+}
+
+div.daisy {
+    border-top: 5px solid #f0bb2c
+}
+
+div.bowser {
+    border-top: 5px solid #44745e
+}
+
+div.ice-climbers {
+    border-top: 5px solid #a0cafe
+}
+
+div.sheik {
+    border-top: 5px solid #756fd0
+}
+
+div.zelda {
+    border-top: 5px solid #fdeaa4
+}
+
+div.dr-mario {
+    border-top: 5px solid #e86c6d
+}
+
+div.pichu {
+    border-top: 5px solid #dedc1f
+}
+
+div.falco {
+    border-top: 5px solid #69b0de
+}
+
+div.marth {
+    border-top: 5px solid #5da8c8
+}
+
+div.lucina {
+    border-top: 5px solid #7ea6c7
+}
+
+div.young-link {
+    border-top: 5px solid #a5d160
+}
+
+div.ganondorf {
+    border-top: 5px solid #7974a4
+}
+
+div.mewtwo {
+    border-top: 5px solid #927bc5
+}
+
+div.roy {
+    border-top: 5px solid #74b65b
+}
+
+div.chrom {
+    border-top: 5px solid #b4b4cf
+}
+
+div.mr-game-and-watch {
+    border-top: 5px solid #a4a190
+}
+
+div.meta-knight {
+    border-top: 5px solid #5367b0
+}
+
+div.pit {
+    border-top: 5px solid #acdafa
+}
+
+div.dark-pit {
+    border-top: 5px solid #875cbe
+}
+
+div.zero-suit-samus {
+    border-top: 5px solid #205ba4
+}
+
+div.wario {
+    border-top: 5px solid #fee71f
+}
+
+div.snake {
+    border-top: 5px solid #658198
+}
+
+div.ike {
+    border-top: 5px solid #b64f3e
+}
+
+div.squirtle, div.ivysaur, div.charizard {
+    border-top: 5px solid #ffc004
+}
+
+div.diddy-kong {
+    border-top: 5px solid #e05a52
+}
+
+div.lucas {
+    border-top: 5px solid #e06833
+}
+
+div.sonic {
+    border-top: 5px solid #659deb
+}
+
+div.king-dedede {
+    border-top: 5px solid #fce87b
+}
+
+div.olimar {
+    border-top: 5px solid #ccefb0
+}
+
+div.lucario {
+    border-top: 5px solid #b8e3fc
+}
+
+div.rob {
+    border-top: 5px solid #b2b8bd
+}
+
+div.toon-link {
+    border-top: 5px solid #8ce689
+}
+
+div.wolf {
+    border-top: 5px solid #ccc
+}
+
+div.villager {
+    border-top: 5px solid #83a88e
+}
+
+div.mega-man {
+    border-top: 5px solid #86c1e0
+}
+
+div.wii-fit-trainer {
+    border-top: 5px solid #99d481
+}
+
+div.rosalina-and-luma {
+    border-top: 5px solid #98d5cd
+}
+
+div.little-mac {
+    border-top: 5px solid #5d8f72
+}
+
+div.greninja {
+    border-top: 5px solid #5673a5
+}
+
+div.mii-brawler, div.mii-swordfighter, div.mii-gunner {
+    border-top: 5px solid #5dc1e6
+}
+
+div.palutena {
+    border-top: 5px solid #91e5c1
+}
+
+div.pac-man {
+    border-top: 5px solid #fcb541
+}
+
+div.robin {
+    border-top: 5px solid #c387d9
+}
+
+div.shulk {
+    border-top: 5px solid #d5647a
+}
+
+div.bowser-jr {
+    border-top: 5px solid #59bf38
+}
+
+div.duck-hunt {
+    border-top: 5px solid #8c5d3a
+}
+
+div.ryu {
+    border-top: 5px solid #d0504d
+}
+
+div.cloud {
+    border-top: 5px solid #419384
+}
+
+div.bayonetta {
+    border-top: 5px solid #a5a1e0
+}
+
+div.corrin {
+    border-top: 5px solid #63a7c0
+}
+
+div.inkling {
+    border-top: 5px solid #f02d7d
+}
+
+div.ridley {
+    border-top: 5px solid #71456f
+}
+
+div.simon {
+    border-top: 5px solid #76150e
+}
+
+div.richter {
+    border-top: 5px solid #2a6db0
+}
+
+div.king-k-rool {
+    border-top: 5px solid #65873b
+}
+
+div.isabelle {
+    border-top: 5px solid #c4d37e;
 }

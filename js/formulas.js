@@ -802,3 +802,11 @@ function IntersectionLines(line, vertex) {
 function LineAngle(line) {
 	return ((Math.atan2(line[1][1] - line[0][1], line[1][0] - line[0][0]) * 180 / Math.PI) + 360) % 360;
 }
+
+function colorLerp(min, max, x, xMin, xMax) {
+	if (x <= xMin)
+		return min;
+	if (x >= xMax)
+		return max;
+	return (1 - ((x - xMin) / xMax)) * min + ((x - xMin) / xMax) * max;
+}
