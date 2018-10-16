@@ -32,21 +32,21 @@
 
 			var position = { X: 0, Y: 0 };
 
-			position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 128);
-			position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 128);
+			position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 127);
+			position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 127);
 
 			if (stickWheel.controller == "Wiimote") {
 				if (position.X < -24)
 					position.X = -127;
 				else if (position.X > 24)
-					position.X = 128;
+					position.X = 127;
 				else
 					position.X = 0;
 
 				if (position.Y < -24)
 					position.Y = -127;
 				else if (position.Y > 24)
-					position.Y = 128;
+					position.Y = 127;
 				else
 					position.Y = 0;
 
@@ -72,21 +72,21 @@
 
 				var position = { X: 0, Y: 0 };
 
-				position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 128);
-				position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 128);
+				position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 127);
+				position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 127);
 
 				if (stickWheel.controller == "Wiimote") {
 					if (position.X < -24)
 						position.X = -127;
 					else if (position.X > 24)
-						position.X = 128;
+						position.X = 127;
 					else
 						position.X = 0;
 
 					if (position.Y < -24)
 						position.Y = -127;
 					else if (position.Y > 24)
-						position.Y = 128;
+						position.Y = 127;
 					else
 						position.Y = 0;
 
