@@ -292,7 +292,41 @@
                                     </select>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>Hit frame</td>
+                                <td><input name="hit_frame" type="number" min="0" max="1000" step="1" ng-model="hit_frame" ng-change="update()" /></td>
+                                <td>
+                                    <span>
+                                        <button ng-style="prev_hf" ng-click="prev_hit_frame()">&lt;</button>
+                                        <button ng-style="next_hf" ng-click="next_hit_frame()">&gt;</button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{use_landing_lag == "no" ? "FAF" : "Landing frame"}}</td>
+                                <td><input name="faf" type="number" min="0" max="1000" step="1" ng-model="faf" ng-change="update()" /></td>
+                            </tr>
                         </table>
+                        <span ng-style="is_aerial">
+                            <input type="radio" ng-model="use_landing_lag" value="no" ng-change="update_faf()" /> Use move FAF
+                            <br />
+                            <input type="radio" ng-model="use_landing_lag" value="yes" ng-change="update_faf()" /> Use move landing lag
+                            <br />
+                            <input type="radio" ng-model="use_landing_lag" value="autocancel" ng-change="update_faf()" /> Use move autocancel
+                        </span>
+                        <div class="staleness">
+                            Staleness Queue
+                            <table>
+                                <tr>
+                                    <td ng-repeat="n in stale track by $index" class="queue-td">
+                                        <input class="queue-cb" name="stale{{$index}}" data-value="{{$index+1}}" type="checkbox" ng-model="stale[$index]" ng-change="update()" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <button ng-click="updateStaleness('1')">Full queue</button>
+                            <button ng-click="updateStaleness('0')">Empty queue</button>
+                        </div>
                     </div>
                     <div class="pos-right attack-options">
                         <input type="checkbox" ng-model="is_smash" ng-change="charging()" /> {{charge_special ? "Chargeable" : "Smash attack"}}
@@ -322,57 +356,6 @@
                         <input type="checkbox" name="set_weight" ng-model="set_weight" ng-change="update()" /> Set weight
                         <br />
                         <input type="checkbox" name="isFinishingTouch" ng-model="isFinishingTouch" ng-change="update()" /> Finishing Touch
-                        <br />
-                        <br />
-                        Staleness Queue
-                        <table>
-                            <tr>
-                                <td ng-repeat="n in staleness_table" class="queue-td">
-                                    {{n}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td ng-repeat="n in stale track by $index" class="queue-td">
-                                    <input class="queue-cb" name="stale{{$index}}" type="checkbox" ng-model="stale[$index]" ng-change="update()" />
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <button ng-click="updateStaleness('1')">Full queue</button>
-                        <button ng-click="updateStaleness('0')">Empty queue</button>
-                    </div>
-
-                    <div class="pos-left hitframe-faf">
-                        <div class="pos-left">
-                            <table>
-                                <tr>
-                                    <td>Hit frame</td>
-                                    <td><input name="hit_frame" type="number" min="0" max="1000" step="1" ng-model="hit_frame" ng-change="update()" /></td>
-                                    <td>
-                                        <span>
-                                            <button ng-style="prev_hf" ng-click="prev_hit_frame()">&lt;</button>
-                                            <button ng-style="next_hf" ng-click="next_hit_frame()">&gt;</button>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{use_landing_lag == "no" ? "FAF" : "Landing frame"}}</td>
-                                    <td><input name="faf" type="number" min="0" max="1000" step="1" ng-model="faf" ng-change="update()" /></td>
-                                </tr>
-                            </table>
-
-                            <span ng-style="is_aerial">
-                                <input type="radio" ng-model="use_landing_lag" value="no" ng-change="update_faf()" /> Use move FAF
-                                <br />
-                                <input type="radio" ng-model="use_landing_lag" value="yes" ng-change="update_faf()" /> Use move landing lag
-                                <br />
-                                <input type="radio" ng-model="use_landing_lag" value="autocancel" ng-change="update_faf()" /> Use move autocancel
-                            </span>
-                            <br />
-                            <br />
-                            Launch Rate:
-                            <input name="launch_rate" type="number" min="0.5" max="2" step="0.1" ng-model="launch_rate" ng-change="update()" />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -391,13 +374,13 @@
                         <div class="stick-container">
                             <table>
                                 <!--<tr>
-                <td>Controller</td>
-                <td>
-                    <select id="controllers" ng-model="game_controller" ng-change="updateController()">
-                        <option ng-selected="$first" ng:repeat="c in controllers" ng-attr-value="{{c}}">{{c.name}}</option>
-                    </select>
-                </td>
-            </tr>-->
+            <td>Controller</td>
+            <td>
+                <select id="controllers" ng-model="game_controller" ng-change="updateController()">
+                    <option ng-selected="$first" ng:repeat="c in controllers" ng-attr-value="{{c}}">{{c.name}}</option>
+                </select>
+            </td>
+        </tr>-->
                                 <tr>
                                     <td>Input</td>
                                     <td>
@@ -427,6 +410,12 @@
                                         <td><input name="stickAngle" type="number" min="0" max="359" step="1" ng-model="stickAngle" ng-change="updateDIAngle()" /></td>
                                     </tr>
                                 </table>
+                            </div>
+                            <br />
+                            <br />
+                            <div style="clear:left;">
+                                Launch Rate:
+                                <input name="launch_rate" type="number" min="0.5" max="2" step="0.1" ng-model="launch_rate" ng-change="update()" />
                             </div>
                         </div>
                     </div>
