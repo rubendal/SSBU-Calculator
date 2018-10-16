@@ -52,7 +52,7 @@
                     <select id="appSelect" class="header-select" ng-model="appLink">
                         <option ng-selected="$first" ng:repeat="a in apps" ng-attr-value="{{a.link}}">{{a.title}}</option>
                     </select>
-                    <a class="header-link" href="{{appLink}}">Go</a>
+                    <a class="header-link" href="{{appLink}}" title="Go">&rarr;</a>
                 </div>
             </div>
             <div id="header-right">
@@ -431,7 +431,17 @@
                         </div>
                     </div>
                     <div class="pos-right">
-                        <div id="kb_modifiers">
+                        <div class="pos-right">
+                            Shield
+                            <br />
+                            <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="normal" ng-change="update()" /> Normal shield
+                            <br />
+                            <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="perfect" ng-change="update()" /> Perfect shield
+                            <br />
+                            <br />
+                        </div>
+                        <br />
+                        <div id="kb_modifiers" class="pos-right pos-mod">
                             KB modifiers
                             <select id="target-status" ng-model="kb_modifier" ng-change="update()">
                                 <option value="none">None</option>
@@ -439,15 +449,6 @@
                                 <option value="charging">Interrupted charged smash attack</option>
                                 <option value="buried">Buried</option>
                             </select>
-                        </div>
-                        <br />
-                        <div class="pos-right pos-mod">
-                            Shield
-                            <br />
-                            <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="normal" ng-change="update()" /> Normal shield
-                            <br />
-                            <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="perfect" ng-change="update()" /> Perfect shield
-                            <br />
                         </div>
                     </div>
                 </div>

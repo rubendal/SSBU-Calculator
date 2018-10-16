@@ -27,21 +27,6 @@
     height: 30px;
 }
 
-input, select {
-    border-radius: 4px;
-    padding: 1px 2px;
-    margin-bottom: 1px;
-    font-size: 13px;
-}
-
-    input[type=number] {
-        width: 5em;
-    }
-
-    input:invalid {
-        box-shadow: none;
-    }
-
 .mod-select{
     min-width: 90px;
 }
@@ -677,6 +662,36 @@ button {
     background: rgba(34, 34, 34, 0.95);
 }
 
+/*---Inputs---*/
+input, select {
+    border-radius: 4px;
+    border-bottom-right-radius: 12px;
+    border-top-left-radius: 0px;
+    padding: 2px 4px;
+    margin-bottom: 1px;
+    font-size: 14px;
+    /*font-family: 'Century Gothic';*/
+    font-weight: 600;
+    border: 0.5px solid black;
+}
+
+    input:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 7px #0332cc;
+    }
+
+    input[type=number] {
+        width: 5em;
+    }
+
+    input:invalid {
+        box-shadow: none;
+    }
+
+    select option {
+        font-size: 15px;
+    }
+
 /* --------Character select and percent-------- */
 input[type=number].percent-input + span {
     font-style: italic;
@@ -707,6 +722,7 @@ input[type=number].percent-input {
 
     input[type=number].percent-input:focus {
         outline: none;
+        box-shadow: none;
     }
 
     input[type=number].percent-input:placeholder-shown {
@@ -764,6 +780,10 @@ select.character-select {
     width: 170px;
 }
 
+    select.character-select:focus {
+        box-shadow: none;
+    }
+
 .char-select {
     float: left;
 }
@@ -790,7 +810,6 @@ select.character-select {
     left: 5px;
     top: 5px;
 }
-
 
 /* --------Screen sizes-------- */
 
