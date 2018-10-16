@@ -431,7 +431,7 @@
                         </div>
                     </div>
                     <div class="pos-right">
-                        <div class="pos-right">
+                        <div class="pos-right shield-select">
                             Shield
                             <br />
                             <input type="radio" name="shieldMod" ng-model="shield" ng-attr-value="normal" ng-change="update()" /> Normal shield
@@ -443,6 +443,7 @@
                         <br />
                         <div id="kb_modifiers" class="pos-right pos-mod">
                             KB modifiers
+                            <br/>
                             <select id="target-status" ng-model="kb_modifier" ng-change="update()">
                                 <option value="none">None</option>
                                 <option value="crouch">Crouch cancel</option>
@@ -583,18 +584,22 @@
             <div id="data" class="card-block collapse in group-res">
                 <div id="results-table">
                     <table class="result-table">
-                        <tr>
-                            <td class="attribute"></td>
-                            <td class="value">Training mode</td>
-                            <td class="value"></td>
-                            <td class="value">Vs mode</td>
-                        </tr>
-                        <tr ng-repeat="x in results.list" ng-class-even="'value-even'">
-                            <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                            <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val1 }}</td>
-                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.valc }}</td>
-                            <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val2}}</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <td class="attribute"></td>
+                                <td class="value">Training mode</td>
+                                <td class="value"></td>
+                                <td class="value">Vs mode</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in results.list" ng-class-even="'value-even'">
+                                <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val1 }}</td>
+                                <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.valc }}</td>
+                                <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val2}}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
