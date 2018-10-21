@@ -50,7 +50,7 @@
                     <select id="appSelect" class="header-select" ng-model="appLink">
                         <option ng-selected="$first" ng:repeat="a in apps" ng-attr-value="{{a.link}}">{{a.title}}</option>
                     </select>
-                    <a class="header-link" href="{{appLink}}">Go</a>
+                    <a class="header-link" href="{{appLink}}">&rarr;</a>
                 </div>
             </div>
             <div id="header-right">
@@ -70,13 +70,15 @@
                         </a>
                     </span>
                 </span>
-                <span id="theme">
-                    Theme
-                    <select id="themeSelect" name="theme" class="header-select" ng-model="theme" ng-change="changeTheme()">
-                        <option ng-selected="$first" ng:repeat="t in themes" ng-attr-value="{{t.name}}">{{t.name}}</option>
-                    </select>
-                </span>
-                <span style="clear: right;float: right;margin-right: 20px;margin-top: 13px;line-height:0px;font-size:14px;">
+                <!--
+    <span id="theme">
+        Theme
+        <select id="themeSelect" name="theme" class="header-select" ng-model="theme" ng-change="changeTheme()">
+            <option ng-selected="$first" ng:repeat="t in themes" ng-attr-value="{{t.name}}">{{t.name}}</option>
+        </select>
+    </span>
+        -->
+                <span style="clear: right;float: right;margin-right: 20px;margin-top: 50px;line-height:0px;font-size:14px;">
                     <a class="hide-link" target="_blank" href="https://github.com/rubendal/SSBU-Calculator#readme">Read this before using app</a>
                 </span>
             </div>
@@ -97,7 +99,7 @@
             </a>
             <div id="kb" class="card-block collapse in group">
                 <div class="pos-left">
-                    KB:
+                    KB
                     <input type="number" style="width:6em;" name="kb" ng-model="kb" min="0" max="2500" step="0.5" ng-change="update()" />
                 </div>
                 <div class="pos-right">
