@@ -7,18 +7,18 @@
 
 .icon {
     width: 19px;
-    height: 19px;
+    height: auto;
 }
 
 .header-link-icon {
-    width: 19px;
-    height: 19px;
+    width: 23px;
+    height: auto;
     margin-left: 5px;
 }
 
 .header-link-icon2 {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: auto;
     margin-left: 5px;
 }
 
@@ -149,7 +149,7 @@ table, td, tr {
 }
 
 #github-profile {
-    border-radius: 25px;
+    border-radius: 10px;
 }
 
 #header-right {
@@ -482,8 +482,8 @@ input[type=button] {
     border-bottom: 1px solid black;
 }*/
 
-.result-table thead,
-.result-table tbody tr td:first-child{
+.result-table thead/*,
+.result-table tbody tr td:first-child*/ {
     font-weight: 600;
 }
 

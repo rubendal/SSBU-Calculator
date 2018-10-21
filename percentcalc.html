@@ -126,14 +126,18 @@
                             <div class="char-select">
                                 <!--<img ng-src="{{attacker_icon}}" class="stock-icon" />-->
                                 <span class="character-image-cont"><img ng-src="{{attacker_image}}" class="character-image" ng-class="attacker_class" /></span>
-                                <select name="attackerSelect" ng-model="attackerValue" ng-change="updateAttacker()">
-                                    <option ng-selected="$first" ng:repeat="character in attacker_characters" ng-attr-value="{{character}}">{{character}}</option>
-                                </select>
+                                <div class="percent-div">
+                                    <input name="attacker_percent" type="number" class="percent-input" min="0" max="999" step="0.1" ng-model="attackerPercent" ng-style="attackerPercent_style" ng-change="updatePercent()" />
+                                    <span>%</span>
+                                </div>
+                                <div class="character-select-container" ng-class="attacker_class">
+                                    <select name="attackerSelect" class="character-select" ng-model="attackerValue" ng-change="updateAttacker()">
+                                        <option ng-selected="$first" ng:repeat="character in attacker_characters" ng-attr-value="{{character}}">{{character}}</option>
+                                    </select>
+                                </div>
+
                             </div>
-                            <div class="percent-div">
-                                <input name="attacker_percent" type="number" min="0" max="999" step="0.1" ng-model="attackerPercent" ng-change="update()" />
-                                %
-                            </div>
+
                             <div id="attacker-mod-sel" ng-style="attacker_mod">
                                 <br />
                                 <select name="attackerMod" class="mod-select" ng-model="attackerMod" ng-change="updateAttackerMod()">
@@ -162,10 +166,17 @@
                             <div class="char-select">
                                 <!--<img ng-src="{{target_icon}}" class="stock-icon" />-->
                                 <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image" ng-class="target_class" /></span>
-                                <select name="targetSelect" ng-model="targetValue" ng-change="updateTarget()">
-                                    <option ng-selected="$first" ng:repeat="character in characters" ng-attr-value="{{character}}">{{character}}</option>
-                                </select>
+                                <div class="percent-div">
+                                    <input name="target_percent" type="number" class="percent-input" min="0" max="999" step="0.1" ng-model="targetPercent" ng-style="targetPercent_style" ng-change="updatePercent()" />
+                                    <span>%</span>
+                                </div>
+                                <div class="character-select-container" ng-class="target_class">
+                                    <select name="targetSelect" class="character-select" ng-model="targetValue" ng-change="updateTarget()">
+                                        <option ng-selected="$first" ng:repeat="character in characters" ng-attr-value="{{character}}">{{character}}</option>
+                                    </select>
+                                </div>
                             </div>
+
                             <div id="target-mod-sel" ng-style="target_mod">
                                 <br />
                                 <select name="targetMod" class="mod-select" ng-model="targetMod" ng-change="updateTargetMod()">
@@ -177,7 +188,9 @@
                             <input type="checkbox" ng-model="is_1v1" ng-change="update()" /> 1v1
                         </div>
                     </div>
+
                 </div>
+
             </div>
 
             <!-- Characters end -->
@@ -192,8 +205,8 @@
                 <div class="pos-left">
                     <table>
                         <!--<tr>
-                            <td>Attacker</td>
-                        </tr>-->
+                    <td>Attacker</td>
+                </tr>-->
                         <tr>
                             <td>Damage dealt</td>
                             <td>x <input name="attacker_damage_dealt" type="number" min="0" max="100" step="0.01" ng-model="attacker_damage_dealt" ng-change="updateAttr()" /></td>
@@ -208,8 +221,8 @@
                 <div class="pos-right pos-attr">
                     <table>
                         <!--<tr>
-                            <td>Target</td>
-                        </tr>-->
+                    <td>Target</td>
+                </tr>-->
                         <tr>
                             <td>Damage taken</td>
                             <td>x <input name="target_damage_taken" type="number" min="0" max="100" step="0.01" ng-model="target_damage_taken" ng-change="updateAttr()" /></td>
@@ -277,25 +290,19 @@
                             </tr>
                         </table>
 
-                        <br />
-
-                        Staleness Queue
-                        <table>
-                            <tr>
-                                <td ng-repeat="n in staleness_table" class="queue-td">
-                                    {{n}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td ng-repeat="n in stale track by $index" class="queue-td">
-                                    <input class="queue-cb" name="stale{{$index}}" type="checkbox" ng-model="stale[$index]" ng-change="update()" />
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <button ng-click="updateStaleness('1')">Full queue</button>
-                        <button ng-click="updateStaleness('0')">Empty queue</button>
-
+                        <div class="staleness">
+                            Staleness Queue
+                            <table>
+                                <tr>
+                                    <td ng-repeat="n in stale track by $index" class="queue-td">
+                                        <input class="queue-cb" name="stale{{$index}}" data-value="{{$index+1}}" type="checkbox" ng-model="stale[$index]" ng-change="update()" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <button ng-click="updateStaleness('1')">Full queue</button>
+                            <button ng-click="updateStaleness('0')">Empty queue</button>
+                        </div>
                     </div>
                     <div class="pos-right">
                         <br />
@@ -329,28 +336,25 @@
 
             <a class="select-link cur-link" ng-click="collapse('modifiers')">
                 <div class="card header-group modifiers-header">
-                    <span class="cur-link header-group-text">Modifiers</span>
+                    <span class="cur-link header-group-text">Target modifiers</span>
                 </div>
             </a>
             <div id="modifiers" class="card-block collapse group">
                 <div id="attack_options">
 
                     <div class="pos-left">
-                        <div id="kb_modifiers">
-                            KB modifiers
-                            <br />
-                            <input type="radio" name="kbMod" ng-model="kb_modifier" ng-attr-value="none" ng-change="update()" />None
-                            <br />
-                            <input type="radio" name="kbMod" ng-model="kb_modifier" ng-attr-value="crouch" ng-change="update()" />Crouch cancel
-                            <br />
-                            <input type="radio" name="kbMod" ng-model="kb_modifier" ng-attr-value="charging" ng-change="update()" />Interrupted charged smash attack
-                            <br />
-                            <input type="radio" name="kbMod" ng-model="kb_modifier" ng-attr-value="buried" ng-change="update()" />Buried
-                        </div>
-                        <br />
-                        <br />
                         Launch Rate:
                         <input name="launch_rate" type="number" min="0.5" max="2" step="0.1" ng-model="launch_rate" ng-change="update()" />
+                    </div>
+                    <div id="kb_modifiers" class="pos-right pos-mod">
+                        KB modifiers
+                        <br />
+                        <select id="target-status" ng-model="kb_modifier" ng-change="update()">
+                            <option value="none">None</option>
+                            <option value="crouch">Crouch cancel</option>
+                            <option value="charging">Interrupted charged smash attack</option>
+                            <option value="buried">Buried</option>
+                        </select>
                     </div>
                 </div>
             </div>
