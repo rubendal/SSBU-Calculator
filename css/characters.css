@@ -278,7 +278,17 @@ img.isabelle {
     background: #c4d37e;
 }
 
+img.ken {
+    background: #cdd7dc;
+}
 
+img.incineroar {
+    background: #ffd902;
+}
+
+img.piranha-plant {
+    background: #00aa82;
+}
 
 /*----Percent---*/
 
@@ -560,4 +570,16 @@ div.king-k-rool {
 
 div.isabelle {
     border-top: 5px solid #c4d37e;
+}
+
+div.ken {
+    border-top: 5px solid #cdd7dc;
+}
+
+div.incineroar {
+    border-top: 5px solid #ffd902;
+}
+
+div.piranha-plant {
+    border-top: 5px solid #00aa82;
 }

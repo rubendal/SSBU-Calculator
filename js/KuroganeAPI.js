@@ -453,7 +453,7 @@ var chargeMoves = [
 		if (frames == 1) {
 			frames = 0;
 		}
-		return [base_damage + (2 * (frames - 1)), bkb, kbg, shieldDamage];
+		return [base_damage + (2 * frames), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Charge Shot"], 0, 111, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(base_damage, 25, frames, 112), lerp(bkb, 30, frames, 112), lerp(kbg, 62, frames, 112), lerp(shieldDamage, 3, frames, 112)];
@@ -871,6 +871,10 @@ function getMoveset(attacker, $scope) {
 		case "Daisy":
 			api_name = "daisy";
 			$scope.moveset_info = "Using Peach moveset";
+			break;
+		case "Ken":
+			api_name = "ryu";
+			$scope.moveset_info = "Using Ryu moveset";
 			break;
 	}
 
