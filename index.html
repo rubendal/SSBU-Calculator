@@ -484,72 +484,246 @@
                 <br />
                 <br />
                 <div class="pos-left">
-                    DI <input name="param_di" type="number" min="0" max="999" step="0.01" ng-model="params.di" ng-change="updateParameters()" />
+                    <table>
+                        <tr>
+                            <td>
+                                Hitstun constant
+                            </td>
+                            <td>
+                                <input name="param_hitstun" type="number" min="0" max="999" step="0.01" ng-model="params.hitstun" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tumble hitstun threshold
+                            </td>
+                            <td>
+                                <input name="param_tumble_threshold" type="number" min="0" max="999" step="1" ng-model="params.tumble_threshold" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
-                    Hitstun constant <input name="param_hitstun" type="number" min="0" max="999" step="0.01" ng-model="params.hitstun" ng-change="updateParameters()" />
-                    <br />
-                    <br />
-                    Tumble hitstun threshold <input name="param_tumble_threshold" type="number" min="0" max="999" step="1" ng-model="params.tumble_threshold" ng-change="updateParameters()" />
-                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                DI
+                            </td>
+                            <td>
+                                <input name="param_di" type="number" min="0" max="999" step="0.01" ng-model="params.di" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
                     LSI
                     <br />
-                    Upwards multiplier <input name="param_max_lsi" type="number" min="0" max="999" step="0.01" ng-model="params.lsi_max" ng-change="updateParameters()" />
-                    <br />
-                    Downwards multiplier <input name="param_min_lsi" type="number" min="0" max="999" step="0.01" ng-model="params.lsi_min" ng-change="updateParameters()" />
-                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                Upwards multiplier
+                            </td>
+                            <td>
+                                <input name="param_max_lsi" type="number" min="0" max="999" step="0.01" ng-model="params.lsi_max" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Downwards multiplier
+                            </td>
+                            <td>
+                                <input name="param_min_lsi" type="number" min="0" max="999" step="0.01" ng-model="params.lsi_min" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
                     Launch speed
                     <br />
-                    Multiplier <input name="param_launch_speed" type="number" min="0" max="999" step="0.001" ng-model="params.launch_speed" ng-change="updateParameters()" />
+                    <table>
+                        <tr>
+                            <td>
+                                Multiplier
+                            </td>
+                            <td>
+                                <input name="param_launch_speed" type="number" min="0" max="999" step="0.001" ng-model="params.launch_speed" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Decay
+                            </td>
+                            <td>
+                                <input name="param_decay" type="number" min="0" max="999" step="0.01" ng-model="params.test.decay" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
-                    Decay <input name="param_decay" type="number" min="0" max="999" step="0.01" ng-model="params.test.decay" ng-change="updateParameters()" />
                     <!--<br />
-                    Decay reduction <input name="param_decay_reduction" type="number" min="0" max="999" step="0.01" ng-model="params.test.decay_reduction" ng-change="updateParameters()" />
-                    <br />
-                    Min Decay <input name="param_min_decay" type="number" min="0" max="999" step="0.01" ng-model="params.test.min_decay" ng-change="updateParameters()" />-->
-                    <br />
-                    <br />
+    Decay reduction <input name="param_decay_reduction" type="number" min="0" max="999" step="0.01" ng-model="params.test.decay_reduction" ng-change="updateParameters()" />
+    <br />
+    Min Decay <input name="param_min_decay" type="number" min="0" max="999" step="0.01" ng-model="params.test.min_decay" ng-change="updateParameters()" />-->
                     Gravity launch speed influence
                     <br />
-                    Multiplier <input name="param_gravity_mult" type="number" min="0" max="999" step="0.01" ng-model="params.gravity.mult" ng-change="updateParameters()" />
+                    <table>
+                        <tr>
+                            <td>
+                                Multiplier
+                            </td>
+                            <td>
+                                <input name="param_gravity_mult" type="number" min="0" max="999" step="0.01" ng-model="params.gravity.mult" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Constant
+                            </td>
+                            <td>
+                                <input name="param_gravity_const" type="number" min="0" max="999" step="0.01" ng-model="params.gravity.constant" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
-                    Constant <input name="param_gravity_const" type="number" min="0" max="999" step="0.01" ng-model="params.gravity.constant" ng-change="updateParameters()" />
+                    Shield stun
                     <br />
-                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                Multiplier
+                            </td>
+                            <td>
+                                <input name="param_shield_mult" type="number" min="0" max="999" step="0.01" ng-model="params.shield.mult" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Constant
+                            </td>
+                            <td>
+                                <input name="param_shield_mult" type="number" min="0" max="999" step="0.01" ng-model="params.shield.constant" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Projectile multiplier
+                            </td>
+                            <td>
+                                <input name="param_shield_mult" type="number" min="0" max="999" step="0.01" ng-model="params.shield.projectile" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Perfect Shield multiplier
+                            </td>
+                            <td>
+                                <input name="param_shield_mult" type="number" min="0" max="999" step="0.01" ng-model="params.shield.perfectShield" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
+                    
+
                 </div>
                 <div class="pos-right">
                     Hitlag
                     <br />
-                    Multiplier <input name="param_hitlag_mult" type="number" min="0" max="999" step="0.01" ng-model="params.hitlag.mult" ng-change="updateParameters()" />
-                    <br />
-                    Constant <input name="param_hitlag_const" type="number" min="0" max="999" step="0.01" ng-model="params.hitlag.constant" ng-change="updateParameters()" />
-                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                Multiplier
+                            </td>
+                            <td>
+                                <input name="param_hitlag_mult" type="number" min="0" max="999" step="0.01" ng-model="params.hitlag.mult" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Constant
+                            </td>
+                            <td>
+                                <input name="param_hitlag_const" type="number" min="0" max="999" step="0.01" ng-model="params.hitlag.constant" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
                     Airdodge hitstun cancel
                     <br />
-                    Frames <input name="param_airdodge_cancel_frames" type="number" min="0" max="999" step="1" ng-model="params.hitstunCancel.frames.airdodge" ng-change="updateParameters()" />
-                    <br />
-                    Max launch speed <input name="param_airdodge_cancel_ls" type="number" min="0" max="999" step="0.01" ng-model="params.hitstunCancel.launchSpeed.airdodge" ng-change="updateParameters()" />
-                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                Frames
+                            </td>
+                            <td>
+                                <input name="param_airdodge_cancel_frames" type="number" min="0" max="999" step="1" ng-model="params.hitstunCancel.frames.airdodge" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Max launch speed
+                            </td>
+                            <td>
+                                <input name="param_airdodge_cancel_ls" type="number" min="0" max="999" step="0.01" ng-model="params.hitstunCancel.launchSpeed.airdodge" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
                     Aerial hitstun cancel
                     <br />
-                    Frames <input name="param_aerial_cancel_frames" type="number" min="0" max="999" step="1" ng-model="params.hitstunCancel.frames.aerial" ng-change="updateParameters()" />
-                    <br />
-                    Max launch speed <input name="param_aerial_cancel_ls" type="number" min="0" max="999" step="0.01" ng-model="params.hitstunCancel.launchSpeed.aerial" ng-change="updateParameters()" />
-                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                Frames
+                            </td>
+                            <td>
+                                <input name="param_aerial_cancel_frames" type="number" min="0" max="999" step="1" ng-model="params.hitstunCancel.frames.aerial" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Max launch speed
+                            </td>
+                            <td>
+                                <input name="param_aerial_cancel_ls" type="number" min="0" max="999" step="0.01" ng-model="params.hitstunCancel.launchSpeed.aerial" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
                     Paralyzer's hitlag
                     <br />
-                    Multiplier <input name="param_paral_mult" type="number" min="0" max="999" step="0.01" ng-model="params.paralyzer.mult" ng-change="updateParameters()" />
+                    <table>
+                        <tr>
+                            <td>
+                                Multiplier
+                            </td>
+                            <td>
+                                <input name="param_paral_mult" type="number" min="0" max="999" step="0.01" ng-model="params.paralyzer.mult" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Constant
+                            </td>
+                            <td>
+                                <input name="param_paral_const" type="number" min="0" max="999" step="0.01" ng-model="params.paralyzer.constant" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
                     <br />
-                    Constant <input name="param_paral_const" type="number" min="0" max="999" step="0.01" ng-model="params.paralyzer.constant" ng-change="updateParameters()" />
-                    <br />
-                    <br />
-                    Buried KB multiplier <input name="param_buried_kb_mult" type="number" min="0" max="999" step="0.01" ng-model="params.buried_kb_mult" ng-change="updateParameters()" />
-                    <br />
-                    Buried KB resistance threshold <input name="param_buried_kb_threshold" type="number" min="0" max="999" step="0.01" ng-model="params.buried_kb_threshold" ng-change="updateParameters()" />
+                    <table>
+                        <tr>
+                            <td>
+                                Buried KB multiplier
+                            </td>
+                            <td>
+                                <input name="param_buried_kb_mult" type="number" min="0" max="999" step="0.01" ng-model="params.buried_kb_mult" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Buried KB resistance threshold
+                            </td>
+                            <td>
+                                <input name="param_buried_kb_threshold" type="number" min="0" max="999" step="0.01" ng-model="params.buried_kb_threshold" ng-change="updateParameters()" />
+                            </td>
+                        </tr>
+                    </table>
+                     
                 </div>
 
 

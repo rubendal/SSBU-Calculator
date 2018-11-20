@@ -766,11 +766,11 @@ input[type=number].percent-input + span {
 }
 
 input[type=number].percent-input {
-    width: 2.75em;
+    width: 140px;
     font-family: 'Century Gothic';
     font-style: italic;
     font-weight: 800;
-    font-size: 3.5em;
+    font-size: 40px;
     border: none;
     color: black;
     -webkit-text-fill-color: white;

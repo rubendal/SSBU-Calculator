@@ -25,41 +25,47 @@ function loadJSONPath(path) {
 }
 
 var defaultParameters = {
-    di: 0.17,
-    lsi_max: 1.095,
+	di: 0.17,
+	lsi_max: 1.095,
 	lsi_min: 0.92,
 	decay: 0.051,
-    gravity: {
-        mult: 5,
-        constant: 0.075
+	gravity: {
+		mult: 5,
+		constant: 0.075
 	},
 	shorthop_aerial: 0.85,
-    bounce: 0.8,
-    crouch_cancelling: 0.85,
-    crouch_hitlag: 0.67,
+	bounce: 0.8,
+	crouch_cancelling: 0.85,
+	crouch_hitlag: 0.67,
 	interrupted_smash: 1.2,
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
-    hitstun: 0.4,
-    launch_speed: 0.035,
-    tumble_threshold: 32,
-    hitlag: {
+	hitstun: 0.4,
+	launch_speed: 0.035,
+	tumble_threshold: 32,
+	hitlag: {
 		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
-        constant: 5
-    },
-    hitstunCancel: {
-        frames: {
-            aerial: 45,
-            airdodge: 40
-        },
-        launchSpeed: {
-            aerial: 2,
-            airdodge: 2.5
-        }
-    },
-    paralyzer: {
-        constant: 14,
-        mult:0.025
+		constant: 5
+	},
+	hitstunCancel: {
+		frames: {
+			aerial: 45,
+			airdodge: 40
+		},
+		launchSpeed: {
+			aerial: 2,
+			airdodge: 2.5
+		}
+	},
+	paralyzer: {
+		constant: 14,
+		mult: 0.025
+	},
+	shield: {
+		projectile: 0.5,
+		perfectShield: 0.66,
+		mult: 0.58,
+		constant: 4
 	},
 	test: {
 		decay: 1,
@@ -969,11 +975,11 @@ class Modifier {
 };
 
 var monado = [
-	new Modifier("Jump", 1, 1, 1.22, 1, 1, 1.3, 1.22, 1, 1, 1),
-	new Modifier("Speed", 1, 0.8, 1, 1, 1, 1, 1, 1, 1, 1.5),
-	new Modifier("Shield", 1, 0.7, 0.67, 1, .78, 1, 1, 1.5, 1, 1),
-	new Modifier("Buster", 1, 1.4, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
-	new Modifier("Smash", 1, 0.5, 1, 1.18, 1.07, 1, 1, 1, 1, 1)
+	new Modifier("Jump", 1, 1, 1.3, 1, 1, 1.3, 1.22, 1, 1, 1),
+	new Modifier("Speed", 1, 0.7, 1, 1, 1, 1, 1, 1, 1, 1.5),
+	new Modifier("Shield", 1, 0.5, 0.5, 1, .78, 1, 1, 1.5, 1, 1),
+	new Modifier("Buster", 1, 1.4, 1.3, 0.68, 1, 1, 1, 1, 1, 1),
+	new Modifier("Smash", 1, 0.3, 1, 1.18, 1.07, 1, 1, 1, 1, 1)
 ];
 
 //var decisive_monado = [
