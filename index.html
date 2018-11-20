@@ -108,7 +108,7 @@
                                 <span class="character-image-cont"><img ng-src="{{attacker_image}}" class="character-image" ng-class="attacker_class" /></span>
                                 <div class="percent-div">
                                     <input name="attacker_percent" type="number" class="percent-input" min="0" max="999" step="0.1" ng-model="attackerPercent" ng-style="attackerPercent_style" ng-change="updatePercent()" />
-                                    <span>%</span>
+                                    <span ng-style="attackerPercent_style">%</span>
                                 </div>
                                 <div class="character-select-container" ng-class="attacker_class">
                                     <select name="attackerSelect" class="character-select" ng-model="attackerValue" ng-change="updateAttacker()">
@@ -139,7 +139,7 @@
                                 <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image" ng-class="target_class" /></span>
                                 <div class="percent-div">
                                     <input name="target_percent" type="number" class="percent-input" min="0" max="999" step="0.1" ng-model="targetPercent" ng-style="targetPercent_style" ng-change="updatePercent()" />
-                                    <span>%</span>
+                                    <span ng-style="targetPercent_style">%</span>
                                 </div>
                                 <div class="character-select-container" ng-class="target_class">
                                     <select name="targetSelect" class="character-select" ng-model="targetValue" ng-change="updateTarget()">
