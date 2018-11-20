@@ -1183,7 +1183,10 @@ app.controller('calculator', function ($scope) {
 
 	$scope.updateStage();
 
-    mapParams($scope);
+	mapParams($scope);
+
+	$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+	$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
 
 	if ($scope.effect == "Paralyze" || $scope.effect == "Bury" || $scope.effect == "Sleep" || $scope.effect == "Disable") // || $scope.effect == "Stun") Not sure about stun
 		$scope.set_weight = true;
