@@ -35,6 +35,9 @@ app.controller('calculator', function ($scope) {
 	$scope.kbType = "total";
 	$scope.shorthop_aerial = false;
 
+	$scope.attackerPercent_style = {};
+	$scope.targetPercent_style = {};
+
     $scope.preDamage = 0;
 
     $scope.set_weight = false;
@@ -591,7 +594,13 @@ app.controller('calculator', function ($scope) {
         $scope.results = new ResultList(resultsList);
 
 		$scope.sharing_url = buildURL($scope);
-    };
+	};
+
+	$scope.updatePercent = function () {
+		$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+		$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
+		$scope.update();
+	}
 
     $scope.get_jablock = function(){
         var a = parseFloat($scope.angle);
@@ -619,7 +628,10 @@ app.controller('calculator', function ($scope) {
         changeStyle($scope.theme);
     }
 
-    mapParams($scope);
+	mapParams($scope);
+
+	$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+	$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
 
     $scope.update();
 });
