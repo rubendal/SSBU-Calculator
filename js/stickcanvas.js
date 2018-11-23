@@ -32,24 +32,24 @@
 
 			var position = { X: 0, Y: 0 };
 
-			position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 128);
-			position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 128);
+			position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 127);
+			position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 127);
 
 			if (stickWheel.controller == "Wiimote") {
 				if (position.X < -24)
 					position.X = -127;
 				else if (position.X > 24)
-					position.X = 128;
+					position.X = 127;
 				else
 					position.X = 0;
 
 				if (position.Y < -24)
 					position.Y = -127;
 				else if (position.Y > 24)
-					position.Y = 128;
+					position.Y = 127;
 				else
 					position.Y = 0;
-				
+
 			} else {
 
 				if (!InsideStickGate(stickWheel.controllerR, position.X, position.Y))
@@ -60,6 +60,48 @@
 			this.position = position;
 			stickWheel.f(position);
 		}
+
+		this.canvas.ontouchmove = function(event) {
+			event.preventDefault();
+
+			if (event.touches.length === 1 && event.touches[0].identifier === 0) {
+
+				var rect = stickWheel.canvas.getBoundingClientRect();
+				var x = event.touches[0].clientX - rect.left;
+				var y = event.touches[0].clientY - rect.top;
+
+				var position = { X: 0, Y: 0 };
+
+				position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 127);
+				position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 127);
+
+				if (stickWheel.controller == "Wiimote") {
+					if (position.X < -24)
+						position.X = -127;
+					else if (position.X > 24)
+						position.X = 127;
+					else
+						position.X = 0;
+
+					if (position.Y < -24)
+						position.Y = -127;
+					else if (position.Y > 24)
+						position.Y = 127;
+					else
+						position.Y = 0;
+
+				} else {
+
+					if (!InsideStickGate(stickWheel.controllerR, position.X, position.Y))
+						position = stickWheel.position;
+
+				}
+
+				this.position = position;
+				stickWheel.f(position);
+			}
+		};
+
 
 		this.canvas.addEventListener('mousedown', function (e) {
 			stickWheel.clickActive = true;

@@ -38,6 +38,9 @@ app.controller('calculator', function ($scope) {
 	$scope.delayed_shorthop_aerial = null;
 	$scope.shorthop_aerial = false;
 
+	$scope.attackerPercent_style = {};
+	$scope.targetPercent_style = {};
+
 	$scope.effects = effects;
 	$scope.effect = effects[0].name;
 
@@ -659,6 +662,12 @@ app.controller('calculator', function ($scope) {
         $scope.update();
 	}
 
+	$scope.updatePercent = function () {
+		$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+		$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
+		$scope.update();
+	}
+
 	$scope.calculate = function () {
         if($scope.charge_data == null && $scope.is_smash){
             base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge);
@@ -1174,7 +1183,10 @@ app.controller('calculator', function ($scope) {
 
 	$scope.updateStage();
 
-    mapParams($scope);
+	mapParams($scope);
+
+	$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+	$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
 
 	if ($scope.effect == "Paralyze" || $scope.effect == "Bury" || $scope.effect == "Sleep" || $scope.effect == "Disable") // || $scope.effect == "Stun") Not sure about stun
 		$scope.set_weight = true;

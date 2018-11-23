@@ -37,6 +37,9 @@ app.controller('calculator', function ($scope) {
 	$scope.charging_frames_type = "Frames charged";
 	$scope.shorthop_aerial = false;
 
+	$scope.attackerPercent_style = {};
+	$scope.targetPercent_style = {};
+
 	$scope.effects = effects;
 	$scope.effect = effects[0].name;
 
@@ -751,6 +754,12 @@ app.controller('calculator', function ($scope) {
 			data = { ko: false };
 		}
 		return data;
+	}
+
+	$scope.updatePercent = function () {
+		$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+		$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
+		$scope.update();
 	}
 
 	$scope.calculate = function () {
@@ -1594,7 +1603,10 @@ app.controller('calculator', function ($scope) {
 
 	$scope.updateController();
 
-    mapParams($scope);
+	mapParams($scope);
+
+	$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+	$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
 
     if ($scope.paralyzer && !$scope.set_weight) {
         $scope.set_weight = true;

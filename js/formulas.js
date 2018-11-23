@@ -35,6 +35,12 @@
         constant: 14,
         mult: 0.025
 	},
+	shield: {
+		projectile: 0.5,
+		perfectShield: 0.66,
+		mult: 0.58,
+		constant: 4
+	},
 	test: {
 		decay: 1,
 		decay_reduction: 1,
@@ -335,9 +341,9 @@ function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time) {
 }
 
 function ShieldStun(damage, is_projectile, perfectShield) {
-	var projectileMult = is_projectile ? 0.5 : 1;
-	var perfectshieldMult = perfectShield ? 0.66 : 1;
-	return Math.floor((damage * 0.58 * projectileMult * perfectshieldMult) + 3) - 1;
+	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
+	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
+	return Math.floor((damage * parameters.shield.mult * projectileMult * perfectshieldMult) + (parameters.shield.constant - 1)) - 1;
 }
 
 function ShieldHitlag(damage, hitlag, electric) {
@@ -359,11 +365,11 @@ function ShieldAdvantage(damage, hitlag, hitframe, FAF, is_projectile, electric,
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
 function ShieldPushback(damage, projectile, perfectShield) {
-	var projectileMult = projectile ? 0.5 : 1;
-	var perfectshieldMult = perfectShield ? 0.66 : 1;
+	var projectileMult = projectile ? parameters.shield.projectile : 1;
+	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var perfectshieldMult2 = perfectShield ? 0.15 : 1;
 
-	var pushback = ((damage * 0.58 * projectileMult * perfectshieldMult) + 4) * 0.09 * perfectshieldMult2;
+	var pushback = ((damage * parameters.shield.mult * projectileMult * perfectshieldMult) + parameters.shield.constant) * 0.09 * perfectshieldMult2;
 	if (pushback > 1.3)
 		pushback = 1.3;
 
@@ -801,4 +807,12 @@ function IntersectionLines(line, vertex) {
 //Get line angle given by two points
 function LineAngle(line) {
 	return ((Math.atan2(line[1][1] - line[0][1], line[1][0] - line[0][0]) * 180 / Math.PI) + 360) % 360;
+}
+
+function colorLerp(min, max, x, xMin, xMax) {
+	if (x <= xMin)
+		return min;
+	if (x >= xMax)
+		return max;
+	return (1 - ((x - xMin) / xMax)) * min + ((x - xMin) / xMax) * max;
 }

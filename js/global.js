@@ -25,41 +25,47 @@ function loadJSONPath(path) {
 }
 
 var defaultParameters = {
-    di: 0.17,
-    lsi_max: 1.095,
+	di: 0.17,
+	lsi_max: 1.095,
 	lsi_min: 0.92,
 	decay: 0.051,
-    gravity: {
-        mult: 5,
-        constant: 0.075
+	gravity: {
+		mult: 5,
+		constant: 0.075
 	},
 	shorthop_aerial: 0.85,
-    bounce: 0.8,
-    crouch_cancelling: 0.85,
-    crouch_hitlag: 0.67,
+	bounce: 0.8,
+	crouch_cancelling: 0.85,
+	crouch_hitlag: 0.67,
 	interrupted_smash: 1.2,
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
-    hitstun: 0.4,
-    launch_speed: 0.035,
-    tumble_threshold: 32,
-    hitlag: {
+	hitstun: 0.4,
+	launch_speed: 0.035,
+	tumble_threshold: 32,
+	hitlag: {
 		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
-        constant: 5
-    },
-    hitstunCancel: {
-        frames: {
-            aerial: 45,
-            airdodge: 40
-        },
-        launchSpeed: {
-            aerial: 2,
-            airdodge: 2.5
-        }
-    },
-    paralyzer: {
-        constant: 14,
-        mult:0.025
+		constant: 5
+	},
+	hitstunCancel: {
+		frames: {
+			aerial: 45,
+			airdodge: 40
+		},
+		launchSpeed: {
+			aerial: 2,
+			airdodge: 2.5
+		}
+	},
+	paralyzer: {
+		constant: 14,
+		mult: 0.025
+	},
+	shield: {
+		projectile: 0.5,
+		perfectShield: 0.66,
+		mult: 0.58,
+		constant: 4
 	},
 	test: {
 		decay: 1,
@@ -930,17 +936,17 @@ function changeStyle(style) {
 
 //var inhttp = true; //getWebProtocol() == "http";
 
-var characters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Game And Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle"];
-var newCharacters = ["Inkling", "Daisy", "Ridley", "Simon", "Richter", "King K. Rool", "Isabelle"]; ///added on SSBU
-var notInAPICharacters = ["Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Ridley", "Simon", "Richter", "King K. Rool", "Isabelle"]; ///added on SSBU
+var characters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Game And Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar"]; //Unreleased DLC: , "Piranha Plant"
+var newCharacters = ["Inkling", "Daisy", "Ridley", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar"]; ///added on SSBU
+var notInAPICharacters = ["Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Ridley", "Simon", "Richter", "King K. Rool", "Isabelle", "Incineroar"]; ///added on SSBU
 //April Fools 2017
 //var names = ["Not top 5", "Green Mario", "UpB with 180 WBKB", "Uthrow-Uair", "Egg shield", "Luma", "Clown Kart", "Wah", "Expand", "Banana-Dtilt-Usmash", "Mr. Bucket & 9", "Good frame data/horrible aerials", "Lonk", "Link?", "Can't kill past 130%", "DISRESPECT", "Bomb-Fair", "Spamus", "Zero Skill Samus", "Hot spring maniac", "Top tier with customs", "Morth", "Slow Marth", "Magical Marth", "Dog & Duck", "Hi!", "Sakurai's voice", "Not Brawl", "Honest", "Revali", "Quick Attack", "Orange flying lizard", "Aura is Broken", "Never buffed", "Nerfed", "Beep Boop", "Okay", "Dthrow to knee is not true", "Killager", "Pikmin", "Feel the burn", "Commentator's nightmare", "Doc is In", "Edgy Pit", "Female Marth", "Useless grab", "Lemons", "Sanic", "Heavier than Charizard in Pokemon", "Zair/PK Fire spacing", "Boy Marth", "Utilt", "Genkai wo Koeru", "Instapin", "BANonetta", "Nonexistant Swordfighter", "Nonexistant Brawler", "Nonexistant Gunner"];
 //April Fools 2018
 //var names = ["Not top 5", "Green Mario", "Fair that deals 15%", "Pivot grabs from half stage", "Egg shield", "Luma", "Clown Kart", "Wah", "EXPAND DONG", "Hoo-Hah", "Mr. Bucket & 9", "Good frame data/horrible aerials", "Lonk", "Link?", "Can't kill past 130%", "DISRESPECT", "Bomb-Fair", "Spamus", "Rage Boost Kick", "Hot spring maniac", "Top tier with customs", "Morth", "Buffed Marth", "Magical Marth", "Dog & Duck", "Hi!", "Sakurai's idea of Perfection", "Not Brawl", "Honest", "Revali?", "Pichu?", "Orange flying lizard", "Aura + Rage is BROKEN", "Don't expect buffs on Switch", "Nerf Greninja", "50/50 reflector", "Ebola Back Throw", "Dthrow To Knee Is Not True", "Killager", "Just throw Pikmin", "Feel the burn", "I'm really feeling it", "The Doc is IN", "Edgy Pit", "Female Marth", "FAF 76 Grabs", "If life gives you lemons, shoot them", "Gotta go fast", "Fair with \"short range\"", "PK Fire/Zair spacing", "Fire Marth", "Utilts", "Genkai wo Koeru", "Dragon Marth", "Just SDI", "Nonexistant Swordfighter", "Nonexistant Brawler", "Nonexistant Gunner"];
-var characterNames = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina & Luma", "Bowser Jr.", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle"];
-var names = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina & Luma", "Bowser Jr.", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle"];
-var KHcharacters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle"];
-var gameNames = ["mario", "luigi", "peach", "koopa", "yoshi", "rosetta", "koopajr", "wario", "donkey", "diddy", "gamewatch", "littlemac", "link", "zelda", "sheik", "ganon", "toonlink", "samus", "szerosuit", "pit", "palutena", "marth", "ike", "reflet", "duckhunt", "kirby", "dedede", "metaknight", "fox", "falco", "pikachu", "lizardon", "lucario", "purin", "gekkouga", "robot", "ness", "captain", "murabito", "pikmin", "wiifit", "shulk", "drmario", "pitb", "lucina", "pacman", "rockman", "sonic", "mewtwo", "lucas", "roy", "ryu", "cloud", "kamui", "bayonetta", "miiswordsman", "miifighter", "miigunner", "iceclimbers", "pichu", "younglink", "snake", "zenigame", "fushigisou", "wolf", "inkling", "daisy", "ridley", "chrom", "darksamus", "simon", "richter", "kingkrool", "isabelle"];
+var characterNames = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina & Luma", "Bowser Jr.", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar"];
+var names = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina & Luma", "Bowser Jr.", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar"];
+var KHcharacters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar"];
+var gameNames = ["mario", "luigi", "peach", "koopa", "yoshi", "rosetta", "koopajr", "wario", "donkey", "diddy", "gamewatch", "littlemac", "link", "zelda", "sheik", "ganon", "toonlink", "samus", "szerosuit", "pit", "palutena", "marth", "ike", "reflet", "duckhunt", "kirby", "dedede", "metaknight", "fox", "falco", "pikachu", "lizardon", "lucario", "purin", "gekkouga", "robot", "ness", "captain", "murabito", "pikmin", "wiifit", "shulk", "drmario", "pitb", "lucina", "pacman", "rockman", "sonic", "mewtwo", "lucas", "roy", "ryu", "cloud", "kamui", "bayonetta", "miiswordsman", "miifighter", "miigunner", "iceclimbers", "pichu", "younglink", "snake", "zenigame", "fushigisou", "wolf", "inkling", "daisy", "ridley", "chrom", "darksamus", "simon", "richter", "kingkrool", "shizue", "ken", "gaogaen"]; //packun_flower
 
 class Modifier {
 	constructor(name, base_damage, damage_dealt, damage_taken, kb_dealt, kb_received, gravity, fall_speed, shield, air_friction, traction, attackerShow, targetShow) {
@@ -969,28 +975,28 @@ class Modifier {
 };
 
 var monado = [
-	new Modifier("Jump", 1, 1, 1.22, 1, 1, 1.3, 1.22, 1, 1, 1),
-	new Modifier("Speed", 1, 0.8, 1, 1, 1, 1, 1, 1, 1, 1.5),
-	new Modifier("Shield", 1, 0.7, 0.67, 1, .78, 1, 1, 1.5, 1, 1),
-	new Modifier("Buster", 1, 1.4, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
-	new Modifier("Smash", 1, 0.5, 1, 1.18, 1.07, 1, 1, 1, 1, 1)
+	new Modifier("Jump", 1, 1, 1.3, 1, 1, 1.3, 1.22, 1, 1, 1),
+	new Modifier("Speed", 1, 0.7, 1, 1, 1, 1, 1, 1, 1, 1.5),
+	new Modifier("Shield", 1, 0.5, 0.5, 1, .78, 1, 1, 1.5, 1, 1),
+	new Modifier("Buster", 1, 1.4, 1.3, 0.68, 1, 1, 1, 1, 1, 1),
+	new Modifier("Smash", 1, 0.3, 1, 1.18, 1.07, 1, 1, 1, 1, 1)
 ];
 
-var decisive_monado = [
-	new Modifier("Decisive Jump", 1, 1, 1.22, 1, 1, 1.43, 1.342, 1, 1, 1),
-	new Modifier("Decisive Speed", 1, 0.8, 1, 1, 1, 1.1, 1, 1, 1, 1.65),
-	new Modifier("Decisive Shield", 1, .7, 0.603, 1, .702, 1, 1, 1.5 * 1.1, 1, 1),
-	new Modifier("Decisive Buster", 1, 1.4 * 1.1, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
-	new Modifier("Decisive Smash", 1, 0.5, 1, 1.18 * 1.1, 1.07, 1, 1, 1, 1, 1)
-];
+//var decisive_monado = [
+//	new Modifier("Decisive Jump", 1, 1, 1.22, 1, 1, 1.43, 1.342, 1, 1, 1),
+//	new Modifier("Decisive Speed", 1, 0.8, 1, 1, 1, 1.1, 1, 1, 1, 1.65),
+//	new Modifier("Decisive Shield", 1, .7, 0.603, 1, .702, 1, 1, 1.5 * 1.1, 1, 1),
+//	new Modifier("Decisive Buster", 1, 1.4 * 1.1, 1.13, 0.68, 1, 1, 1, 1, 1, 1),
+//	new Modifier("Decisive Smash", 1, 0.5, 1, 1.18 * 1.1, 1.07, 1, 1, 1, 1, 1)
+//];
 
-var hyper_monado = [
-	new Modifier("Hyper Jump", 1, 1, 1.22 * 1.2, 1, 1, 1.56, 1.464, 1, 1, 1),
-	new Modifier("Hyper Speed", 1, 0.64, 1, 1, 1, 1.2, 1, 1, 1, 1.8),
-	new Modifier("Hyper Shield", 1, 0.56, 0.536, 1, .624, 1, 1, 1.5 * 1.2, 1, 1),
-	new Modifier("Hyper Buster", 1, 1.4 * 1.2, 1.13 * 1.2, 0.544, 1, 1, 1, 1, 1, 1),
-	new Modifier("Hyper Smash", 1, 0.4, 1, 1.18 * 1.2, 1.07 * 1.2, 1, 1, 1, 1, 1)
-];
+//var hyper_monado = [
+//	new Modifier("Hyper Jump", 1, 1, 1.22 * 1.2, 1, 1, 1.56, 1.464, 1, 1, 1),
+//	new Modifier("Hyper Speed", 1, 0.64, 1, 1, 1, 1.2, 1, 1, 1, 1.8),
+//	new Modifier("Hyper Shield", 1, 0.56, 0.536, 1, .624, 1, 1, 1.5 * 1.2, 1, 1),
+//	new Modifier("Hyper Buster", 1, 1.4 * 1.2, 1.13 * 1.2, 0.544, 1, 1, 1, 1, 1, 1),
+//	new Modifier("Hyper Smash", 1, 0.4, 1, 1.18 * 1.2, 1.07 * 1.2, 1, 1, 1, 1, 1)
+//];
 
 class Character {
     constructor(n) {
@@ -1008,8 +1014,8 @@ class Character {
 		if (this.name == "Shulk") {
 			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)];
 			this.modifiers = this.modifiers.concat(monado);
-			this.modifiers = this.modifiers.concat(decisive_monado);
-			this.modifiers = this.modifiers.concat(hyper_monado);
+			//this.modifiers = this.modifiers.concat(decisive_monado);
+			//this.modifiers = this.modifiers.concat(hyper_monado);
 		} else if (this.name == "Kirby") {
 			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)];
 			this.modifiers = this.modifiers.concat(monado);
@@ -1024,9 +1030,6 @@ class Character {
 		}
 		else if (this.name == "King Dedede") {
 			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Character Inhaled", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false)];
-		}
-		else if (this.name == "Palutena") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Lightweight", 1, 1, 1.1, 1, 1, 1, 0.8, 1, 1, 1, false)];
 		}
 
         this.getModifier = function (name) {
@@ -2634,3 +2637,21 @@ var StickPositions = [
 	//new StickPosition("Wiimote Down-Left", -127, -127, Controllers.Wiimote),
 	//new StickPosition("Wiimote Down-Right", 127, -127, Controllers.Wiimote)
 ];
+
+function PercentColor(val) {
+	if (isNaN(val) || val < 0) {
+		val = 0;
+	}
+	if (val > 999) {
+		val = 999;
+	}
+	var hsl = {
+		h: 0,
+		s: 100,
+		l: colorLerp(100, 30, val, 50, 200)
+	};
+
+	return {
+		"-webkit-text-fill-color": `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`
+	};
+}

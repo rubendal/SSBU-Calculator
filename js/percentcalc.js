@@ -35,6 +35,9 @@ app.controller('calculator', function ($scope) {
 	$scope.kbType = "total";
 	$scope.shorthop_aerial = false;
 
+	$scope.attackerPercent_style = {};
+	$scope.targetPercent_style = {};
+
     $scope.preDamage = 0;
 
     $scope.set_weight = false;
@@ -53,7 +56,8 @@ app.controller('calculator', function ($scope) {
     $scope.is_smash = false;
 	$scope.is_smash_visibility = $scope.is_smash ? {} : { 'display': 'none' };
     $scope.megaman_fsmash = false;
-    $scope.witch_time_charge = false;
+	$scope.witch_time_charge = false;
+	$scope.is_aerial = { 'display': 'none' };
 	$scope.is_megaman = attacker.name == "Mega Man" ? {} : { 'display': 'none' };
 	$scope.is_bayonetta = attacker.name == "Bayonetta" ? {} : { 'display': 'none' };
 	$scope.is_lucario = attacker.name == "Lucario" ? {} : { 'display': 'none' };
@@ -150,7 +154,8 @@ app.controller('calculator', function ($scope) {
     }
 
     $scope.check_move = function(){
-        if($scope.selected_move == null){
+		if ($scope.selected_move == null) {
+			$scope.is_aerial = { 'display': 'none' };
             $scope.charge_min = 0;
             $scope.charge_max = 60;
             $scope.charge_special = false;
@@ -163,6 +168,7 @@ app.controller('calculator', function ($scope) {
 					$scope.$apply();
 				}, 10);
 			}
+			$scope.is_aerial = $scope.selected_move.aerial ? {} : { 'display': 'none' };
 
             if($scope.selected_move.chargeable){
                 if($scope.selected_move.charge != null){
@@ -588,7 +594,13 @@ app.controller('calculator', function ($scope) {
         $scope.results = new ResultList(resultsList);
 
 		$scope.sharing_url = buildURL($scope);
-    };
+	};
+
+	$scope.updatePercent = function () {
+		$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+		$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
+		$scope.update();
+	}
 
     $scope.get_jablock = function(){
         var a = parseFloat($scope.angle);
@@ -601,7 +613,7 @@ app.controller('calculator', function ($scope) {
     };
 
     $scope.get_tumble = function(){
-        $scope.kb = 80.0001;
+        $scope.kb = 80;
         $scope.update();
     };
 
@@ -616,7 +628,10 @@ app.controller('calculator', function ($scope) {
         changeStyle($scope.theme);
     }
 
-    mapParams($scope);
+	mapParams($scope);
+
+	$scope.attackerPercent_style = PercentColor(parseFloat($scope.attackerPercent));
+	$scope.targetPercent_style = PercentColor(parseFloat($scope.targetPercent));
 
     $scope.update();
 });
