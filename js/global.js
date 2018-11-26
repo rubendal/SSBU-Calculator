@@ -1189,13 +1189,13 @@ class ResultRow {
         this.h2 = h2;
         this.style = style;
         this.onlyOne = v1 == v2 && !h1 && !h2;
-        this.valc = this.onlyOne ? this.val1 : "";
-        if (h1 || this.onlyOne) {
-            this.val1 = "";
-        }
-        if (h2 || this.onlyOne) {
-            this.val2 = "";
-        }
+        //this.valc = this.onlyOne ? this.val1 : "";
+        //if (h1 || this.onlyOne) {
+        //    this.val1 = "";
+        //}
+        //if (h2 || this.onlyOne) {
+        //    this.val2 = "";
+        //}
 
     }
 };

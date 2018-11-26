@@ -793,7 +793,8 @@ app.controller('calculator', function ($scope) {
 		if (attacker.modifier.kb_dealt != 1) {
 			resultList.push(new Result("KB dealt", "x" + +attacker.modifier.kb_dealt.toFixed(6), "x" + +attacker.modifier.kb_dealt.toFixed(6)));
 		}
-		resultList.push(new Result("Rage", "x" + "1", "x" + +Rage(attacker_percent).toFixed(6), true));
+		if (!ignoreStale)
+			resultList.push(new Result("Rage", "x" + "1", "x" + +Rage(attacker_percent).toFixed(6), true));
 		resultList.push(new Result("Total KB", +trainingkb.kb.toFixed(6), +vskb.kb.toFixed(6)));
 		if ($scope.kb_modifier == "buried") {
 			resultList.push(new Result("Buried removed", trainingkb.kb >= parameters.buried_kb_threshold ? "Yes" : "No", vskb.kb >= parameters.buried_kb_threshold ? "Yes" : "No"));

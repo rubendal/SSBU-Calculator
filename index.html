@@ -351,7 +351,7 @@
                         <br />
                         <input type="checkbox" ng-model="windbox" ng-change="updateAttackData()" /> Windbox/Flinchless
                         <br />
-                        <input type="checkbox" name="ignoreStale" ng-model="ignoreStale" ng-change="update()" /> Ignores staleness
+                        <input type="checkbox" name="ignoreStale" ng-model="ignoreStale" ng-change="update()" /> Ignores staleness/rage
                         <br />
                         <input type="checkbox" name="set_weight" ng-model="set_weight" ng-change="update()" /> Set weight
                         <br />
@@ -747,19 +747,9 @@
             <div id="data" class="card-block collapse in group-res">
                 <div id="results-table">
                     <table class="result-table">
-                        <thead>
-                            <tr>
-                                <td class="attribute"></td>
-                                <td class="value">Training mode</td>
-                                <td class="value"></td>
-                                <td class="value">Vs mode</td>
-                            </tr>
-                        </thead>
                         <tbody>
                             <tr ng-repeat="x in results.list" ng-class-even="'value-even'">
                                 <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val1 }}</td>
-                                <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.valc }}</td>
                                 <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.val2}}</td>
                             </tr>
                         </tbody>

@@ -194,7 +194,7 @@ table, td, tr {
 .value {
     padding: 4px;
     text-align: center;
-    width: 20%; /*value without training mode: 70%*/
+    width: 70%; /*value with training mode: 20%*/
 }
 
 .param-value {

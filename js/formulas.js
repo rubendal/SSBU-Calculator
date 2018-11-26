@@ -57,9 +57,9 @@ function Rage(percent) {
         return 1;
     }
     if (percent >= 150) {
-        return 1.15;
+        return 1.1;
     }
-    return 1 + (percent - 35) * (1.15 - 1) / (150 - 35);
+    return 1 + (percent - 35) * (1.1 - 1) / (150 - 35);
 }
 
 function Aura(percent, stock_dif, game_format) {
@@ -234,7 +234,7 @@ function SakuraiAngle(kb, aerial) {
 
 function VSKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fall_speed, r, timesInQueue, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {
     var s = StaleNegation(timesInQueue, ignoreStale);
-	return new Knockback((((((((percent + damage * s) / 10 + (((percent + damage * s) * base_damage * (1 - (1 - s) * 0.3)) / 20)) * 1.4 * (dddinhale ? 0.25 : 1) * (200 / (weight + 100))) + 18) * (kbg / 100)) + bkb)) * (r * Rage(attacker_percent)), angle, gravity, fall_speed, in_air, windbox, electric, percent + (damage * s), set_weight, stick, launch_rate);
+	return new Knockback((((((((percent + damage * s) / 10 + (((percent + damage * s) * base_damage * (1 - (1 - s) * 0.3)) / 20)) * 1.4 * (dddinhale ? 0.25 : 1) * (200 / (weight + 100))) + 18) * (kbg / 100)) + bkb)) * (r * (!ignoreStale ? Rage(attacker_percent) : 1)), angle, gravity, fall_speed, in_air, windbox, electric, percent + (damage * s), set_weight, stick, launch_rate);
 }
 
 function WeightBasedKB(weight, bkb, wbkb, kbg, gravity, fall_speed, r, target_percent, damage, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {
