@@ -37,7 +37,7 @@ var defaultParameters = {
 	bounce: 0.8,
 	crouch_cancelling: 0.85,
 	crouch_hitlag: 0.67,
-	interrupted_smash: 1.2,
+	interrupted_smash: 1, //Removed
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
 	hitstun: 0.4,
@@ -1023,7 +1023,7 @@ class Character {
 			this.modifiers = [new Modifier("Clown Kart", 1, 1, 0.88, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Body", 1, 1, 1.15, 1, 1, 1, 1, 1, 1, 1, false)];
 			this.modifier = this.modifiers[0];
 		} else if (this.name == "Wii Fit Trainer") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), new Modifier("Fast Deep Breathing", 1.2, 1, 0.9, 1, 1, 1, 1, 1, 1, 1), new Modifier("Slow Deep Breathing", 1.16, 1, 0.9, 1, 1, 1, 1, 1, 1, 1)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), new Modifier("Fast Deep Breathing", 1.25, 1, 0.9, 1, 1, 1, 1, 1, 1, 1), new Modifier("Slow Deep Breathing", 1.16, 1, 0.9, 1, 1, 1, 1, 1, 1, 1)];
 
 		} else if (this.name == "Cloud") {
 			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Limit Break", 1, 1, 1, 1, 1, 1.1, 1.1, 1, 1.15, 1.15, false)];
