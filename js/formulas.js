@@ -320,24 +320,26 @@ function Hitlag(base_damage, hitlag_mult, electric, crouch) {
     return h;
 }
 
-function ChargeSmash(base_damage, frames, megaman_fsmash, witch_time) {
+function ChargeSmash(base_damage, frames, megaman_fsmash, witch_time, maxSmashChargeMult) {
+	var mult = maxSmashChargeMult == 1.4 ? 1 : 0.5;
     if (megaman_fsmash) {
-        return base_damage * (1 + (frames / 86));
+        return base_damage * (1 + (frames * mult / 86));
     }
     if(witch_time){
-        return base_damage * (1 + (frames * 0.5 / 150));
+		return base_damage * (1 + (frames * mult * 0.5 / 150));
     }
-    return base_damage * (1 + (frames / 150));
+	return base_damage * (1 + (frames * mult / 150));
 }
 
-function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time) {
+function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time, maxSmashChargeMult) {
+	var mult = maxSmashChargeMult == 1.4 ? 1 : 0.5;
     if (megaman_fsmash) {
-        return (1 + (frames / 86));
+		return (1 + (frames * mult / 86));
     }
     if(witch_time){
-        return (1 + (frames * 0.5 / 150));
+		return (1 + (frames * mult * 0.5 / 150));
     }
-    return (1 + (frames / 150));
+	return (1 + (frames * mult / 150));
 }
 
 function ShieldStun(damage, is_projectile, perfectShield) {

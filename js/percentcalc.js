@@ -509,7 +509,7 @@ app.controller('calculator', function ($scope) {
         launch_rate = parseFloat($scope.launch_rate);
 
         if($scope.charge_data == null && $scope.is_smash){
-            base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge);
+			base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4 );
         }
         if (attacker.name == "Lucario") {
             base_damage *= Aura(attacker_percent, stock_dif, game_format);

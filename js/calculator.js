@@ -669,8 +669,8 @@ app.controller('calculator', function ($scope) {
 	}
 
 	$scope.calculate = function () {
-        if($scope.charge_data == null && $scope.is_smash){
-            base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge);
+		if ($scope.charge_data == null && $scope.is_smash) {
+			base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4 );
         }
         if (attacker.name == "Lucario") {
             base_damage *= Aura(attacker_percent, stock_dif, game_format);
@@ -765,7 +765,7 @@ app.controller('calculator', function ($scope) {
 			resultList.push(new Result("Aura", "x" + +Aura(attacker_percent, stock_dif, game_format).toFixed(6), "x" + +Aura(attacker_percent, stock_dif, game_format).toFixed(6)));
 		}
 		if (is_smash && $scope.charge_data == null) {
-			resultList.push(new Result("Charged Smash", "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge).toFixed(6), "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge).toFixed(6)));
+			resultList.push(new Result("Charged Smash", "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4).toFixed(6), "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4 ).toFixed(6)));
 		}
 		if (attacker.modifier.base_damage != 1) {
 			resultList.push(new Result("Base damage multiplier", "x" + +attacker.modifier.base_damage.toFixed(6), "x" + +attacker.modifier.base_damage.toFixed(6)));

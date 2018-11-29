@@ -569,6 +569,8 @@ class Move {
 		this.spike = this.angle >= 230 && this.angle <= 310;
 		this.isFinishingTouch = this.name.includes("Finishing Touch") && !this.name.includes("Windbox");
 
+		this.maxSmashChargeMult = this.smash_attack ? 1.4 : 1;
+
         this.charge = null;
         if(this.chargeable){
             this.charge = ChargeData.get(chargeMoves, this.name);
@@ -815,7 +817,7 @@ class Move {
 							if (this.throw) {
 								this.base_damage *= 0.8;
 							} else {
-								this.base_damage *= 1.2;
+								this.base_damage *= 1.4;
 							}
 							this.base_damage = +this.base_damage.toFixed(1);
 							break;
@@ -824,7 +826,7 @@ class Move {
 							break;
 						case "Blue":
 							if (this.throw) {
-								this.base_damage *= 1.6;
+								this.base_damage *= 1.7;
 							}
 							this.base_damage = +this.base_damage.toFixed(1);
 							break;
@@ -836,7 +838,7 @@ class Move {
 							break;
 						case "Purple":
 							if (!this.throw) {
-								this.base_damage *= 1.4;
+								this.base_damage *= 1.6;
 							}
 							this.base_damage = +this.base_damage.toFixed(1);
 							break;
@@ -845,6 +847,19 @@ class Move {
 					if (this.pikminColor != null) {
 						this.name = this.moveName + " (" + this.pikminColor + ")";
 					}
+				}
+			}
+
+			//Smash attacks
+			if (this.smash_attack) {
+				if (this.character == "Bayonetta" || this.character == "Olimar") {
+					this.maxSmashChargeMult = 1.2;
+				}
+				if (this.character == "Ness" && (this.name.includes("Usmash") || this.name.includes("Dsmash"))) {
+					this.maxSmashChargeMult = 1.2;
+				}
+				if ((this.character == "Mega Man" || this.character == "Villager") && this.name.includes("Fsmash")) {
+					this.maxSmashChargeMult = 1.2;
 				}
 			}
 
