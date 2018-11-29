@@ -23,7 +23,8 @@
     });
 }
 
-var throwData = loadJSONPath('./Data/Throws/throws.json'); //Throw data from Arthur's spreadsheet https://docs.google.com/spreadsheets/d/1E3kEQUOZy1C-kSzcoOSKay5gDqpo-ZZgq-8G511Bmw4/edit#gid=1810400970
+//var throwData = loadJSONPath('./Data/Throws/throws.json'); //Throw data from Arthur's spreadsheet https://docs.google.com/spreadsheets/d/1E3kEQUOZy1C-kSzcoOSKay5gDqpo-ZZgq-8G511Bmw4/edit#gid=1810400970
+var throwData = [];
 
 class HitboxActiveFrames {
     constructor(start, end) {

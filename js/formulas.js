@@ -221,15 +221,15 @@ function LumaHitstun(kb, windbox, electric) {
 
 function SakuraiAngle(kb, aerial) {
     if (aerial) {
-        return (.79 * 180 / Math.PI);
+        return (.8 * 180 / Math.PI);
     }
     if (kb < 60) {
         return 0;
     }
     if (kb >= 88) {
-        return 37;
+        return 38;
 	}
-	return Math.min((kb - 60) / (88 - 60) * 37 + 1, 37); //https://twitter.com/BenArthur_7/status/956316733597503488
+	return Math.min((kb - 60) / (88 - 60) * 38 + 1, 38); //https://twitter.com/BenArthur_7/status/956316733597503488
 }
 
 function VSKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fall_speed, r, timesInQueue, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {
