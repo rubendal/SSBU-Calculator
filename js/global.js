@@ -41,11 +41,11 @@ var defaultParameters = {
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
 	hitstun: 0.4,
-	launch_speed: 0.035,
+	launch_speed: 0.03,
 	tumble_threshold: 32,
 	hitlag: {
-		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
-		constant: 5
+		mult: 0.65,
+		constant: 6
 	},
 	hitstunCancel: {
 		frames: {
@@ -66,11 +66,6 @@ var defaultParameters = {
 		perfectShield: 0.66,
 		mult: 0.58,
 		constant: 4
-	},
-	test: {
-		decay: 1,
-		decay_reduction: 1,
-		min_decay: 0.051
 	}
 };
 
@@ -1615,9 +1610,8 @@ class Distance{
 		//var decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
 
 		var s = (this.kb / 80);
-		var baseDecay = parameters.test.decay;
 
-		var decay = { 'x': baseDecay * Math.cos(angle * Math.PI / 180), 'y': baseDecay * Math.sin(angle * Math.PI / 180) };
+		var decay = { 'x': parameters.decay * Math.cos(angle * Math.PI / 180), 'y': parameters.decay * Math.sin(angle * Math.PI / 180) };
         if(Math.cos(angle * Math.PI / 180) < 0){
 			x_speed *= -1;
 			//decay.x *= -1;
@@ -1705,7 +1699,7 @@ class Distance{
 					previousCollisionIntersection = c.collision_data.intersection;
 					slidingDirection = c.collision_data.slideDirection;
 					//decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
-					decay = { 'x': baseDecay * Math.cos(angle * Math.PI / 180), 'y': baseDecay * Math.sin(angle * Math.PI / 180) };
+					decay = { 'x': parameters.decay * Math.cos(angle * Math.PI / 180), 'y': parameters.decay * Math.sin(angle * Math.PI / 180) };
 					if (ssb4Launch) {
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 					}
@@ -1956,17 +1950,9 @@ class Distance{
 			}
 
 
-			if (!ssb4Launch) {
-				//Experimental stuff, decay decreases over time until it reaches same value as Smash 4?
-
-				//Decrease decay
-				baseDecay -= parameters.test.decay_reduction;
-				if (baseDecay < parameters.test.min_decay)
-					baseDecay = parameters.test.min_decay;
-				decay = { 'x': baseDecay * Math.cos(angle * Math.PI / 180), 'y': baseDecay * Math.sin(angle * Math.PI / 180) };
-
-				//End of experimental stuff
-			}
+			//if (!ssb4Launch) {
+				
+			//}
 		}
 
 		this.vertical_speed.push((launch_speed.y));

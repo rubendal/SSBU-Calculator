@@ -15,11 +15,11 @@
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
     hitstun: 0.4,
-    launch_speed: 0.035,
+    launch_speed: 0.03,
     tumble_threshold: 32,
     hitlag: {
-		mult: 0.55, //https://twitter.com/drafix570/status/1009458115559895040
-        constant: 5
+		mult: 0.65,
+        constant: 6
     },
     hitstunCancel: {
         frames: {
@@ -310,7 +310,7 @@ function Hitlag(base_damage, hitlag_mult, electric, crouch) {
 	if (electric) {
 		electric_mult = 1.5;
 	}
-	var h = Math.floor((((base_damage * parameters.hitlag.mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult) * crouch) - 1;
+	var h = Math.floor((((base_damage * parameters.hitlag.mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult) * crouch);// - 1;
     if (h > 30) {
         return 30;
     }
@@ -460,7 +460,7 @@ function LSI(stickY, launch_angle) {
 }
 
 function LaunchSpeed(kb) {
-	return kb * parameters.launch_speed * (kb / 80);
+	return kb * parameters.launch_speed;
 }
 
 function HorizontalSpeedLimit(speed) {
