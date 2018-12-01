@@ -548,45 +548,18 @@ app.controller('calculator', function ($scope) {
         var resultsList = [];
         if(kb.wbkb != 0){
             if (kb.rage_needed != -1) {
-                resultsList.push(new Result("Rage multiplier", 0, kb.rage_needed, true));
-                resultsList.push(new Result("Attacker percent", 0, kb.vs_percent, true));
+                resultsList.push(new Result("Rage multiplier", kb.rage_needed));
+                resultsList.push(new Result("Attacker percent", kb.vs_percent));
             } else {
                 if (kb.vs_percent == -1) {
-                    resultsList.push(new Result("Cannot reach KB higher than",0, (kb.wbkb_kb * 1.15).toFixed(4),true));
+                    resultsList.push(new Result("Cannot reach KB higher than", (kb.wbkb_kb * 1.15).toFixed(4)));
                 } else {
-                    resultsList.push(new Result("WBKB KB is higher than ", 0, +kb.wbkb_kb.toFixed(4),true));
+                    resultsList.push(new Result("WBKB KB is higher than ", +kb.wbkb_kb.toFixed(4)));
                 }
             }
         }else{
 
-            resultsList.push(new Result("Required Percent", kb.training_percent != -1 ? +kb.training_percent.toFixed(4) : "Impossible", kb.vs_percent != -1 ? +kb.vs_percent.toFixed(4) : "Impossible"));
-
-            if(kb.type != "total"){
-                if(kb.training_percent != -1){
-                    if(kb.worst_di.training!=-1){
-                        results.training.push(new ListItem("Worst DI angle", +kb.worst_di.angle_training.toFixed(4)));
-                        results.training.push(new ListItem("Worst DI percent", +kb.worst_di.training.toFixed(4)));
-                        results.training.push(new ListItem("Worst DI hitstun difference", +kb.worst_di.hitstun_dif.toFixed(4) + " frames"));
-                    }
-                    if(kb.best_di.training!=-1){
-                        results.training.push(new ListItem("Best DI angle", +kb.best_di.angle_training.toFixed(4)));
-                        results.training.push(new ListItem("Best DI percent", +kb.best_di.training.toFixed(4)));
-                        results.training.push(new ListItem("Best DI hitstun difference", +kb.best_di.hitstun_dif.toFixed(4) + " frames"));
-                    }
-                }
-                if(kb.vs_percent != -1){
-                    if(kb.worst_di.vs!=-1){
-                        results.vs.push(new ListItem("Worst DI angle", +kb.worst_di.angle_vs.toFixed(4)));
-                        results.vs.push(new ListItem("Worst DI percent", +kb.worst_di.vs.toFixed(4)));
-                        results.vs.push(new ListItem("Worst DI hitstun difference", +kb.worst_di.hitstun_dif.toFixed(4) + " frames"));
-                    }
-                    if(kb.best_di.vs != -1){
-                        results.vs.push(new ListItem("Best DI angle", +kb.best_di.angle_vs.toFixed(4)));
-                        results.vs.push(new ListItem("Best DI percent", +kb.best_di.vs.toFixed(4)));
-                        results.vs.push(new ListItem("Best DI hitstun difference", +kb.best_di.hitstun_dif.toFixed(4) + " frames"));
-                    }
-                }
-            }
+            resultsList.push(new Result("Required Percent", kb.vs_percent != -1 ? +kb.vs_percent.toFixed(4) : "Impossible"));
         }
         
 

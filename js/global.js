@@ -1099,13 +1099,11 @@ class Character {
 };
 
 class Result {
-    constructor(name, training, vs, hidetraining, hidevs) {
+    constructor(name, value, hide) {
         this.name = name;
         this.title = getTitle(name);
-        this.training = training;
-        this.vs = vs;
-        this.hidetraining = false;
-        this.hidevs = false;
+        this.value = value;
+        this.hide = false;
         this.style = "";
 
         this.addStyle = function (style) {
@@ -1113,54 +1111,31 @@ class Result {
             return this;
         }
 
-        if (hidetraining != undefined) {
-            this.hidetraining = hidetraining;
-		}
-
 		//this.hidetraining = true; //Remove training mode results
 
-        if (hidevs != undefined) {
-            this.hidevs = hidevs;
+        if (hide != undefined) {
+            this.hide = hide;
         }
 
-        if (typeof training === "number" && isNaN(training)) {
+
+        if (typeof value === "number" && isNaN(value)) {
             this.addStyle({ 'color': 'red' });
-            this.training = "Invalid data";
+            this.value = "Invalid data";
         } else {
 			if (name == "Hitstun" || name == "Attacker Hitlag" || name == "Target Hitlag" || name == "Shield stun" || name == "Shield Hitlag" || name == "Shield Advantage" || name == "Hit Advantage" || name == "Paralysis time" || name == "Reeling hitstun" || name == "Luma hitstun"
 				|| name == "Flower time" || name == "Buried time" || name == "Sleep time" || name == "Freeze time" || name == "Stun time" || name == "Disable time") {
-                this.training = training + (training == 1 ? " frame" : " frames");
+                this.value = value + (value == 1 ? " frame" : " frames");
             } else if (name == "Airdodge hitstun cancel" || name == "Aerial hitstun cancel" || name == "First Actionable Frame" || name == "Reeling FAF") {
-                this.training = "Frame " + training;
+                this.value = "Frame " + value;
             } else {
-                this.training = training;
+                this.value = value;
             }
         }
 
-        if (typeof vs === "number" && isNaN(vs)) {
-            this.addStyle({ 'color': 'red' });
-            this.vs = "Invalid data";
+        if (typeof (this.value) == "string") {
+            this.value = this.value;
         } else {
-			if (name == "Hitstun" || name == "Attacker Hitlag" || name == "Target Hitlag" || name == "Shield stun" || name == "Shield Hitlag" || name == "Shield Advantage" || name == "Hit Advantage" || name == "Paralysis time" || name == "Reeling hitstun" || name == "Luma hitstun"
-				|| name == "Flower time" || name == "Buried time" || name == "Sleep time" || name == "Freeze time" || name == "Stun time" || name == "Disable time") {
-                this.vs = vs + (vs == 1 ? " frame" : " frames");
-            } else if (name == "Airdodge hitstun cancel" || name == "Aerial hitstun cancel" || name == "First Actionable Frame" || name == "Reeling FAF") {
-                this.vs = "Frame " + vs;
-            } else {
-                this.vs = vs;
-            }
-        }
-
-        if (typeof (this.training) == "string") {
-            this.training = this.training;
-        } else {
-            this.training = +this.training.toFixed(6);
-        }
-
-        if (typeof (this.vs) == "string") {
-            this.vs = this.vs;
-        } else {
-            this.vs = +this.vs.toFixed(6);
+            this.value = +this.value.toFixed(6);
         }
 
 
@@ -1170,15 +1145,15 @@ class Result {
 };
 
 class ResultRow {
-    constructor(name, title, style, v1, v2, h1, h2) {
+    constructor(name, title, style, v1, h1) {
         this.name = name;
         this.title = title;
-        this.val1 = v1;
-        this.val2 = v2;
-        this.h1 = h1;
-        this.h2 = h2;
+        this.value = v1;
+        //this.val2 = v2;
+        this.hide = h1;
+        //this.h2 = h2;
         this.style = style;
-        this.onlyOne = v1 == v2 && !h1 && !h2;
+        //this.onlyOne = v1 == v2 && !h1 && !h2;
         //this.valc = this.onlyOne ? this.val1 : "";
         //if (h1 || this.onlyOne) {
         //    this.val1 = "";
@@ -1191,17 +1166,12 @@ class ResultRow {
 };
 
 class ResultList {
-    constructor(resultList, firstvs) {
+    constructor(resultList) {
         this.resultList = resultList;
-        this.firstvs = firstvs;
         this.list = [];
         for (var i = 0; i < resultList.length; i++) {
-            if (!resultList[i].hidetraining || !resultList[i].hidevs) {
-                if (!firstvs) {
-                    this.list.push(new ResultRow(resultList[i].name, resultList[i].title, resultList[i].style, resultList[i].training, resultList[i].vs, resultList[i].hidetraining, resultList[i].hidevs));
-                } else {
-                    this.list.push(new ResultRow(resultList[i].name, resultList[i].title, resultList[i].style, resultList[i].vs, resultList[i].training, resultList[i].hidevs, resultList[i].hidetraining));
-                }
+            if (!resultList[i].hide) {
+				this.list.push(new ResultRow(resultList[i].name, resultList[i].title, resultList[i].style, resultList[i].value, resultList[i].hide));
             }
         }
     }
@@ -2561,7 +2531,7 @@ var effects = [
 
 var appSelection = [
 	{ appName: "calculator", title: "Calculator", link: "./index.html" },
-	//{ appName: "kocalculator", title: "KO Calculator", link: "./kocalc.html" },
+	{ appName: "kocalculator", title: "KO Calculator", link: "./kocalc.html" },
 	{ appName: "kbcalculator", title: "Percentage Calculator", link: "./percentcalc.html" }/*,
 	{ appName: "movesearch", title: "Move Search", link: "./movesearch.html" },
 	{ appName: "scriptviewer", title: "Script Viewer", link: "./scripts.html" },
