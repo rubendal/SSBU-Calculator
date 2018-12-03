@@ -1,50 +1,46 @@
 ﻿var parameters = {
-    di: 0.17,
-    lsi_max: 1.095,
+	di: 0.17,
+	lsi_max: 1.095,
 	lsi_min: 0.92,
 	decay: 0.051,
-    gravity:{
-        mult: 5,
-        constant: 0.075
+	gravity: {
+		mult: 5,
+		constant: 0.075
 	},
 	shorthop_aerial: 0.85,
-    bounce: 0.8,
-    crouch_cancelling: 0.85,
-    crouch_hitlag: 0.67,
+	bounce: 0.8,
+	crouch_cancelling: 0.85,
+	crouch_hitlag: 0.67,
 	interrupted_smash: 1, //Removed
 	buried_kb_mult: 0.7,
 	buried_kb_threshold: 70,
-    hitstun: 0.4,
-    launch_speed: 0.03,
-    tumble_threshold: 32,
-    hitlag: {
+	hitstun: 0.4,
+	launch_speed: 0.03,
+	tumble_threshold: 32,
+	hitlag: {
 		mult: 0.65,
-        constant: 6
-    },
-    hitstunCancel: {
-        frames: {
-            aerial: 45,
-            airdodge: 40
-        },
-        launchSpeed: {
-            aerial: 2,
-            airdodge: 2.5
-        }
-    },
-    paralyzer: {
-        constant: 14,
-        mult: 0.025
+		constant: 6
+	},
+	hitstunCancel: {
+		frames: {
+			aerial: 45,
+			airdodge: 40
+		},
+		launchSpeed: {
+			aerial: 2,
+			airdodge: 2.5
+		}
+	},
+	paralyzer: {
+		constant: 14,
+		mult: 0.025
 	},
 	shield: {
-		projectile: 0.5,
-		perfectShield: 0.66,
-		mult: 0.58,
-		constant: 4
-	},
-	test: {
-		decay: 1,
-		decay_reduction: 1,
-		min_decay: 0.051
+		projectile: 0.33,
+		perfectShield: 1,
+		mult: 0.8,
+		constant: 3,
+		aerial: 0.725
 	}
 };
 
@@ -148,7 +144,7 @@ function StaleNegation(queue, ignoreStale) {
     //    return 1.05;
     //}
 	//	var S = [0.08, 0.07594, 0.06782, 0.06028, 0.05274, 0.04462, 0.03766, 0.02954, 0.022]; Smash 4
-	var S = [0.09, 0.085, 0.075, 0.0625, 0.05274, 0.04462, 0.03766, 0.035, 0.022];
+	var S = [0.09, 0.08545, 0.07635, 0.0679, 0.05945, 0.05035, 0.04255, 0.03345, 0.025];
     var s = 1;
     for (var i = 0; i < queue.length; i++)
     {
