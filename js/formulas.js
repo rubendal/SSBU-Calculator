@@ -137,13 +137,6 @@ function StaleNegation(queue, ignoreStale) {
     if (ignoreStale) {
         return 1;
     }
-    //if (timesInQueue > 9) {
-    //    timesInQueue = 9;
-    //}
-    //if (timesInQueue == 0) {
-    //    return 1.05;
-    //}
-	//	var S = [0.08, 0.07594, 0.06782, 0.06028, 0.05274, 0.04462, 0.03766, 0.02954, 0.022]; Smash 4
 	var S = [0.09, 0.08545, 0.07635, 0.0679, 0.05945, 0.05035, 0.04255, 0.03345, 0.025];
     var s = 1;
     for (var i = 0; i < queue.length; i++)
@@ -338,10 +331,11 @@ function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time, maxSmashCharg
 	return (1 + (frames * mult / 150));
 }
 
-function ShieldStun(damage, is_projectile, perfectShield) {
+function ShieldStun(damage, is_projectile, perfectShield, is_aerial) {
 	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
-	return Math.floor((damage * parameters.shield.mult * projectileMult * perfectshieldMult) + (parameters.shield.constant - 1)) - 1;
+	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
+	return Math.floor((damage * parameters.shield.mult * projectileMult * perfectshieldMult * aerialMult) + parameters.shield.constant) - 1;
 }
 
 function ShieldHitlag(damage, hitlag, electric) {
@@ -350,24 +344,25 @@ function ShieldHitlag(damage, hitlag, electric) {
 		if (hitlag < 1)
 			hitlag = 1;
 	}
-    return Hitlag(damage, hitlag, electric, 1);
+	return Hitlag(damage, hitlag, electric, 1);
 }
 
 function AttackerShieldHitlag(damage, hitlag, electric) {
-    return ShieldHitlag(damage, hitlag, electric);
+	return ShieldHitlag(damage, hitlag, electric);
 }
 
-function ShieldAdvantage(damage, hitlag, hitframe, FAF, is_projectile, electric, perfectshield ) {
-    return hitframe - (FAF - 1) + ShieldStun(damage, is_projectile, perfectshield) + ShieldHitlag(damage,hitlag,electric) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric));
+function ShieldAdvantage(damage, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_aerial) {
+	return hitframe - (FAF - 1) + ShieldStun(damage, is_projectile, perfectshield, is_aerial) + ShieldHitlag(damage, hitlag, electric) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
-function ShieldPushback(damage, projectile, perfectShield) {
+function ShieldPushback(damage, projectile, perfectShield, is_aerial) {
 	var projectileMult = projectile ? parameters.shield.projectile : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
+	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
 	var perfectshieldMult2 = perfectShield ? 0.15 : 1;
 
-	var pushback = ((damage * parameters.shield.mult * projectileMult * perfectshieldMult) + parameters.shield.constant) * 0.09 * perfectshieldMult2;
+	var pushback = ((damage * parameters.shield.mult * projectileMult * perfectshieldMult * aerialMult) + parameters.shield.constant) * 0.09 * perfectshieldMult2;
 	if (pushback > 1.3)
 		pushback = 1.3;
 
