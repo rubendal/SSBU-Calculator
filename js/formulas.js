@@ -402,11 +402,11 @@ function StickSensibilityPosition(value) {
 function StickSensibility(value) {
 	if (value < 24 && value > -24)
 		return 0;
-	if (value > 118)
+	if (value > 120)
 		return 1;
-	if (value < -118)
+	if (value < -120)
 		return -1;
-	return value / 118;
+	return value / 120;
 }
 
 function DI(stick, launchSpeed, totalLaunchSpeed) {

@@ -13,7 +13,7 @@
 		this.gate = 40;
 		this.controllerR = 128;
 		this.h = 15;
-		this.c = 118 / 128;
+		this.c = 120 / 128;
 		this.controller = "GameCube";
 
 		this.position = { X: 0, Y: 0 };
@@ -32,8 +32,8 @@
 
 			var position = { X: 0, Y: 0 };
 
-			position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 127);
-			position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 127);
+			position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 120), -127), 127);
+			position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 120), -127), 127);
 
 			if (stickWheel.controller == "Wiimote") {
 				if (position.X < -24)
@@ -72,8 +72,8 @@
 
 				var position = { X: 0, Y: 0 };
 
-				position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 118), -127), 127);
-				position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 118), -127), 127);
+				position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 120), -127), 127);
+				position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 120), -127), 127);
 
 				if (stickWheel.controller == "Wiimote") {
 					if (position.X < -24)
