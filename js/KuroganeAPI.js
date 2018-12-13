@@ -613,7 +613,9 @@ class Move {
             this.aerial ? "Aerial" :
             this.taunt ? "Taunt" :
             this.dashAttack ? "DashAttack" :
-            "Special";
+			"Special";
+
+		this.isGroundedAttack = this.smash_attack || this.tilt || this.jab || this.dashAttack;
 
         if (this.counter) {
             this.type += ",Counter";

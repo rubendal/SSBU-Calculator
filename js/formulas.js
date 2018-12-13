@@ -40,7 +40,8 @@
 		perfectShield: 1,
 		mult: 0.8,
 		constant: 3,
-		aerial: 0.725
+		aerial: 0.29,
+		grounded: 0.725
 	}
 };
 
@@ -152,12 +153,12 @@ function StaleNegation(queue, ignoreStale) {
 }
 
 function Hitstun(kb, windbox, electric, ignoreReeling) {
-    if (windbox) {
-        return 0;
+	if (windbox) {
+		return 0;
 	}
 	var hitstun = (kb * parameters.hitstun);
-    if (hitstun < 0) {
-        return 0;
+	if (hitstun < 0) {
+		return 0;
 	}
 
 	if (hitstun >= parameters.tumble_threshold) {
@@ -167,8 +168,8 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 
 	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
 	if (electric) {
-        hitstun++;
-    }
+		hitstun++;
+	}
 
 	return Math.floor(hitstun) - 1;
 }
@@ -331,11 +332,15 @@ function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time, maxSmashCharg
 	return (1 + (frames * mult / 150));
 }
 
-function ShieldStun(damage, is_projectile, perfectShield, is_aerial) {
+function ShieldStun(damage, is_projectile, perfectShield, is_grounded_attack, is_aerial) {
 	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
+	var groundedMult = is_grounded_attack ? parameters.shield.grounded : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
-	return Math.floor((damage * parameters.shield.mult * projectileMult * perfectshieldMult * aerialMult) + parameters.shield.constant) - 1;
+	if (projectileMult == 1 && groundedMult == 1 && aerialMult == 1) {
+		return Math.floor((damage * parameters.shield.mult) + parameters.shield.constant) - 1;
+	}
+	return Math.floor((damage * parameters.shield.mult * projectileMult * groundedMult * aerialMult) + parameters.shield.constant);
 }
 
 function ShieldHitlag(damage, hitlag, electric) {
@@ -351,18 +356,19 @@ function AttackerShieldHitlag(damage, hitlag, electric) {
 	return ShieldHitlag(damage, hitlag, electric);
 }
 
-function ShieldAdvantage(damage, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, is_projectile, perfectshield, is_aerial) + ShieldHitlag(damage, hitlag, electric) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric));
+function ShieldAdvantage(damage, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_grounded_attack, is_aerial) {
+	return hitframe - (FAF - 1) + ShieldStun(damage, is_projectile, perfectshield, is_grounded_attack, is_aerial) + ShieldHitlag(damage, hitlag, electric) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
-function ShieldPushback(damage, projectile, perfectShield, is_aerial) {
+function ShieldPushback(damage, projectile, perfectShield, is_grounded_attack, is_aerial) {
 	var projectileMult = projectile ? parameters.shield.projectile : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
+	var groundedMult = is_grounded_attack ? parameters.shield.grounded : 1;
 	var perfectshieldMult2 = perfectShield ? 0.15 : 1;
 
-	var pushback = ((damage * parameters.shield.mult * projectileMult * perfectshieldMult * aerialMult) + parameters.shield.constant) * 0.09 * perfectshieldMult2;
+	var pushback = ((damage * parameters.shield.mult * projectileMult * perfectshieldMult * groundedMult * aerialMult) + parameters.shield.constant) * 0.09 * perfectshieldMult2;
 	if (pushback > 1.3)
 		pushback = 1.3;
 

@@ -856,17 +856,18 @@ app.controller('calculator', function ($scope) {
 				resultList.push(new Result("Shield Break", sv >= 50 * target.modifier.shield ? "Yes" : "No"));
 			}
 
+			var is_grounded_attack = $scope.selected_move != null ? $scope.selected_move.isGroundedAttack : false;
 			var is_aerial_move = $scope.selected_move != null ? $scope.selected_move.aerial : false;
 
 			resultList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, ignoreStale), hitlag, electric)));
-			resultList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, ignoreStale), is_projectile, perfectshield, is_aerial_move)));
-			resultList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, ignoreStale), hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_aerial_move)));
+			resultList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, ignoreStale), is_projectile, perfectshield, is_grounded_attack, is_aerial_move)));
+			resultList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, ignoreStale), hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_grounded_attack, is_aerial_move)));
 
 			if (!windbox) {
 				if (!is_projectile)
 					resultList.push(new Result("Attacker shield pushback", +AttackerShieldPushback(StaleDamage(damageOnShield, stale, ignoreStale)).toFixed(6)));
 
-				resultList.push(new Result("Target shield pushback", +(ShieldPushback(StaleDamage(damageOnShield, stale, ignoreStale), is_projectile, perfectshield, is_aerial_move)).toFixed(6), sv >= 50 * target.modifier.shield));
+				resultList.push(new Result("Target shield pushback", +(ShieldPushback(StaleDamage(damageOnShield, stale, ignoreStale), is_projectile, perfectshield, is_grounded_attack, is_aerial_move)).toFixed(6), sv >= 50 * target.modifier.shield));
 			}
         } else {
             resultList.push(new Result("Unblockable attack", "Yes"));
