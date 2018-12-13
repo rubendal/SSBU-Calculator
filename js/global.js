@@ -62,11 +62,11 @@ var defaultParameters = {
 		mult: 0.025
 	},
 	shield: {
-		projectile: 0.33,
+		projectile: 0.29,
 		perfectShield: 1,
 		mult: 0.8,
 		constant: 3,
-		aerial: 0.29,
+		aerial: 0.33,
 		grounded: 0.725
 	}
 };

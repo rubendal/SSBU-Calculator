@@ -36,11 +36,11 @@
 		mult: 0.025
 	},
 	shield: {
-		projectile: 0.33,
+		projectile: 0.29,
 		perfectShield: 1,
 		mult: 0.8,
 		constant: 3,
-		aerial: 0.29,
+		aerial: 0.33,
 		grounded: 0.725
 	}
 };
@@ -337,10 +337,7 @@ function ShieldStun(damage, is_projectile, perfectShield, is_grounded_attack, is
 	var groundedMult = is_grounded_attack ? parameters.shield.grounded : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
-	if (projectileMult == 1 && groundedMult == 1 && aerialMult == 1) {
-		return Math.floor((damage * parameters.shield.mult) + parameters.shield.constant) - 1;
-	}
-	return Math.floor((damage * parameters.shield.mult * projectileMult * groundedMult * aerialMult) + parameters.shield.constant);
+	return Math.floor((damage * parameters.shield.mult * projectileMult * groundedMult * aerialMult) + parameters.shield.constant) - 1;
 }
 
 function ShieldHitlag(damage, hitlag, electric) {
