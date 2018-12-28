@@ -38,8 +38,8 @@ var defaultParameters = {
 	crouch_cancelling: 0.85,
 	crouch_hitlag: 0.67,
 	interrupted_smash: 1, //Removed
-	buried_kb_mult: 1,
-	buried_kb_threshold: 70,
+	buried_kb_mult: 1, //Removed
+	buried_kb_threshold: 90,
 	hitstun: 0.4,
 	launch_speed: 0.03,
 	tumble_threshold: 32,
