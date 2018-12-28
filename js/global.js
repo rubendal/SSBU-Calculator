@@ -974,9 +974,9 @@ class Modifier {
 var monado = [
 	new Modifier("Jump", 1, 1, 1.3, 1, 1, 1.3, 1.22, 1, 1, 1),
 	new Modifier("Speed", 1, 0.7, 1, 1, 1, 1, 1, 1, 1, 1.5),
-	new Modifier("Shield", 1, 0.5, 0.5, 1, .78, 1, 1, 1.5, 1, 1),
-	new Modifier("Buster", 1, 1.4, 1.3, 0.68, 1, 1, 1, 1, 1, 1),
-	new Modifier("Smash", 1, 0.3, 1, 1.18, 1.07, 1, 1, 1, 1, 1)
+	new Modifier("Shield", 1, 0.5, 0.5, 0.8, 0.5, 1, 1, 1.5, 1, 1),
+	new Modifier("Buster", 1, 1.4, 1.3, 0.65, 1, 1, 1, 1, 1, 1),
+	new Modifier("Smash", 1, 0.3, 1, 1.25, 1.2, 1, 1, 1, 1, 1)
 ];
 
 //var decisive_monado = [
