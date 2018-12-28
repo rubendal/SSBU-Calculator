@@ -25,7 +25,8 @@ app.controller('calculator', function ($scope) {
     $scope.in_air = in_air;
     $scope.bkb = bkb;
     $scope.kbg = kbg;
-    $scope.stale = [false, false, false, false, false, false, false, false, false];
+	$scope.stale = [false, false, false, false, false, false, false, false, false];
+	$scope.shieldStale = [false, false, false, false, false, false, false, false, false];
     $scope.staleness_table = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     $scope.kb_modifier = "none";
     $scope.hitlag_modifier = "none";
@@ -110,7 +111,6 @@ app.controller('calculator', function ($scope) {
     $scope.extra_vis_frames = 0;
 
 	$scope.stages = getStages();
-    $scope.stageValue = "2";
 
     $scope.spawns = [];
 
@@ -124,7 +124,8 @@ app.controller('calculator', function ($scope) {
     $scope.formats = ["Singles", "Doubles"];
     $scope.format = "Singles";
 
-	$scope.stage = $scope.stages[2];
+	$scope.stage = $scope.stages[43];
+	$scope.stageValue = "43";
 
 	$scope.stageName = $scope.stage.stage;
 
@@ -672,19 +673,19 @@ app.controller('calculator', function ($scope) {
 	$scope.getDistance = function (damage) {
 		if (wbkb == 0) {
 			trainingkb = TrainingKB(target_percent + preDamage, base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled");
-			vskb = VSKB(target_percent + preDamage, base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, stale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+			vskb = VSKB(target_percent + preDamage, base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, stale, shieldStale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
 			trainingkb.addModifier(attacker.modifier.kb_dealt);
 			vskb.addModifier(attacker.modifier.kb_dealt);
 			trainingkb.addModifier(target.modifier.kb_received);
 			vskb.addModifier(target.modifier.kb_received);
 		} else {
 			trainingkb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, target_percent, damage, 0, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled");
-			vskb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, target_percent, StaleDamage(damage, stale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+			vskb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, target_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
 			trainingkb.addModifier(target.modifier.kb_received);
 			vskb.addModifier(target.modifier.kb_received);
 		}
 
-		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
+		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.hitstunFSM, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
 
 		return distance;
 	}
@@ -1348,7 +1349,8 @@ app.controller('calculator', function ($scope) {
         in_air = $scope.in_air;
         bkb = parseFloat($scope.bkb);
         kbg = parseFloat($scope.kbg);
-        stale = $scope.stale;
+		stale = $scope.stale;
+		shieldStale = $scope.shieldStale;
         hitlag = parseFloat($scope.hitlag);
 
         hitframe = parseFloat($scope.hit_frame);

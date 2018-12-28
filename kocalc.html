@@ -297,17 +297,20 @@
                         Staleness Queue
                         <table>
                             <tr>
-                                <td ng-repeat="n in staleness_table" class="queue-td">
-                                    {{n}}
-                                </td>
-                            </tr>
-                            <tr>
                                 <td ng-repeat="n in stale track by $index" class="queue-td">
-                                    <input class="queue-cb" name="stale{{$index}}" type="checkbox" ng-model="stale[$index]" ng-change="update()" />
+                                    <input class="queue-cb" name="stale{{$index}}" data-value="{{$index+1}}" type="checkbox" ng-model="stale[$index]" ng-change="update()" />
                                 </td>
                             </tr>
                         </table>
-                        <br />
+                        Hit shield
+                        <table>
+                            <tr>
+                                <td ng-repeat="n in stale track by $index" class="queue-td">
+                                    <input class="queue-cb" name="shieldStale{{$index}}" data-value="{{$index+1}}" type="checkbox" ng-model="shieldStale[$index]" ng-change="update()" />
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
                         <button ng-click="updateStaleness('1')">Full queue</button>
                         <button ng-click="updateStaleness('0')">Empty queue</button>
 
@@ -558,9 +561,9 @@
                         </div>
                     </div>
                     <div class="pos-right pos-mod">
-                        Game mode
-                        <br />
                         <span ng-style="is_lucario">
+                            Game mode
+                            <br />
                             <select ng-model="format" ng-change="update()">
                                 <option ng:repeat="value in formats" ng-attr-value="{{value}}">{{value}}</option>
                             </select>
@@ -600,7 +603,7 @@
                             <table class="result-table">
                                 <tr ng-repeat="x in visualizer_extra" ng-class-even="'value-even'">
                                     <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.training }}</td>
+                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.value }}</td>
                                 </tr>
                             </table>
                         </div>

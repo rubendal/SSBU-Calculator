@@ -38,7 +38,7 @@ var defaultParameters = {
 	crouch_cancelling: 0.85,
 	crouch_hitlag: 0.67,
 	interrupted_smash: 1, //Removed
-	buried_kb_mult: 0.7,
+	buried_kb_mult: 1,
 	buried_kb_threshold: 70,
 	hitstun: 0.4,
 	launch_speed: 0.03,
@@ -1525,7 +1525,7 @@ class DILine {
 }
 
 class Distance{
-    constructor(kb, x_launch_speed, y_launch_speed, hitstun, angle, gravity, faf, fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch){
+    constructor(kb, x_launch_speed, y_launch_speed, hitstun, hitstunFSM, angle, gravity, faf, fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch){
         this.kb = kb;
         this.x_launch_speed = x_launch_speed;
         this.y_launch_speed = y_launch_speed;
@@ -1628,6 +1628,8 @@ class Distance{
 
 		var hc = HitstunCancel(kb, x_launch_speed, y_launch_speed, angle, false);
 		this.launchData = new LaunchData([{ x: this.position.x, y: this.position.y }], { x: 0, y: 0 }, [], hitstun, hc.airdodge, hc.aerial, faf, -1);
+
+		//var tumbleFSM = TumbleFSM(this.kb);
 
 		for (var i = 0; i < limit; i++){
 
@@ -1929,6 +1931,16 @@ class Distance{
 
 		this.vertical_speed.push((launch_speed.y));
 
+		//var fsmFactor = 1;
+
+		//if (tumbleFSM >= 1) {
+		//	for (var i = 0; i < tumbleFSM; i++) {
+		//		this.x.splice(i + 1, fsmFactor);
+		//		this.y.splice(i + 1, fsmFactor);
+		//		this.vertical_speed.splice(i + 1, fsmFactor);
+		//		this.launchData.positions.splice(i + 1, fsmFactor);
+		//	}
+		//}
 
 
 		if (this.stage != null) {
@@ -2036,7 +2048,8 @@ class Knockback {
         if (this.launch_rate == undefined) {
             this.launch_rate = 1;
         }
-        this.hitstun = Hitstun(this.base_kb, this.windbox, this.electric);
+		this.hitstun = Hitstun(this.base_kb, this.windbox, this.electric);
+		//this.hitstunFSM = HitstunWithFSM(this.base_kb, this.windbox, this.electric);
         if (stick !== undefined) {
             this.stick = stick;
         } else {
@@ -2123,7 +2136,8 @@ class Knockback {
                 this.reeling = this.tumble && !this.windbox && this.percent >= 100;
             }
 
-            this.hitstun = Hitstun(this.base_kb, this.windbox, this.electric);
+			this.hitstun = Hitstun(this.base_kb, this.windbox, this.electric);
+			//this.hitstunFSM = HitstunWithFSM(this.base_kb, this.windbox, this.electric);
         };
         this.addModifier = function (modifier) {
             this.base_kb *= modifier;
@@ -2143,7 +2157,7 @@ class Knockback {
 };
 
 class PercentFromKnockback{
-    constructor(kb, type, base_damage, damage, preDamage, angle, weight, gravity, fall_speed, aerial, bkb, kbg, wbkb, attacker_percent, r, queue, ignoreStale, windbox, electric, dddinhale, launch_rate){
+    constructor(kb, type, base_damage, damage, preDamage, angle, weight, gravity, fall_speed, aerial, bkb, kbg, wbkb, attacker_percent, r, queue, shieldQueue, ignoreStale, windbox, electric, dddinhale, launch_rate){
         this.base_kb = kb;
         if(this.base_kb > 2500){
             //this.base_kb = 2500;
@@ -2175,7 +2189,8 @@ class PercentFromKnockback{
         this.reeling = false;
         this.training_percent = 0;
         this.vs_percent = 0;
-        this.queue = queue;
+		this.queue = queue;
+		this.shieldQueue = shieldQueue;
         this.ignoreStale = ignoreStale;
         this.wbkb_kb = -1;
         this.wbkb_modifier = 1;
@@ -2191,8 +2206,8 @@ class PercentFromKnockback{
 			return ((500 * (dddinhale ? 4 : 1)) * kb * (weight + 100) - (r * (kbg * (7 * damage * s * (3 * base_damage * s + 7 * base_damage + 20) + (90 * (dddinhale ? 4 : 1)) * (weight + 100)) + (500 * (dddinhale ? 4 : 1)) * bkb * (weight + 100)))) / (7 * kbg * r * (base_damage * (3 * s + 7) + 20)) - preDamage;
 		}
 
-		this.vs_formula = function (kb, base_damage, damage, weight, kbg, bkb, r, dddinhale, attacker_percent, queue, ignoreStale){
-            var s = StaleNegation(queue, ignoreStale);
+		this.vs_formula = function (kb, base_damage, damage, weight, kbg, bkb, r, dddinhale, attacker_percent, queue, shieldQueue, ignoreStale){
+            var s = StaleNegation(queue, shieldQueue, ignoreStale);
             r = r * Rage(attacker_percent) * this.launch_rate;
 			return ((500 * (dddinhale ? 4 : 1)) * kb * (weight + 100) - (r * (kbg * (7 * damage * s * (3 * base_damage * s + 7 * base_damage + 20) + (90 * (dddinhale ? 4 : 1)) * (weight + 100)) + (500 * (dddinhale ? 4 : 1)) * bkb * (weight + 100)))) / (7 * kbg * r * (base_damage * (3 * s + 7) + 20)) - preDamage;
         }
@@ -2292,7 +2307,7 @@ class PercentFromKnockback{
                 }
 
 				this.training_percent = this.training_formula(this.kb, this.base_damage, this.damage, this.weight, this.kbg, this.bkb, this.r, this.dddinhale);
-				this.vs_percent = this.vs_formula(this.kb, this.base_damage, this.damage, this.weight, this.kbg, this.bkb, this.r, this.dddinhale, this.attacker_percent, this.queue, this.ignoreStale);
+				this.vs_percent = this.vs_formula(this.kb, this.base_damage, this.damage, this.weight, this.kbg, this.bkb, this.r, this.dddinhale, this.attacker_percent, this.queue, this.shieldQueue, this.ignoreStale);
 
 
                 if (this.training_percent < 0) {
@@ -2447,7 +2462,8 @@ var in_air = false;
 var bkb = 45;
 var wbkb = 0;
 var kbg = 25;
-var stale = 0;
+var stale = [false, false, false, false, false, false, false, false, false];
+var shieldStale = [false, false, false, false, false, false, false, false, false];
 var hitlag = 1;
 
 var charge_frames = 0;

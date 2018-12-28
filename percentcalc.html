@@ -301,6 +301,14 @@
                                     </td>
                                 </tr>
                             </table>
+                            Hit shield
+                            <table>
+                                <tr>
+                                    <td ng-repeat="n in stale track by $index" class="queue-td">
+                                        <input class="queue-cb" name="shieldStale{{$index}}" data-value="{{$index+1}}" type="checkbox" ng-model="shieldStale[$index]" ng-change="update()" />
+                                    </td>
+                                </tr>
+                            </table>
                             <br />
                             <button ng-click="updateStaleness('1')">Full queue</button>
                             <button ng-click="updateStaleness('0')">Empty queue</button>

@@ -12,7 +12,7 @@
 	crouch_cancelling: 0.85,
 	crouch_hitlag: 0.67,
 	interrupted_smash: 1, //Removed
-	buried_kb_mult: 0.7,
+	buried_kb_mult: 1,
 	buried_kb_threshold: 70,
 	hitstun: 0.4,
 	launch_speed: 0.03,
@@ -134,7 +134,7 @@ function Aura(percent, stock_dif, game_format) {
     return aura;
 }
 
-function StaleNegation(queue, ignoreStale) {
+function StaleNegation(queue, shieldQueue, ignoreStale) {
     if (ignoreStale) {
         return 1;
     }
@@ -142,14 +142,29 @@ function StaleNegation(queue, ignoreStale) {
     var s = 1;
     for (var i = 0; i < queue.length; i++)
     {
-        if (queue[i]) {
-            s -= S[i];
+		if (queue[i]) {
+			if (!shieldQueue[i])
+				s -= S[i];
+			else
+				s -= S[i] * 0.85;
         }
     }
     if (s == 1) {
         return 1.05;
     }
     return s;
+}
+
+function TumbleFSM(kb) {
+	var hitstun = (kb * parameters.hitstun);
+	if (hitstun < 0) {
+		return 0;
+	}
+	var fsm = Math.floor(hitstun / 10) - 2;
+	if (fsm >= 2) {
+		return fsm - 1;
+	}
+	return 0;
 }
 
 function Hitstun(kb, windbox, electric, ignoreReeling) {
@@ -164,6 +179,28 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 	if (hitstun >= parameters.tumble_threshold) {
 		//Tumble hitstun seems to be affected by an additional factor
 		hitstun -= (hitstun - parameters.tumble_threshold) * parameters.hitstun; //Possible additional operation, cannot be certain since hitboxes can have BKB/KBG changed
+	}
+
+	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
+	if (electric) {
+		hitstun++;
+	}
+
+	return Math.floor(hitstun) - 1;
+}
+
+function HitstunWithFSM(kb, windbox, electric) {
+	if (windbox) {
+		return 0;
+	}
+	var hitstun = (kb * parameters.hitstun);
+	if (hitstun < 0) {
+		return 0;
+	}
+
+	var fsm = TumbleFSM(kb);
+	if (fsm >= 1) {
+		hitstun -= 5 * fsm;
 	}
 
 	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
@@ -222,8 +259,8 @@ function SakuraiAngle(kb, aerial) {
 	return Math.min((kb - 60) / (88 - 60) * 38 + 1, 38); //https://twitter.com/BenArthur_7/status/956316733597503488
 }
 
-function VSKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fall_speed, r, timesInQueue, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {
-    var s = StaleNegation(timesInQueue, ignoreStale);
+function VSKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fall_speed, r, queue, shieldQueue, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {
+	var s = StaleNegation(queue, shieldQueue, ignoreStale);
 	return new Knockback((((((((percent + damage * s) / 10 + (((percent + damage * s) * base_damage * (1 - (1 - s) * 0.3)) / 20)) * 1.4 * (dddinhale ? 0.25 : 1) * (200 / (weight + 100))) + 18) * (kbg / 100)) + bkb)) * (r * (!ignoreStale ? Rage(attacker_percent) : 1)), angle, gravity, fall_speed, in_air, windbox, electric, percent + (damage * s), set_weight, stick, launch_rate);
 }
 
@@ -231,8 +268,8 @@ function WeightBasedKB(weight, bkb, wbkb, kbg, gravity, fall_speed, r, target_pe
 	return new Knockback((((((1 + (wbkb / 2)) * (200 / (weight + 100)) * 1.4 * (dddinhale ? 0.25 : 1)) + 18) * (kbg / 100)) + bkb) * (r), angle, gravity, fall_speed, in_air, windbox, electric, target_percent + damage, set_weight, stick, launch_rate);
 }
 
-function StaleDamage(base_damage, timesInQueue, ignoreStale) {
-    return base_damage * StaleNegation(timesInQueue, ignoreStale);
+function StaleDamage(base_damage, queue, shieldQueue, ignoreStale) {
+	return base_damage * StaleNegation(queue, shieldQueue, ignoreStale);
 }
 
 function FirstActionableFrame(kb, windbox, electric, ignoreReeling) {
@@ -248,7 +285,8 @@ function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, elect
     if (windbox) {
         return res;
     }
-    var hitstun = Hitstun(kb, windbox, electric);
+	var hitstun = Hitstun(kb, windbox, electric);
+	//var fsm = TumbleFSM(kb);
     var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
     var airdodge = false;
     var aerial = false;
@@ -277,12 +315,12 @@ function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, elect
 		var lc = Math.sqrt(Math.pow(launch_speed.x, 2) + Math.pow(launch_speed.y, 2));
         if (lc < parameters.hitstunCancel.launchSpeed.airdodge && !airdodge) {
             airdodge = true;
-            res.airdodge = Math.max(i + 2, parameters.hitstunCancel.frames.airdodge + 1 + ec);
+			res.airdodge = Math.max(i + 2, parameters.hitstunCancel.frames.airdodge + 1 + ec);
         }
         if (lc < parameters.hitstunCancel.launchSpeed.aerial && !aerial) {
             aerial = true;
             res.aerial = Math.max(i + 2, parameters.hitstunCancel.frames.aerial + 1 + ec);
-        }
+		}
     }
 
     if (res.airdodge > hitstun) {
@@ -290,7 +328,12 @@ function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, elect
     }
     if (res.aerial > hitstun) {
         res.aerial = hitstun + 1;
-    }
+	}
+
+	//if (fsm >= 1) {
+	//	res.airdodge -= fsm * 5;
+	//	res.aerial -= fsm * 5;
+	//}
     
     return res;
 }
@@ -469,8 +512,8 @@ function VerticalSpeedLimit(speed) {
 	return Math.max(-100, Math.min(speed, 10));
 }
 
-function HitAdvantage(hitstun, hitframe, faf) {
-    return hitstun - (faf - (hitframe + 1));
+function HitAdvantage(hitstun, hitframe, faf, paralysis) {
+	return hitstun - (faf - (hitframe + 1)) + paralysis;
 }
 
 //Formula by Arthur https://docs.google.com/spreadsheets/d/1E3kEQUOZy1C-kSzcoOSKay5gDqpo-ZZgq-8G511Bmw4/edit#gid=1810400970

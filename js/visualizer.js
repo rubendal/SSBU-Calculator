@@ -34,10 +34,6 @@ class Visualizer {
 		this.storedLaunches = [];
 		this.diLines = null;
 
-		//Compare with Smash 4 launch stuff
-		this.launch2 = null;
-		this.launch2Points = [];
-
 		this.dataPoints = [];
 		this.launchPoints = [];
 		this.diPoints = [];
@@ -265,60 +261,6 @@ class Visualizer {
 			this.Draw();
 		}
 
-		this.SetSmash4Launch = function (launch) {
-
-			this.launch2 = launch;
-
-			this.launch2Points = [];
-
-			if (launch == null) {
-				this.ClearCanvas();
-				this.Draw();
-				return;
-			}
-			var style = settings.visualizer_colors.upward;
-
-			for (var i = 0; i < launch.positions.length; i++) {
-				if (i <= launch.hitstun) {
-					if (i < launch.airdodgeCancel) {
-						if (i < launch.positions.length - 1) {
-							if (launch.positions[i].y > launch.positions[i + 1].y) {
-								style = settings.visualizer_colors.downward;
-							} else {
-								style = settings.visualizer_colors.upward;
-							}
-						}
-					} else {
-						if (i < launch.aerialCancel) {
-							style = settings.visualizer_colors.aerial;
-						}
-						else {
-							style = settings.visualizer_colors.airdodge;
-						}
-					}
-				} else {
-					style = settings.visualizer_colors.actionable;
-				}
-				if (i == 0)
-					this.launch2Points.push(new DataPoint(launch.positions[i], "Launch position (%x, %y)", style));
-				else
-					this.launch2Points.push(new DataPoint(launch.positions[i], "Frame " + i + " (%x, %y)", style));
-
-				if (i == launch.hitstun)
-					this.launch2Points.push(new DataPoint(launch.finalPosition, "Frame " + launch.hitstun + " Hitstun end", settings.visualizer_colors.hitstunEnd));
-
-				if (i == launch.faf)
-					this.launch2Points.push(new DataPoint(launch.positions[launch.faf], "Frame " + launch.faf + " Attacker's FAF", settings.visualizer_colors.attackerFAF));
-
-				if (i == launch.KOFrame)
-					this.launch2Points.push(new DataPoint(launch.positions[launch.KOFrame], "Frame " + launch.KOFrame + " KO", settings.visualizer_colors.ko));
-
-			}
-
-
-			this.ClearCanvas();
-			this.Draw();
-		}
 
 		this.SetStoredLaunches = function (storedLaunches) {
 			this.storedLaunches = storedLaunches;
@@ -382,7 +324,6 @@ class Visualizer {
 			var stage = this.stage;
 			var context = this.context;
 			var launch = this.launch;
-			var launch2 = this.launch2;
 
 			context.lineWidth = 2 / context.prevScale;
 
@@ -597,139 +538,6 @@ class Visualizer {
 						context.beginPath();
 
 						context.arc(launch.positions[launch.KOFrame].x, - launch.positions[launch.KOFrame].y, r2, 0, Math.PI * 2);
-
-						context.closePath();
-						context.fill();
-					}
-				}
-			}
-
-			//Smash 4 launch
-			this.context.globalAlpha = 0.5;
-
-			if (this.launch2 != null) {
-
-				var r = 3 / visualizer.prevScale;
-				var r2 = 6 / visualizer.prevScale;
-
-				var style = settings.visualizer_colors.upward;
-				var prevStyle = style;
-
-				context.strokeStyle = style;
-				context.fillStyle = style;
-
-				//Lines
-				context.beginPath();
-
-				for (var i = 0; i < launch2.positions.length; i++) {
-					if (i < launch2.hitstun) {
-						if (i < launch2.airdodgeCancel) {
-							if (i < launch2.positions.length - 1) {
-								if (launch2.positions[i].y > launch2.positions[i + 1].y) {
-									style = settings.visualizer_colors.downward;
-								} else {
-									style = settings.visualizer_colors.upward;
-								}
-							}
-						} else {
-							if (i < launch2.aerialCancel) {
-								style = settings.visualizer_colors.aerial;
-							}
-							else {
-								style = settings.visualizer_colors.airdodge;
-							}
-						}
-					} else {
-						style = settings.visualizer_colors.actionable;
-					}
-
-					if (style != prevStyle) {
-						prevStyle = style;
-
-						context.stroke();
-						context.beginPath();
-						context.strokeStyle = style;
-
-						if (i > 0)
-							this.MoveTo(launch2.positions[i - 1].x, launch2.positions[i - 1].y);
-					}
-
-					if (i == 0)
-						this.MoveTo(launch2.positions[i].x, launch2.positions[i].y);
-					else
-						this.LineTo(launch2.positions[i].x, launch2.positions[i].y);
-
-				}
-				context.stroke();
-
-				style = settings.visualizer_colors.upward;
-
-				//Markers
-
-				for (var i = 0; i < launch2.positions.length; i++) {
-					if (i < launch2.hitstun) {
-						if (i < launch2.airdodgeCancel) {
-							if (i < launch2.positions.length - 1) {
-								if (launch2.positions[i].y > launch2.positions[i + 1].y) {
-									style = settings.visualizer_colors.downward;
-								} else {
-									style = settings.visualizer_colors.upward;
-								}
-							}
-						} else {
-							if (i < launch2.aerialCancel) {
-								style = settings.visualizer_colors.aerial;
-							}
-							else {
-								style = settings.visualizer_colors.airdodge;
-							}
-						}
-					} else {
-						style = settings.visualizer_colors.actionable;
-					}
-					context.fillStyle = style;
-					context.beginPath();
-
-					context.arc(launch2.positions[i].x, - launch2.positions[i].y, r, 0, Math.PI * 2);
-
-					context.closePath();
-					context.fill();
-
-
-				}
-
-				if (launch2.hitstun < launch2.positions.length) {
-					context.fillStyle = settings.visualizer_colors.hitstunEnd;
-
-					context.beginPath();
-
-					context.arc(launch2.finalPosition.x, - launch2.finalPosition.y, r2, 0, Math.PI * 2);
-
-					context.closePath();
-					context.fill();
-
-				}
-
-				if (launch2.faf >= 0) {
-					if (launch2.faf < launch2.positions.length) {
-						context.fillStyle = settings.visualizer_colors.attackerFAF;
-
-						context.beginPath();
-
-						context.arc(launch2.positions[launch2.faf].x, - launch2.positions[launch2.faf].y, r2, 0, Math.PI * 2);
-
-						context.closePath();
-						context.fill();
-					}
-				}
-
-				if (launch2.KOFrame != -1) {
-					if (launch2.KOFrame < launch2.positions.length) {
-						context.fillStyle = settings.visualizer_colors.ko;
-
-						context.beginPath();
-
-						context.arc(launch2.positions[launch2.KOFrame].x, - launch2.positions[launch2.KOFrame].y, r2, 0, Math.PI * 2);
 
 						context.closePath();
 						context.fill();
@@ -1164,14 +972,6 @@ class Visualizer {
 						points.push({ p: i, r: l, point: point, opacity: 1 });
 				}
 
-				for (var i = 0; i < visualizer.launch2Points.length; i++) {
-					var point = visualizer.launch2Points[i];
-					var l = LineLength({ x: x, y: y }, point.position);
-
-					if (l < r)
-						points.push({ p: i, r: l, point: point, opacity: 0.5 });
-				}
-
 				for (var i = 0; i < visualizer.diPoints.length; i++) {
 					var point = visualizer.diPoints[i];
 					var l = LineLength({ x: x, y: y }, point.position);
@@ -1337,14 +1137,6 @@ class Visualizer {
 
 					if (l < r)
 						points.push({ p: i, r: l, point: point, opacity: 1 });
-				}
-
-				for (var i = 0; i < visualizer.launch2Points.length; i++) {
-					var point = visualizer.launch2Points[i];
-					var l = LineLength({ x: x, y: y }, point.position);
-
-					if (l < r)
-						points.push({ p: i, r: l, point: point, opacity: 0.5 });
 				}
 
 				for (var i = 0; i < visualizer.diPoints.length; i++) {

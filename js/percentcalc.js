@@ -26,7 +26,8 @@ app.controller('calculator', function ($scope) {
     $scope.in_air = in_air;
     $scope.bkb = bkb;
     $scope.kbg = kbg;
-    $scope.stale = [false, false, false, false, false, false, false, false, false];
+	$scope.stale = [false, false, false, false, false, false, false, false, false];
+	$scope.shieldStale = [false, false, false, false, false, false, false, false, false];
     $scope.staleness_table = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     $scope.kb_modifier = "none";
     //$scope.training = List([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -487,7 +488,8 @@ app.controller('calculator', function ($scope) {
         in_air = $scope.in_air;
         bkb = parseFloat($scope.bkb);
         kbg = parseFloat($scope.kbg);
-        stale = $scope.stale;
+		stale = $scope.stale;
+		shieldStale = $scope.shieldStale;
 
         charge_frames = parseFloat($scope.smashCharge);
         r = KBModifier($scope.kb_modifier);
@@ -539,7 +541,7 @@ app.controller('calculator', function ($scope) {
         var kb = parseFloat($scope.kb);
         var type = $scope.kbType;
 
-		var kb = new PercentFromKnockback(kb, type, base_damage, damage, preDamage, angle, set_weight ? 100 : target.attributes.weight, target.attributes.gravity, target.attributes.fall_speed, in_air, bkb, kbg, wbkb, attacker_percent, r, stale, ignoreStale, windbox, electric, target.modifier.name == "Character Inhaled", launch_rate);
+		var kb = new PercentFromKnockback(kb, type, base_damage, damage, preDamage, angle, set_weight ? 100 : target.attributes.weight, target.attributes.gravity, target.attributes.fall_speed, in_air, bkb, kbg, wbkb, attacker_percent, r, stale, shieldStale, ignoreStale, windbox, electric, target.modifier.name == "Character Inhaled", launch_rate);
         if (kb.wbkb == 0) {
             kb.addModifier(attacker.modifier.kb_dealt);
         }

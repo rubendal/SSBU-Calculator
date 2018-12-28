@@ -323,6 +323,14 @@
                                     </td>
                                 </tr>
                             </table>
+                            Hit shield
+                            <table>
+                                <tr>
+                                    <td ng-repeat="n in stale track by $index" class="queue-td">
+                                        <input class="queue-cb" name="shieldStale{{$index}}" data-value="{{$index+1}}" type="checkbox" ng-model="shieldStale[$index]" ng-change="update()" />
+                                    </td>
+                                </tr>
+                            </table>
                             <br />
                             <button ng-click="updateStaleness('1')">Full queue</button>
                             <button ng-click="updateStaleness('0')">Empty queue</button>
@@ -796,9 +804,7 @@
                         </div>
                         <br />
                         Display <input name="extra_frames" type="number" min="0" max="50" step="1" ng-model="extra_vis_frames" ng-change="update()" style="width:3em;" /> additional actionable frames
-                        <!--<br />
-                        Hidden until decay is figured out
-                        <input type="checkbox" ng-model="compareSmash4" ng-change="update()" /> Compare with Smash 4 launch speed data-->
+                        
                         <br />
                         <br />
                         <!--
