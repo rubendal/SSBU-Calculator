@@ -919,7 +919,7 @@ function getMoveset(attacker, $scope) {
 
 					if (attacker.name == "Olimar" && m.name == "Dthrow") {
 						//Add Purple Pikmin Dthrow
-						var m2 = Object.assign({}, m)
+						var m2 = Object.assign({}, m);
 						m2.id = count;
 						m2.name = "Dthrow (Purple)";
 						m2.moveName = "Dthrow (Purple)";
@@ -966,7 +966,7 @@ function getMoveset(attacker, $scope) {
 
 								if (attacker.name == "Olimar" && m.name == "Dthrow") {
 									//Add Purple Pikmin Dthrow
-									var m2 = Object.assign({}, m)
+									var m2 = Object.assign({}, m);
 									m2.id = count;
 									m2.name = "Dthrow (Purple)";
 									m2.moveName = "Dthrow (Purple)";
