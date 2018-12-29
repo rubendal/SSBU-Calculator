@@ -26,6 +26,8 @@
 //var throwData = loadJSONPath('./Data/Throws/throws.json'); //Throw data from Arthur's spreadsheet https://docs.google.com/spreadsheets/d/1E3kEQUOZy1C-kSzcoOSKay5gDqpo-ZZgq-8G511Bmw4/edit#gid=1810400970
 var throwData = [];
 
+var localMoveData = loadJSONPath('./Data/movedata.json'); //Characters with local move data in their Data/Character directory
+
 class HitboxActiveFrames {
     constructor(start, end) {
         this.start = start;
@@ -896,72 +898,122 @@ function getMoveset(attacker, $scope) {
 			break;
 	}
 
-	loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/name/" + api_name, function (character) {
-        if (character != null) {
-            var id = character.OwnerId;
-			loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/" + id + "/moves", function (moveset) {
-                if (moveset != null) {
-                    var moves = [];
-                    var count = 1;
-                    for (var i = 0; i < moveset.length; i++) {
-                        var move = moveset[i];
-                        var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false);
-                        for (var c = 0; c < parser.moves.length; c++) {
-                            var m = parser.moves[c];
-                            m.id = count;
-                            if (!m.grab && m.valid) {
-                                moves.push(m.addCharacter(attacker.display_name).updateMoveData());
-                                count++;
-							}
+	if (localMoveData.indexOf(api_name) != -1) {
+		//Has local move data
+		var moveset = loadJSONPath('./Data/' + api_name + '/moves.json');
 
-							
-							if (attacker.name == "Olimar" && m.name == "Dthrow") {
-								//Add Purple Pikmin Dthrow
-								var m2 = Object.assign({}, m)
-								m2.id = count;
-								m2.name = "Dthrow (Purple)";
-								m2.moveName = "Dthrow (Purple)";
-								moves.push(m2.addCharacter(attacker.name).updateMoveData());
-								count++;
+		if (moveset != null) {
+			var moves = [];
+			var count = 1;
+			for (var i = 0; i < moveset.length; i++) {
+				var move = moveset[i];
+				var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false);
+				for (var c = 0; c < parser.moves.length; c++) {
+					var m = parser.moves[c];
+					m.id = count;
+					if (!m.grab && m.valid) {
+						moves.push(m.addCharacter(attacker.display_name).updateMoveData());
+						count++;
+					}
+
+
+					if (attacker.name == "Olimar" && m.name == "Dthrow") {
+						//Add Purple Pikmin Dthrow
+						var m2 = Object.assign({}, m)
+						m2.id = count;
+						m2.name = "Dthrow (Purple)";
+						m2.moveName = "Dthrow (Purple)";
+						moves.push(m2.addCharacter(attacker.name).updateMoveData());
+						count++;
+					}
+				}
+			}
+			moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
+
+			try {
+				if ($scope.attackerName != moves[1].character) {
+					//If this is a previous request ignore it and do not overwrite current move list
+					return;
+				}
+				$scope.moveset = moves;
+				$scope.detectAttack();
+			} catch (err) {
+				
+			}
+		} else {
+			$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+		}
+	}
+	else {
+		loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/name/" + api_name, function (character) {
+			if (character != null) {
+				var id = character.OwnerId;
+				loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/" + id + "/moves", function (moveset) {
+					if (moveset != null) {
+						var moves = [];
+						var count = 1;
+						for (var i = 0; i < moveset.length; i++) {
+							var move = moveset[i];
+							var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false);
+							for (var c = 0; c < parser.moves.length; c++) {
+								var m = parser.moves[c];
+								m.id = count;
+								if (!m.grab && m.valid) {
+									moves.push(m.addCharacter(attacker.display_name).updateMoveData());
+									count++;
+								}
+
+
+								if (attacker.name == "Olimar" && m.name == "Dthrow") {
+									//Add Purple Pikmin Dthrow
+									var m2 = Object.assign({}, m)
+									m2.id = count;
+									m2.name = "Dthrow (Purple)";
+									m2.moveName = "Dthrow (Purple)";
+									moves.push(m2.addCharacter(attacker.name).updateMoveData());
+									count++;
+								}
 							}
-                        }
-                    }
-                    moves.unshift(new Move(0, -1,"Not selected",0,0,0,0,false,0,0,0).invalidate());
-                    
-                    try{
-                        $scope.$apply(function () {
-                            if ($scope.attackerName != moves[1].character) {
-                                //If this is a previous request ignore it and do not overwrite current move list
-                                return;
-                            }
-                            $scope.moveset = moves;
-                            $scope.detectAttack();
-                            
-                        });
-                    } catch (err) {
-                        if ($scope.attackerName != moves[0].character) {
-                            return;
-                        }
-                        $scope.moveset = moves;
-                        $scope.detectAttack();
-                    }
-                } else {
-					$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-                }
-            },
-            function () {
-                //$scope.moveset = [new Move(-1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-            }, function () {
-                $scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-            });
-        } else {
-			$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-        }
-    }, function () {
-		$scope.moveset = [new Move(-1, -1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-    }, function () {
-		$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-    });
+						}
+						moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
+
+						try {
+							$scope.$apply(function () {
+								if ($scope.attackerName != moves[1].character) {
+									//If this is a previous request ignore it and do not overwrite current move list
+									return;
+								}
+								$scope.moveset = moves;
+								$scope.detectAttack();
+
+							});
+						} catch (err) {
+							if ($scope.attackerName != moves[0].character) {
+								return;
+							}
+							$scope.moveset = moves;
+							$scope.detectAttack();
+						}
+					} else {
+						$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+					}
+				},
+					function () {
+						//$scope.moveset = [new Move(-1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+					}, function () {
+						$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+					});
+			} else {
+				$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+			}
+		}, function () {
+			$scope.moveset = [new Move(-1, -1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+		}, function () {
+			$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+		});
+	}
+
+	
     
 }
 
