@@ -95,6 +95,8 @@ app.controller('calculator', function ($scope) {
 	$scope.use_landing_lag = "no";
 	$scope.landing_lag = 0;
 
+	$scope.shieldstunMult = 1;
+
     $scope.section_main = { 'background': 'rgba(0, 0, 255, 0.3)' };
     $scope.section_attributes = { 'background': 'transparent' };
     $scope.section_visualizer = { 'background': 'transparent' };
@@ -873,8 +875,8 @@ app.controller('calculator', function ($scope) {
 			var is_aerial_move = $scope.selected_move != null ? $scope.selected_move.aerial : false;
 
 			resultList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric)));
-			resultList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), is_projectile, perfectshield, is_smash, is_aerial_move)));
-			resultList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_smash, is_aerial_move)));
+			resultList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial_move)));
+			resultList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_smash, is_aerial_move)));
 
 			if (!windbox) {
 				if (!is_projectile)
@@ -1009,7 +1011,9 @@ app.controller('calculator', function ($scope) {
 
 		effect = $scope.effect
         
-        launch_rate = parseFloat($scope.launch_rate);
+		launch_rate = parseFloat($scope.launch_rate);
+
+		shieldstunMult = parseFloat($scope.shieldstunMult);
 
         $scope.results = $scope.calculate();
 

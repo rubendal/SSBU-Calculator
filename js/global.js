@@ -2535,6 +2535,8 @@ var paralyzer = false;
 var effect = "None/Other";
 var launch_rate = 1;
 
+var shieldstunMult = 1;
+
 var effects = [
 	{ id: 0, name: "None/Other" },
 	{ id: 3, name: "Electric" },

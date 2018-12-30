@@ -375,12 +375,12 @@ function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time, maxSmashCharg
 	return (1 + (frames * mult / 150));
 }
 
-function ShieldStun(damage, is_projectile, perfectShield, is_smash, is_aerial) {
+function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, is_aerial) {
 	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
 	var groundedMult = is_smash ? parameters.shield.grounded : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
-	return Math.floor((damage * parameters.shield.mult * projectileMult * groundedMult * aerialMult) + parameters.shield.constant) - 1;
+	return Math.floor((damage * parameters.shield.mult * projectileMult * groundedMult * aerialMult * multiplier) + parameters.shield.constant) - 1;
 }
 
 function ShieldHitlag(damage, hitlag, electric) {
@@ -396,8 +396,8 @@ function AttackerShieldHitlag(damage, hitlag, electric) {
 	return ShieldHitlag(damage, hitlag, electric);
 }
 
-function ShieldAdvantage(damage, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric));
+function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_smash, is_aerial) {
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
