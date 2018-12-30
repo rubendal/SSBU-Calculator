@@ -92,7 +92,8 @@ app.controller('calculator', function ($scope) {
     $scope.windbox = false;
     $scope.ignoreStale = false;
 
-    $scope.use_landing_lag = "no";
+	$scope.use_landing_lag = "no";
+	$scope.landing_lag = 0;
 
     $scope.section_main = { 'background': 'rgba(0, 0, 255, 0.3)' };
     $scope.section_attributes = { 'background': 'transparent' };
@@ -358,6 +359,12 @@ app.controller('calculator', function ($scope) {
         $scope.update();
 	}
 
+	$scope.update_landing_lag = function () {
+		landing_lag = parseFloat($scope.landing_lag);
+
+		$scope.update();
+	}
+
 	$scope.updateStaleness = function (value) {
 		if (value == "0") {
 			$scope.stale = [false, false, false, false, false, false, false, false, false];
@@ -490,7 +497,8 @@ app.controller('calculator', function ($scope) {
             } else {
                 $scope.hit_frame = 0;
             }
-            $scope.faf = attack.faf;
+			$scope.faf = attack.faf;
+			$scope.landing_lag = attack.landingLag;
             if (!$scope.is_smash) {
                 $scope.smashCharge = 0;
                 charge_frames = 0;

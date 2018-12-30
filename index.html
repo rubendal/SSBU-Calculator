@@ -311,6 +311,7 @@
                             <input type="radio" ng-model="use_landing_lag" value="no" ng-change="update_faf()" /> Use move FAF
                             <br />
                             <input type="radio" ng-model="use_landing_lag" value="yes" ng-change="update_faf()" /> Use move landing lag
+                            <input name="landing_lag" type="number" ng-model="landing_lag" value="1" min="1" max="100" step="1" ng-change="update_landing_lag()" />
                             <br />
                             <input type="radio" ng-model="use_landing_lag" value="autocancel" ng-change="update_faf()" /> Use move autocancel
                         </span>
