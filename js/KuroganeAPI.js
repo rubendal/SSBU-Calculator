@@ -898,9 +898,9 @@ function getMoveset(attacker, $scope) {
 			break;
 	}
 
-	if (localMoveData.indexOf(api_name) != -1) {
+	if (localMoveData.indexOf(attacker.GameName) != -1) {
 		//Has local move data
-		var moveset = loadJSONPath('./Data/' + api_name + '/moves.json');
+		var moveset = loadJSONPath('./Data/' + attacker.GameName + '/moves.json');
 
 		if (moveset != null) {
 			var moves = [];
