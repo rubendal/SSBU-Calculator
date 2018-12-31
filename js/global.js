@@ -202,7 +202,8 @@ var paramsList = [
 	new Parameter("useLandingLag", "no"),
 	new Parameter("isFinishingTouch", "0"),
 	new Parameter("1v1", "1"),
-	new Parameter("shorthop", "0")
+	new Parameter("shorthop", "0"),
+	new Parameter("isAerial", "0")
 ];
 
 function checkUndefined(value) {
@@ -459,6 +460,9 @@ function buildParams($scope) {
 		}
 		if (paramsList[75].value != boolToString($scope.shorthop_aerial)) {
 			params.push(new Parameter(paramsList[75].param, boolToString($scope.shorthop_aerial)));
+		}
+		if (paramsList[76].value != boolToString($scope.is_aerial_move)) {
+			params.push(new Parameter(paramsList[76].param, boolToString($scope.is_aerial_move)));
 		}
     } else if ($scope.app == "kbcalculator") {
         if (paramsList[43].value != $scope.kb) {
@@ -904,6 +908,13 @@ function mapParams($scope) {
 	if (param) {
 		if ($scope.shorthop_aerial != undefined) {
 			$scope.delayed_shorthop_aerial = param == 1;
+			$scope.updateAttackData();
+		}
+	}
+	param = Parameter.get(get_params, "isAerial");
+	if (param) {
+		if ($scope.is_aerial_move != undefined) {
+			$scope.is_aerial_move = param == 1;
 			$scope.updateAttackData();
 		}
 	}
@@ -2536,6 +2547,7 @@ var effect = "None/Other";
 var launch_rate = 1;
 
 var shieldstunMult = 1;
+var is_aerial_move = false;
 
 var effects = [
 	{ id: 0, name: "None/Other" },

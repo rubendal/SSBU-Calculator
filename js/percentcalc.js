@@ -64,7 +64,8 @@ app.controller('calculator', function ($scope) {
 	$scope.is_lucario = attacker.name == "Lucario" ? {} : { 'display': 'none' };
     $scope.smashCharge = 0;
     $scope.wbkb = wbkb;
-    $scope.windbox = false;
+	$scope.windbox = false;
+	$scope.is_aerial_move = false;
 
     $scope.ignoreStale = false;
 
@@ -147,16 +148,17 @@ app.controller('calculator', function ($scope) {
         var a = parseFloat($scope.angle);
 		$scope.st_jab_lock = (a == 361 || (a >= 230 && a <= 310)) ? {} : { "display": 'none' };
 
-		if ($scope.selected_move != null) {
-			$scope.shorthop_aerial = $scope.selected_move.aerial ? $scope.shorthop_aerial : false;
-		} else {
-			//$scope.shorthop_aerial = false;
-		}
+		$scope.shorthop_aerial = $scope.is_aerial_move ? $scope.shorthop_aerial : false;
+		$scope.is_aerial = $scope.is_aerial_move ? {} : { 'display': 'none' };
     }
 
     $scope.check_move = function(){
 		if ($scope.selected_move == null) {
-			$scope.is_aerial = { 'display': 'none' };
+			if ($scope.is_aerial_move) {
+				$scope.is_aerial = {};
+			} else {
+				$scope.is_aerial = { 'display': 'none' };
+			}
             $scope.charge_min = 0;
             $scope.charge_max = 60;
             $scope.charge_special = false;
@@ -169,8 +171,8 @@ app.controller('calculator', function ($scope) {
 					$scope.$apply();
 				}, 10);
 			}
+			$scope.is_aerial_move = $scope.selected_move.aerial;
 			$scope.is_aerial = $scope.selected_move.aerial ? {} : { 'display': 'none' };
-
             if($scope.selected_move.chargeable){
                 if($scope.selected_move.charge != null){
                     $scope.charge_data = $scope.selected_move.charge;
@@ -182,7 +184,8 @@ app.controller('calculator', function ($scope) {
                         $scope.smashCharge = $scope.charge_data.max;
                     }
                     $scope.charge_special = true;
-                    $scope.is_smash = true;
+					$scope.is_smash = true;
+					$scope.is_aerial_move = false;
 					$scope.charging_frames_type = attacker.name == "Donkey Kong" ? "Arm swings" : (attacker.name == "Jigglypuff" ? "Speed" : "Frames charged");
                     $scope.updateCharge();
                     
@@ -191,7 +194,8 @@ app.controller('calculator', function ($scope) {
                     $scope.charge_min = 0;
                     $scope.smashCharge = 0;
                     $scope.charge_max = 60;
-                    $scope.charge_special = false;
+					$scope.charge_special = false;
+					$scope.is_aerial_move = false;
                     $scope.is_smash = $scope.selected_move.smash_attack;
                     $scope.charging_frames_type = "Frames charged";
                 }
@@ -201,7 +205,8 @@ app.controller('calculator', function ($scope) {
                 //$scope.smashCharge = 0;
                 $scope.charge_max = 60;
                 $scope.charge_special = false;
-                $scope.is_smash = $scope.selected_move.smash_attack;
+				$scope.is_smash = $scope.selected_move.smash_attack;
+				$scope.is_aerial_move = $scope.selected_move.aerial;
                 $scope.charging_frames_type = "Frames charged";
             }
             $scope.checkSmashVisibility();
@@ -340,7 +345,8 @@ app.controller('calculator', function ($scope) {
             $scope.bkb == attack.bkb &&
             $scope.kbg == attack.kbg &&
             $scope.wbkb == attack.wbkb &&
-            $scope.is_smash == attack.smash_attack &&
+			$scope.is_smash == attack.smash_attack &&
+			$scope.is_aerial_move == attack.aerial &&
             $scope.windbox == attack.windbox){
             } else {
                 if (!$scope.detectAttack()) {

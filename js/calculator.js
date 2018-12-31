@@ -76,7 +76,8 @@ app.controller('calculator', function ($scope) {
 	$scope.target_fall_speed = target.attributes.fall_speed;
 	$scope.is_1v1 = true;
 
-    $scope.is_smash = false;
+	$scope.is_smash = false;
+	$scope.is_aerial_move = false;
 	$scope.is_smash_visibility = $scope.is_smash ? {} : { 'display': 'none' };
     $scope.megaman_fsmash = false;
     $scope.witch_time_charge = false;
@@ -234,7 +235,11 @@ app.controller('calculator', function ($scope) {
 
 	$scope.check_move = function () {
 		if ($scope.selected_move == null) {
-			$scope.is_aerial = { 'display': 'none' };
+			if ($scope.is_aerial_move) {
+				$scope.is_aerial = {};
+			} else {
+				$scope.is_aerial = { 'display': 'none' };
+			}
 			$scope.prev_hf = { 'display': 'none' };
 			$scope.next_hf = { 'display': 'none' };
 			$scope.use_landing_lag = "no";
@@ -261,6 +266,7 @@ app.controller('calculator', function ($scope) {
 					$scope.$apply();
 				}, 10);
 			}
+			$scope.is_aerial_move = $scope.selected_move.aerial;
 			$scope.is_aerial = $scope.selected_move.aerial ? {} : { 'display': 'none' };
             $scope.prev_hf = { 'display': 'none' };
             $scope.next_hf = { 'display': $scope.selected_move.hitboxActive.length > 1 ? 'inline' : 'none' };
@@ -276,6 +282,7 @@ app.controller('calculator', function ($scope) {
                     }
                     $scope.charge_special = true;
 					$scope.is_smash = true;
+					$scope.is_aerial_move = false;
 					$scope.charging_frames_type = attacker.name == "Donkey Kong" ? "Arm swings" : (attacker.name == "Jigglypuff" ? "Speed" : "Frames charged");
                     $scope.updateCharge();
                     
@@ -285,7 +292,8 @@ app.controller('calculator', function ($scope) {
                     $scope.smashCharge = 0;
                     $scope.charge_max = 60;
                     $scope.charge_special = false;
-                    $scope.is_smash = $scope.selected_move.smash_attack;
+					$scope.is_smash = $scope.selected_move.smash_attack;
+					$scope.is_aerial_move = false;
                     $scope.charging_frames_type = "Frames charged";
                 }
             }else{
@@ -294,7 +302,8 @@ app.controller('calculator', function ($scope) {
                 //$scope.smashCharge = 0;
                 $scope.charge_max = 60;
                 $scope.charge_special = false;
-                $scope.is_smash = $scope.selected_move.smash_attack;
+				$scope.is_smash = $scope.selected_move.smash_attack;
+				$scope.is_aerial_move = $scope.selected_move.aerial;
                 $scope.charging_frames_type = "Frames charged";
             }
             $scope.checkSmashVisibility();
@@ -385,11 +394,8 @@ app.controller('calculator', function ($scope) {
         if(attacker.name != "Bayonetta"){
             $scope.witch_time_charge = false;
 		}
-		if ($scope.selected_move != null) {
-			$scope.shorthop_aerial = $scope.selected_move.aerial ? $scope.shorthop_aerial : false;
-		} else {
-			//$scope.shorthop_aerial = false;
-		}
+		$scope.shorthop_aerial = $scope.is_aerial_move ? $scope.shorthop_aerial : false;
+		$scope.is_aerial = $scope.is_aerial_move ? {} : { 'display': 'none' };
     }
 
     $scope.updateAttr = function () {
@@ -531,7 +537,8 @@ app.controller('calculator', function ($scope) {
             $scope.bkb == attack.bkb &&
             $scope.kbg == attack.kbg &&
             $scope.wbkb == attack.wbkb &&
-            $scope.is_smash == attack.smash_attack &&
+			$scope.is_smash == attack.smash_attack &&
+			$scope.is_aerial_move == attack.aerial &&
             $scope.windbox == attack.windbox &&
             $scope.shieldDamage == attack.shieldDamage){
             } else {
@@ -599,7 +606,8 @@ app.controller('calculator', function ($scope) {
                     $scope.bkb == attack.bkb &&
                     $scope.kbg == attack.kbg &&
                     $scope.wbkb == attack.wbkb &&
-                    $scope.is_smash == attack.smash_attack &&
+					$scope.is_smash == attack.smash_attack &&
+					$scope.is_aerial_move == attack.aerial &&
                     $scope.windbox == attack.windbox &&
                     $scope.shieldDamage == attack.shieldDamage) {
                         $scope.move = i.toString();
@@ -626,7 +634,8 @@ app.controller('calculator', function ($scope) {
                         parseInt($scope.bkb) >= attack.bkb &&
                         parseInt($scope.kbg) >= attack.kbg &&
 						parseInt($scope.wbkb) >= attack.wbkb &&
-                        $scope.is_smash == (attack.smash_attack || attack.chargeable) &&
+						$scope.is_smash == (attack.smash_attack || attack.chargeable) &&
+						$scope.is_aerial_move == attack.aerial &&
                         $scope.windbox == attack.windbox &&
 						parseInt($scope.shieldDamage) >= attack.shieldDamage &&
                         (attack.chargeable || attack.counterMult != 0)) {
@@ -872,7 +881,6 @@ app.controller('calculator', function ($scope) {
                 //resultList.push(new Result("Full HP shield", +(50 * target.modifier.shield).toFixed(6), +(50 * target.modifier.shield).toFixed(6)));
 				resultList.push(new Result("Shield Break", sv >= 50 * target.modifier.shield ? "Yes" : "No"));
 			}
-			var is_aerial_move = $scope.selected_move != null ? $scope.selected_move.aerial : false;
 
 			resultList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric)));
 			resultList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial_move)));
@@ -978,7 +986,8 @@ app.controller('calculator', function ($scope) {
         witch_time_smash_charge = $scope.witch_time_charge;
         crouch = $scope.kb_modifier;
 
-        is_smash = $scope.is_smash;
+		is_smash = $scope.is_smash && !$scope.charge_special;
+		is_aerial_move = $scope.is_aerial_move;
         wbkb = parseFloat($scope.wbkb);
         windbox = $scope.windbox;
 

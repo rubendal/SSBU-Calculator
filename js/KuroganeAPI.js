@@ -441,7 +441,7 @@ var chargeMoves = [
 		return [4.2 + (frames * 0.1125), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Flare Blade (Uncharged)"], 0, 239, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [6 + (frames * 5 / 30), bkb, kbg, shieldDamage];
+		return [8 + (frames * 5 / 30), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Shield Breaker (No Charge)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [base_damage * ((60 - frames) / 60 + (frames * 2.2 / 60)), bkb, kbg, shieldDamage];
