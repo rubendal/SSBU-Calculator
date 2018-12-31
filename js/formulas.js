@@ -186,6 +186,9 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 		hitstun++;
 	}
 
+	if (hitstun < 5)
+		hitstun = 5;
+
 	return Math.floor(hitstun) - 1;
 }
 
