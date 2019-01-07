@@ -888,10 +888,6 @@ function getMoveset(attacker, $scope) {
 			api_name = "samus";
 			$scope.moveset_info = "Using Samus moveset";
 			break;
-		case "Daisy":
-			api_name = "daisy";
-			$scope.moveset_info = "Using Peach moveset";
-			break;
 		case "Ken":
 			api_name = "ryu";
 			$scope.moveset_info = "Using Ryu moveset";
