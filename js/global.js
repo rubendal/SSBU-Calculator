@@ -58,8 +58,9 @@ var defaultParameters = {
 		}
 	},
 	paralyzer: {
-		constant: 14,
-		mult: 0.025
+		constant: 1,
+		mult: 1,
+		max: 90
 	},
 	shield: {
 		projectile: 0.29,

@@ -883,6 +883,7 @@ app.controller('calculator', function ($scope) {
 			}
 
 			resultList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric)));
+			resultList.push(new Result("Shield stun multiplier", ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, is_aerial_move) + "x", ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, is_aerial_move) == 1));
 			resultList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial_move)));
 			resultList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_smash, is_aerial_move)));
 

@@ -434,11 +434,11 @@ class ChargeData{
 };
 
 var chargeMoves = [
-	new ChargeData(["Palutena's Bow (No Charge)", "Palutena's Bow (No Charge, Aerial)"], 1, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Palutena's Bow (No Charge)", "Palutena's Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [3.2 + (frames * 0.09), bkb, kbg, shieldDamage];
 	}),
-	new ChargeData(["Silver Bow (No Charge)", "Silver Bow (No Charge, Aerial)"], 1, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [4.2 + (frames * 0.1125), bkb, kbg, shieldDamage];
+	new ChargeData(["Silver Bow (No Charge)", "Silver Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
+		return [5.5 + (frames * 0.1417), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Flare Blade (Uncharged)"], 0, 239, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [8 + (frames * 5 / 30), bkb, kbg, shieldDamage];

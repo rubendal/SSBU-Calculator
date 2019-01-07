@@ -32,8 +32,9 @@
 		}
 	},
 	paralyzer: {
-		constant: 14,
-		mult: 0.025
+		constant: 1,
+		mult: 1,
+		max: 90
 	},
 	shield: {
 		projectile: 0.29,
@@ -251,7 +252,7 @@ function LumaHitstun(kb, windbox, electric) {
 
 function SakuraiAngle(kb, aerial) {
     if (aerial) {
-        return (.8 * 180 / Math.PI);
+		return (0.663225 * 180 / Math.PI);
     }
     if (kb < 60) {
         return 0;
@@ -341,12 +342,17 @@ function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, elect
     return res;
 }
 
-function Hitlag(base_damage, hitlag_mult, electric, crouch) {
+function Hitlag(base_damage, hitlag_mult, electric, crouch, players) {
 	var electric_mult = 1;
 	if (electric) {
 		electric_mult = 1.5;
 	}
-	var h = Math.floor((((base_damage * parameters.hitlag.mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult) * crouch);// - 1;
+	var player_mult = 1;
+	if (players) {
+		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
+		player_mult = p[players - 2];
+	}
+	var h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult) * crouch);// - 1;
     if (h > 30) {
         return 30;
     }
@@ -378,12 +384,38 @@ function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time, maxSmashCharg
 	return (1 + (frames * mult / 150));
 }
 
+function ShieldStunMultiplier(multiplier, is_projectile, is_smash, is_aerial) {
+	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
+	var groundedMult = is_smash ? parameters.shield.grounded : 1;
+	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
+	var mult = 1;
+	if (multiplier != 1)
+		mult = multiplier;
+	else if (is_projectile)
+		mult = projectileMult;
+	else if (is_aerial)
+		mult = aerialMult;
+	else if (is_smash)
+		mult = groundedMult;
+
+	return mult;
+}
+
 function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, is_aerial) {
 	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
 	var groundedMult = is_smash ? parameters.shield.grounded : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
-	return Math.floor((damage * parameters.shield.mult * projectileMult * groundedMult * aerialMult * multiplier) + parameters.shield.constant) - 1;
+	var mult = 1;
+	if (multiplier != 1)
+		mult = multiplier;
+	else if (is_projectile)
+		mult = projectileMult;
+	else if (is_aerial)
+		mult = aerialMult;
+	else if (is_smash)
+		mult = groundedMult;
+	return Math.floor((damage * parameters.shield.mult * mult) + parameters.shield.constant) - 1;
 }
 
 function ShieldHitlag(damage, hitlag, electric) {
@@ -534,13 +566,14 @@ function ParalyzerHitlag(base_damage, hitlag_mult, crouch) {
 }
 
 function ParalysisTime(kb, base_damage, hitlag_mult, crouch) {
-	var p = Math.floor((((base_damage * parameters.hitlag.mult + parameters.paralyzer.constant)) * hitlag_mult) * crouch * parameters.paralyzer.mult * kb);
-	if (p > 76) {
-		return 76;
+	var p = Math.floor((((base_damage * parameters.hitlag.mult + parameters.paralyzer.constant)) * hitlag_mult) * crouch * parameters.paralyzer.mult * kb / 10);
+	if (p > parameters.paralyzer.max) {
+		return parameters.paralyzer.max;
 	}
 	if (p < 0) {
 		return 0;
 	}
+	
 	return p;
 }
 
