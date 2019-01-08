@@ -268,6 +268,10 @@ app.controller('calculator', function ($scope) {
 			}
 			$scope.is_aerial_move = $scope.selected_move.aerial;
 			$scope.is_aerial = $scope.selected_move.aerial ? {} : { 'display': 'none' };
+			if ($scope.selected_move.aerial && !isNaN($scope.selected_move.landingLag)) {
+				$scope.use_landing_lag = "yes";
+				$scope.update_faf();
+			}
             $scope.prev_hf = { 'display': 'none' };
             $scope.next_hf = { 'display': $scope.selected_move.hitboxActive.length > 1 ? 'inline' : 'none' };
             if($scope.selected_move.chargeable){
