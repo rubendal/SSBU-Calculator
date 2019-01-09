@@ -786,10 +786,10 @@ app.controller('calculator', function ($scope) {
 		damageList.push(new Result("Damage", +StaleDamage(damage, stale, shieldStale, ignoreStale).toFixed(6) + "%"));
 		damageList.push(new Result("Target's %", +(target_percent + (preDamage * StaleNegation(stale, shieldStale, ignoreStale)) + StaleDamage(damage, stale, shieldStale, ignoreStale)).toFixed(6) + "%"));
         if (!paralyzer) {
-			kbList.push(new Result("Attacker Hitlag", Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), is_projectile ? 0 : hitlag, electric, 1)));
-			kbList.push(new Result("Target Hitlag", Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch))));
+			damageList.push(new Result("Attacker Hitlag", Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), is_projectile ? 0 : hitlag, electric, 1)));
+			damageList.push(new Result("Target Hitlag", Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch))));
         } else {
-			kbList.push(new Result("Attacker Hitlag", ParalyzerHitlag(StaleDamage(damage, shieldStale, stale, ignoreStale), is_projectile ? 0 : hitlag, 1)));
+			damageList.push(new Result("Attacker Hitlag", ParalyzerHitlag(StaleDamage(damage, shieldStale, stale, ignoreStale), is_projectile ? 0 : hitlag, 1)));
 		}
 		if (r != 1) {
 			kbList.push(new Result("KB modifier", "x" + +r.toFixed(6)));
