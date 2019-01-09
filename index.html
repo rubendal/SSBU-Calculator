@@ -759,16 +759,61 @@
                     <span class="cur-link header-group-text">Results</span>
                 </div>
             </a>
-            <div id="data" class="card-block collapse in group-res">
+            <div id="data" class="results-card-block collapse in group-res">
                 <div id="results-table">
-                    <table class="result-table">
-                        <tbody>
-                            <tr ng-repeat="x in results.list" ng-class-even="'value-even'">
-                                <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    <a class="select-link cur-link" ng-click="collapse('damage-results')">
+                        <div class="card header-res results-header header-subgroup">
+                            <span class="cur-link header-subgroup-text">Damage</span>
+                        </div>
+                    </a>
+                    <div id="damage-results" class="card-block collapse in group-res subgroup">
+                        <!-- Damage data -->
+                        <table class="result-table">
+                            <tbody>
+                                <tr ng-repeat="x in results.damage.list" ng-class-even="'value-even'">
+                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <a class="select-link cur-link" ng-click="collapse('kb-results')">
+                        <div class="card header-res results-header header-subgroup">
+                            <span class="cur-link header-subgroup-text">Knockback</span>
+                        </div>
+                    </a>
+                    <div id="kb-results" class="card-block collapse in group-res subgroup">
+                        <!-- KB data -->
+                        <table class="result-table">
+                            <tbody>
+                                <tr ng-repeat="x in results.kb.list" ng-class-even="'value-even'">
+                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <a class="select-link cur-link" ng-click="collapse('shield-results')">
+                        <div class="card header-res results-header header-subgroup">
+                            <span class="cur-link header-subgroup-text">Shield</span>
+                        </div>
+                    </a>
+                    <div id="shield-results" class="card-block collapse in group-res subgroup">
+                        <!-- Shield data -->
+                        <table class="result-table">
+                            <tbody>
+                                <tr ng-repeat="x in results.shield.list" ng-class-even="'value-even'">
+                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
 
             </div>

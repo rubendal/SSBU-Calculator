@@ -379,6 +379,7 @@ input[type=button] {
 .header-group-text {
     display: block;
     margin-left: 5px;
+    font-size: 15px;
 }
 
 .group {
@@ -395,6 +396,21 @@ input[type=button] {
     border-bottom-right-radius: 0px;
 }
 
+.results-card-block{
+    padding: 1.25rem 0px;
+}
+
+.header-subgroup {
+    width: 100%;
+    padding: 3px;
+}
+
+.header-subgroup-text {
+    display: block;
+    margin-left: 15px;
+    font-size: 14px;
+}
+
 .group-res {
     width: 100%;
     margin-top: -12px;
@@ -402,7 +418,7 @@ input[type=button] {
 
 #results-table {
     color: black;
-    margin-left: 10%;
+    margin-left: 5%;
     font-size: 17px;
 }
 
@@ -735,6 +751,7 @@ input, select {
     /*font-family: 'Century Gothic';
     font-weight: 600;*/
     border: 0.5px solid black;
+    background: #FCFCFF;
 }
 
     input:focus, select:focus {
@@ -891,10 +908,6 @@ select.character-select {
         margin-left: 0;
         margin-top: -9px;
     }
-
-    #results-table {
-        margin-left: 0;
-    }
 }
 
 @media screen and (max-width: 1200px) {
@@ -984,6 +997,9 @@ select.character-select {
     .header-res {
         float: none;
         height: 50px;
+        border-bottom-right-radius: 25px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
     }
 
     #visualizer {
@@ -996,6 +1012,15 @@ select.character-select {
 
     .header-group-text {
         font-size: 23px;
+    }
+
+    .header-subgroup {
+        height: 40px;
+        width: 99%;
+    }
+
+    .header-subgroup-text {
+        font-size: 20px;
     }
 
     #themeSelect, #appSelect{
@@ -1029,6 +1054,10 @@ select.character-select {
     input[type=number].percent-input {
         padding: 0px 8px;
     }
+
+    #results-table {
+        margin-left: 0;
+    }
 }
 
 @media screen and (max-width: 720px) {
@@ -1049,6 +1078,11 @@ select.character-select {
     .percent-div {
         display: inline;
         float: none;
+    }
+
+
+    input[type=number].percent-input {
+        width: 190px;
     }
 
     .luma {
