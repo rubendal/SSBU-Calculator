@@ -723,28 +723,28 @@ class Move {
 					}
 				}
 				if (gameName == "donkey") {
-					var td = throwData[throwData.length-1];
-					if (this.moveName == "Fthrow (Cargo)") {
-						this.throwApplierFrame = td.ThrowApplierFrame.Fthrow;
-						this.throwFAF = td.FAF.Fthrow;
-						this.throwAnimationLength = td.AnimationLength.Fthrow;
-						this.throwDataExceptions = td.Exceptions.Fthrow;
-					} else if (this.moveName == "Bthrow (Cargo)") {
-						this.throwApplierFrame = td.ThrowApplierFrame.Bthrow;
-						this.throwFAF = td.FAF.Bthrow;
-						this.throwAnimationLength = td.AnimationLength.Bthrow;
-						this.throwDataExceptions = td.Exceptions.Bthrow;
-					} else if (this.moveName == "Uthrow (Cargo)") {
-						this.throwApplierFrame = td.ThrowApplierFrame.Uthrow;
-						this.throwFAF = td.FAF.Uthrow;
-						this.throwAnimationLength = td.AnimationLength.Uthrow;
-						this.throwDataExceptions = td.Exceptions.Uthrow;
-					} else if (this.moveName == "Dthrow (Cargo)") {
-						this.throwApplierFrame = td.ThrowApplierFrame.Dthrow;
-						this.throwFAF = td.FAF.Dthrow;
-						this.throwAnimationLength = td.AnimationLength.Dthrow;
-						this.throwDataExceptions = td.Exceptions.Dthrow;
-					}
+					//var td = throwData[throwData.length-1];
+					//if (this.moveName == "Fthrow (Cargo)") {
+					//	this.throwApplierFrame = td.ThrowApplierFrame.Fthrow;
+					//	this.throwFAF = td.FAF.Fthrow;
+					//	this.throwAnimationLength = td.AnimationLength.Fthrow;
+					//	this.throwDataExceptions = td.Exceptions.Fthrow;
+					//} else if (this.moveName == "Bthrow (Cargo)") {
+					//	this.throwApplierFrame = td.ThrowApplierFrame.Bthrow;
+					//	this.throwFAF = td.FAF.Bthrow;
+					//	this.throwAnimationLength = td.AnimationLength.Bthrow;
+					//	this.throwDataExceptions = td.Exceptions.Bthrow;
+					//} else if (this.moveName == "Uthrow (Cargo)") {
+					//	this.throwApplierFrame = td.ThrowApplierFrame.Uthrow;
+					//	this.throwFAF = td.FAF.Uthrow;
+					//	this.throwAnimationLength = td.AnimationLength.Uthrow;
+					//	this.throwDataExceptions = td.Exceptions.Uthrow;
+					//} else if (this.moveName == "Dthrow (Cargo)") {
+					//	this.throwApplierFrame = td.ThrowApplierFrame.Dthrow;
+					//	this.throwFAF = td.FAF.Dthrow;
+					//	this.throwAnimationLength = td.AnimationLength.Dthrow;
+					//	this.throwDataExceptions = td.Exceptions.Dthrow;
+					//}
 				}
 
 				if (this.throwFAF == 0)
