@@ -91,7 +91,10 @@ var settings = {
 		ko: "#FF0000",
 		diLine: "#000000",
 		interpolatedLine: "#808080",
-		background: "#FCFCFF"
+		background: "#FCFCFF",
+		techable: "#53b953",
+		techableOnlyCollision: "#af24b1",
+		untechable: "#cb4d4d"
 	}
 };
 
@@ -204,7 +207,8 @@ var paramsList = [
 	new Parameter("isFinishingTouch", "0"),
 	new Parameter("1v1", "1"),
 	new Parameter("shorthop", "0"),
-	new Parameter("isAerial", "0")
+	new Parameter("isAerial", "0"),
+	new Parameter("ignoreStale", "0")
 ];
 
 function checkUndefined(value) {
@@ -464,6 +468,9 @@ function buildParams($scope) {
 		}
 		if (paramsList[76].value != boolToString($scope.is_aerial_move)) {
 			params.push(new Parameter(paramsList[76].param, boolToString($scope.is_aerial_move)));
+		}
+		if (paramsList[77].value != boolToString($scope.ignoreStale)) {
+			params.push(new Parameter(paramsList[77].param, boolToString($scope.ignoreStale)));
 		}
     } else if ($scope.app == "kbcalculator") {
         if (paramsList[43].value != $scope.kb) {
@@ -919,6 +926,13 @@ function mapParams($scope) {
 			$scope.updateAttackData();
 		}
 	}
+	param = Parameter.get(get_params, "ignoreStale");
+	if (param) {
+		if ($scope.ignoreStale != undefined) {
+			$scope.ignoreStale = param == 1;
+			$scope.updateAttackData();
+		}
+	}
 }
 
 var styleList = loadJSONPath("./css/themes.json");
@@ -1204,18 +1218,20 @@ var CharacterState = {
 
 class Collision {
 	constructor(frame, stage, position, next_position, momentum, state, tumble, launch_speed, angle) {
+		this.frame = frame;
 		this.collisionOccurred = false;
 		this.collision_data = {
-			"next_position": next_position,
-			"resetGravity": false,
-			"launchSpeed": launch_speed,
-			"angle": angle,
-			"momentum": momentum,
-			"state": state,
-			"collision": null,
-			"intersection": null,
-			"lineType": null,
-			"slideDirection" : 0 //0 none, -1 left, 1 right
+			next_position: next_position,
+			resetGravity: false,
+			launchSpeed: launch_speed,
+			angle: angle,
+			momentum: momentum,
+			state: state,
+			collision: null,
+			intersection: null,
+			lineType: null,
+			slideDirection: 0, //0 none, -1 left, 1 right
+			techable: { before: true, onCollision: true }
 		};
 
 		if (stage == null)
@@ -1268,7 +1284,8 @@ class Collision {
 			this.collision_data.lineType = lineType;
 
 			//Check if it bounces off the wall/floor/ceiling
-			if (tumble) {
+			if (tumble && ((lineType == LineTypes.FLOOR && TotalLaunchSpeed(launch_speed.x, launch_speed.y) >= 0.8) ||
+				(TotalLaunchSpeed(launch_speed.x, launch_speed.y) >= 1))) {
 				//Collides and Bounces off
 				if (lineType == LineTypes.FLOOR) {
 					this.collision_data.resetGravity = true;
@@ -1282,10 +1299,14 @@ class Collision {
 					this.collision_data.resetGravity = false;
 					this.collision_data.state = CharacterState.COLLIDING_CEILING;
 				}
+				this.collision_data.techable.before = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
 				//Calculate bounced off angle
 				var rAngle = (2 * (material.passthroughAngle)) - 180 - launch_angle;
-				launch_speed.x = Math.abs(launch_speed.x * 0.8);
-				launch_speed.y = Math.abs(launch_speed.y * 0.8);
+				var lsr = 0.95;
+				if (lineType == LineTypes.FLOOR)
+					lsr = 0.9;
+				launch_speed.x = Math.abs(launch_speed.x * lsr);
+				launch_speed.y = Math.abs(launch_speed.y * lsr);
 				if (Math.cos(rAngle * Math.PI / 180) < 0) {
 					launch_speed.x *= -1;
 				}
@@ -1295,6 +1316,15 @@ class Collision {
 
 				this.collision_data.angle = rAngle;
 				this.collision_data.launchSpeed = launch_speed;
+
+				//Check if it's techable with new launch speed
+				if (lineType != LineTypes.FLOOR) {
+					this.collision_data.techable.onCollision = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
+				}
+
+				if (frame == 1) {
+					this.collision_data.techable = { before: false, onCollision: false };
+				}
 
 				if (Math.sin(rAngle * Math.PI / 180) > 0) {
 					momentum = 1;
@@ -1415,7 +1445,8 @@ class Collision {
 			this.collision_data.lineType = lineType;
 
 			//Check if it bounces off the wall/floor/ceiling
-			if (tumble) {
+			if (tumble && ((lineType == LineTypes.FLOOR && TotalLaunchSpeed(launch_speed.x, launch_speed.y) >= 0.8) ||
+				(TotalLaunchSpeed(launch_speed.x, launch_speed.y) >= 1))) {
 				//Collides and Bounces off
 				if (lineType == LineTypes.FLOOR) {
 					this.collision_data.resetGravity = true;
@@ -1429,10 +1460,14 @@ class Collision {
 					this.collision_data.resetGravity = false;
 					this.collision_data.state = CharacterState.COLLIDING_CEILING;
 				}
+				this.collision_data.techable.before = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
 				//Calculate bounced off angle
 				var rAngle = (2 * (material.passthroughAngle)) - 180 - launch_angle;
-				launch_speed.x = Math.abs(launch_speed.x * 0.8);
-				launch_speed.y = Math.abs(launch_speed.y * 0.8);
+				var lsr = 0.95;
+				if (lineType == LineTypes.FLOOR)
+					lsr = 0.9;
+				launch_speed.x = Math.abs(launch_speed.x * lsr);
+				launch_speed.y = Math.abs(launch_speed.y * lsr);
 				if (Math.cos(rAngle * Math.PI / 180) < 0) {
 					launch_speed.x *= -1;
 				}
@@ -1442,6 +1477,11 @@ class Collision {
 
 				this.collision_data.angle = rAngle;
 				this.collision_data.launchSpeed = launch_speed;
+
+				//Check if it's techable with new launch speed
+				if (lineType != LineTypes.FLOOR) {
+					this.collision_data.techable.onCollision = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
+				}
 
 				if (Math.sin(rAngle * Math.PI / 180) > 0) {
 					momentum = 1;
@@ -2051,7 +2091,8 @@ class Knockback {
         this.reeling = false;
         this.spike = false;
         this.di_change = 0;
-        this.launch_speed = LaunchSpeed(kb);
+		this.launch_speed = LaunchSpeed(kb);
+		this.total_launch_speed = this.launch_speed;
         this.lsi = 1;
         this.horizontal_launch_speed = 0;
         this.vertical_launch_speed = 0;
@@ -2130,6 +2171,8 @@ class Knockback {
 
 			this.horizontal_launch_speed = Math.abs(this.horizontal_launch_speed);
 			this.vertical_launch_speed = Math.abs(this.vertical_launch_speed);
+
+			this.total_launch_speed = TotalLaunchSpeed(this.horizontal_launch_speed, this.vertical_launch_speed);
 
             this.can_jablock = false;
             if (this.angle == 0 || this.angle == 180 || this.angle == 360) {

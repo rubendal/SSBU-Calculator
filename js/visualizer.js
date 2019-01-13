@@ -217,31 +217,57 @@ class Visualizer {
 
 			var style = settings.visualizer_colors.upward;
 
+			var collisions = [];
+			var collisionsData = [];
+			for (var i = 0; i < launch.collisions.length; i++) {
+				if (launch.collisions[i].collisionOccurred) {
+					collisions.push(launch.collisions[i].frame);
+					collisionsData.push(launch.collisions[i]);
+				}
+			}
+
+			var techString = "";
+
 			for (var i = 0; i < launch.positions.length; i++) {
-				if (i <= launch.hitstun) {
-					if (i < launch.airdodgeCancel) {
-						if (i < launch.positions.length - 1) {
-							if (launch.positions[i].y > launch.positions[i + 1].y) {
-								style = settings.visualizer_colors.downward;
-							} else {
-								style = settings.visualizer_colors.upward;
+				if (collisions.indexOf(i - 1) == -1) {
+					techString = "";
+					if (i <= launch.hitstun) {
+						if (i < launch.airdodgeCancel) {
+							if (i < launch.positions.length - 1) {
+								if (launch.positions[i].y > launch.positions[i + 1].y) {
+									style = settings.visualizer_colors.downward;
+								} else {
+									style = settings.visualizer_colors.upward;
+								}
+							}
+						} else {
+							if (i < launch.aerialCancel) {
+								style = settings.visualizer_colors.aerial;
+							}
+							else {
+								style = settings.visualizer_colors.airdodge;
 							}
 						}
 					} else {
-						if (i < launch.aerialCancel) {
-							style = settings.visualizer_colors.aerial;
-						}
-						else {
-							style = settings.visualizer_colors.airdodge;
-						}
+						style = settings.visualizer_colors.actionable;
 					}
 				} else {
-					style = settings.visualizer_colors.actionable;
+					var collisionIndex = collisions.indexOf(i-1);
+					if (collisionsData[collisionIndex].collision_data.techable.before && collisionsData[collisionIndex].collision_data.techable.onCollision) {
+						style = settings.visualizer_colors.techable;
+						techString = " Techable";
+					} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
+						style = settings.visualizer_colors.techableOnlyCollision;
+						techString = " Techable only during collision";
+					} else {
+						style = settings.visualizer_colors.untechable;
+						techString = " Untechable";
+					}
 				}
 				if (i == 0)
-					this.launchPoints.push(new DataPoint(launch.positions[i], "Launch position (%x, %y)", style));
+					this.launchPoints.push(new DataPoint(launch.positions[i], "Launch position (%x, %y)" + techString, style));
 				else
-					this.launchPoints.push(new DataPoint(launch.positions[i], "Frame " + i + " (%x, %y)", style));
+					this.launchPoints.push(new DataPoint(launch.positions[i], "Frame " + i + " (%x, %y)" + techString, style));
 
 				if (i == launch.hitstun)
 					this.launchPoints.push(new DataPoint(launch.finalPosition, "Frame " + launch.hitstun + " Hitstun end", settings.visualizer_colors.hitstunEnd));
@@ -474,27 +500,49 @@ class Visualizer {
 
 				//Markers
 
+				var collisions = [];
+				var collisionsData = [];
+				for (var i = 0; i < launch.collisions.length; i++) {
+					if (launch.collisions[i].collisionOccurred) {
+						collisions.push(launch.collisions[i].frame);
+						collisionsData.push(launch.collisions[i]);
+					}
+				}
+
 				for (var i = 0; i < launch.positions.length; i++) {
-					if (i < launch.hitstun) {
-						if (i < launch.airdodgeCancel) {
-							if (i < launch.positions.length - 1) {
-								if (launch.positions[i].y > launch.positions[i + 1].y) {
-									style = settings.visualizer_colors.downward;
-								} else {
-									style = settings.visualizer_colors.upward;
+
+					if (collisions.indexOf(i - 1) == -1) {
+						if (i <= launch.hitstun) {
+							if (i < launch.airdodgeCancel) {
+								if (i < launch.positions.length - 1) {
+									if (launch.positions[i].y > launch.positions[i + 1].y) {
+										style = settings.visualizer_colors.downward;
+									} else {
+										style = settings.visualizer_colors.upward;
+									}
+								}
+							} else {
+								if (i < launch.aerialCancel) {
+									style = settings.visualizer_colors.aerial;
+								}
+								else {
+									style = settings.visualizer_colors.airdodge;
 								}
 							}
 						} else {
-							if (i < launch.aerialCancel) {
-								style = settings.visualizer_colors.aerial;
-							}
-							else {
-								style = settings.visualizer_colors.airdodge;
-							}
+							style = settings.visualizer_colors.actionable;
 						}
 					} else {
-						style = settings.visualizer_colors.actionable;
+						var collisionIndex = collisions.indexOf(i - 1);
+						if (collisionsData[collisionIndex].collision_data.techable.before && collisionsData[collisionIndex].collision_data.techable.onCollision) {
+							style = settings.visualizer_colors.techable;
+						} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
+							style = settings.visualizer_colors.techableOnlyCollision;
+						} else {
+							style = settings.visualizer_colors.untechable;
+						}
 					}
+
 					context.fillStyle = style;
 					context.beginPath();
 

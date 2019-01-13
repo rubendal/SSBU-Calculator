@@ -535,6 +535,10 @@ function LaunchSpeed(kb) {
 	return kb * parameters.launch_speed;
 }
 
+function TotalLaunchSpeed(x_speed, y_speed) {
+	return Math.sqrt(Math.pow(x_speed, 2) + Math.pow(y_speed, 2));
+}
+
 function HorizontalSpeedLimit(speed) {
 	return Math.max(-100, Math.min(speed, 100));
 }

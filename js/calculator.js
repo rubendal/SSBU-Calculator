@@ -851,7 +851,8 @@ app.controller('calculator', function ($scope) {
         kbList.push(new Result("LSI", +vskb.lsi.toFixed(6), vskb.lsi == 1));
         kbList.push(new Result("Horizontal Launch Speed", +vskb.horizontal_launch_speed.toFixed(6)));
         kbList.push(new Result("Gravity boost", +vskb.add_gravity_speed.toFixed(6), vskb.add_gravity_speed == 0));
-        kbList.push(new Result("Vertical Launch Speed", vskb.vertical_launch_speed));
+		kbList.push(new Result("Vertical Launch Speed", vskb.vertical_launch_speed));
+		kbList.push(new Result("Launch Speed", +vskb.total_launch_speed.toFixed(6)));
         //kbList.push(new Result("Max Horizontal Distance", +vsDistance.max_x.toFixed(6)));
         //kbList.push(new Result("Max Vertical Distance", +vsDistance.max_y.toFixed(6)));
 
