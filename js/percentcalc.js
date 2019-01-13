@@ -96,7 +96,7 @@ app.controller('calculator', function ($scope) {
     $scope.target_percent = 0;
 	$scope.luma_percent = 0;
 
-	$scope.moveset_info = null;
+	$scope.moveset_info = "";
 
     getMoveset(attacker, $scope);
     $scope.move = "0";

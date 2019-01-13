@@ -878,19 +878,19 @@ function getMoveset(attacker, $scope) {
     $scope.moveset = [];
 	var api_name = attacker.api_name.toLowerCase().replace("and", "").replace("&", "").split(".").join("").split(" ").join("");
 
-	$scope.moveset_info = null;
+	$scope.moveset_info = "";
 	switch (attacker.display_name) {
 		case "Chrom":
 			api_name = "roy";
-			$scope.moveset_info = "Using Roy moveset";
+			$scope.moveset_info = "Using Roy moveset, ";
 			break;
 		case "Dark Samus":
 			api_name = "samus";
-			$scope.moveset_info = "Using Samus moveset";
+			$scope.moveset_info = "Using Samus moveset, ";
 			break;
 		case "Ken":
 			api_name = "ryu";
-			$scope.moveset_info = "Using Ryu moveset";
+			$scope.moveset_info = "Using Ryu moveset, ";
 			break;
 	}
 
@@ -931,6 +931,7 @@ function getMoveset(attacker, $scope) {
 					//If this is a previous request ignore it and do not overwrite current move list
 					return;
 				}
+				$scope.moveset_info = null;
 				$scope.moveset = moves;
 				$scope.detectAttack();
 			} catch (err) {
@@ -979,6 +980,7 @@ function getMoveset(attacker, $scope) {
 									//If this is a previous request ignore it and do not overwrite current move list
 									return;
 								}
+								$scope.moveset_info += "Smash 4 move data";
 								$scope.moveset = moves;
 								$scope.detectAttack();
 
@@ -987,6 +989,7 @@ function getMoveset(attacker, $scope) {
 							if ($scope.attackerName != moves[0].character) {
 								return;
 							}
+							$scope.moveset_info += "Smash 4 move data";
 							$scope.moveset = moves;
 							$scope.detectAttack();
 						}
