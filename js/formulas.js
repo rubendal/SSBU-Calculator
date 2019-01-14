@@ -177,10 +177,10 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 		return 0;
 	}
 
-	if (hitstun >= parameters.tumble_threshold) {
-		//Tumble hitstun seems to be affected by an additional factor
-		hitstun -= (hitstun - parameters.tumble_threshold) * parameters.hitstun; //Possible additional operation, cannot be certain since hitboxes can have BKB/KBG changed
-	}
+	//if (hitstun >= parameters.tumble_threshold) {
+	//	//Tumble hitstun seems to be affected by an additional factor
+	//	hitstun -= (hitstun - parameters.tumble_threshold) * parameters.hitstun; //Possible additional operation, cannot be certain since hitboxes can have BKB/KBG changed
+	//}
 
 	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
 	if (electric) {
