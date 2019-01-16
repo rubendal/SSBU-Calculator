@@ -143,11 +143,11 @@ class Visualizer {
 							{ x: stage.collisions[i].vertex[j + 1][0], y: stage.collisions[i].vertex[j + 1][1] }), collisionText, settings.visualizer_colors.noWallJump));
 					}
 
-					if ((collisionType == LineTypes.WALL || collisionType == LineTypes.CEILING) && stage.collisions[i].materials[j].length <= 7 && !stage.collisions[i].materials[j].noWallJump) {
-						collisionText = "Semi-techable wall";
-						this.dataPoints.push(new DataPoint(LineMidPoint({ x: stage.collisions[i].vertex[j][0], y: stage.collisions[i].vertex[j][1] },
-							{ x: stage.collisions[i].vertex[j + 1][0], y: stage.collisions[i].vertex[j + 1][1] }), collisionText, settings.visualizer_colors.semitechable));
-					}
+					//if ((collisionType == LineTypes.WALL || collisionType == LineTypes.CEILING) && stage.collisions[i].materials[j].length <= 7 && !stage.collisions[i].materials[j].noWallJump) {
+					//	collisionText = "Semi-techable wall";
+					//	this.dataPoints.push(new DataPoint(LineMidPoint({ x: stage.collisions[i].vertex[j][0], y: stage.collisions[i].vertex[j][1] },
+					//		{ x: stage.collisions[i].vertex[j + 1][0], y: stage.collisions[i].vertex[j + 1][1] }), collisionText, settings.visualizer_colors.semitechable));
+					//}
 
 
 
@@ -386,15 +386,15 @@ class Visualizer {
 							context.closePath();
 							context.stroke();
 						}
-						else if (stage.collisions[i].materials[j].length <= 7 && (stage.collisions[i].materials[j].wall || stage.collisions[i].materials[j].ceiling) && !stage.collisions[i].materials[j].noWallJump) {
-							//Small walls
-							context.strokeStyle = settings.visualizer_colors.semitechable;
-							context.beginPath();
-							this.MoveTo(stage.collisions[i].vertex[j][0], stage.collisions[i].vertex[j][1]);
-							this.LineTo(stage.collisions[i].vertex[j + 1][0], stage.collisions[i].vertex[j + 1][1]);
-							context.closePath();
-							context.stroke();
-						}
+						//else if (stage.collisions[i].materials[j].length <= 7 && (stage.collisions[i].materials[j].wall || stage.collisions[i].materials[j].ceiling) && !stage.collisions[i].materials[j].noWallJump) {
+						//	//Small walls
+						//	context.strokeStyle = settings.visualizer_colors.semitechable;
+						//	context.beginPath();
+						//	this.MoveTo(stage.collisions[i].vertex[j][0], stage.collisions[i].vertex[j][1]);
+						//	this.LineTo(stage.collisions[i].vertex[j + 1][0], stage.collisions[i].vertex[j + 1][1]);
+						//	context.closePath();
+						//	context.stroke();
+						//}
 
 
 
