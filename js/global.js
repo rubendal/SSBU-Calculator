@@ -2744,7 +2744,7 @@ window.ontouchmove = function (event) {
 
 			var distance = windowInput.move.x - windowInput.start.x;
 
-			if (Math.abs(distance) > window.innerWidth / 2.5) {
+			if (Math.abs(distance) > window.innerWidth / 4.5) {
 				//Change display using X direction
 				if (currentDisplay === "inputs") {
 					if (!direction) {
@@ -2752,12 +2752,18 @@ window.ontouchmove = function (event) {
 						document.getElementById("results").style.display = "block";
 
 						currentDisplay = "results";
+
+						windowInput.start.x = event.touches[0].pageX;
+						windowInput.start.y = event.touches[0].pageY;
 					}
 				}
 				else if (currentDisplay === "results") {
 					if (direction) {
 						document.getElementById("main").style.display = "block";
 						document.getElementById("results").style.display = "none";
+
+						windowInput.start.x = event.touches[0].pageX;
+						windowInput.start.y = event.touches[0].pageY;
 
 						currentDisplay = "inputs";
 					}
