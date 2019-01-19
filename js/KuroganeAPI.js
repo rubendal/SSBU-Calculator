@@ -184,7 +184,7 @@ class MoveParser {
 			}
 
 			if (baseDamageTooltip) {
-				if (this.shieldDamage != 0) {
+				if (this.shieldDamage == 0) {
 					shieldDamageRegex = /SD: \+(?<value>[0-9]+)/i;
 
 					var m = shieldDamageRegex.exec(baseDamageTooltip);
@@ -198,7 +198,7 @@ class MoveParser {
 					this.setweight = baseDamageTooltip.includes("Set Weight");
 
 				//Shieldstun multiplier
-				if (this.shieldstun != 1) {
+				if (this.shieldstun == 1) {
 					var shieldstunRegex = /Shieldstun multiplier: (?<value>([0-9]|\.)+)/i;
 					m = shieldstunRegex.exec(baseDamageTooltip);
 					if (m != null) {
