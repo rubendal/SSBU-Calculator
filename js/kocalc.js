@@ -499,7 +499,8 @@ app.controller('calculator', function ($scope) {
 			$scope.unblockable = attack.unblockable;
 			$scope.isFinishingTouch = attack.isFinishingTouch;
             $scope.windbox = attack.windbox;
-            $scope.shieldDamage = attack.shieldDamage;
+			$scope.shieldDamage = attack.shieldDamage;
+			$scope.set_weight = attack.setweight;
             if (!isNaN(attack.hitboxActive[0].start)) {
                 $scope.hit_frame = attack.hitboxActive[0].start;
             } else {

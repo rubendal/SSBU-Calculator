@@ -313,7 +313,8 @@ app.controller('calculator', function ($scope) {
             $scope.preDamage = attack.preDamage;
             $scope.counterMult = attack.counterMult;
             $scope.unblockable = attack.unblockable;
-            $scope.windbox = attack.windbox;
+			$scope.windbox = attack.windbox;
+			$scope.set_weight = attack.setweight;
             if (!isNaN(attack.hitboxActive[0].start)) {
                 $scope.hit_frame = attack.hitboxActive[0].start;
             } else {
