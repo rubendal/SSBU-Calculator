@@ -78,7 +78,7 @@ class CancelCond{
 }
 
 class MoveParser {
-	constructor(id, name, base_damage, angle, bkb, kbg, hitboxActive, faf, landingLag, autoCancel, weightDependent, ignore_hitboxes) {
+	constructor(id, name, base_damage, angle, bkb, kbg, hitboxActive, faf, landingLag, autoCancel, weightDependent, ignore_hitboxes, hitboxActiveTooltip, baseDamageTooltip) {
 		if (base_damage == null)
 			base_damage = "";
 		if (angle == null)
@@ -112,7 +112,8 @@ class MoveParser {
         this.shieldDamage = 0;
 		var shieldDamageRegex = /\(\+[0-9]+\)/i;
 
-		this.weightDependent = weightDependent;
+		this.setweight = false;
+		this.shieldstun = 1;
 
         if (!this.throw) {
             this.hitboxActive = parseHitbox(hitboxActive);
@@ -161,9 +162,57 @@ class MoveParser {
         var bkbs = [];
         var fkbs = [];
 
-        if(shieldDamageRegex.test(this.base_damage)){
-            this.shieldDamage = parseFloat(shieldDamageRegex.exec(this.base_damage)[0].replace(/\+|\(|\)/gi,""));
-        }
+		if (hitboxActiveTooltip || baseDamageTooltip) {
+
+			if (hitboxActiveTooltip) {
+				shieldDamageRegex = /SD: \+(?<value>[0-9]+)/i;
+
+				var m = shieldDamageRegex.exec(hitboxActiveTooltip);
+				if (m != null) {
+					this.shieldDamage = parseFloat(m.groups.value);
+				}
+
+				//Set weight
+				this.setweight = hitboxActiveTooltip.includes("Set Weight");
+
+				//Shieldstun multiplier
+				var shieldstunRegex = /Shieldstun multiplier: (?<value>([0-9]|\.)+)/i;
+				m = shieldstunRegex.exec(hitboxActiveTooltip);
+				if (m != null) {
+					this.shieldstun = parseFloat(m.groups.value);
+				}
+			}
+
+			if (baseDamageTooltip) {
+				if (this.shieldDamage != 0) {
+					shieldDamageRegex = /SD: \+(?<value>[0-9]+)/i;
+
+					var m = shieldDamageRegex.exec(baseDamageTooltip);
+					if (m != null) {
+						this.shieldDamage = parseFloat(m.groups.value);
+					}
+				}
+
+				//Set weight
+				if (!this.setweight)
+					this.setweight = baseDamageTooltip.includes("Set Weight");
+
+				//Shieldstun multiplier
+				if (this.shieldstun != 1) {
+					var shieldstunRegex = /Shieldstun multiplier: (?<value>([0-9]|\.)+)/i;
+					m = shieldstunRegex.exec(baseDamageTooltip);
+					if (m != null) {
+						this.shieldstun = parseFloat(m.groups.value);
+					}
+				}
+			}
+		}
+		else {
+			//Smash 4 format
+			if (shieldDamageRegex.test(this.base_damage)) {
+				this.shieldDamage = parseFloat(shieldDamageRegex.exec(this.base_damage)[0].replace(/\+|\(|\)/gi, ""));
+			}
+		}
 
         if(this.aerial){
             this.landingLag = parseFloat(landingLag);
@@ -171,7 +220,7 @@ class MoveParser {
             for(var i=0;i<cancels.length;i++){
                 this.autoCancel.push(new CancelCond(cancels[i]));
             }
-        }
+		}
 
         if (this.base_damage !== undefined && this.bkb !== undefined && this.kbg !== undefined && this.angle !== undefined) {
             if (this.base_damage == "-" || this.base_damage == "" || this.base_damage == "?") {
@@ -204,11 +253,12 @@ class MoveParser {
 				var multi_bkb = false;
                 damage = this.base_damage.split("/");
                 angles = this.angle.split("/");
-                kbgs = this.kbg.split("/");
+				kbgs = this.kbg.split("/");
 
+				//
                 if(shieldDamageRegex.test(damage[damage.length-1])){
                     this.shieldDamage = parseFloat(shieldDamageRegex.exec(damage[damage.length-1])[0].replace(/\+|\(|\)/gi,""));
-                }
+				}
 
                 if (this.bkb.includes("W: ") && this.bkb.includes("B: ")) {
                     this.bkb = this.bkb.replace("/W:", "W:").replace("/B:", "B:").split(",").join("");
@@ -338,7 +388,7 @@ class MoveParser {
 							}
 						}
 					}
-					this.moves.push(new Move(this.id, i, hitbox_name, this.name, parseFloat(d), parseFloat(a), parseFloat(b), parseFloat(k), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, s, this.weightDependent));
+					this.moves.push(new Move(this.id, i, hitbox_name, this.name, parseFloat(d), parseFloat(a), parseFloat(b), parseFloat(k), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, s, this.setweight, this.shieldstun));
                     if (ignore_hitboxes) {
                         return;
                     }
@@ -371,17 +421,17 @@ class MoveParser {
 				}
                 if (this.base_damage == "" && this.angle == "" && this.bkb == "" && this.kbg == "") {
 					if (this.grab) {
-						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.weightDependent));
+						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun));
                     } else {
-						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.weightDependent).invalidate());
+						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun).invalidate());
                     }
                 } else {
-					this.moves.push(new Move(this.id, 0, this.name, this.name, parseFloat(this.base_damage), parseFloat(this.angle), parseFloat(this.bkb), parseFloat(this.kbg), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.weightDependent));
+					this.moves.push(new Move(this.id, 0, this.name, this.name, parseFloat(this.base_damage), parseFloat(this.angle), parseFloat(this.bkb), parseFloat(this.kbg), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun));
                 }
             }
 
         } else {
-			this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, [new HitboxActiveFrames(NaN, NaN)], NaN, parseFloat(this.landingLag), this.autoCancel, 0, this.counterMult, this.rehitRate, this.shieldDamage, this.weightDependent).invalidate());
+			this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, [new HitboxActiveFrames(NaN, NaN)], NaN, parseFloat(this.landingLag), this.autoCancel, 0, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun).invalidate());
         }
 
 
@@ -507,7 +557,7 @@ var chargeMoves = [
 ];
 
 class Move {
-	constructor(api_id, hitbox_no, name, moveName, base_damage, angle, bkb, kbg, wbkb, hitboxActive, faf, landingLag, autoCancel, preDamage, counterMult, rehitRate, shieldDamage, weightDependent) {
+	constructor(api_id, hitbox_no, name, moveName, base_damage, angle, bkb, kbg, wbkb, hitboxActive, faf, landingLag, autoCancel, preDamage, counterMult, rehitRate, shieldDamage, setweight, shieldstun) {
         this.api_id = api_id;
         this.id = 0;
         this.hitbox_no = hitbox_no;
@@ -526,7 +576,9 @@ class Move {
         this.counterMult = counterMult;
         this.rehitRate = rehitRate;
 		this.shieldDamage = shieldDamage;
-		this.weightDependent = weightDependent;
+		this.setweight = setweight;
+		this.shieldstun = shieldstun;
+		this.weightDependent = false;
 
         this.eval_autoCancel = function(value){
             for(var i=0;i<this.autoCancel.length;i++){
@@ -656,7 +708,7 @@ class Move {
 		}
 
 		if (this.weightDependent) {
-			this.type += ",WeightDependent"
+			this.type += ",WeightDependent";
 		}
 
 		if (previousMove != null && isNaN(this.faf)) {
@@ -903,7 +955,7 @@ function getMoveset(attacker, $scope) {
 			var count = 1;
 			for (var i = 0; i < moveset.length; i++) {
 				var move = moveset[i];
-				var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false);
+				var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActiveTooltip, move.BaseDamageTooltip);
 				for (var c = 0; c < parser.moves.length; c++) {
 					var m = parser.moves[c];
 					m.id = count;
