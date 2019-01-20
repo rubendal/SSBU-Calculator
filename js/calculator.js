@@ -714,7 +714,6 @@ app.controller('calculator', function ($scope) {
 		preDamage *= target.modifier.damage_taken;
 
 		if ($scope.is_1v1) {
-			damage *= 1.2;
 			preDamage *= 1.2;
 		}
 
@@ -733,6 +732,10 @@ app.controller('calculator', function ($scope) {
         }
 
         var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.hitstunFSM, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames));
+
+		if ($scope.is_1v1) {
+			damage *= 1.2;
+		}
 
         //if(stage != null){
         //    if(distance.bounce_speed >= 1){

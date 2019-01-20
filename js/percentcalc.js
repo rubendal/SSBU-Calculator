@@ -535,7 +535,6 @@ app.controller('calculator', function ($scope) {
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
 		if ($scope.is_1v1) {
-			damage *= 1.2;
 			preDamage *= 1.2;
 		}
 		if ($scope.shorthop_aerial) {
