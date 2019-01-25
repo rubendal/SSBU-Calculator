@@ -165,10 +165,11 @@ class MoveParser {
 		if (hitboxActiveTooltip || baseDamageTooltip) {
 
 			if (hitboxActiveTooltip) {
-				shieldDamageRegex = /SD: \+(?<value>[0-9]+)/i;
+				shieldDamageRegex = /SD: \+?(?<value>-?[0-9]+)/i;
 
 				var m = shieldDamageRegex.exec(hitboxActiveTooltip);
 				if (m != null) {
+					console.log(m);
 					this.shieldDamage = parseFloat(m.groups.value);
 				}
 
@@ -185,7 +186,7 @@ class MoveParser {
 
 			if (baseDamageTooltip) {
 				if (this.shieldDamage == 0) {
-					shieldDamageRegex = /SD: \+(?<value>[0-9]+)/i;
+					shieldDamageRegex = /SD: \+?(?<value>-?[0-9]+)/i;
 
 					var m = shieldDamageRegex.exec(baseDamageTooltip);
 					if (m != null) {
@@ -939,10 +940,6 @@ function getMoveset(attacker, $scope) {
 		case "Dark Samus":
 			api_name = "samus";
 			$scope.moveset_info = "Using Samus moveset, ";
-			break;
-		case "Ken":
-			api_name = "ryu";
-			$scope.moveset_info = "Using Ryu moveset, ";
 			break;
 	}
 
