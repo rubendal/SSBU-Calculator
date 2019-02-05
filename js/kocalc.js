@@ -1385,7 +1385,10 @@ app.controller('calculator', function ($scope) {
         stock_dif = $scope.stock_dif;
         game_format = $scope.format;
 
-		stick = $scope.stick;
+		stick = {
+			X: $scope.stick.X,
+			Y: $scope.stick.Y
+		};
 
 		if (inverseX)
 			stick.X *= -1;
