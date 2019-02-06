@@ -165,32 +165,31 @@ class MoveParser {
 		if (hitboxActiveTooltip || baseDamageTooltip) {
 
 			if (hitboxActiveTooltip) {
-				shieldDamageRegex = /SD: \+?(?<value>-?[0-9]+)/i;
+				shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
 
 				var m = shieldDamageRegex.exec(hitboxActiveTooltip);
-				if (m != null) {
-					console.log(m);
-					this.shieldDamage = parseFloat(m.groups.value);
+				if (m != null && m.length > 0) {
+					this.shieldDamage = parseFloat(m[1]);
 				}
 
 				//Set weight
 				this.setweight = hitboxActiveTooltip.includes("Set Weight");
 
 				//Shieldstun multiplier
-				var shieldstunRegex = /Shieldstun multiplier: (?<value>([0-9]|\.)+)/i;
+				var shieldstunRegex = /Shieldstun multiplier: (([0-9]|\.)+)/i;
 				m = shieldstunRegex.exec(hitboxActiveTooltip);
-				if (m != null) {
-					this.shieldstun = parseFloat(m.groups.value);
+				if (m != null && m.length > 0) {
+					this.shieldstun = parseFloat(m[1]);
 				}
 			}
 
 			if (baseDamageTooltip) {
 				if (this.shieldDamage == 0) {
-					shieldDamageRegex = /SD: \+?(?<value>-?[0-9]+)/i;
+					shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
 
 					var m = shieldDamageRegex.exec(baseDamageTooltip);
-					if (m != null) {
-						this.shieldDamage = parseFloat(m.groups.value);
+					if (m != null && m.length > 0) {
+						this.shieldDamage = parseFloat(m[1]);
 					}
 				}
 
@@ -200,10 +199,10 @@ class MoveParser {
 
 				//Shieldstun multiplier
 				if (this.shieldstun == 1) {
-					var shieldstunRegex = /Shieldstun multiplier: (?<value>([0-9]|\.)+)/i;
+					var shieldstunRegex = /Shieldstun multiplier: (([0-9]|\.)+)/i;
 					m = shieldstunRegex.exec(baseDamageTooltip);
-					if (m != null) {
-						this.shieldstun = parseFloat(m.groups.value);
+					if (m != null && m.length > 0) {
+						this.shieldstun = parseFloat(m[1]);
 					}
 				}
 			}
