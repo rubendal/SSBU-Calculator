@@ -38,6 +38,7 @@ app.controller('calculator', function ($scope) {
 	$scope.charging_frames_type = "Frames charged";
 	$scope.delayed_shorthop_aerial = null;
 	$scope.shorthop_aerial = false;
+	$scope.throw = false;
 
 	$scope.attackerPercent_style = {};
 	$scope.targetPercent_style = {};
@@ -501,6 +502,7 @@ app.controller('calculator', function ($scope) {
             $scope.preDamage = attack.preDamage;
             $scope.counterMult = attack.counterMult;
 			$scope.unblockable = attack.unblockable || attack.throw;
+			$scope.throw = attack.throw;
 			$scope.isFinishingTouch = attack.isFinishingTouch;
             $scope.windbox = attack.windbox;
 			$scope.shieldDamage = attack.shieldDamage;
@@ -553,6 +555,7 @@ app.controller('calculator', function ($scope) {
                     $scope.moveset[0].name = "Custom move";
                     $scope.preDamage = 0;
 					$scope.unblockable = false;
+					$scope.throw = false;
 					$scope.isFinishingTouch = false;
 					$scope.selected_move = null;
                 }
@@ -563,6 +566,7 @@ app.controller('calculator', function ($scope) {
                 $scope.moveset[0].name = "Custom move";
                 $scope.preDamage = 0;
 				$scope.unblockable = false;
+				$scope.throw = false;
 				$scope.isFinishingTouch = false;
 				$scope.selected_move = null;
 
@@ -619,7 +623,8 @@ app.controller('calculator', function ($scope) {
                         $scope.move = i.toString();
                         $scope.preDamage = attack.preDamage;
                         $scope.counterMult = attack.counterMult;
-						$scope.unblockable = attack.unblockable || attack.throw;
+					$scope.unblockable = attack.unblockable || attack.throw;
+					$scope.throw = attack.throw;
 						$scope.isFinishingTouch = attack.isFinishingTouch;
                         $scope.selected_move = attack;
                         $scope.check_move();
@@ -647,7 +652,8 @@ app.controller('calculator', function ($scope) {
                         (attack.chargeable || attack.counterMult != 0)) {
                             $scope.preDamage = attack.preDamage;
                             $scope.counterMult = attack.counterMult;
-							$scope.unblockable = attack.unblockable;
+						$scope.unblockable = attack.unblockable;
+						$scope.throw = attack.throw;
 							$scope.isFinishingTouch = attack.isFinishingTouch;
                             $scope.move = i.toString();
                             $scope.selected_move = attack;
@@ -707,8 +713,10 @@ app.controller('calculator', function ($scope) {
 		base_damage *= attacker.modifier.base_damage;
 		preDamage *= attacker.modifier.base_damage;
 
-        var damage = base_damage;
-        damage *= attacker.modifier.damage_dealt;
+		var damage = base_damage;
+		if (!$scope.throw) {
+			damage *= attacker.modifier.damage_dealt;
+		}
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
@@ -735,6 +743,9 @@ app.controller('calculator', function ($scope) {
 
 		if ($scope.is_1v1) {
 			damage *= 1.2;
+		}
+		if ($scope.throw) {
+			damage *= attacker.modifier.damage_dealt;
 		}
 
         //if(stage != null){

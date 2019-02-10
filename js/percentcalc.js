@@ -74,7 +74,8 @@ app.controller('calculator', function ($scope) {
     $scope.counterStyle = { "display": "none" };
     $scope.counteredDamage = 0;
     $scope.counterMult = 0;
-    $scope.unblockable = false;
+	$scope.unblockable = false;
+	$scope.throw = false,
 
     $scope.charge_min = 0;
     $scope.charge_max = 60;
@@ -312,7 +313,8 @@ app.controller('calculator', function ($scope) {
             $scope.is_smash = attack.smash_attack;
             $scope.preDamage = attack.preDamage;
             $scope.counterMult = attack.counterMult;
-            $scope.unblockable = attack.unblockable;
+			$scope.unblockable = attack.unblockable;
+			$scope.throw = attack.throw;
 			$scope.windbox = attack.windbox;
 			$scope.set_weight = attack.setweight;
             if (!isNaN(attack.hitboxActive[0].start)) {
@@ -354,7 +356,8 @@ app.controller('calculator', function ($scope) {
                     $scope.move = "0";
                     $scope.moveset[0].name = "Custom move";
                     $scope.preDamage = 0;
-                    $scope.unblockable = false;
+					$scope.unblockable = false;
+					$scope.throw = false;
                     $scope.selected_move = null;
                 }
             }
@@ -363,7 +366,8 @@ app.controller('calculator', function ($scope) {
                 $scope.move = "0";
                 $scope.moveset[0].name = "Custom move";
                 $scope.preDamage = 0;
-                $scope.unblockable=false;
+				$scope.unblockable = false;
+				$scope.throw = false;
 				$scope.selected_move = null;
 				//Check if url has short hop aerial multiplier (Possible aerial with hitbox data modified)
 				if ($scope.delayed_shorthop_aerial != null) {
@@ -414,7 +418,8 @@ app.controller('calculator', function ($scope) {
                         $scope.move = i.toString();
                         $scope.preDamage = attack.preDamage;
                         $scope.counterMult = attack.counterMult;
-                        $scope.unblockable = attack.unblockable;
+					$scope.unblockable = attack.unblockable;
+					$scope.throw = attack.throw;
                         $scope.selected_move = attack;
                         $scope.check_move();
                         detected = true;
@@ -439,7 +444,8 @@ app.controller('calculator', function ($scope) {
                         (attack.chargeable || attack.counterMult != 0)) {
                             $scope.preDamage = attack.preDamage;
                             $scope.counterMult = attack.counterMult;
-                            $scope.unblockable = attack.unblockable;
+						$scope.unblockable = attack.unblockable;
+						$scope.throw = attack.throw;
                             $scope.selected_move = attack;
                             $scope.check_move();
                             $scope.move = i.toString();
@@ -530,7 +536,9 @@ app.controller('calculator', function ($scope) {
 
         var damage = base_damage;
         
-        damage *= attacker.modifier.damage_dealt;
+		if (!$scope.throw) {
+			damage *= attacker.modifier.damage_dealt;
+		}
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
