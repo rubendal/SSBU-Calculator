@@ -183,9 +183,9 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 	//}
 
 	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
-	if (electric) {
-		hitstun++;
-	}
+	//if (electric) {
+	//	hitstun++;
+	//}
 
 	if (hitstun < 5)
 		hitstun = 5;
@@ -674,6 +674,10 @@ function AngleToStickPosition(r, angle) {
 	
 }
 
+function Lerp(x, x2, y) {
+	return x + ((x2 - x) * y);
+}
+
 function lerp(min, max, x, xMax) {
 	return (1 - (x / xMax)) * min + (x / xMax) * max;
 }
@@ -894,4 +898,152 @@ function colorLerp(min, max, x, xMin, xMax) {
 	if (x >= xMax)
 		return max;
 	return (1 - ((x - xMin) / xMax)) * min + ((x - xMin) / xMax) * max;
+}
+
+//Damage speed up
+//Thanks to Arthur for passing the lua2cpp::L2CFighterCommon::FighterStatusDamage_init_damage_speed_up function into code
+//https://gist.github.com/BenHall-7/fb584467c316739f123cd32994b61336
+function GetSpeedUpFAF(faf, angle) {
+	var damage_reaction_frame = faf - 1;
+	var damage_reaction_frame_last = faf;
+	if (angle > 180)
+		angle -= 360;
+
+	var val = InitDamageSpeedUp(damage_reaction_frame, Math.abs(angle), true);
+
+	return ReactionFrameMulSpeedUp(damage_reaction_frame, damage_reaction_frame_last, val.damage_speed_up_max_mag, val.damage_speed_up);
+}
+
+function InitDamageSpeedUp(reaction_frame_last, angle, arg3) {
+	var damage_fly_speed_up_reaction_frame_min = 30;
+	var damage_fly_speed_up_reaction_frame_max = 80;
+	
+	var damage_fly_speed_up_max_mag = 6;
+	var damage_fly_speed_up_angle_base = 90;
+	var damage_fly_speed_up_min_max_angle = 45;
+	var damage_fly_speed_up_angle_rate = 100;
+
+	var damage_speed_up_max_mag = 0;
+	var damage_speed_up = false;
+
+	if (CheckDamageSpeedUp(reaction_frame_last) || arg3) {
+		var reaction_frame_min = damage_fly_speed_up_reaction_frame_min;
+		var reaction_frame_max = damage_fly_speed_up_reaction_frame_max;
+
+		var mag_ratio = (reaction_frame_last - reaction_frame_min) / (reaction_frame_max - reaction_frame_min);
+
+		if (mag_ratio < 0)
+			mag_ratio = 0;
+		else if (mag_ratio > 1)
+			mag_ratio = 1;
+		//0x000cde08
+		var mag = Lerp(1, damage_fly_speed_up_max_mag, mag_ratio);
+
+		var angle_base = damage_fly_speed_up_angle_base;
+		var angle_lw = angle_base - damage_fly_speed_up_min_max_angle;
+		var angle_hi = angle_base + damage_fly_speed_up_min_max_angle;
+
+		var angle_ratio;
+		
+		if (angle > angle_lw && angle <= angle_base) {
+			//0x000ce024
+			angle_ratio = (angle - angle_lw) / (angle_base - angle_lw);
+			if (angle_ratio < 0)
+				angle_ratio = 0;
+			else if (angle_ratio > 1)
+				angle_ratio = 1;
+			//0x000ce184
+			mag *= Lerp(1, damage_fly_speed_up_angle_rate * 0.01, angle_ratio);
+		}
+		else if (angle > angle_base && angle <= angle_hi) {
+			//0x000ce0ac
+			angle_ratio = 1 - (angle - angle_base) / (angle_hi - angle_base);
+			if (angle_ratio < 0)
+				angle_ratio = 0;
+			else if (angle_ratio > 1)
+				angle_ratio = 1;
+			//0x000ce2d0
+			mag *= Lerp(1, damage_fly_speed_up_angle_rate * 0.01, angle_ratio);
+		}
+		damage_speed_up = true;
+		damage_speed_up_max_mag = mag + 0;
+	}
+	else {
+		//0x000cdd6c
+		damage_speed_up = false;
+		damage_speed_up_max_mag = 0;
+	}
+
+	return {
+		damage_speed_up_max_mag: damage_speed_up_max_mag,
+		damage_speed_up: damage_speed_up
+	};
+}
+
+function CheckDamageSpeedUp(reaction_frame_last) {
+	return true;
+}
+
+function ReactionFrameMulSpeedUp(damage_reaction_frame, damage_reaction_frame_last, damage_speed_up_max_mag, damage_speed_up) {
+	var damage_fly_speed_up_end_rate = 70;
+
+	var frame = damage_reaction_frame;
+	if (damage_speed_up != false) {
+		var max_mag = damage_speed_up_max_mag;
+		var mag = max_mag;
+		var frame_last = damage_reaction_frame_last;
+		var unk0 = 1 - damage_fly_speed_up_end_rate / 100;
+		var i = 0;
+		while (mag > 1) {
+			var ratio = (frame_last * unk0 - frame) / (frame_last * unk0 - frame_last);
+			ratio = Math.min(Math.max(ratio, 0), 1);
+			mag = ratio * max_mag;
+			if (mag < 1)
+				frame--;
+			else
+				frame -= mag;
+			i++;
+		}
+		return i + Math.ceil(frame);
+	}
+	return frame;
+}
+
+//List of frames for visualizer
+function ReactionFrameMulSpeedUpFrames(damage_reaction_frame, damage_reaction_frame_last, damage_speed_up_max_mag, damage_speed_up) {
+	var damage_fly_speed_up_end_rate = 70;
+
+	var frame = damage_reaction_frame;
+	var list = [];
+	if (damage_speed_up != false) {
+		var max_mag = damage_speed_up_max_mag;
+		var mag = max_mag;
+		var frame_last = damage_reaction_frame_last;
+		var unk0 = 1 - damage_fly_speed_up_end_rate / 100;
+		var i = 0;
+		while (mag > 1) {
+			var ratio = (frame_last * unk0 - frame) / (frame_last * unk0 - frame_last);
+			ratio = Math.min(Math.max(ratio, 0), 1);
+			mag = ratio * max_mag;
+			if (mag < 1)
+				frame--;
+			else
+				frame -= mag;
+			i++;
+			list.push(frame);
+		}
+		return i + Math.ceil(frame);
+	}
+	return list;
+}
+
+function DamageSpeedUpFrames(faf, angle) {
+	var damage_reaction_frame = faf - 1;
+	var damage_reaction_frame_last = faf;
+	if (angle > 180)
+		angle -= 360;
+
+	var val = InitDamageSpeedUp(damage_reaction_frame, Math.abs(angle), true);
+
+	return ReactionFrameMulSpeedUpFrames(damage_reaction_frame, damage_reaction_frame_last, val.damage_speed_up_max_mag, val.damage_speed_up);
 }

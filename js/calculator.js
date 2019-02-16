@@ -852,7 +852,16 @@ app.controller('calculator', function ($scope) {
 		//kbList.push(new Result("Hitstun", HitstunWithFSM(vskb.base_kb, windbox, electric), Hitstun(vskb.base_kb, windbox, electric) == HitstunWithFSM(vskb.base_kb, windbox, electric)));
 		//kbList.push(new Result("Hitstun with FSM", HitstunWithFSM(vskb.base_kb, windbox, electric)));
 
-        kbList.push(new Result("First Actionable Frame", FirstActionableFrame(vskb.base_kb, windbox, electric)));
+		kbList.push(new Result("First Actionable Frame", FirstActionableFrame(vskb.base_kb, windbox, electric)));
+
+		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32) {
+			var speedUpFAF = GetSpeedUpFAF(FirstActionableFrame(vskb.base_kb, windbox, electric), vskb.angle);
+
+			kbList.push(new Result("Hitstun with speed up", speedUpFAF - 1));
+			kbList.push(new Result("FAF with speed up", speedUpFAF));
+		}
+
+
         kbList.push(new Result("Airdodge hitstun cancel", v_hc.airdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.airdodge)));
         kbList.push(new Result("Aerial hitstun cancel", v_hc.aerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.aerial)));
 
