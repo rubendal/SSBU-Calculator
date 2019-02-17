@@ -909,7 +909,7 @@ function GetSpeedUpFAF(faf, angle) {
 	if (angle > 180)
 		angle -= 360;
 
-	var val = InitDamageSpeedUp(damage_reaction_frame, Math.abs(angle), true);
+	var val = InitDamageSpeedUp(damage_reaction_frame_last, Math.abs(angle), true);
 
 	return ReactionFrameMulSpeedUp(damage_reaction_frame, damage_reaction_frame_last, val.damage_speed_up_max_mag, val.damage_speed_up);
 }
@@ -1010,40 +1010,20 @@ function ReactionFrameMulSpeedUp(damage_reaction_frame, damage_reaction_frame_la
 }
 
 //List of frames for visualizer
-function ReactionFrameMulSpeedUpFrames(damage_reaction_frame, damage_reaction_frame_last, damage_speed_up_max_mag, damage_speed_up) {
-	var damage_fly_speed_up_end_rate = 70;
-
-	var frame = damage_reaction_frame;
-	var list = [];
-	if (damage_speed_up != false) {
-		var max_mag = damage_speed_up_max_mag;
-		var mag = max_mag;
-		var frame_last = damage_reaction_frame_last;
-		var unk0 = 1 - damage_fly_speed_up_end_rate / 100;
-		var i = 0;
-		while (mag > 1) {
-			var ratio = (frame_last * unk0 - frame) / (frame_last * unk0 - frame_last);
-			ratio = Math.min(Math.max(ratio, 0), 1);
-			mag = ratio * max_mag;
-			if (mag < 1)
-				frame--;
-			else
-				frame -= mag;
-			i++;
-			list.push(frame);
-		}
-		return i + Math.ceil(frame);
-	}
-	return list;
-}
 
 function DamageSpeedUpFrames(faf, angle) {
-	var damage_reaction_frame = faf - 1;
 	var damage_reaction_frame_last = faf;
 	if (angle > 180)
 		angle -= 360;
 
-	var val = InitDamageSpeedUp(damage_reaction_frame, Math.abs(angle), true);
+	var list = [];
 
-	return ReactionFrameMulSpeedUpFrames(damage_reaction_frame, damage_reaction_frame_last, val.damage_speed_up_max_mag, val.damage_speed_up);
+	var val = InitDamageSpeedUp(damage_reaction_frame_last, Math.abs(angle), true);
+
+	for (var damage_reaction_frame = 0; damage_reaction_frame < faf; damage_reaction_frame++) {
+		
+		list.push(ReactionFrameMulSpeedUp(damage_reaction_frame + 1, damage_reaction_frame_last, val.damage_speed_up_max_mag, val.damage_speed_up));
+	}
+
+	return list;
 }
