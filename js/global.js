@@ -1577,7 +1577,7 @@ class DILine {
 }
 
 class Distance{
-    constructor(kb, x_launch_speed, y_launch_speed, hitstun, speedupFrames, angle, gravity, faf, fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch){
+    constructor(kb, x_launch_speed, y_launch_speed, hitstun, hitstunFSM, angle, gravity, faf, fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch){
         this.kb = kb;
         this.x_launch_speed = x_launch_speed;
         this.y_launch_speed = y_launch_speed;
@@ -1598,7 +1598,6 @@ class Distance{
         this.finalPosition = position;
 		this.extra = [];
 		this.collisions = 0;
-		this.speedupFrames = speedupFrames;
         if (extraFrames !== undefined) {
             this.extraFrames = extraFrames;
         }
@@ -1626,8 +1625,6 @@ class Distance{
 
         var x_speed = +this.x_launch_speed.toFixed(6);
 		var y_speed = +this.y_launch_speed.toFixed(6);
-
-		var frameCount = 1;
 
 		this.KO = false;
 
@@ -1660,8 +1657,8 @@ class Distance{
 		var next_position = { 'x': 0, 'y': 0 };
         var character_speed = { 'x': 0, 'y': 0 };
         this.vertical_speed = [];
-		var momentum = 1;
-		var g = 0;
+        var momentum = 1;
+        var g = 0;
         var fg = 0;
         this.bounce_frame = -1;
 		this.bounce_speed = 0;
@@ -1949,20 +1946,10 @@ class Distance{
             character_position.x = next_x;
             character_position.y = next_y;
 
-            
+            this.x.push(+character_position.x.toFixed(6));
+			this.y.push(+character_position.y.toFixed(6));
 
-			if (i < speedupFrames.length) {
-				if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
-					this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
-					frameCount++;
-					this.x.push(+character_position.x.toFixed(6));
-					this.y.push(+character_position.y.toFixed(6));
-				}
-			} else {
-				this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
-				this.x.push(+character_position.x.toFixed(6));
-				this.y.push(+character_position.y.toFixed(6));
-			}
+			this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
 	
 
             //Maximum position during hitstun
@@ -1993,9 +1980,6 @@ class Distance{
 				
 			//}
 		}
-
-		hitstun = speedupFrames[speedupFrames.length - 1];
-		this.launchData.hitstun = hitstun;
 
 		this.vertical_speed.push((launch_speed.y));
 
