@@ -737,9 +737,11 @@ app.controller('calculator', function ($scope) {
         } else {
 			vskb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, target_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
             vskb.addModifier(target.modifier.kb_received);
-        }
+		}
 
-        var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.hitstunFSM, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames));
+		var damageSpeedUpFrames = DamageSpeedUpFrames(FirstActionableFrame(vskb.base_kb, windbox, electric), vskb.angle);
+
+		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, damageSpeedUpFrames, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames));
 
 		if ($scope.is_1v1) {
 			damage *= 1.2;
@@ -757,7 +759,7 @@ app.controller('calculator', function ($scope) {
 		
 		//var vsDistance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.hitstunFSM, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
         vskb.bounce(bounce);
-        var v_hc = HitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric);
+		var v_hc = HitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric);		
 
 		//Results categories
 		var resultList = [];
@@ -855,7 +857,7 @@ app.controller('calculator', function ($scope) {
 		kbList.push(new Result("First Actionable Frame", FirstActionableFrame(vskb.base_kb, windbox, electric)));
 
 		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32) {
-			var speedUpFAF = GetSpeedUpFAF(FirstActionableFrame(vskb.base_kb, windbox, electric), vskb.angle);
+			var speedUpFAF = damageSpeedUpFrames[damageSpeedUpFrames.length - 1];
 
 			kbList.push(new Result("Hitstun with speed up", speedUpFAF - 1));
 			kbList.push(new Result("FAF with speed up", speedUpFAF));
@@ -864,6 +866,17 @@ app.controller('calculator', function ($scope) {
 
         kbList.push(new Result("Airdodge hitstun cancel", v_hc.airdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.airdodge)));
         kbList.push(new Result("Aerial hitstun cancel", v_hc.aerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.aerial)));
+
+		//if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32) {
+
+		// Frame hitstun cancel is possible isn't affected by speed up
+
+		//	var speedUpAirdodge = damageSpeedUpFrames[v_hc.airdodge - 1];
+		//	var speedUpAerial = damageSpeedUpFrames[v_hc.aerial - 1];
+
+		//	kbList.push(new Result("Airdodge hitstun cancel with speed up", speedUpAirdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.airdodge)));
+		//	kbList.push(new Result("Aerial hitstun cancel with speed up", speedUpAerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.aerial)));
+		//}
 
         kbList.push(new Result("Tumble", vskb.tumble ? "Yes" : "No"));
 

@@ -904,7 +904,7 @@ function colorLerp(min, max, x, xMin, xMax) {
 //Thanks to Arthur for passing the lua2cpp::L2CFighterCommon::FighterStatusDamage_init_damage_speed_up function into code
 //https://gist.github.com/BenHall-7/fb584467c316739f123cd32994b61336
 function GetSpeedUpFAF(faf, angle) {
-	var damage_reaction_frame = faf - 1;
+	var damage_reaction_frame = faf;
 	var damage_reaction_frame_last = faf;
 	if (angle > 180)
 		angle -= 360;
@@ -1018,12 +1018,86 @@ function DamageSpeedUpFrames(faf, angle) {
 
 	var list = [];
 
-	var val = InitDamageSpeedUp(damage_reaction_frame_last, Math.abs(angle), true);
+	var i = 0;
 
-	for (var damage_reaction_frame = 0; damage_reaction_frame < faf; damage_reaction_frame++) {
-		
-		list.push(ReactionFrameMulSpeedUp(damage_reaction_frame + 1, damage_reaction_frame_last, val.damage_speed_up_max_mag, val.damage_speed_up));
+	for (var damage_reaction_frame = faf -1; damage_reaction_frame >= 0; damage_reaction_frame--) {
+		var val = InitDamageSpeedUp(damage_reaction_frame_last-i, Math.abs(angle), true);
+		list.push(ReactionFrameMulSpeedUp(damage_reaction_frame + 1, damage_reaction_frame_last-i, val.damage_speed_up_max_mag, val.damage_speed_up));
+		i++;
 	}
 
+	var value = list[0];
+	for (i = 0; i < list.length;i++) {
+		list[i] = (list[i] - value - 1) * -1;
+	}
+	
 	return list;
+}
+
+function GetFrameWithSpeedUp(list, frame) {
+	var value = list[frame];
+	for (var i = frame+1; i < list.length; i++) {
+		if (list[i] > value) {
+			return i - 1;
+		}
+	}
+	return frame;
+}
+
+function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, speedupFrames) {
+	var res = { 'airdodge': 0, 'aerial': 0 };
+	if (windbox) {
+		return res;
+	}
+	var hitstun = Hitstun(kb, windbox, electric);
+	//var fsm = TumbleFSM(kb);
+	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
+	var airdodge = false;
+	var aerial = false;
+	var launch_speed = { 'x': Math.abs(launch_speed_x), 'y': Math.abs(launch_speed_y) };
+	var decay = { 'x': Math.abs(parameters.decay * Math.cos(angle * Math.PI / 180)), 'y': Math.abs(parameters.decay * Math.sin(angle * Math.PI / 180)) };
+	var ec = electric ? 1 : 0;
+	for (var i = 0; i < hitstun; i++) {
+		if (launch_speed.x != 0) {
+			var x_dir = launch_speed.x / Math.abs(launch_speed.x);
+			launch_speed.x -= decay.x;
+			if (x_dir == -1 && launch_speed.x > 0) {
+				launch_speed.x = 0;
+			} else if (x_dir == 1 && launch_speed.x < 0) {
+				launch_speed.x = 0;
+			}
+		}
+		if (launch_speed.y != 0) {
+			var y_dir = launch_speed.y / Math.abs(launch_speed.y);
+			launch_speed.y -= decay.y;
+			if (y_dir == -1 && launch_speed.y > 0) {
+				launch_speed.y = 0;
+			} else if (y_dir == 1 && launch_speed.y < 0) {
+				launch_speed.y = 0;
+			}
+		}
+		var lc = Math.sqrt(Math.pow(launch_speed.x, 2) + Math.pow(launch_speed.y, 2));
+		if (lc < parameters.hitstunCancel.launchSpeed.airdodge && !airdodge) {
+			airdodge = true;
+			res.airdodge = Math.max(i + 2, parameters.hitstunCancel.frames.airdodge + 1 + ec);
+		}
+		if (lc < parameters.hitstunCancel.launchSpeed.aerial && !aerial) {
+			aerial = true;
+			res.aerial = Math.max(i + 2, parameters.hitstunCancel.frames.aerial + 1 + ec);
+		}
+	}
+
+	if (res.airdodge > hitstun) {
+		res.airdodge = hitstun + 1;
+	}
+	if (res.aerial > hitstun) {
+		res.aerial = hitstun + 1;
+	}
+
+	//if (fsm >= 1) {
+	//	res.airdodge -= fsm * 5;
+	//	res.aerial -= fsm * 5;
+	//}
+
+	return res;
 }
