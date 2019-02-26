@@ -1,1 +1,1 @@
-{"name":"koopa","weight":135,"gravity":0.125,"fall_speed":1.77,"traction":0.104,"soft_landing_lag":1,"hard_landing_lag":5}
+{"name":"koopa","weight":135,"gravity":0.125,"fall_speed":1.77,"traction":0.104,"soft_landing_lag":1,"hard_landing_lag":5,"damageflytop_gravity":0.0874,"damageflytop_fall_speed":1.8}

@@ -1,1 +1,1 @@
-{"name":"robot","weight":106,"gravity":0.09,"fall_speed":1.6,"traction":0.105,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"robot","weight":106,"gravity":0.09,"fall_speed":1.6,"traction":0.105,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0776,"damageflytop_fall_speed":1.8}

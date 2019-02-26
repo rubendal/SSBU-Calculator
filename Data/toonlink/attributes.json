@@ -1,1 +1,1 @@
-{"name":"toonlink","weight":91,"gravity":0.081,"fall_speed":1.38,"traction":0.086,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"toonlink","weight":91,"gravity":0.081,"fall_speed":1.38,"traction":0.086,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0726,"damageflytop_fall_speed":1.8}

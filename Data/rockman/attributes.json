@@ -1,1 +1,1 @@
-{"name":"rockman","weight":102,"gravity":0.107,"fall_speed":1.8,"traction":0.094,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"rockman","weight":102,"gravity":0.107,"fall_speed":1.8,"traction":0.094,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0763,"damageflytop_fall_speed":1.8}

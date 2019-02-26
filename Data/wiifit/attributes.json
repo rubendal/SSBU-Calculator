@@ -1,1 +1,1 @@
-{"name":"wiifit","weight":96,"gravity":0.09,"fall_speed":1.3,"traction":0.128,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"wiifit","weight":96,"gravity":0.09,"fall_speed":1.3,"traction":0.128,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0743,"damageflytop_fall_speed":1.8}

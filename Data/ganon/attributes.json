@@ -1,1 +1,1 @@
-{"name":"ganon","weight":118,"gravity":0.108,"fall_speed":1.65,"traction":0.125,"soft_landing_lag":1,"hard_landing_lag":4}
+{"name":"ganon","weight":118,"gravity":0.108,"fall_speed":1.65,"traction":0.125,"soft_landing_lag":1,"hard_landing_lag":4,"damageflytop_gravity":0.0816,"damageflytop_fall_speed":1.8}

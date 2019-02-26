@@ -1,1 +1,1 @@
-{"name":"younglink","weight":88,"gravity":0.096,"fall_speed":1.8,"traction":0.105,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"younglink","weight":88,"gravity":0.096,"fall_speed":1.8,"traction":0.105,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0716,"damageflytop_fall_speed":1.8}

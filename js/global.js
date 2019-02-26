@@ -1322,7 +1322,7 @@ class Collision {
 					this.collision_data.techable.onCollision = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
 				}
 
-				if (frame == 1) {
+				if (frame == 1 && lineType == LineTypes.FLOOR) {
 					this.collision_data.techable = { before: false, onCollision: false };
 				}
 
@@ -1577,7 +1577,7 @@ class DILine {
 }
 
 class Distance{
-    constructor(kb, x_launch_speed, y_launch_speed, hitstun, hitstunFSM, angle, gravity, faf, fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch){
+	constructor(kb, x_launch_speed, y_launch_speed, hitstun, speedupFrames, angle, gravity, damageflytop_gravity, faf, fall_speed, damageflytop_fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch) {
         this.kb = kb;
         this.x_launch_speed = x_launch_speed;
         this.y_launch_speed = y_launch_speed;
@@ -1598,9 +1598,12 @@ class Distance{
         this.finalPosition = position;
 		this.extra = [];
 		this.collisions = 0;
+		this.speedupFrames = speedupFrames;
         if (extraFrames !== undefined) {
             this.extraFrames = extraFrames;
-        }
+		}
+		this.damageflytop_gravity = damageflytop_gravity;
+		this.damageflytop_fall_speed = damageflytop_fall_speed;
         
         if(position !== undefined){
             this.position = position;
@@ -1625,6 +1628,8 @@ class Distance{
 
         var x_speed = +this.x_launch_speed.toFixed(6);
 		var y_speed = +this.y_launch_speed.toFixed(6);
+
+		var frameCount = 1;
 
 		this.KO = false;
 
@@ -1657,8 +1662,8 @@ class Distance{
 		var next_position = { 'x': 0, 'y': 0 };
         var character_speed = { 'x': 0, 'y': 0 };
         this.vertical_speed = [];
-        var momentum = 1;
-        var g = 0;
+		var momentum = 1;
+		var g = 0;
         var fg = 0;
         this.bounce_frame = -1;
 		this.bounce_speed = 0;
@@ -1680,6 +1685,8 @@ class Distance{
 
 		var hc = HitstunCancel(kb, x_launch_speed, y_launch_speed, angle, false);
 		this.launchData = new LaunchData([{ x: this.position.x, y: this.position.y }], { x: 0, y: 0 }, [], hitstun, hc.airdodge, hc.aerial, faf, -1);
+
+		var isDamageFlyTop = this.angle >= 70 && this.angle <= 110;
 
 		//var tumbleFSM = TumbleFSM(this.kb);
 
@@ -1908,10 +1915,37 @@ class Distance{
 				//Gravity
 				if (countGravity) {
 					if (!this.isFinishingTouch) {
-						g -= gravity;
-						fg = Math.max(g, -fall_speed);
-						character_speed.y = fg;
-						character_speed.y = +character_speed.y.toFixed(6);
+						if (!isDamageFlyTop) {
+							g -= gravity;
+							fg = Math.max(g, -fall_speed);
+							character_speed.y = fg;
+							character_speed.y = +character_speed.y.toFixed(6);
+						} else {
+							//First 45 frames
+							if (i < 45) {
+								//Set DamageFlyTop values
+								g -= damageflytop_gravity;
+								fg = Math.max(g, -damageflytop_fall_speed);
+								character_speed.y = fg;
+								character_speed.y = +character_speed.y.toFixed(6);
+							} else {
+								if (i == 45) {
+									g = fg;
+								}
+								if (character_speed.y < -fall_speed) {
+									//Current fall speed is higher than character normal fall speed, add gravity until it reduces to fall speed
+									g += gravity;
+									fg = Math.min(g, -fall_speed);
+									character_speed.y = fg;
+									character_speed.y = +character_speed.y.toFixed(6);
+								} else {
+									g -= gravity;
+									fg = Math.max(g, -fall_speed);
+									character_speed.y = fg;
+									character_speed.y = +character_speed.y.toFixed(6);
+								}
+							}
+						}
 					} else {
 						//First 22 frames
 						if (i < 22) {
@@ -1946,10 +1980,20 @@ class Distance{
             character_position.x = next_x;
             character_position.y = next_y;
 
-            this.x.push(+character_position.x.toFixed(6));
-			this.y.push(+character_position.y.toFixed(6));
+            
 
-			this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
+			if (i < speedupFrames.length) {
+				if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
+					this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
+					frameCount++;
+					this.x.push(+character_position.x.toFixed(6));
+					this.y.push(+character_position.y.toFixed(6));
+				}
+			} else {
+				this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
+				this.x.push(+character_position.x.toFixed(6));
+				this.y.push(+character_position.y.toFixed(6));
+			}
 	
 
             //Maximum position during hitstun
@@ -1980,6 +2024,9 @@ class Distance{
 				
 			//}
 		}
+
+		hitstun = speedupFrames[speedupFrames.length - 1];
+		this.launchData.hitstun = hitstun;
 
 		this.vertical_speed.push((launch_speed.y));
 
@@ -2068,7 +2115,7 @@ class Distance{
 };
 
 class Knockback {
-    constructor(kb, angle, gravity, fall_speed, aerial, windbox, electric, percent, set_weight, stick, launch_rate) {
+    constructor(kb, angle, gravity, damageflytop_gravity, aerial, windbox, electric, percent, set_weight, stick, launch_rate) {
         this.base_kb = kb;
         if(this.base_kb > 2500){
             //this.base_kb = 2500;
@@ -2085,7 +2132,6 @@ class Knockback {
         this.tumble = false;
         this.can_jablock = false;
         this.di_able = false;
-        this.fall_speed = fall_speed;
         this.add_gravity_speed = parameters.gravity.mult * (this.gravity - parameters.gravity.constant);
         this.percent = percent;
         this.reeling = false;
@@ -2097,7 +2143,10 @@ class Knockback {
         this.horizontal_launch_speed = 0;
         this.vertical_launch_speed = 0;
         this.launch_rate = launch_rate;
-        this.electric = electric;
+		this.electric = electric;
+		this.damageflytop = this.angle >= 70 && this.angle <= 110;
+		this.damageflytop_gravity = damageflytop_gravity;
+
         if (this.launch_rate == undefined) {
             this.launch_rate = 1;
         }
@@ -2121,7 +2170,16 @@ class Knockback {
 				this.tumble = Hitstun(this.kb, windbox, false, true) + 1 >= parameters.tumble_threshold && !windbox;
 			}
 
-			this.add_gravity_speed = parameters.gravity.mult * (this.gravity - parameters.gravity.constant);
+			var gravity = this.gravity;
+
+			this.damageflytop = this.angle >= 70 && this.angle <= 110;
+
+			if (this.damageflytop)
+				gravity = this.damageflytop_gravity;
+			else
+				gravity = this.gravity;
+
+			this.add_gravity_speed = parameters.gravity.mult * (gravity - parameters.gravity.constant);
 			if (!this.tumble || this.set_weight) {
 				this.add_gravity_speed = 0;
 			}
@@ -2153,6 +2211,11 @@ class Knockback {
 				this.angle = DI(this.stick, { X: this.horizontal_launch_speed, Y: this.vertical_launch_speed }, this.launch_speed);
 
 				this.angle_with_di = this.angle;
+
+				if (this.damageflytop)
+					gravity = this.damageflytop_gravity;
+				else
+					gravity = this.gravity;
 
 				this.lsi = LSI(this.stick.Y, this.angle);
 				

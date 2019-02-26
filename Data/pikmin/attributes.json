@@ -1,1 +1,1 @@
-{"name":"pikmin","weight":79,"gravity":0.068,"fall_speed":1.35,"traction":0.093,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"pikmin","weight":79,"gravity":0.068,"fall_speed":1.35,"traction":0.093,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0685,"damageflytop_fall_speed":1.8}

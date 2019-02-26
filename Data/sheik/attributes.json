@@ -1,1 +1,1 @@
-{"name":"sheik","weight":78,"gravity":0.15,"fall_speed":1.75,"traction":0.106,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"sheik","weight":78,"gravity":0.15,"fall_speed":1.75,"traction":0.106,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0682,"damageflytop_fall_speed":1.8}

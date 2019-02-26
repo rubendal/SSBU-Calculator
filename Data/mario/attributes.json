@@ -1,1 +1,1 @@
-{"name":"mario","weight":98,"gravity":0.087,"fall_speed":1.5,"traction":0.102,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"mario","weight":98,"gravity":0.087,"fall_speed":1.5,"traction":0.102,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0749,"damageflytop_fall_speed":1.8}

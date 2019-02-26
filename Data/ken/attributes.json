@@ -1,1 +1,1 @@
-{"name":"ken","weight":103,"gravity":0.12,"fall_speed":1.6,"traction":0.11,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"ken","weight":103,"gravity":0.12,"fall_speed":1.6,"traction":0.11,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0766,"damageflytop_fall_speed":1.8}

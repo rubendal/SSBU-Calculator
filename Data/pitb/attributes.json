@@ -1,1 +1,1 @@
-{"name":"pitb","weight":96,"gravity":0.081,"fall_speed":1.48,"traction":0.135,"soft_landing_lag":1,"hard_landing_lag":4}
+{"name":"pitb","weight":96,"gravity":0.081,"fall_speed":1.48,"traction":0.135,"soft_landing_lag":1,"hard_landing_lag":4,"damageflytop_gravity":0.0743,"damageflytop_fall_speed":1.8}

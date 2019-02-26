@@ -1,1 +1,1 @@
-{"name":"packun","weight":112,"gravity":0.14,"fall_speed":1.95,"traction":0.088,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"packun","weight":112,"gravity":0.14,"fall_speed":1.95,"traction":0.088,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0796,"damageflytop_fall_speed":1.8}

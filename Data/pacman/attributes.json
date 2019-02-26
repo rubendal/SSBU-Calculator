@@ -1,1 +1,1 @@
-{"name":"pacman","weight":95,"gravity":0.072,"fall_speed":1.35,"traction":0.116,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"pacman","weight":95,"gravity":0.072,"fall_speed":1.35,"traction":0.116,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0739,"damageflytop_fall_speed":1.8}

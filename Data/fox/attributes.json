@@ -1,1 +1,1 @@
-{"name":"fox","weight":77,"gravity":0.23,"fall_speed":2.1,"traction":0.115,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"fox","weight":77,"gravity":0.23,"fall_speed":2.1,"traction":0.115,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0679,"damageflytop_fall_speed":1.8}

@@ -1,1 +1,1 @@
-{"name":"miiswordsman","weight":100,"gravity":0.106,"fall_speed":1.55,"traction":0.11,"soft_landing_lag":1,"hard_landing_lag":4}
+{"name":"miiswordsman","weight":100,"gravity":0.106,"fall_speed":1.55,"traction":0.11,"soft_landing_lag":1,"hard_landing_lag":4,"damageflytop_gravity":0.0756,"damageflytop_fall_speed":1.8}

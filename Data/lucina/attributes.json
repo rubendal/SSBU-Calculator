@@ -1,1 +1,1 @@
-{"name":"lucina","weight":90,"gravity":0.075,"fall_speed":1.58,"traction":0.114,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"lucina","weight":90,"gravity":0.075,"fall_speed":1.58,"traction":0.114,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0722,"damageflytop_fall_speed":1.8}

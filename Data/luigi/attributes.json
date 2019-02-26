@@ -1,1 +1,1 @@
-{"name":"luigi","weight":97,"gravity":0.083,"fall_speed":1.32,"traction":0.096,"soft_landing_lag":1,"hard_landing_lag":3}
+{"name":"luigi","weight":97,"gravity":0.083,"fall_speed":1.32,"traction":0.096,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.0746,"damageflytop_fall_speed":1.8}
