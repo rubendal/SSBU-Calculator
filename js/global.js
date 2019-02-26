@@ -1686,7 +1686,7 @@ class Distance{
 		var hc = HitstunCancel(kb, x_launch_speed, y_launch_speed, angle, false);
 		this.launchData = new LaunchData([{ x: this.position.x, y: this.position.y }], { x: 0, y: 0 }, [], hitstun, hc.airdodge, hc.aerial, faf, -1);
 
-		var isDamageFlyTop = this.angle >= 70 && this.angle <= 110;
+		var isDamageFlyTop = this.kb >= 80 && this.angle >= 70 && this.angle <= 110;
 
 		//var tumbleFSM = TumbleFSM(this.kb);
 
@@ -2144,7 +2144,7 @@ class Knockback {
         this.vertical_launch_speed = 0;
         this.launch_rate = launch_rate;
 		this.electric = electric;
-		this.damageflytop = this.angle >= 70 && this.angle <= 110;
+		this.damageflytop = this.tumble && this.angle >= 70 && this.angle <= 110;
 		this.damageflytop_gravity = damageflytop_gravity;
 
         if (this.launch_rate == undefined) {
@@ -2172,7 +2172,7 @@ class Knockback {
 
 			var gravity = this.gravity;
 
-			this.damageflytop = this.angle >= 70 && this.angle <= 110;
+			this.damageflytop = this.tumble && this.angle >= 70 && this.angle <= 110;
 
 			if (this.damageflytop)
 				gravity = this.damageflytop_gravity;
