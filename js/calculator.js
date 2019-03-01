@@ -70,11 +70,13 @@ app.controller('calculator', function ($scope) {
     $scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
     $scope.attacker_kb_dealt = attacker.modifier.kb_dealt;
     $scope.target_weight = target.attributes.weight;
-    $scope.target_gravity = target.attributes.gravity;
+	$scope.target_gravity = target.attributes.gravity;
+	$scope.target_damageflytop_gravity = target.attributes.damageflytop_gravity;
     $scope.target_damage_taken = target.modifier.damage_taken;
     $scope.target_kb_received = target.modifier.kb_received;
     $scope.target_traction = target.attributes.traction;
 	$scope.target_fall_speed = target.attributes.fall_speed;
+	$scope.target_damageflytop_fall_speed = target.attributes.damageflytop_fall_speed;
 	$scope.is_1v1 = true;
 
 	$scope.is_smash = false;
@@ -407,11 +409,13 @@ app.controller('calculator', function ($scope) {
         attacker.modifier.damage_dealt = parseFloat($scope.attacker_damage_dealt);
         attacker.modifier.kb_dealt = parseFloat($scope.attacker_kb_dealt);
         target.attributes.weight = parseFloat($scope.target_weight);
-        target.attributes.gravity = parseFloat($scope.target_gravity);
+		target.attributes.gravity = parseFloat($scope.target_gravity);
+		target.attributes.damageflytop_gravity = parseFloat($scope.target_damageflytop_gravity);
         target.modifier.damage_taken = parseFloat($scope.target_damage_taken);
         target.modifier.kb_received = parseFloat($scope.target_kb_received);
         target.attributes.traction = parseFloat($scope.target_traction);
-        target.attributes.fall_speed = parseFloat($scope.target_fall_speed);
+		target.attributes.fall_speed = parseFloat($scope.target_fall_speed);
+		target.attributes.damageflytop_fall_speed = parseFloat($scope.target_damageflytop_fall_speed);
 
         $scope.update();
     }
@@ -479,9 +483,11 @@ app.controller('calculator', function ($scope) {
 			$scope.target_class = target.class;
 			$scope.target_weight = target.attributes.weight;
 			$scope.target_gravity = +(target.attributes.gravity * target.modifier.gravity).toFixed(6);
+			$scope.target_damageflytop_gravity = +(target.attributes.damageflytop_gravity * target.modifier.gravity).toFixed(6);
             $scope.target_damage_taken = target.modifier.damage_taken;
             $scope.target_kb_received = target.modifier.kb_received;
 			$scope.target_fall_speed = +(target.attributes.fall_speed * target.modifier.fall_speed).toFixed(6);
+			$scope.target_damageflytop_fall_speed = +(target.attributes.fall_speed * target.modifier.damageflytop_fall_speed).toFixed(6);
 			$scope.target_traction = +(target.attributes.traction * target.modifier.traction).toFixed(6);
             $scope.update();
         }
@@ -685,10 +691,12 @@ app.controller('calculator', function ($scope) {
 		$scope.target_image = target.image;
 		$scope.target_class = target.class;
         $scope.target_weight = target.attributes.weight;
-        $scope.target_gravity = target.attributes.gravity * target.modifier.gravity;
+		$scope.target_gravity = target.attributes.gravity * target.modifier.gravity;
+		$scope.target_damageflytop_gravity = target.attributes.damageflytop_gravity * target.modifier.gravity;
         $scope.target_damage_taken = target.modifier.damage_taken;
         $scope.target_kb_received = target.modifier.kb_received;
-        $scope.target_fall_speed = target.attributes.fall_speed * target.modifier.fall_speed;
+		$scope.target_fall_speed = target.attributes.fall_speed * target.modifier.fall_speed;
+		$scope.target_damageflytop_fall_speed = target.attributes.damageflytop_fall_speed * target.modifier.fall_speed;
         $scope.target_traction = target.attributes.traction * target.modifier.traction;
 		$scope.lumaclass = target.name == "Rosalina And Luma" ? {"display" : "block"} : { "display":  "none" };
         $scope.lumaPercent = 0;

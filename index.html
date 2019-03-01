@@ -200,8 +200,8 @@
                 <div class="pos-right pos-attr">
                     <table>
                         <!--<tr>
-                    <td>Target</td>
-                </tr>-->
+        <td>Target</td>
+    </tr>-->
                         <tr>
                             <td>Damage taken</td>
                             <td>x <input name="target_damage_taken" type="number" min="0" max="100" step="0.01" ng-model="target_damage_taken" ng-change="updateAttr()" /></td>
@@ -221,6 +221,14 @@
                         <tr>
                             <td>Fall speed</td>
                             <td>&nbsp;&nbsp;&nbsp;<input name="target_fall_speed" type="number" min="0" max="10" step="0.001" ng-model="target_fall_speed" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>DamageFlyTop Gravity</td>
+                            <td>&nbsp;&nbsp;&nbsp;<input name="target_damageflytop_gravity" type="number" min="0" max="10" step="0.001" ng-model="target_damageflytop_gravity" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr>
+                            <td>DamageFlyTop Fall speed</td>
+                            <td>&nbsp;&nbsp;&nbsp;<input name="target_damageflytop_fall_speed" type="number" min="0" max="10" step="0.001" ng-model="target_damageflytop_fall_speed" ng-change="updateAttr()" /></td>
                         </tr>
                         <tr>
                             <td>Traction</td>
