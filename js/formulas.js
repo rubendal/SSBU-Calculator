@@ -419,11 +419,12 @@ function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, 
 }
 
 function ShieldHitlag(damage, hitlag, electric) {
-	if (hitlag > 1) {
-		hitlag *= 0.8;
-		if (hitlag < 1)
-			hitlag = 1;
-	}
+	//if (hitlag > 1) {
+	//	hitlag *= 0.8;
+	//	if (hitlag < 1)
+	//		hitlag = 1;
+	//}
+	hitlag *= 0.67;
 	return Hitlag(damage, hitlag, electric, 1);
 }
 
