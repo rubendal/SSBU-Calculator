@@ -2655,6 +2655,7 @@ var launch_rate = 1;
 
 var shieldstunMult = 1;
 var is_aerial_move = false;
+var uses_aerial_shieldstun = false;
 
 var effects = [
 	{ id: 0, name: "None/Other" },

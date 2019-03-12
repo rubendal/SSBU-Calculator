@@ -81,6 +81,7 @@ app.controller('calculator', function ($scope) {
 
 	$scope.is_smash = false;
 	$scope.is_aerial_move = false;
+	$scope.uses_aerial_shieldstun = false;
 	$scope.is_smash_visibility = $scope.is_smash ? {} : { 'display': 'none' };
     $scope.megaman_fsmash = false;
     $scope.witch_time_charge = false;
@@ -270,6 +271,7 @@ app.controller('calculator', function ($scope) {
 				}, 10);
 			}
 			$scope.is_aerial_move = $scope.selected_move.aerial;
+			$scope.uses_aerial_shieldstun = $scope.selected_move.aerial_shieldstun;
 			$scope.is_aerial = $scope.selected_move.aerial ? {} : { 'display': 'none' };
 			if ($scope.selected_move.aerial && !isNaN($scope.selected_move.landingLag)) {
 				$scope.use_landing_lag = "yes";
@@ -290,6 +292,7 @@ app.controller('calculator', function ($scope) {
                     $scope.charge_special = true;
 					$scope.is_smash = true;
 					$scope.is_aerial_move = false;
+					$scope.uses_aerial_shieldstun = false;
 					$scope.charging_frames_type = attacker.name == "Donkey Kong" ? "Arm swings" : (attacker.name == "Jigglypuff" ? "Speed" : "Frames charged");
                     $scope.updateCharge();
                     
@@ -301,6 +304,7 @@ app.controller('calculator', function ($scope) {
                     $scope.charge_special = false;
 					$scope.is_smash = $scope.selected_move.smash_attack;
 					$scope.is_aerial_move = false;
+					$scope.uses_aerial_shieldstun = false;
                     $scope.charging_frames_type = "Frames charged";
                 }
             }else{
@@ -311,6 +315,7 @@ app.controller('calculator', function ($scope) {
                 $scope.charge_special = false;
 				$scope.is_smash = $scope.selected_move.smash_attack;
 				$scope.is_aerial_move = $scope.selected_move.aerial;
+				$scope.uses_aerial_shieldstun = $scope.selected_move.aerial_shieldstun;
                 $scope.charging_frames_type = "Frames charged";
             }
             $scope.checkSmashVisibility();
@@ -553,6 +558,7 @@ app.controller('calculator', function ($scope) {
             $scope.wbkb == attack.wbkb &&
 			$scope.is_smash == attack.smash_attack &&
 			$scope.is_aerial_move == attack.aerial &&
+			$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
             $scope.windbox == attack.windbox &&
             $scope.shieldDamage == attack.shieldDamage){
             } else {
@@ -624,6 +630,7 @@ app.controller('calculator', function ($scope) {
                     $scope.wbkb == attack.wbkb &&
 					$scope.is_smash == attack.smash_attack &&
 					$scope.is_aerial_move == attack.aerial &&
+					$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
                     $scope.windbox == attack.windbox &&
                     $scope.shieldDamage == attack.shieldDamage) {
                         $scope.move = i.toString();
@@ -653,6 +660,7 @@ app.controller('calculator', function ($scope) {
 						parseInt($scope.wbkb) >= attack.wbkb &&
 						$scope.is_smash == (attack.smash_attack || attack.chargeable) &&
 						$scope.is_aerial_move == attack.aerial &&
+						$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
                         $scope.windbox == attack.windbox &&
 						parseInt($scope.shieldDamage) >= attack.shieldDamage &&
                         (attack.chargeable || attack.counterMult != 0)) {
@@ -937,15 +945,15 @@ app.controller('calculator', function ($scope) {
 			}
 
 			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric)));
-			shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, is_aerial_move), ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, is_aerial_move) == 1));
-			shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial_move)));
-			shieldList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_smash, is_aerial_move)));
+			shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun), ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun) == 1));
+			shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, uses_aerial_shieldstun)));
+			shieldList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
 
 			if (!windbox) {
 				if (!is_projectile)
 					shieldList.push(new Result("Attacker shield pushback", +AttackerShieldPushback(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale)).toFixed(6)));
 
-				shieldList.push(new Result("Target shield pushback", +(ShieldPushback(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), is_projectile, perfectshield, is_smash, is_aerial_move)).toFixed(6), sv >= 50 * target.modifier.shield));
+				shieldList.push(new Result("Target shield pushback", +(ShieldPushback(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), is_projectile, perfectshield, is_smash, uses_aerial_shieldstun)).toFixed(6), sv >= 50 * target.modifier.shield));
 			}
         } else {
             shieldList.push(new Result("Unblockable attack", "Yes"));
@@ -1047,6 +1055,8 @@ app.controller('calculator', function ($scope) {
 
 		is_smash = $scope.is_smash && !$scope.charge_special;
 		is_aerial_move = $scope.is_aerial_move;
+		uses_aerial_shieldstun = $scope.uses_aerial_shieldstun;
+
         wbkb = parseFloat($scope.wbkb);
         windbox = $scope.windbox;
 
