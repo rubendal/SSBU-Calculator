@@ -402,6 +402,10 @@ function ShieldStunMultiplier(multiplier, is_projectile, is_smash, is_aerial) {
 }
 
 function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, is_aerial) {
+	if (damage == 0)
+		return 0;
+
+
 	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
 	var groundedMult = is_smash ? parameters.shield.grounded : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
@@ -425,6 +429,8 @@ function ShieldHitlag(damage, hitlag, electric) {
 	//		hitlag = 1;
 	//}
 	hitlag *= 0.67;
+	if (damage == 0)
+		return 0;
 	return Hitlag(damage, hitlag, electric, 1);
 }
 
