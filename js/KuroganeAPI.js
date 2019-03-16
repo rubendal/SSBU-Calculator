@@ -164,48 +164,75 @@ class MoveParser {
 
 		if (hitboxActiveTooltip || baseDamageTooltip) {
 
-			if (hitboxActiveTooltip) {
-				shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
-
-				var m = shieldDamageRegex.exec(hitboxActiveTooltip);
-				if (m != null && m.length > 0) {
-					this.shieldDamage = parseFloat(m[1]);
-				}
-
-				//Set weight
-				this.setweight = hitboxActiveTooltip.includes("Set Weight");
-
-				//Shieldstun multiplier
-				var shieldstunRegex = /Shieldstun multiplier: (([0-9]|\.)+)/i;
-				m = shieldstunRegex.exec(hitboxActiveTooltip);
-				if (m != null && m.length > 0) {
-					this.shieldstun = parseFloat(m[1]);
-				}
+			var shieldDamage = 0;
+			if (hitboxActiveTooltip.SD != undefined && hitboxActiveTooltip.SD != "") {
+				shieldDamage = parseFloat(hitboxActiveTooltip.SD);
+			} else if (baseDamageTooltip.SD != undefined && baseDamageTooltip.SD != "") {
+				shieldDamage = parseFloat(baseDamageTooltip.SD);
 			}
 
-			if (baseDamageTooltip) {
-				if (this.shieldDamage == 0) {
-					shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
+			this.shieldDamage = shieldDamage;
 
-					var m = shieldDamageRegex.exec(baseDamageTooltip);
-					if (m != null && m.length > 0) {
-						this.shieldDamage = parseFloat(m[1]);
-					}
-				}
-
-				//Set weight
-				if (!this.setweight)
-					this.setweight = baseDamageTooltip.includes("Set Weight");
-
-				//Shieldstun multiplier
-				if (this.shieldstun == 1) {
-					var shieldstunRegex = /Shieldstun multiplier: (([0-9]|\.)+)/i;
-					m = shieldstunRegex.exec(baseDamageTooltip);
-					if (m != null && m.length > 0) {
-						this.shieldstun = parseFloat(m[1]);
-					}
-				}
+			var setweight = false;
+			if (hitboxActiveTooltip.SetWeight != undefined) {
+				shieldDamage = hitboxActiveTooltip.SetWeight;
+			} else if (baseDamageTooltip.SetWeight != undefined) {
+				setweight = baseDamageTooltip.SetWeight;
 			}
+
+			this.setweight = setweight;
+
+			var shieldstunMult = 0;
+			if (hitboxActiveTooltip.ShieldstunMultiplier != undefined && hitboxActiveTooltip.ShieldstunMultiplier != "") {
+				shieldstunMult = parseFloat(hitboxActiveTooltip.ShieldstunMultiplier);
+			} else if (baseDamageTooltip.ShieldstunMultiplier != undefined && baseDamageTooltip.ShieldstunMultiplier != "") {
+				shieldstunMult = parseFloat(baseDamageTooltip.ShieldstunMultiplier);
+			}
+
+			this.shieldstun = shieldstunMult;
+
+			//if (hitboxActiveTooltip) {
+			//	shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
+
+			//	var m = shieldDamageRegex.exec(hitboxActiveTooltip);
+			//	if (m != null && m.length > 0) {
+			//		this.shieldDamage = parseFloat(m[1]);
+			//	}
+
+			//	//Set weight
+			//	this.setweight = hitboxActiveTooltip.includes("Set Weight");
+
+			//	//Shieldstun multiplier
+			//	var shieldstunRegex = /Shieldstun multiplier: (([0-9]|\.)+)/i;
+			//	m = shieldstunRegex.exec(hitboxActiveTooltip);
+			//	if (m != null && m.length > 0) {
+			//		this.shieldstun = parseFloat(m[1]);
+			//	}
+			//}
+
+			//if (baseDamageTooltip) {
+			//	if (this.shieldDamage == 0) {
+			//		shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
+
+			//		var m = shieldDamageRegex.exec(baseDamageTooltip);
+			//		if (m != null && m.length > 0) {
+			//			this.shieldDamage = parseFloat(m[1]);
+			//		}
+			//	}
+
+			//	//Set weight
+			//	if (!this.setweight)
+			//		this.setweight = baseDamageTooltip.includes("Set Weight");
+
+			//	//Shieldstun multiplier
+			//	if (this.shieldstun == 1) {
+			//		var shieldstunRegex = /Shieldstun multiplier: (([0-9]|\.)+)/i;
+			//		m = shieldstunRegex.exec(baseDamageTooltip);
+			//		if (m != null && m.length > 0) {
+			//			this.shieldstun = parseFloat(m[1]);
+			//		}
+			//	}
+			//}
 		}
 		else {
 			//Smash 4 format
@@ -612,7 +639,7 @@ class Move {
         this.grab = this.name == "Standing Grab" || this.name == "Dash Grab" || this.name == "Pivot Grab";
         this.tilt = this.name.includes("Utilt") || this.name.includes("Ftilt") || this.name.includes("Dtilt");
         this.jab = this.name.includes("Jab");
-		this.aerial = this.name.includes("Uair") || this.name.includes("Fair") || this.name.includes("Bair") || this.name.includes("Dair") || this.name.includes("Nair") || this.name.includes("Zair");
+		this.aerial = this.name.includes("Uair") || this.name.includes("Fair") || this.name.includes("Bair") || this.name.includes("Dair") || this.name.includes("Nair"); // || this.name.includes("Zair"); Zair not really considered as an aerial in-game
 		this.aerial_shieldstun = this.aerial && !this.name.includes("Landing");
         this.taunt = this.name.includes("Taunt");
         this.dashAttack = this.name.includes("Dash Attack");
@@ -943,126 +970,235 @@ function getMoveset(attacker, $scope) {
 			break;
 	}
 
-	if (localMoveData.indexOf(attacker.GameName) != -1) {
-		//Has local move data
-		var moveset = loadJSONPath('./Data/' + attacker.GameName + '/moves.json');
+	//if (localMoveData.indexOf(attacker.GameName) != -1) {
+	//	//Has local move data
+	//	var moveset = loadJSONPath('./Data/' + attacker.GameName + '/moves.json');
 
-		if (moveset != null) {
-			var moves = [];
-			var count = 1;
-			for (var i = 0; i < moveset.length; i++) {
-				var move = moveset[i];
-				var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActiveTooltip, move.BaseDamageTooltip);
-				for (var c = 0; c < parser.moves.length; c++) {
-					var m = parser.moves[c];
-					m.id = count;
-					if (!m.grab && m.valid) {
-						moves.push(m.addCharacter(attacker.display_name).updateMoveData());
-						count++;
-					}
+	//	if (moveset != null) {
+	//		var moves = [];
+	//		var count = 1;
+	//		for (var i = 0; i < moveset.length; i++) {
+	//			var move = moveset[i];
+	//			var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActiveTooltip, move.BaseDamageTooltip);
+	//			for (var c = 0; c < parser.moves.length; c++) {
+	//				var m = parser.moves[c];
+	//				m.id = count;
+	//				if (!m.grab && m.valid) {
+	//					moves.push(m.addCharacter(attacker.display_name).updateMoveData());
+	//					count++;
+	//				}
 
 
-					if (attacker.name == "Olimar" && m.name == "Dthrow") {
-						//Add Purple Pikmin Dthrow
-						var m2 = Object.assign({}, m);
-						m2.id = count;
-						m2.name = "Dthrow (Purple)";
-						m2.moveName = "Dthrow (Purple)";
-						moves.push(m2.addCharacter(attacker.name).updateMoveData());
-						count++;
-					}
-				}
-			}
-			moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
+	//				if (attacker.name == "Olimar" && m.name == "Dthrow") {
+	//					//Add Purple Pikmin Dthrow
+	//					var m2 = Object.assign({}, m);
+	//					m2.id = count;
+	//					m2.name = "Dthrow (Purple)";
+	//					m2.moveName = "Dthrow (Purple)";
+	//					moves.push(m2.addCharacter(attacker.name).updateMoveData());
+	//					count++;
+	//				}
+	//			}
+	//		}
+	//		moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
 
-			try {
-				if ($scope.attackerName != moves[1].character) {
-					//If this is a previous request ignore it and do not overwrite current move list
-					return;
-				}
-				$scope.moveset_info = null;
-				$scope.moveset = moves;
-				$scope.detectAttack();
-			} catch (err) {
+	//		try {
+	//			if ($scope.attackerName != moves[1].character) {
+	//				//If this is a previous request ignore it and do not overwrite current move list
+	//				return;
+	//			}
+	//			$scope.moveset_info = null;
+	//			$scope.moveset = moves;
+	//			$scope.detectAttack();
+	//		} catch (err) {
 				
-			}
-		} else {
-			$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-		}
-	}
-	else {
-		loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/name/" + api_name, function (character) {
-			if (character != null) {
-				var id = character.OwnerId;
-				loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/" + id + "/moves", function (moveset) {
-					if (moveset != null) {
-						var moves = [];
-						var count = 1;
-						for (var i = 0; i < moveset.length; i++) {
-							var move = moveset[i];
-							var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false);
-							for (var c = 0; c < parser.moves.length; c++) {
-								var m = parser.moves[c];
-								m.id = count;
-								if (!m.grab && m.valid) {
-									moves.push(m.addCharacter(attacker.display_name).updateMoveData());
-									count++;
-								}
+	//		}
+	//	} else {
+	//		$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+	//	}
+	//}
+	//else {
+		
+	//}
+
+	//KH Smash Ultimate API
+	loadAsyncFunctionJSON("https://test-khapi.frannsoft.com/api/characters/name/" + api_name + "?game=ultimate", function (character) {
+		if (character != null) {
+			var id = character.OwnerId;
+			loadAsyncFunctionJSON("https://test-khapi.frannsoft.com/api/characters/" + id + "/moves?expand=true&game=ultimate", function (moveset) {
+				if (moveset != null) {
+					var moves = [];
+					var count = 1;
+					for (var i = 0; i < moveset.length; i++) {
+						var move = moveset[i];
+						var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage.Normal, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive.Frames, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActive, move.BaseDamage);
+						for (var c = 0; c < parser.moves.length; c++) {
+							var m = parser.moves[c];
+							m.id = count;
+							if (!m.grab && m.valid) {
+								moves.push(m.addCharacter(attacker.display_name).updateMoveData());
+								count++;
+							}
 
 
-								if (attacker.name == "Olimar" && m.name == "Dthrow") {
-									//Add Purple Pikmin Dthrow
-									var m2 = Object.assign({}, m);
-									m2.id = count;
-									m2.name = "Dthrow (Purple)";
-									m2.moveName = "Dthrow (Purple)";
-									moves.push(m2.addCharacter(attacker.name).updateMoveData());
-									count++;
-								}
+							if (attacker.name == "Olimar" && m.name == "Dthrow") {
+								//Add Purple Pikmin Dthrow
+								var m2 = Object.assign({}, m);
+								m2.id = count;
+								m2.name = "Dthrow (Purple)";
+								m2.moveName = "Dthrow (Purple)";
+								moves.push(m2.addCharacter(attacker.name).updateMoveData());
+								count++;
 							}
 						}
-						moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
+					}
+					moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
 
-						try {
-							$scope.$apply(function () {
-								if ($scope.attackerName != moves[1].character) {
-									//If this is a previous request ignore it and do not overwrite current move list
+					try {
+						$scope.$apply(function () {
+							if ($scope.attackerName != moves[1].character) {
+								//If this is a previous request ignore it and do not overwrite current move list
+								return;
+							}
+							$scope.moveset_info = null;
+							$scope.moveset = moves;
+							$scope.detectAttack();
+
+						});
+					} catch (err) {
+						if ($scope.attackerName != moves[0].character) {
+							return;
+						}
+						$scope.moveset_info = null;
+						$scope.moveset = moves;
+						$scope.detectAttack();
+					}
+				} else {
+					$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+				}
+			},
+				function () {
+					//$scope.moveset = [new Move(-1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+				}, function () {
+					$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+				});
+		} else {
+			//$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+
+			//Character isn't on API in Ultimate, check Smash 4 data
+			loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/name/" + api_name, function (character) {
+				if (character != null) {
+					var id = character.OwnerId;
+					loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/" + id + "/moves", function (moveset) {
+						if (moveset != null) {
+							var moves = [];
+							var count = 1;
+							for (var i = 0; i < moveset.length; i++) {
+								var move = moveset[i];
+								var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false);
+								for (var c = 0; c < parser.moves.length; c++) {
+									var m = parser.moves[c];
+									m.id = count;
+									if (!m.grab && m.valid) {
+										moves.push(m.addCharacter(attacker.display_name).updateMoveData());
+										count++;
+									}
+
+
+									if (attacker.name == "Olimar" && m.name == "Dthrow") {
+										//Add Purple Pikmin Dthrow
+										var m2 = Object.assign({}, m);
+										m2.id = count;
+										m2.name = "Dthrow (Purple)";
+										m2.moveName = "Dthrow (Purple)";
+										moves.push(m2.addCharacter(attacker.name).updateMoveData());
+										count++;
+									}
+								}
+							}
+							moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
+
+							try {
+								$scope.$apply(function () {
+									if ($scope.attackerName != moves[1].character) {
+										//If this is a previous request ignore it and do not overwrite current move list
+										return;
+									}
+									$scope.moveset_info += "Smash 4 move data";
+									$scope.moveset = moves;
+									$scope.detectAttack();
+
+								});
+							} catch (err) {
+								if ($scope.attackerName != moves[0].character) {
 									return;
 								}
 								$scope.moveset_info += "Smash 4 move data";
 								$scope.moveset = moves;
 								$scope.detectAttack();
-
-							});
-						} catch (err) {
-							if ($scope.attackerName != moves[0].character) {
-								return;
 							}
-							$scope.moveset_info += "Smash 4 move data";
-							$scope.moveset = moves;
-							$scope.detectAttack();
+						} else {
+							$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
 						}
-					} else {
-						$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-					}
-				},
-					function () {
-						//$scope.moveset = [new Move(-1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-					}, function () {
-						$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-					});
-			} else {
-				$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-			}
-		}, function () {
-			$scope.moveset = [new Move(-1, -1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-		}, function () {
-			$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-		});
-	}
-
+					},
+						function () {
+							//$scope.moveset = [new Move(-1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+						}, function () {
+							$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+						});
+				} else {
+					$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+				}
+			}, function () {
+				$scope.moveset = [new Move(-1, -1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+			}, function () {
+				$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+			});
+		}
+	}, function () {
+		$scope.moveset = [new Move(-1, -1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+	}, function () {
+		$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+	});
 	
     
+}
+
+function getUltimateCharactersId(names, $scope) {
+	$scope.charactersId = [];
+	loadAsyncFunctionJSON("https://test-khapi.frannsoft.com/api/characters?game=ultimate", function (character) {
+		if (character != null) {
+			var characters = [];
+			for (var i = 0; i < character.length; i++) {
+				var id = character[i].OwnerId;
+				var name = character[i].Name;
+				var color = character[i].ColorTheme;
+				for (var n = 0; n < names.length; n++) {
+					var api_name = names[n].toLowerCase().replace("&", "").replace("and", "").split(".").join("").split(" ").join("");
+					if (name.toLowerCase() == api_name) {
+						name = names[n];
+						name = name.replace(/\&/gi, "and");
+						characters.push(new CharacterId(name, id, color));
+						break;
+					}
+
+				}
+			}
+			try {
+				$scope.$apply(function () {
+					$scope.charactersId = characters;
+					$scope.ready();
+				});
+			} catch (err) {
+				$scope.charactersId = characters;
+				$scope.ready();
+			}
+
+		}
+	}, null, function () {
+		$scope.status = "Couldn't access API";
+		$scope.ready(true);
+	});
 }
 
 function getCharactersId(names, $scope) {
