@@ -846,9 +846,9 @@ class Visualizer {
 
 					this.context.beginPath();
 
-					this.MoveTo(x * gridScale, -500);
+					this.MoveTo(x * gridScale, -500 * gridScale);
 
-					this.LineTo(x * gridScale, 500);
+					this.LineTo(x * gridScale, 500 * gridScale);
 
 					this.context.stroke();
 				}
@@ -877,9 +877,9 @@ class Visualizer {
 
 					this.context.beginPath();
 
-					this.MoveTo(-500, y * gridScale);
+					this.MoveTo(-500 * gridScale, y * gridScale);
 
-					this.LineTo(500, y * gridScale);
+					this.LineTo(500 * gridScale, y * gridScale);
 
 					this.context.stroke();
 				}
