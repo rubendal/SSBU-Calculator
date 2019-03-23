@@ -438,6 +438,26 @@ class Visualizer {
 				this.LineTo(stage.blast_zones[0], stage.blast_zones[3]);
 				context.closePath();
 				context.stroke();
+
+				if (stage.name == "Training Stage") {
+					context.strokeStyle = "#1ab500"; //FD blast zones
+					context.beginPath();
+					this.MoveTo(-240, 180);
+					this.LineTo(240.000031, 180);
+					this.LineTo(240.000031, -140);
+					this.LineTo(-240, -140);
+					context.closePath();
+					context.stroke();
+
+					context.strokeStyle = "#b2b006"; //BF blast zones
+					context.beginPath();
+					this.MoveTo(-240, 192.000092);
+					this.LineTo(240, 192.000092);
+					this.LineTo(240, -140.000031);
+					this.LineTo(-240, -140.000031);
+					context.closePath();
+					context.stroke();
+				}
 			}
 
 			context.lineWidth = 1 / visualizer.prevScale;
@@ -791,6 +811,8 @@ class Visualizer {
 
 			if (this.scale > 1.5) {
 
+				var gridScale = 1.07;
+
 				var step = 10;
 				
 				if (this.scale > 7) {
@@ -815,6 +837,7 @@ class Visualizer {
 							this.context.globalAlpha = 0.3;
 							if (x % 10 == 0) {
 								this.context.lineWidth = 0.1;
+								this.context.globalAlpha = 0.5;
 							} else {
 								this.context.lineWidth = 0.05;
 							}
@@ -823,9 +846,9 @@ class Visualizer {
 
 					this.context.beginPath();
 
-					this.MoveTo(x, -500);
+					this.MoveTo(x * gridScale, -500);
 
-					this.LineTo(x, 500);
+					this.LineTo(x * gridScale, 500);
 
 					this.context.stroke();
 				}
@@ -854,16 +877,52 @@ class Visualizer {
 
 					this.context.beginPath();
 
-					this.MoveTo(-500, y);
+					this.MoveTo(-500, y * gridScale);
 
-					this.LineTo(500, y);
+					this.LineTo(500, y * gridScale);
 
 					this.context.stroke();
 				}
+
+				visualizer.context.font = "4px sans-serif";
+				//Labels
+				for (var x = -500; x <= 500; x += 5) {
+
+					if (x % 100 == 0) {
+						this.context.globalAlpha = 0.8;
+						this.context.fillStyle = '#FF0000';
+						this.context.fillText(Math.abs(x / 10), x * gridScale + 1, -1);
+					} else {
+						if (x % 50 == 0) {
+							this.context.globalAlpha = 0.8;
+							this.context.fillStyle = '#0000FF';
+							this.context.fillText(Math.abs(x / 10), x * gridScale + 1, -1);
+						}
+					}
+				}
+
+				for (var y = -500; y <= 0; y += 5) {
+
+					if (y % 100 == 0) {
+						this.context.globalAlpha = 0.8;
+						this.context.fillStyle = '#FF0000';
+						this.context.fillText(Math.abs(y / 10), 1, y * gridScale - 1);
+					} else {
+						if (y % 50 == 0) {
+							this.context.globalAlpha = 0.8;
+							this.context.fillStyle = '#0000FF';
+							this.context.fillText(Math.abs(y / 10), 1, y * gridScale - 1);
+						}
+					}
+				}
 			}
+
+
+			
 
 			this.context.lineWidth = 1;
 			this.context.globalAlpha = 1;
+
 		}
 
 		this.Zoom = function (z) {
