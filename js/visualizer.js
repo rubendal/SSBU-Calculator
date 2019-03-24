@@ -815,9 +815,9 @@ class Visualizer {
 
 				var step = 10;
 				
-				if (this.scale > 7) {
+				if (this.scale > 6.2) {
 					step = 1;
-				} else if (this.scale > 3) {
+				} else if (this.scale > 2.7) {
 					step = 5;
 				}
 
