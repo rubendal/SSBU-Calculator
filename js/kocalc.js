@@ -479,11 +479,11 @@ app.controller('calculator', function ($scope) {
 			$scope.target_class = target.class;
 			$scope.target_weight = target.attributes.weight;
 			$scope.target_gravity = +(target.attributes.gravity * target.modifier.gravity).toFixed(6);
-			$scope.target_damageflytop_gravity = +(target.attributes.damageflytop_gravity * target.modifier.gravity).toFixed(6);
+			$scope.target_damageflytop_gravity = +(target.attributes.damageflytop_gravity).toFixed(6);
 			$scope.target_damage_taken = target.modifier.damage_taken;
 			$scope.target_kb_received = target.modifier.kb_received;
 			$scope.target_fall_speed = +(target.attributes.fall_speed * target.modifier.fall_speed).toFixed(6);
-			$scope.target_damageflytop_fall_speed = +(target.attributes.damageflytop_fall_speed * target.modifier.fall_speed).toFixed(6);
+			$scope.target_damageflytop_fall_speed = +(target.attributes.damageflytop_fall_speed).toFixed(6);
 			$scope.target_traction = +(target.attributes.traction * target.modifier.traction).toFixed(6);
 			$scope.update();
         }
@@ -683,11 +683,11 @@ app.controller('calculator', function ($scope) {
 		$scope.target_class = target.class;
         $scope.target_weight = target.attributes.weight;
 		$scope.target_gravity = target.attributes.gravity * target.modifier.gravity;
-		$scope.target_damageflytop_gravity = target.attributes.damageflytop_gravity * target.modifier.gravity;
+		$scope.target_damageflytop_gravity = target.attributes.damageflytop_gravity;
         $scope.target_damage_taken = target.modifier.damage_taken;
         $scope.target_kb_received = target.modifier.kb_received;
 		$scope.target_fall_speed = target.attributes.fall_speed * target.modifier.fall_speed;
-		$scope.target_damageflytop_fall_speed = target.attributes.damageflytop_fall_speed * target.modifier.fall_speed;
+		$scope.target_damageflytop_fall_speed = target.attributes.damageflytop_fall_speed;
         $scope.target_traction = target.attributes.traction * target.modifier.traction;
         $scope.update();
 	}
@@ -695,21 +695,21 @@ app.controller('calculator', function ($scope) {
 	$scope.getDistance = function (damage) {
 		if (wbkb == 0) {
 			//trainingkb = TrainingKB(target_percent + preDamage, base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled");
-			vskb = VSKB(target_percent + preDamage, base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity * target.modifier.gravity, r, stale, shieldStale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+			vskb = VSKB(target_percent + preDamage, base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, r, stale, shieldStale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
 			//trainingkb.addModifier(attacker.modifier.kb_dealt);
 			vskb.addModifier(attacker.modifier.kb_dealt);
 			//trainingkb.addModifier(target.modifier.kb_received);
 			vskb.addModifier(target.modifier.kb_received);
 		} else {
 			//trainingkb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, target_percent, damage, 0, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled");
-			vskb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity * target.modifier.gravity, r, target_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
+			vskb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, r, target_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
 			//trainingkb.addModifier(target.modifier.kb_received);
 			vskb.addModifier(target.modifier.kb_received);
 		}
 
 		var damageSpeedUpFrames = DamageSpeedUpFrames(FirstActionableFrame(vskb.base_kb, windbox, electric), vskb.angle);
 
-		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, damageSpeedUpFrames, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
+		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, damageSpeedUpFrames, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
 
 		return distance;
 	}

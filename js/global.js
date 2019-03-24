@@ -1629,8 +1629,6 @@ class Distance{
         var x_speed = +this.x_launch_speed.toFixed(6);
 		var y_speed = +this.y_launch_speed.toFixed(6);
 
-		var frameCount = 1;
-
 		this.KO = false;
 
         if(this.inverseX){
@@ -1689,6 +1687,16 @@ class Distance{
 		var isDamageFlyTop = this.kb >= 80 && this.angle >= 70 && this.angle <= 110;
 
 		//var tumbleFSM = TumbleFSM(this.kb);
+
+		var frameCount = 0;
+		var ignoreGravityAdd = false;
+
+		/*Made these from comparisons and trying to make results match in-game positions... 
+		it should something caused by DamageFlySpeedUp but it could be a thing too
+		At least FAF position seems accurate with these
+		*/
+		var gravityMul = 1.75;
+		var damageFlyTopGravityMul = 1.2;
 
 		for (var i = 0; i < limit; i++){
 
@@ -1914,61 +1922,63 @@ class Distance{
 				}
 				//Gravity
 				if (countGravity) {
-					if (!this.isFinishingTouch) {
-						if (!isDamageFlyTop) {
-							g -= gravity;
-							fg = Math.max(g, -fall_speed);
-							character_speed.y = fg;
-							character_speed.y = +character_speed.y.toFixed(6);
-						} else {
-							//First 45 frames
-							if (i < 45) {
-								//Set DamageFlyTop values
-								g -= damageflytop_gravity;
-								fg = Math.max(g, -damageflytop_fall_speed);
+					if (!ignoreGravityAdd) {
+						if (!this.isFinishingTouch) {
+							if (!isDamageFlyTop) {
+								g -= gravity * gravityMul;
+								fg = Math.max(g, -fall_speed);
 								character_speed.y = fg;
 								character_speed.y = +character_speed.y.toFixed(6);
 							} else {
-								if (i == 45) {
+								//First 45 frames
+								if (frameCount < 45) {
+									//Set DamageFlyTop values
+									g -= damageflytop_gravity * damageFlyTopGravityMul;
+									fg = Math.max(g, -damageflytop_fall_speed);
+									character_speed.y = fg;
+									character_speed.y = +character_speed.y.toFixed(6);
+								} else {
+									if (frameCount == 45) {
+										g = fg;
+									}
+									if (character_speed.y < -fall_speed) {
+										//Current fall speed is higher than character normal fall speed, add gravity until it reduces to fall speed
+										g += gravity * gravityMul;
+										fg = Math.min(g, -fall_speed);
+										character_speed.y = fg;
+										character_speed.y = +character_speed.y.toFixed(6);
+									} else {
+										g -= gravity * gravityMul;
+										fg = Math.max(g, -fall_speed);
+										character_speed.y = fg;
+										character_speed.y = +character_speed.y.toFixed(6);
+									}
+								}
+							}
+						} else {
+							//First 22 frames
+							if (i < 22) {
+								//Set gravity to 0.087 and fall speed to 1.5
+								g -= 0.087;
+								fg = Math.max(g, -1.5);
+								character_speed.y = fg;
+								character_speed.y = +character_speed.y.toFixed(6);
+							} else {
+								if (i == 22) {
 									g = fg;
 								}
 								if (character_speed.y < -fall_speed) {
 									//Current fall speed is higher than character normal fall speed, add gravity until it reduces to fall speed
-									g += gravity;
+									g += gravity * gravityMul;
 									fg = Math.min(g, -fall_speed);
 									character_speed.y = fg;
 									character_speed.y = +character_speed.y.toFixed(6);
 								} else {
-									g -= gravity;
+									g -= gravity * gravityMul;
 									fg = Math.max(g, -fall_speed);
 									character_speed.y = fg;
 									character_speed.y = +character_speed.y.toFixed(6);
 								}
-							}
-						}
-					} else {
-						//First 22 frames
-						if (i < 22) {
-							//Set gravity to 0.087 and fall speed to 1.5
-							g -= 0.087;
-							fg = Math.max(g, -1.5);
-							character_speed.y = fg;
-							character_speed.y = +character_speed.y.toFixed(6);
-						} else {
-							if (i == 22) {
-								g = fg;
-							}
-							if (character_speed.y < -fall_speed) {
-								//Current fall speed is higher than character normal fall speed, add gravity until it reduces to fall speed
-								g += gravity;
-								fg = Math.min(g, -fall_speed);
-								character_speed.y = fg;
-								character_speed.y = +character_speed.y.toFixed(6);
-							} else {
-								g -= gravity;
-								fg = Math.max(g, -fall_speed);
-								character_speed.y = fg;
-								character_speed.y = +character_speed.y.toFixed(6);
 							}
 						}
 					}
@@ -1993,6 +2003,7 @@ class Distance{
 				this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
 				this.x.push(+character_position.x.toFixed(6));
 				this.y.push(+character_position.y.toFixed(6));
+				frameCount++;
 			}
 	
 
