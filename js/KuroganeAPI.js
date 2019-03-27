@@ -96,7 +96,10 @@ class MoveParser {
 
         this.base_damage = base_damage;
         this.bkb = bkb;
-        this.kbg = kbg;
+		this.kbg = kbg;
+
+		if (this.bkb)
+			this.bkb = this.bkb.replace("F:", "W:"); //Change FKB to WBKB for parser, to avoid issues with Smash 4 API data
 
         this.preDamage = 0;
         this.throw = name.includes("Fthrow") || name.includes("Bthrow") || name.includes("Uthrow") || name.includes("Dthrow");
