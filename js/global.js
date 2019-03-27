@@ -2168,10 +2168,14 @@ class Knockback {
         } else {
 			this.stick = { X: 0, Y: 0 };
         }
-        this.calculate = function () {
+		this.calculate = function () {
+			var groundedZeroAngleSakuraiAngle = false;
             this.kb = this.base_kb * this.launch_rate;
             if (this.original_angle == 361) {
-                this.base_angle = SakuraiAngle(this.kb, this.aerial);
+				this.base_angle = SakuraiAngle(this.kb, this.aerial);
+				if (!this.aerial && this.base_angle == 0) {
+					groundedZeroAngleSakuraiAngle = true;
+				}
             }
             this.angle = this.base_angle;
             if (this.base_angle != 0 && this.base_angle != 180) {
@@ -2247,6 +2251,12 @@ class Knockback {
 			this.vertical_launch_speed = Math.abs(this.vertical_launch_speed);
 
 			this.total_launch_speed = TotalLaunchSpeed(this.horizontal_launch_speed, this.vertical_launch_speed);
+
+			if (groundedZeroAngleSakuraiAngle) {
+				this.total_launch_speed *= 0.8;
+				this.horizontal_launch_speed *= 0.8;
+				this.vertical_launch_speed *= 0.8;
+			}
 
             this.can_jablock = false;
             if (this.angle == 0 || this.angle == 180 || this.angle == 360) {
