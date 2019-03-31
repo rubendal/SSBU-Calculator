@@ -516,10 +516,10 @@ class ChargeData{
 };
 
 var chargeMoves = [
-	new ChargeData(["Palutena's Bow (No Charge)", "Palutena's Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Palutena Bow", "Palutena's Bow", "Palutena's Bow (No Charge)", "Palutena's Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [3.2 + (frames * 0.09), bkb, kbg, shieldDamage];
 	}),
-	new ChargeData(["Silver Bow (No Charge)", "Silver Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Silver Bow", "Silver Bow (No Charge)", "Silver Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [5.5 + (frames * 0.1417), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Flare Blade (Uncharged)"], 0, 239, function (base_damage, bkb, kbg, shieldDamage, frames) {
@@ -640,7 +640,7 @@ class Move {
         this.valid = true;
         this.smash_attack = name.includes("Fsmash") || name.includes("Usmash") || name.includes("Dsmash");
 		this.throw = name.includes("Fthrow") || name.includes("Bthrow") || name.includes("Uthrow") || name.includes("Dthrow");
-		this.chargeable = name.includes("No Charge") || name.includes("Uncharged") || (name.includes("Eruption") && !name.includes("Fully Charged")) || name == "Charge Shot" || name == "Quickdraw (Attack)" || name == "Aura Sphere (Release from Charge)" || name == "Shadow Ball (Uncharged)" || name == "Skull Bash" || name.includes("Rollout (") || name == "Water Shuriken (Uncharged)" || name == "Sun Salutation";
+		this.chargeable = name.includes("No Charge") || name.includes("Uncharged") || (name.includes("Eruption") && !name.includes("Fully Charged")) || name == "Charge Shot" || name == "Quickdraw (Attack)" || name == "Aura Sphere (Release from Charge)" || name == "Shadow Ball (Uncharged)" || name == "Skull Bash" || name.includes("Rollout (") || name == "Water Shuriken (Uncharged)" || name == "Sun Salutation" || name == "Palutena Bow" || name == "Silver Bow";
         this.grab = this.name == "Standing Grab" || this.name == "Dash Grab" || this.name == "Pivot Grab";
         this.tilt = this.name.includes("Utilt") || this.name.includes("Ftilt") || this.name.includes("Dtilt");
         this.jab = this.name.includes("Jab");
