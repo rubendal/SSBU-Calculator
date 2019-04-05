@@ -1992,7 +1992,7 @@ class Distance{
 
             
 
-			if (i < speedupFrames.length) {
+			if (i+1 < speedupFrames.length) {
 				if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
 					this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
 					frameCount++;

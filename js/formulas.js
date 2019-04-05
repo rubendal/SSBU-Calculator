@@ -177,11 +177,6 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 		return 0;
 	}
 
-	//if (hitstun >= parameters.tumble_threshold) {
-	//	//Tumble hitstun seems to be affected by an additional factor
-	//	hitstun -= (hitstun - parameters.tumble_threshold) * parameters.hitstun; //Possible additional operation, cannot be certain since hitboxes can have BKB/KBG changed
-	//}
-
 	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
 	//if (electric) {
 	//	hitstun++;
@@ -193,6 +188,7 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 	return Math.floor(hitstun) - 1;
 }
 
+//Test function
 function HitstunWithFSM(kb, windbox, electric) {
 	if (windbox) {
 		return 0;
@@ -202,15 +198,15 @@ function HitstunWithFSM(kb, windbox, electric) {
 		return 0;
 	}
 
-	var fsm = TumbleFSM(kb);
-	if (fsm >= 1) {
-		hitstun -= 5 * fsm;
-	}
+	//var fsm = TumbleFSM(kb);
+	//if (fsm >= 1) {
+	//	hitstun -= 5 * fsm;
+	//}
 
-	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
-	if (electric) {
-		hitstun++;
-	}
+	////Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
+	//if (electric) {
+	//	hitstun++;
+	//}
 
 	return Math.floor(hitstun) - 1;
 }
@@ -1027,28 +1023,34 @@ function DamageSpeedUpFrames(faf, angle) {
 
 	var i = 0;
 
-	for (var damage_reaction_frame = faf -1; damage_reaction_frame >= 0; damage_reaction_frame--) {
-		var val = InitDamageSpeedUp(damage_reaction_frame_last-i, Math.abs(angle), true);
-		list.push(ReactionFrameMulSpeedUp(damage_reaction_frame + 1, damage_reaction_frame_last-i, val.damage_speed_up_max_mag, val.damage_speed_up));
+	var val = InitDamageSpeedUp(damage_reaction_frame_last, Math.abs(angle), true);
+
+	for (var damage_reaction_frame = faf; damage_reaction_frame >= 0; damage_reaction_frame--) {
+		list.push(ReactionFrameMulSpeedUp(damage_reaction_frame, damage_reaction_frame_last, val.damage_speed_up_max_mag, val.damage_speed_up));
 		i++;
 	}
 
 	var value = list[0];
 	for (i = 0; i < list.length;i++) {
-		list[i] = (list[i] - value - 1) * -1;
+		list[i] = (list[i] - value) * -1;
+		if (list[i] == -0) {
+			list[i] = 0;
+		}
 	}
 	
 	return list;
 }
 
 function GetFrameWithSpeedUp(list, frame) {
+	if (frame == 0)
+		frame++;
 	var value = list[frame];
 	for (var i = frame+1; i < list.length; i++) {
 		if (list[i] > value) {
 			return i - 1;
 		}
 	}
-	return frame;
+	return -2; //Not found
 }
 
 function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, speedupFrames) {
