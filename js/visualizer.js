@@ -253,7 +253,7 @@ class Visualizer {
 					}
 				} else {
 					var collisionIndex = collisions.indexOf(i-1);
-					if (collisionsData[collisionIndex].collision_data.techable.before && collisionsData[collisionIndex].collision_data.techable.onCollision) {
+					if (collisionsData[collisionIndex].collision_data.techable.before) {
 						style = settings.visualizer_colors.techable;
 						techString = " Techable";
 					} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
@@ -263,6 +263,7 @@ class Visualizer {
 						style = settings.visualizer_colors.untechable;
 						techString = " Untechable";
 					}
+					techString += " (Speed: " + +collisionsData[collisionIndex].collision_data.totalLaunchSpeed.toFixed(4) + ")";
 				}
 				if (i == 0)
 					this.launchPoints.push(new DataPoint(launch.positions[i], "Launch position (%x, %y)" + techString, style));
@@ -554,7 +555,7 @@ class Visualizer {
 						}
 					} else {
 						var collisionIndex = collisions.indexOf(i - 1);
-						if (collisionsData[collisionIndex].collision_data.techable.before && collisionsData[collisionIndex].collision_data.techable.onCollision) {
+						if (collisionsData[collisionIndex].collision_data.techable.before) {
 							style = settings.visualizer_colors.techable;
 						} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
 							style = settings.visualizer_colors.techableOnlyCollision;
