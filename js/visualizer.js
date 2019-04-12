@@ -253,12 +253,12 @@ class Visualizer {
 					}
 				} else {
 					var collisionIndex = collisions.indexOf(i-1);
-					if (collisionsData[collisionIndex].collision_data.techable.before) {
+					if (collisionsData[collisionIndex].collision_data.techable) {
 						style = settings.visualizer_colors.techable;
 						techString = " Techable";
-					} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
-						style = settings.visualizer_colors.techableOnlyCollision;
-						techString = " Techable only during collision";
+					//} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
+					//	style = settings.visualizer_colors.techableOnlyCollision;
+					//	techString = " Techable only during collision";
 					} else {
 						style = settings.visualizer_colors.untechable;
 						techString = " Untechable";
@@ -555,10 +555,10 @@ class Visualizer {
 						}
 					} else {
 						var collisionIndex = collisions.indexOf(i - 1);
-						if (collisionsData[collisionIndex].collision_data.techable.before) {
+						if (collisionsData[collisionIndex].collision_data.techable) {
 							style = settings.visualizer_colors.techable;
-						} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
-							style = settings.visualizer_colors.techableOnlyCollision;
+						//} else if (collisionsData[collisionIndex].collision_data.techable.onCollision) {
+						//	style = settings.visualizer_colors.techableOnlyCollision;
 						} else {
 							style = settings.visualizer_colors.untechable;
 						}

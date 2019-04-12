@@ -1231,8 +1231,60 @@ class Collision {
 			intersection: null,
 			lineType: null,
 			slideDirection: 0, //0 none, -1 left, 1 right
-			techable: { before: true, onCollision: true },
+			techable: true,
 			totalLaunchSpeed: TotalLaunchSpeed(launch_speed.x, launch_speed.y)
+		};
+
+		this.updateLaunchSpeed = function (launch_speed) {
+			if (Math.cos(this.collision_data.angle * Math.PI / 180) < 0) {
+				launch_speed.x *= -1;
+			}
+			if (Math.sin(this.collision_data.angle * Math.PI / 180) < 0) {
+				launch_speed.y *= -1;
+			}
+
+			this.collision_data.launchSpeed = launch_speed;
+			this.collision_data.totalLaunchSpeed = TotalLaunchSpeed(launch_speed.x, launch_speed.y);
+
+			this.collision_data.techable = this.collision_data.lineType != LineTypes.FLOOR ? TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6 :
+				TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 3;
+		};
+
+		this.applyDecaySpeedUp = function (decay, frames) {
+			for (var i = 0; i < frames; i++) {
+				if (this.collision_data.launchSpeed.x != 0) {
+					var x_dir = this.collision_data.launchSpeed.x / Math.abs(this.collision_data.launchSpeed.x);
+					this.collision_data.launchSpeed.x = +this.collision_data.launchSpeed.x.toFixed(6);
+					if (x_dir == -1 && this.collision_data.launchSpeed.x > 0) {
+						this.collision_data.launchSpeed.x = 0;
+					} else if (x_dir == 1 && this.collision_data.launchSpeed.x < 0) {
+						this.collision_data.launchSpeed.x = 0;
+					}
+				}
+				if (this.collision_data.launchSpeed.y != 0) {
+					var y_dir = this.collision_data.launchSpeed.y / Math.abs(this.collision_data.launchSpeed.y);
+					this.collision_data.launchSpeed.y -= decay.y;
+					this.collision_data.launchSpeed.y = +this.collision_data.launchSpeed.y.toFixed(6);
+					if (y_dir == -1 && this.collision_data.launchSpeed.y > 0) {
+						this.collision_data.launchSpeed.y = 0;
+					} else if (y_dir == 1 && this.collision_data.launchSpeed.y < 0) {
+						this.collision_data.launchSpeed.y = 0;
+					}
+				}
+				
+			}
+			var lsr = 0.95;
+			if (this.collision_data.lineType == LineTypes.FLOOR)
+				lsr = 0.9;
+
+			this.collision_data.launchSpeed.x *= lsr;
+			this.collision_data.launchSpeed.y *= lsr;
+
+			this.collision_data.totalLaunchSpeed = TotalLaunchSpeed(this.collision_data.launchSpeed.x, this.collision_data.launchSpeed.y);
+			if (this.collision_data.lineType == LineTypes.FLOOR)
+				this.collision_data.totalLaunchSpeed /= 0.9; //Ignore speed multiplier since floor techs cannot be done during collision
+			this.collision_data.techable = this.collision_data.lineType != LineTypes.FLOOR ? TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6 :
+				TotalLaunchSpeed(launch_speed.x, launch_speed.y) / 0.9 <= 3; //Ignore speed multiplier since floor techs cannot be done during collision
 		};
 
 		if (stage == null)
@@ -1300,13 +1352,14 @@ class Collision {
 					this.collision_data.resetGravity = false;
 					this.collision_data.state = CharacterState.COLLIDING_CEILING;
 				}
-				this.collision_data.techable.before = lineType != LineTypes.FLOOR ? TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6 :
+				this.collision_data.techable = lineType != LineTypes.FLOOR ? TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6 :
 					TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 3;
 				//Calculate bounced off angle
 				var rAngle = (2 * (material.passthroughAngle)) - 180 - launch_angle;
-				var lsr = 0.95;
-				if (lineType == LineTypes.FLOOR)
-					lsr = 0.9;
+				//var lsr = 0.95;
+				//if (lineType == LineTypes.FLOOR)
+				//	lsr = 0.9;
+				var lsr = 1;
 				launch_speed.x = Math.abs(launch_speed.x * lsr);
 				launch_speed.y = Math.abs(launch_speed.y * lsr);
 				if (Math.cos(rAngle * Math.PI / 180) < 0) {
@@ -1319,16 +1372,16 @@ class Collision {
 				this.collision_data.angle = rAngle;
 				this.collision_data.launchSpeed = launch_speed;
 
-				//Check if it's techable with new launch speed
-				if (lineType != LineTypes.FLOOR) {
-					this.collision_data.techable.onCollision = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
-					this.collision_data.totalLaunchSpeed = TotalLaunchSpeed(launch_speed.x, launch_speed.y); //Only update launch speed with walls/ceiling, cannot tech during floor collision
-				} else {
-					this.collision_data.techable.onCollision = false;
-				}
+				////Check if it's techable with new launch speed
+				//if (lineType != LineTypes.FLOOR) {
+				//	this.collision_data.techable.onCollision = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
+				//	this.collision_data.totalLaunchSpeed = TotalLaunchSpeed(launch_speed.x, launch_speed.y); //Only update launch speed with walls/ceiling, cannot tech during floor collision
+				//} else {
+				//	this.collision_data.techable.onCollision = false;
+				//}
 
 				if (frame == 1 && lineType == LineTypes.FLOOR) {
-					this.collision_data.techable = { before: false, onCollision: false };
+					this.collision_data.techable = false;
 				}
 
 				if (Math.sin(rAngle * Math.PI / 180) > 0) {
@@ -1465,13 +1518,14 @@ class Collision {
 					this.collision_data.resetGravity = false;
 					this.collision_data.state = CharacterState.COLLIDING_CEILING;
 				}
-				this.collision_data.techable.before = lineType != LineTypes.FLOOR ? TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6 :
+				this.collision_data.techable = lineType != LineTypes.FLOOR ? TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6 :
 					TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 3;
 				//Calculate bounced off angle
 				var rAngle = (2 * (material.passthroughAngle)) - 180 - launch_angle;
-				var lsr = 0.95;
-				if (lineType == LineTypes.FLOOR)
-					lsr = 0.9;
+				//var lsr = 0.95;
+				//if (lineType == LineTypes.FLOOR)
+				//	lsr = 0.9;
+				var lsr = 1;
 				launch_speed.x = Math.abs(launch_speed.x * lsr);
 				launch_speed.y = Math.abs(launch_speed.y * lsr);
 				if (Math.cos(rAngle * Math.PI / 180) < 0) {
@@ -1484,13 +1538,13 @@ class Collision {
 				this.collision_data.angle = rAngle;
 				this.collision_data.launchSpeed = launch_speed;
 
-				//Check if it's techable with new launch speed
-				if (lineType != LineTypes.FLOOR) {
-					this.collision_data.techable.onCollision = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
-					this.collision_data.totalLaunchSpeed = TotalLaunchSpeed(launch_speed.x, launch_speed.y); //Only update launch speed with walls/ceiling, cannot tech during floor collision
-				} else {
-					this.collision_data.techable.onCollision = false;
-				}
+				////Check if it's techable with new launch speed
+				//if (lineType != LineTypes.FLOOR) {
+				//	this.collision_data.techable.onCollision = TotalLaunchSpeed(launch_speed.x, launch_speed.y) <= 6;
+				//	this.collision_data.totalLaunchSpeed = TotalLaunchSpeed(launch_speed.x, launch_speed.y); //Only update launch speed with walls/ceiling, cannot tech during floor collision
+				//} else {
+				//	this.collision_data.techable.onCollision = false;
+				//}
 
 				if (Math.sin(rAngle * Math.PI / 180) > 0) {
 					momentum = 1;
@@ -1699,6 +1753,7 @@ class Distance{
 
 		var frameCount = 0;
 		var ignoreGravityAdd = false;
+		var waitFramesCollisionSpeedUp = 0;
 
 		/*Made these from comparisons and trying to make results match in-game positions... 
 		it should something caused by DamageFlySpeedUp but it could be a thing too
@@ -1739,7 +1794,7 @@ class Distance{
 
 				if (c.collisionOccurred) {
 					collided = true;
-					this.launchData.collisions.push(c);
+					
 					this.collisions++;
 					launch_speed = c.collision_data.launchSpeed;
 					next_x = c.collision_data.next_position[0];
@@ -1750,11 +1805,16 @@ class Distance{
 					previousCollision = c.collision_data.collision;
 					previousCollisionIntersection = c.collision_data.intersection;
 					slidingDirection = c.collision_data.slideDirection;
+					
 					//decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
 					decay = { 'x': parameters.decay * Math.cos(angle * Math.PI / 180), 'y': parameters.decay * Math.sin(angle * Math.PI / 180) };
 					if (ssb4Launch) {
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 					}
+
+					waitFramesCollisionSpeedUp = GetNextFrameWithSpeedUp(speedupFrames, i);
+					c.applyDecaySpeedUp(decay, GetNextFrameWithSpeedUp(speedupFrames, i));
+					this.launchData.collisions.push(c);
 					//if (Math.cos(angle * Math.PI / 180) < 0) {
 					//	decay.x *= -1;
 					//}
@@ -2003,17 +2063,22 @@ class Distance{
 
 
 			if (!collided) {
-				if (i + 1 < speedupFrames.length) {
-					if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
+				if (waitFramesCollisionSpeedUp <= 0) {
+					if (i + 1 < speedupFrames.length) {
+						if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
+							this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
+							frameCount++;
+							this.x.push(+character_position.x.toFixed(6));
+							this.y.push(+character_position.y.toFixed(6));
+						}
+					} else {
 						this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
-						frameCount++;
 						this.x.push(+character_position.x.toFixed(6));
 						this.y.push(+character_position.y.toFixed(6));
+						frameCount++;
 					}
 				} else {
-					this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
-					this.x.push(+character_position.x.toFixed(6));
-					this.y.push(+character_position.y.toFixed(6));
+					waitFramesCollisionSpeedUp--;
 					frameCount++;
 				}
 			} else {
@@ -2021,6 +2086,7 @@ class Distance{
 				this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
 				this.x.push(+character_position.x.toFixed(6));
 				this.y.push(+character_position.y.toFixed(6));
+				waitFramesCollisionSpeedUp--;
 				frameCount++;
 			}
 	

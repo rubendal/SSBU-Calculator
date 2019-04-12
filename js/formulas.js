@@ -1053,6 +1053,18 @@ function GetFrameWithSpeedUp(list, frame) {
 	return -2; //Not found
 }
 
+function GetNextFrameWithSpeedUp(list, frame) {
+	if (frame == 0)
+		frame++;
+	var value = list[frame];
+	for (var i = frame + 1; i < list.length; i++) {
+		if (list[i] > value) {
+			return i - 1 - frame;
+		}
+	}
+	return 0;
+}
+
 function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, speedupFrames) {
 	var res = { 'airdodge': 0, 'aerial': 0 };
 	if (windbox) {
