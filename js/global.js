@@ -2002,14 +2002,14 @@ class Distance{
 								character_speed.y = +character_speed.y.toFixed(6);
 							} else {
 								//First 45 frames
-								if (frameCount < 45) {
+								if (i < hitstun) {
 									//Set DamageFlyTop values
 									g -= damageflytop_gravity * damageFlyTopGravityMul;
 									fg = Math.max(g, -damageflytop_fall_speed);
 									character_speed.y = fg;
 									character_speed.y = +character_speed.y.toFixed(6);
 								} else {
-									if (frameCount == 45) {
+									if (i == hitstun) {
 										g = fg;
 									}
 									if (character_speed.y < -fall_speed) {
