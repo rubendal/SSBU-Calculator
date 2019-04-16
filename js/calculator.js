@@ -867,8 +867,6 @@ app.controller('calculator', function ($scope) {
 			kbList.push(new Result("Disable time", DisableTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb)));
 		}
 		kbList.push(new Result("Hitstun", Hitstun(vskb.base_kb, windbox, electric)));
-		//kbList.push(new Result("Hitstun", HitstunWithFSM(vskb.base_kb, windbox, electric), Hitstun(vskb.base_kb, windbox, electric) == HitstunWithFSM(vskb.base_kb, windbox, electric)));
-		//kbList.push(new Result("Hitstun with FSM", HitstunWithFSM(vskb.base_kb, windbox, electric)));
 
 		kbList.push(new Result("First Actionable Frame", FirstActionableFrame(vskb.base_kb, windbox, electric)));
 
@@ -880,19 +878,18 @@ app.controller('calculator', function ($scope) {
 		}
 
 
-        kbList.push(new Result("Airdodge hitstun cancel", v_hc.airdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.airdodge)));
-        kbList.push(new Result("Aerial hitstun cancel", v_hc.aerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.aerial)));
+        //kbList.push(new Result("Airdodge hitstun cancel", v_hc.airdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.airdodge)));
+        //kbList.push(new Result("Aerial hitstun cancel", v_hc.aerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.aerial)));
 
-		//if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32) {
+		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32) {
 
-		// Frame hitstun cancel is possible isn't affected by speed up
+			//Frame hitstun cancel is possible isn't affected by speed up
 
-		//	var speedUpAirdodge = damageSpeedUpFrames[v_hc.airdodge - 1];
-		//	var speedUpAerial = damageSpeedUpFrames[v_hc.aerial - 1];
+			var suv_hc = SpeedUpHitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, damageSpeedUpFrames);	
 
-		//	kbList.push(new Result("Airdodge hitstun cancel with speed up", speedUpAirdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.airdodge)));
-		//	kbList.push(new Result("Aerial hitstun cancel with speed up", speedUpAerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || Hitstun(vskb.base_kb, windbox, electric) + 1 == v_hc.aerial)));
-		//}
+			kbList.push(new Result("Airdodge hitstun cancel", suv_hc.airdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.airdodge)));
+			kbList.push(new Result("Aerial hitstun cancel", suv_hc.aerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.aerial)));
+		}
 
         kbList.push(new Result("Tumble", vskb.tumble ? "Yes" : "No"));
 

@@ -1071,13 +1071,15 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 		return res;
 	}
 	var hitstun = Hitstun(kb, windbox, electric);
+	var hitstunSpeedUp = speedupFrames[speedupFrames.length - 1];
 	//var fsm = TumbleFSM(kb);
 	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
 	var airdodge = false;
 	var aerial = false;
 	var launch_speed = { 'x': Math.abs(launch_speed_x), 'y': Math.abs(launch_speed_y) };
 	var decay = { 'x': Math.abs(parameters.decay * Math.cos(angle * Math.PI / 180)), 'y': Math.abs(parameters.decay * Math.sin(angle * Math.PI / 180)) };
-	var ec = electric ? 1 : 0;
+	var frameCount = 0;
+	var ec = electric ? 0 : 0;
 	for (var i = 0; i < hitstun; i++) {
 		if (launch_speed.x != 0) {
 			var x_dir = launch_speed.x / Math.abs(launch_speed.x);
@@ -1097,28 +1099,40 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 				launch_speed.y = 0;
 			}
 		}
-		var lc = Math.sqrt(Math.pow(launch_speed.x, 2) + Math.pow(launch_speed.y, 2));
-		if (lc < parameters.hitstunCancel.launchSpeed.airdodge && !airdodge) {
-			airdodge = true;
-			res.airdodge = Math.max(i + 2, parameters.hitstunCancel.frames.airdodge + 1 + ec);
+		if (i + 1 < speedupFrames.length) {
+			if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
+				var lc = Math.sqrt(Math.pow(launch_speed.x, 2) + Math.pow(launch_speed.y, 2));
+				if (lc < parameters.hitstunCancel.launchSpeed.airdodge && !airdodge) {
+					airdodge = true;
+					res.airdodge = Math.max(frameCount + 2, parameters.hitstunCancel.frames.airdodge + 1 + ec);
+				}
+				if (lc < parameters.hitstunCancel.launchSpeed.aerial && !aerial) {
+					aerial = true;
+					res.aerial = Math.max(frameCount + 2, parameters.hitstunCancel.frames.aerial + 1 + ec);
+				}
+				frameCount++;
+			}
+		} else {
+			var lc = Math.sqrt(Math.pow(launch_speed.x, 2) + Math.pow(launch_speed.y, 2));
+			if (lc < parameters.hitstunCancel.launchSpeed.airdodge && !airdodge) {
+				airdodge = true;
+				res.airdodge = Math.max(frameCount + 2, parameters.hitstunCancel.frames.airdodge + 1 + ec);
+			}
+			if (lc < parameters.hitstunCancel.launchSpeed.aerial && !aerial) {
+				aerial = true;
+				res.aerial = Math.max(frameCount + 2, parameters.hitstunCancel.frames.aerial + 1 + ec);
+			}
+			frameCount++;
 		}
-		if (lc < parameters.hitstunCancel.launchSpeed.aerial && !aerial) {
-			aerial = true;
-			res.aerial = Math.max(i + 2, parameters.hitstunCancel.frames.aerial + 1 + ec);
-		}
+		
 	}
 
-	if (res.airdodge > hitstun) {
-		res.airdodge = hitstun + 1;
+	if (res.airdodge > hitstunSpeedUp) {
+		res.airdodge = hitstunSpeedUp + 1;
 	}
-	if (res.aerial > hitstun) {
-		res.aerial = hitstun + 1;
+	if (res.aerial > hitstunSpeedUp) {
+		res.aerial = hitstunSpeedUp + 1;
 	}
-
-	//if (fsm >= 1) {
-	//	res.airdodge -= fsm * 5;
-	//	res.aerial -= fsm * 5;
-	//}
 
 	return res;
 }

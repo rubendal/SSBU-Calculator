@@ -2061,7 +2061,6 @@ class Distance{
             character_position.x = next_x;
             character_position.y = next_y;
 
-
 			if (!collided) {
 				if (waitFramesCollisionSpeedUp <= 0) {
 					if (i + 1 < speedupFrames.length) {
