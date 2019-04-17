@@ -290,6 +290,10 @@ img.piranha-plant {
     background: #00aa82;
 }
 
+img.joker {
+    background: #b41201;
+}
+
 /*----Percent---*/
 
 div.mario {
@@ -582,4 +586,8 @@ div.incineroar {
 
 div.piranha-plant {
     border-top: 5px solid #00aa82;
+}
+
+div.joker {
+    border-top: 5px solid #b41201;
 }
