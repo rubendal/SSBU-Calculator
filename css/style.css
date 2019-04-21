@@ -400,6 +400,10 @@ input[type=button] {
     padding: 1.25rem 0px;
 }
 
+.results-card-block table {
+    margin-bottom: 0px;
+}
+
 .header-subgroup {
     width: 100%;
     padding: 3px;
