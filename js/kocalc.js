@@ -128,8 +128,8 @@ app.controller('calculator', function ($scope) {
     $scope.formats = ["Singles", "Doubles"];
     $scope.format = "Singles";
 
-	$scope.stage = $scope.stages[43];
-	$scope.stageValue = "43";
+	$scope.stage = $scope.stages[48];
+	$scope.stageValue = "48";
 
 	$scope.stageName = $scope.stage.stage;
 
