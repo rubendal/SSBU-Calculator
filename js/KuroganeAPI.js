@@ -654,7 +654,7 @@ class Move {
         this.windbox = this.name.includes("Windbox") || this.name.includes("Flinchless") || this.name == "Hydro Pump" || this.name == "F.L.U.D.D (Attack)";
         this.multihit = /(Hit [0-9]+)/gi.test(this.name) || /(Hits [0-9]+\-[0-9]+)/gi.test(this.name) || this.name.includes("Final Hit") || this.rehitRate != 0;
 		this.spike = this.angle >= 230 && this.angle <= 310;
-		this.isFinishingTouch = this.name.includes("Finishing Touch") && !this.name.includes("Windbox");
+		this.isFinishingTouch = false; // this.name.includes("Finishing Touch") && !this.name.includes("Windbox");
 
 		this.maxSmashChargeMult = this.smash_attack ? 1.4 : 1;
 

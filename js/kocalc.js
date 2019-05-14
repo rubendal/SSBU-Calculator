@@ -505,7 +505,7 @@ app.controller('calculator', function ($scope) {
             $scope.counterMult = attack.counterMult;
 			$scope.unblockable = attack.unblockable;
 			$scope.throw = attack.throw;
-			$scope.isFinishingTouch = attack.isFinishingTouch;
+			$scope.isFinishingTouch = false;
             $scope.windbox = attack.windbox;
 			$scope.shieldDamage = attack.shieldDamage;
 			$scope.set_weight = attack.setweight;
@@ -624,7 +624,7 @@ app.controller('calculator', function ($scope) {
 					$scope.counterMult = attack.counterMult;
 					$scope.throw = attack.throw;
 						$scope.unblockable = attack.unblockable;
-						$scope.isFinishingTouch = attack.isFinishingTouch;
+						$scope.isFinishingTouch = false;
                         $scope.selected_move = attack;
                         $scope.check_move();
                         detected = true;
