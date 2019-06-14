@@ -162,6 +162,8 @@ app.controller('calculator', function ($scope) {
 
 	$scope.moveset_info = "";
 
+	$scope.addHitstun = 0;
+
 	$scope.visualizer = new Visualizer(document.getElementById("visualizerCanvas"));
 	$scope.visualizer.SetBackground(settings.visualizer_colors.background);
 	$scope.visualizer.SetSize(45);
@@ -707,9 +709,13 @@ app.controller('calculator', function ($scope) {
 			vskb.addModifier(target.modifier.kb_received);
 		}
 
-		var damageSpeedUpFrames = DamageSpeedUpFrames(FirstActionableFrame(vskb.base_kb, windbox, electric), vskb.angle);
+		var damageSpeedUpFrames = [];
 
-		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, damageSpeedUpFrames, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
+		if (vskb.tumble) {
+			damageSpeedUpFrames = DamageSpeedUpFrames(Math.max(0, FirstActionableFrame(vskb.base_kb, windbox, electric) + addHitstun), vskb.angle);
+		}
+
+		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0, vskb.hitstun + addHitstun), damageSpeedUpFrames, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
 
 		return distance;
 	}
@@ -1424,6 +1430,8 @@ app.controller('calculator', function ($scope) {
         paralyzer = $scope.effect == "Paralyze";
         
 		launch_rate = parseFloat($scope.launch_rate);
+
+		addHitstun = parseFloat($scope.addHitstun);
 
 		position = { x: parseFloat($scope.position_x), y: parseFloat($scope.position_y) };
 

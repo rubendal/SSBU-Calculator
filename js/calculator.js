@@ -101,6 +101,7 @@ app.controller('calculator', function ($scope) {
 	$scope.landing_lag = 0;
 
 	$scope.shieldstunMult = 1;
+	$scope.addHitstun = 0;
 
     $scope.section_main = { 'background': 'rgba(0, 0, 255, 0.3)' };
     $scope.section_attributes = { 'background': 'transparent' };
@@ -755,9 +756,13 @@ app.controller('calculator', function ($scope) {
             vskb.addModifier(target.modifier.kb_received);
 		}
 
-		var damageSpeedUpFrames = DamageSpeedUpFrames(FirstActionableFrame(vskb.base_kb, windbox, electric), vskb.angle);
+		var damageSpeedUpFrames = [];
 
-		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, damageSpeedUpFrames, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames));
+		if (vskb.tumble) {
+			damageSpeedUpFrames = DamageSpeedUpFrames(Math.max(0,FirstActionableFrame(vskb.base_kb, windbox, electric) + addHitstun), vskb.angle);
+		}
+
+		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0,vskb.hitstun + addHitstun), damageSpeedUpFrames, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames));
 
 		if ($scope.is_1v1) {
 			damage *= 1.2;
@@ -774,8 +779,8 @@ app.controller('calculator', function ($scope) {
         //}
 		
 		//var vsDistance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.hitstunFSM, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
-        vskb.bounce(bounce);
-		var v_hc = HitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric);		
+		vskb.bounce(bounce);
+		var v_hc = HitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, addHitstun);		
 
 		//Results categories
 		var resultList = [];
@@ -866,9 +871,9 @@ app.controller('calculator', function ($scope) {
 		if (effect == "Disable") {
 			kbList.push(new Result("Disable time", DisableTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb)));
 		}
-		kbList.push(new Result("Hitstun", Hitstun(vskb.base_kb, windbox, electric)));
+		kbList.push(new Result("Hitstun", Math.max(0,Hitstun(vskb.base_kb, windbox, electric) + addHitstun)));
 
-		kbList.push(new Result("First Actionable Frame", FirstActionableFrame(vskb.base_kb, windbox, electric)));
+		kbList.push(new Result("First Actionable Frame", Math.max(0,FirstActionableFrame(vskb.base_kb, windbox, electric) + addHitstun)));
 
 		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32) {
 			var speedUpFAF = damageSpeedUpFrames[damageSpeedUpFrames.length - 1];
@@ -885,7 +890,7 @@ app.controller('calculator', function ($scope) {
 
 			//Frame hitstun cancel is possible isn't affected by speed up
 
-			var suv_hc = SpeedUpHitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, damageSpeedUpFrames);	
+			var suv_hc = SpeedUpHitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, damageSpeedUpFrames, addHitstun);	
 
 			kbList.push(new Result("Airdodge hitstun cancel", suv_hc.airdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.airdodge)));
 			kbList.push(new Result("Aerial hitstun cancel", suv_hc.aerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.aerial)));
@@ -908,7 +913,7 @@ app.controller('calculator', function ($scope) {
         //kbList.push(new Result("Max Vertical Distance", +vsDistance.max_y.toFixed(6)));
 
 
-		kbList.push(new Result("Hit Advantage", HitAdvantage(vskb.hitstun, is_projectile ? hitframe + Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, effect == "Paralyze" ? ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch)) : 0)));
+		kbList.push(new Result("Hit Advantage", HitAdvantage(Math.max(0, vskb.hitstun + addHitstun), is_projectile ? hitframe + Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, effect == "Paralyze" ? ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch)) : 0)));
 
         if (target.name == "Rosalina And Luma") {
             if (!wbkb) {
@@ -924,7 +929,7 @@ app.controller('calculator', function ($scope) {
                 luma_vskb.addModifier(target.modifier.kb_received);
                 kbList.push(new Result("Luma KB", +luma_vskb.kb.toFixed(6)));
 				kbList.push(new Result("Luma launched", luma_vskb.tumble ? "Yes" : "No"));
-				kbList.push(new Result("Luma hitstun", LumaHitstun(luma_vskb.kb, windbox, electric), luma_vskb.tumble));
+				kbList.push(new Result("Luma hitstun", Math.max(0, LumaHitstun(luma_vskb.kb, windbox, electric) + addHitstun), luma_vskb.tumble));
             }
         }
 
@@ -1078,7 +1083,7 @@ app.controller('calculator', function ($scope) {
         luma_percent = parseFloat($scope.lumaPercent);
 
 		unblockable = $scope.unblockable;
-		isFinishingTouch = $scope.isFinishingTouch;
+		//isFinishingTouch = $scope.isFinishingTouch;
 
 		if (isFinishingTouch)
 			$scope.set_weight = true;
@@ -1092,6 +1097,8 @@ app.controller('calculator', function ($scope) {
 		launch_rate = parseFloat($scope.launch_rate);
 
 		shieldstunMult = parseFloat($scope.shieldstunMult);
+
+		addHitstun = parseFloat($scope.addHitstun);
 
         $scope.results = $scope.calculate();
 

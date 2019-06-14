@@ -280,12 +280,12 @@ function FirstActionableFrame(kb, windbox, electric, ignoreReeling) {
     return hitstun + 1;
 }
 
-function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric) {
+function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, addHitstun) {
     var res = { 'airdodge': 0, 'aerial': 0 };
     if (windbox) {
         return res;
-    }
-	var hitstun = Hitstun(kb, windbox, electric);
+	}
+	var hitstun = Math.max(0, Hitstun(kb, windbox, electric) + addHitstun);
 	//var fsm = TumbleFSM(kb);
     var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
     var airdodge = false;
@@ -1065,13 +1065,15 @@ function GetNextFrameWithSpeedUp(list, frame) {
 	return 0;
 }
 
-function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, speedupFrames) {
+function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, speedupFrames, addHitstun) {
 	var res = { 'airdodge': 0, 'aerial': 0 };
 	if (windbox) {
 		return res;
 	}
-	var hitstun = Hitstun(kb, windbox, electric);
+	var hitstun = Math.max(0,Hitstun(kb, windbox, electric) + addHitstun);
 	var hitstunSpeedUp = speedupFrames[speedupFrames.length - 1];
+
+	console.log(hitstun, hitstunSpeedUp);
 	//var fsm = TumbleFSM(kb);
 	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
 	var airdodge = false;

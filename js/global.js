@@ -208,7 +208,8 @@ var paramsList = [
 	new Parameter("1v1", "1"),
 	new Parameter("shorthop", "0"),
 	new Parameter("isAerial", "0"),
-	new Parameter("ignoreStale", "0")
+	new Parameter("ignoreStale", "0"),
+	new Parameter("addHitstun", "0")
 ];
 
 function checkUndefined(value) {
@@ -471,6 +472,9 @@ function buildParams($scope) {
 		}
 		if (paramsList[77].value != boolToString($scope.ignoreStale)) {
 			params.push(new Parameter(paramsList[77].param, boolToString($scope.ignoreStale)));
+		}
+		if (paramsList[78].value != $scope.addHitstun) {
+			params.push(new Parameter(paramsList[78].param, $scope.addHitstun));
 		}
     } else if ($scope.app == "kbcalculator") {
         if (paramsList[43].value != $scope.kb) {
@@ -931,6 +935,12 @@ function mapParams($scope) {
 		if ($scope.ignoreStale != undefined) {
 			$scope.ignoreStale = param == 1;
 			$scope.updateAttackData();
+		}
+	}
+	param = Parameter.get(get_params, "addHitstun");
+	if (param) {
+		if ($scope.addHitstun != undefined) {
+			$scope.addHitstun = parseFloat(param);
 		}
 	}
 }
@@ -1640,10 +1650,11 @@ class DILine {
 }
 
 class Distance{
-	constructor(kb, x_launch_speed, y_launch_speed, hitstun, speedupFrames, angle, gravity, damageflytop_gravity, faf, fall_speed, damageflytop_fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch) {
+	constructor(kb, x_launch_speed, y_launch_speed, tumble, hitstun, speedupFrames, angle, gravity, damageflytop_gravity, faf, fall_speed, damageflytop_fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch) {
         this.kb = kb;
         this.x_launch_speed = x_launch_speed;
-        this.y_launch_speed = y_launch_speed;
+		this.y_launch_speed = y_launch_speed;
+		this.tumble = tumble;
         this.hitstun = hitstun;
         this.angle = angle;
         this.gravity = gravity;
@@ -1654,7 +1665,6 @@ class Distance{
 		this.isFinishingTouch = isFinishingTouch;
         this.inverseX = inverseX;
         this.onSurface = onSurface;
-        this.tumble = false;
         this.position = {"x":0, "y":0};
         this.bounce = false;
         this.extraFrames = 20;
@@ -1675,9 +1685,6 @@ class Distance{
         if(stage !== undefined){
             this.stage = stage;
 		}
-		if (Hitstun(kb, windbox, false, true) + 1 >= parameters.tumble_threshold && angle != 0 && angle != 180) {
-            this.tumble = true;
-        }
 
         if(this.stage == null){
             if(this.position.y < 0 && this.onSurface){
@@ -1744,10 +1751,10 @@ class Distance{
 
 		var slidingDirection = 0;
 
-		var hc = HitstunCancel(kb, x_launch_speed, y_launch_speed, angle, false);
+		var hc = HitstunCancel(kb, x_launch_speed, y_launch_speed, angle, false, false, addHitstun);
 		this.launchData = new LaunchData([{ x: this.position.x, y: this.position.y }], { x: 0, y: 0 }, [], hitstun, hc.airdodge, hc.aerial, faf, -1);
 
-		var isDamageFlyTop = this.kb >= 80 && this.angle >= 70 && this.angle <= 110;
+		var isDamageFlyTop = this.tumble && this.angle >= 70 && this.angle <= 110;
 
 		//var tumbleFSM = TumbleFSM(this.kb);
 
@@ -1812,8 +1819,10 @@ class Distance{
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 					}
 
-					waitFramesCollisionSpeedUp = GetNextFrameWithSpeedUp(speedupFrames, i);
-					c.applyDecaySpeedUp(decay, GetNextFrameWithSpeedUp(speedupFrames, i));
+					if (this.tumble) {
+						waitFramesCollisionSpeedUp = GetNextFrameWithSpeedUp(speedupFrames, i);
+						c.applyDecaySpeedUp(decay, GetNextFrameWithSpeedUp(speedupFrames, i));
+					}
 					this.launchData.collisions.push(c);
 					//if (Math.cos(angle * Math.PI / 180) < 0) {
 					//	decay.x *= -1;
@@ -2063,7 +2072,7 @@ class Distance{
 
 			if (!collided) {
 				if (waitFramesCollisionSpeedUp <= 0) {
-					if (i + 1 < speedupFrames.length) {
+					if (i + 1 < speedupFrames.length && this.tumble) {
 						if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
 							this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
 							frameCount++;
@@ -2119,8 +2128,14 @@ class Distance{
 			//}
 		}
 
-		hitstun = speedupFrames[speedupFrames.length - 1];
+		if (this.tumble) {
+			hitstun = speedupFrames[speedupFrames.length - 1];
+		} else {
+			hitstun = this.hitstun;
+		}
 		this.launchData.hitstun = hitstun;
+
+		console.log(this.launchData);
 
 		this.vertical_speed.push((launch_speed.y));
 
@@ -2764,6 +2779,8 @@ var launch_rate = 1;
 var shieldstunMult = 1;
 var is_aerial_move = false;
 var uses_aerial_shieldstun = false;
+
+var addHitstun = 0;
 
 var effects = [
 	{ id: 0, name: "None/Other" },

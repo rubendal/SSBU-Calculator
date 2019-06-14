@@ -294,6 +294,13 @@
                                 <td><input name="shield_damage" type="number" min="0" max="50" step="1" ng-model="shieldDamage" ng-change="updateAttackData()" /></td>
                             </tr>
                             <tr>
+                                <td>Add. Hitstun</td>
+                                <td>
+                                    <input name="add_hitstun" type="number" min="-100" max="100" step="1"
+                                           ng-model="addHitstun" ng-change="updateAttackData()" />
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Effect</td>
                                 <td>
                                     <select id="effect" ng-model="effect" ng-change="updateEffect()">
