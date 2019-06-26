@@ -2135,8 +2135,6 @@ class Distance{
 		}
 		this.launchData.hitstun = hitstun;
 
-		console.log(this.launchData);
-
 		this.vertical_speed.push((launch_speed.y));
 
 		//var fsmFactor = 1;

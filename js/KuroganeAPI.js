@@ -26,7 +26,7 @@
 //var throwData = loadJSONPath('./Data/Throws/throws.json'); //Throw data from Arthur's spreadsheet https://docs.google.com/spreadsheets/d/1E3kEQUOZy1C-kSzcoOSKay5gDqpo-ZZgq-8G511Bmw4/edit#gid=1810400970
 var throwData = [];
 
-var localMoveData = loadJSONPath('./Data/movedata.json'); //Characters with local move data in their Data/Character directory
+//var localMoveData = loadJSONPath('./Data/movedata.json'); //Characters with local move data in their Data/Character directory
 
 class HitboxActiveFrames {
     constructor(start, end) {
@@ -977,10 +977,10 @@ function getMoveset(attacker, $scope) {
 	
 
 	//KH Smash Ultimate API
-	loadAsyncFunctionJSON("https://test-khapi.frannsoft.com/api/characters/name/" + api_name + "?game=ultimate", function (character) {
+	loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/name/" + api_name + "?game=ultimate", function (character) {
 		if (character != null) {
 			var id = character.OwnerId;
-			loadAsyncFunctionJSON("https://test-khapi.frannsoft.com/api/characters/" + id + "/moves?expand=true&game=ultimate", function (moveset) {
+			loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/" + id + "/moves?expand=true&game=ultimate", function (moveset) {
 				if (moveset != null) {
 					var moves = [];
 					var count = 1;
@@ -1073,10 +1073,10 @@ function GetSmash4Data(attacker, $scope) {
 			$scope.moveset_info = "Using Samus moveset, ";
 			break;
 	}
-	loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/name/" + api_name, function (character) {
+	loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/name/" + api_name, function (character) {
 		if (character != null) {
 			var id = character.OwnerId;
-			loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters/" + id + "/moves", function (moveset) {
+			loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/" + id + "/moves", function (moveset) {
 				if (moveset != null) {
 					var moves = [];
 					var count = 1;
@@ -1145,7 +1145,7 @@ function GetSmash4Data(attacker, $scope) {
 
 function getUltimateCharactersId(names, $scope) {
 	$scope.charactersId = [];
-	loadAsyncFunctionJSON("https://test-khapi.frannsoft.com/api/characters?game=ultimate", function (character) {
+	loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters?game=ultimate", function (character) {
 		if (character != null) {
 			var characters = [];
 			for (var i = 0; i < character.length; i++) {
@@ -1182,7 +1182,7 @@ function getUltimateCharactersId(names, $scope) {
 
 function getCharactersId(names, $scope) {
     $scope.charactersId = [];
-	loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/characters", function (character) {
+	loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters", function (character) {
         if (character != null) {
             var characters = [];
             for (var i = 0; i < character.length; i++) {
@@ -1219,7 +1219,7 @@ function getCharactersId(names, $scope) {
 
 function getAllMoves($scope) {
     $scope.moves = [];
-	loadAsyncFunctionJSON("https://beta-api-kuroganehammer.azurewebsites.net/api/moves", function (moveset) {
+	loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/moves", function (moveset) {
         if (moveset != null) {
             var moves = [];
             var count = 0;
