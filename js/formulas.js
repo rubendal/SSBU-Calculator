@@ -75,8 +75,7 @@ function Aura(percent, stock_dif, game_format) {
     }else{
         aura = 1.7;
     }
-    //Stock difference data by KuroganeHammer, @A2E_smash and @Rmenaut, https://twitter.com/KuroganeHammer/status/784017200721965057
-    //For Doubles https://twitter.com/KuroganeHammer/status/784372918331383808
+    //1v1 Rank multipliers by Meshima: https://twitter.com/Meshima_/status/1146757439112355840
     var m = 1;
     var min = 0.6;
     var max = 1.7;
@@ -86,22 +85,23 @@ function Aura(percent, stock_dif, game_format) {
     if(game_format == "Singles"){
         switch(stock_dif){
             case "-2":
-                m = 1.3333;
-                min = 0.88;
+                m = 1.4;
+                min = 0.924;
                 max = 1.8;
             break;
             case "-1":
-                m = 1.142;
-                min = 0.753;
+                m = 1.12;
+                min = 0.792;
                 max = 1.8;
             break;
             case "+1":
                 m = 0.8888;
-                max = 1.51;
+				max = 1.464;
+				min = 0.6039;
             break;
             case "+2":
-                m = 0.8;
-                max = 1.36;
+                m = 0.83;
+                max = 1.328;
             break;
         }
     }else{
