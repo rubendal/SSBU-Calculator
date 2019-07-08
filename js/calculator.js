@@ -875,8 +875,12 @@ app.controller('calculator', function ($scope) {
 
 		kbList.push(new Result("First Actionable Frame", Math.max(0,FirstActionableFrame(vskb.base_kb, windbox, electric) + addHitstun)));
 
+		var hitstun = Math.max(0, vskb.hitstun + addHitstun);
+
 		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32) {
 			var speedUpFAF = damageSpeedUpFrames[damageSpeedUpFrames.length - 1];
+
+			hitstun = speedUpFAF - 1;
 
 			kbList.push(new Result("Hitstun with speed up", speedUpFAF - 1));
 			kbList.push(new Result("FAF with speed up", speedUpFAF));
@@ -913,7 +917,7 @@ app.controller('calculator', function ($scope) {
         //kbList.push(new Result("Max Vertical Distance", +vsDistance.max_y.toFixed(6)));
 
 
-		kbList.push(new Result("Hit Advantage", HitAdvantage(Math.max(0, vskb.hitstun + addHitstun), is_projectile ? hitframe + Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, effect == "Paralyze" ? ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch)) : 0)));
+		kbList.push(new Result("Hit Advantage", HitAdvantage(hitstun, is_projectile ? hitframe + Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch)) : hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, effect == "Paralyze" ? ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch)) : 0)));
 
         if (target.name == "Rosalina And Luma") {
             if (!wbkb) {
