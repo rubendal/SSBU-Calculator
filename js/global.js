@@ -1650,12 +1650,13 @@ class DILine {
 }
 
 class Distance{
-	constructor(kb, x_launch_speed, y_launch_speed, tumble, hitstun, speedupFrames, angle, gravity, damageflytop_gravity, faf, fall_speed, damageflytop_fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch) {
+	constructor(kb, x_launch_speed, y_launch_speed, tumble, hitstun, speedupFrames, isFKB, angle, gravity, damageflytop_gravity, faf, fall_speed, damageflytop_fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch) {
         this.kb = kb;
         this.x_launch_speed = x_launch_speed;
 		this.y_launch_speed = y_launch_speed;
 		this.tumble = tumble;
-        this.hitstun = hitstun;
+		this.hitstun = hitstun;
+		this.isFKB = isFKB;
         this.angle = angle;
         this.gravity = gravity;
         this.fall_speed = fall_speed;
@@ -1819,7 +1820,7 @@ class Distance{
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
 					}
 
-					if (this.tumble) {
+					if (this.tumble && !this.isFKB) {
 						waitFramesCollisionSpeedUp = GetNextFrameWithSpeedUp(speedupFrames, i);
 						c.applyDecaySpeedUp(decay, GetNextFrameWithSpeedUp(speedupFrames, i));
 					}
@@ -2072,7 +2073,7 @@ class Distance{
 
 			if (!collided) {
 				if (waitFramesCollisionSpeedUp <= 0) {
-					if (i + 1 < speedupFrames.length && this.tumble) {
+					if (i + 1 < speedupFrames.length && this.tumble && !this.isFKB) {
 						if (GetFrameWithSpeedUp(speedupFrames, i) == i) {
 							this.launchData.positions.push({ x: +character_position.x.toFixed(6), y: +character_position.y.toFixed(6) });
 							frameCount++;
@@ -2128,7 +2129,7 @@ class Distance{
 			//}
 		}
 
-		if (this.tumble) {
+		if (this.tumble && !this.isFKB) {
 			hitstun = speedupFrames[speedupFrames.length - 1];
 		} else {
 			hitstun = this.hitstun;
