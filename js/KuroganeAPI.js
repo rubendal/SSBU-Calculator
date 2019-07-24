@@ -965,10 +965,6 @@ function getMoveset(attacker, $scope) {
 
 	$scope.moveset_info = "";
 	switch (attacker.display_name) {
-		case "Chrom":
-			api_name = "roy";
-			$scope.moveset_info = "Using Roy moveset, ";
-			break;
 		case "Dark Samus":
 			api_name = "samus";
 			$scope.moveset_info = "Using Samus moveset, ";
