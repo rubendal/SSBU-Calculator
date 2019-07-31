@@ -294,8 +294,11 @@ img.joker {
     background: #b41201;
 }
 
-/*----Percent---*/
+img.hero {
+    background: #ccb3f4;
+}
 
+/*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
 }
@@ -590,4 +593,8 @@ div.piranha-plant {
 
 div.joker {
     border-top: 5px solid #b41201;
+}
+
+div.hero {
+    border-top: 5px solid #ccb3f4;
 }
