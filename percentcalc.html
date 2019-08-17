@@ -172,7 +172,7 @@
                                 <span class="character-image-cont"><img ng-src="{{target_image}}" class="character-image" ng-class="target_class" /></span>
                                 <div class="percent-div">
                                     <!--<input name="target_percent" type="number" class="percent-input" min="0" max="999" step="0.1" ng-model="targetPercent" ng-style="targetPercent_style" ng-change="updatePercent()" />
-                                    <span ng-style="targetPercent_style">%</span>-->
+                                <span ng-style="targetPercent_style">%</span>-->
                                 </div>
                                 <div class="character-select-container" ng-class="target_class">
                                     <select name="targetSelect" class="character-select" ng-model="targetValue" ng-change="updateTarget()">
@@ -209,8 +209,8 @@
                 <div class="pos-left">
                     <table>
                         <!--<tr>
-                    <td>Attacker</td>
-                </tr>-->
+                        <td>Attacker</td>
+                    </tr>-->
                         <tr>
                             <td>Damage dealt</td>
                             <td>x <input name="attacker_damage_dealt" type="number" min="0" max="100" step="0.01" ng-model="attacker_damage_dealt" ng-change="updateAttr()" /></td>
@@ -225,8 +225,8 @@
                 <div class="pos-right pos-attr">
                     <table>
                         <!--<tr>
-                    <td>Target</td>
-                </tr>-->
+                        <td>Target</td>
+                    </tr>-->
                         <tr>
                             <td>Damage taken</td>
                             <td>x <input name="target_damage_taken" type="number" min="0" max="100" step="0.01" ng-model="target_damage_taken" ng-change="updateAttr()" /></td>
@@ -400,6 +400,18 @@
                 </table>
 
             </div>
+        </div>
+
+        <div id="swipeLeft" class="mobile-swipe swipe-left">
+
+            <img src="img/arrow_left.svg" />
+            <div>Data</div>
+        </div>
+
+        <div id="swipeRight" class="mobile-swipe swipe-right">
+
+            <img src="img/arrow_right.svg" />
+            <div>Results</div>
         </div>
 
     </div>

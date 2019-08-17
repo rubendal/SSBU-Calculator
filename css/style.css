@@ -1180,3 +1180,23 @@ select.character-select {
         position:initial;
     }
 }
+
+.mobile-swipe {
+    display: none;
+    opacity: 0.5;
+    position: fixed;
+    top: 92%;
+}
+
+.swipe-right {
+    right:10px;
+}
+
+.swipe-left {
+    left:10px;
+}
+
+.mobile-swipe img {
+    width:50px;
+    height:auto;
+}

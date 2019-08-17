@@ -2889,15 +2889,22 @@ window.onresize = function (event) {
 	if (window.innerWidth > 800) {
 		document.getElementById("main").style.display = "block";
 		document.getElementById("results").style.display = "block";
+		document.getElementById("swipeRight").style.display = "none";
+		document.getElementById("swipeLeft").style.display = "none";
 	} else {
 		if (isTouch) {
 			if (currentDisplay === "inputs") {
 				document.getElementById("results").style.display = "none";
 				document.getElementById("results").style.marginTop = "0";
+				document.getElementById("swipeRight").style.display = "block";
 			}
 			else if (currentDisplay === "results") {
 				document.getElementById("main").style.display = "none";
+				document.getElementById("swipeLeft").style.display = "block";
 			}
+		} else {
+			document.getElementById("swipeRight").style.display = "none";
+			document.getElementById("swipeLeft").style.display = "none";
 		}
 	}
 };
@@ -2908,6 +2915,7 @@ window.ontouchstart = function (event) {
 		if (!isTouch) {
 			document.getElementById("results").style.display = "none";
 			document.getElementById("results").style.marginTop = "0";
+			document.getElementById("swipeRight").style.display = "block";
 			isTouch = true;
 		}
 
@@ -2939,6 +2947,9 @@ window.ontouchmove = function (event) {
 						document.getElementById("main").style.display = "none";
 						document.getElementById("results").style.display = "block";
 
+						document.getElementById("swipeRight").style.display = "none";
+						document.getElementById("swipeLeft").style.display = "block";
+
 						currentDisplay = "results";
 
 						windowInput.start.x = event.touches[0].pageX;
@@ -2949,6 +2960,8 @@ window.ontouchmove = function (event) {
 					if (direction) {
 						document.getElementById("main").style.display = "block";
 						document.getElementById("results").style.display = "none";
+						document.getElementById("swipeLeft").style.display = "none";
+						document.getElementById("swipeRight").style.display = "block";
 
 						windowInput.start.x = event.touches[0].pageX;
 						windowInput.start.y = event.touches[0].pageY;
@@ -2981,6 +2994,9 @@ window.onmousedown = function (event) {
 
 		document.getElementById("main").style.display = "block";
 		document.getElementById("results").style.display = "block";
+
+		document.getElementById("swipeLeft").style.display = "none";
+		document.getElementById("swipeRight").style.display = "none";
 		
 	}
 }

@@ -181,8 +181,8 @@
                 <div class="pos-left">
                     <table>
                         <!--<tr>
-                    <td>Attacker</td>
-                </tr>-->
+                        <td>Attacker</td>
+                    </tr>-->
                         <tr>
                             <td>Damage dealt</td>
                             <td>x <input name="attacker_damage_dealt" type="number" min="0" max="100" step="0.01" ng-model="attacker_damage_dealt" ng-change="updateAttr()" /></td>
@@ -197,8 +197,8 @@
                 <div class="pos-right pos-attr">
                     <table>
                         <!--<tr>
-        <td>Target</td>
-    </tr>-->
+                        <td>Target</td>
+                    </tr>-->
                         <tr>
                             <td>Damage taken</td>
                             <td>x <input name="target_damage_taken" type="number" min="0" max="100" step="0.01" ng-model="target_damage_taken" ng-change="updateAttr()" /></td>
@@ -327,7 +327,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <br/>
+                        <br />
                         <button ng-click="updateStaleness('1')">Full queue</button>
                         <button ng-click="updateStaleness('0')">Empty queue</button>
 
@@ -364,9 +364,9 @@
                         <input type="checkbox" name="set_weight" ng-model="set_weight" ng-change="update()" /> Set weight
                         <br />
                         <!--<br />
-    <input type="checkbox" name="isFinishingTouch" ng-model="isFinishingTouch"
-        ng-change="update()" /> Finishing Touch
-        -->
+                    <input type="checkbox" name="isFinishingTouch" ng-model="isFinishingTouch"
+                        ng-change="update()" /> Finishing Touch
+                        -->
 
                     </div>
                 </div>
@@ -386,13 +386,13 @@
                         <div class="stick-container">
                             <table>
                                 <!--<tr>
-                            <td>Controller</td>
-                            <td>
-                                <select id="controllers" ng-model="game_controller" ng-change="updateController()">
-                                    <option ng-selected="$first" ng:repeat="c in controllers" ng-attr-value="{{c}}">{{c.name}}</option>
-                                </select>
-                            </td>
-                        </tr>-->
+                                <td>Controller</td>
+                                <td>
+                                    <select id="controllers" ng-model="game_controller" ng-change="updateController()">
+                                        <option ng-selected="$first" ng:repeat="c in controllers" ng-attr-value="{{c}}">{{c.name}}</option>
+                                    </select>
+                                </td>
+                            </tr>-->
                                 <tr>
                                     <td>Input</td>
                                     <td>
@@ -590,12 +590,12 @@
                             </select>
                             <br />
                         </span>
-                        
-                    <!--<input type="radio" name="mode" ng-model="game_mode" ng-attr-value="training" ng-change="update()" /> Training mode
+
+                        <!--<input type="radio" name="mode" ng-model="game_mode" ng-attr-value="training" ng-change="update()" /> Training mode
                     <br />
                     <input type="radio" name="mode" ng-model="game_mode" ng-attr-value="vs" ng-change="update()" /> Vs mode
                     <br />-->
-        
+
                     </div>
 
                     <div class="vis" style="float:left;clear:both;">
@@ -643,7 +643,17 @@
 
         </div>
 
+        <div id="swipeLeft" class="mobile-swipe swipe-left">
 
+            <img src="img/arrow_left.svg" />
+            <div>Data</div>
+        </div>
+
+        <div id="swipeRight" class="mobile-swipe swipe-right">
+
+            <img src="img/arrow_right.svg" />
+            <div>Results</div>
+        </div>
     </div>
 
 
