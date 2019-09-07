@@ -126,8 +126,8 @@ app.controller('calculator', function ($scope) {
 
     $scope.stages = getStages();
     $scope.stages.unshift({"stage":"No stage"});
-    $scope.stage = $scope.stages[49]; //FD
-	$scope.stageValue = "49";
+    $scope.stage = $scope.stages[50]; //FD
+	$scope.stageValue = "50";
 
     $scope.spawns = [];
 
