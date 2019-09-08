@@ -679,6 +679,9 @@ app.controller('calculator', function ($scope) {
 		if (target.name == "Bowser Jr") {
 			$scope.targetMod = "Clown Kart";
 		}
+		if (target.name == "Ice Climbers") {
+			$scope.targetMod = "Popo";
+		}
 		$scope.target_mod = $scope.targetModifiers.length > 0 ? {} : { 'display': 'none' };
 		$scope.target_icon = target.icon;
 		$scope.target_image = target.image;

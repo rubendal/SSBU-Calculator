@@ -982,7 +982,7 @@ var KHcharacters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And 
 var gameNames = ["mario", "luigi", "peach", "koopa", "yoshi", "rosetta", "koopajr", "wario", "donkey", "diddy", "gamewatch", "littlemac", "link", "zelda", "sheik", "ganon", "toonlink", "samus", "szerosuit", "pit", "palutena", "marth", "ike", "reflet", "duckhunt", "kirby", "dedede", "metaknight", "fox", "falco", "pikachu", "plizardon", "lucario", "purin", "gekkouga", "robot", "ness", "captain", "murabito", "pikmin", "wiifit", "shulk", "mariod", "pitb", "lucina", "pacman", "rockman", "sonic", "mewtwo", "lucas", "roy", "ryu", "cloud", "kamui", "bayonetta", "miiswordsman", "miifighter", "miigunner", "popo", "pichu", "younglink", "snake", "pzenigame", "pfushigisou", "wolf", "inkling", "daisy", "ridley", "chrom", "samusd", "simon", "richter", "krool", "shizue", "ken", "gaogaen", "packun", "joker", "brave", "buddy"];
 
 class Modifier {
-	constructor(name, base_damage, damage_dealt, damage_taken, kb_dealt, kb_received, gravity, fall_speed, shield, air_friction, traction, attackerShow, targetShow) {
+	constructor(name, base_damage, damage_dealt, damage_taken, kb_dealt, kb_received, gravity, fall_speed, shield, air_friction, traction, shieldDamage, attackerShow, targetShow) {
 		this.name = name;
 		this.base_damage = base_damage;
 		this.damage_dealt = damage_dealt;
@@ -994,6 +994,11 @@ class Modifier {
 		this.shield = shield;
 		this.air_friction = air_friction;
 		this.traction = traction;
+
+		if (shieldDamage == undefined)
+			this.shieldDamage = 1;
+		else
+			this.shieldDamage = shieldDamage;
 
 		if (attackerShow == undefined)
 			this.attackerShow = true;
@@ -1013,6 +1018,12 @@ var monado = [
 	new Modifier("Shield", 1, 0.5, 0.5, 0.8, 0.5, 1, 1, 1.5, 1, 1),
 	new Modifier("Buster", 1, 1.4, 1.3, 0.65, 1, 1, 1, 1, 1, 1),
 	new Modifier("Smash", 1, 0.3, 1, 1.25, 1.2, 1, 1, 1, 1, 1)
+];
+
+var heroRng = [
+	new Modifier("Oomph", 1, 1.6, 1.2, 1.1, 1, 1, 1, 1, 1, 1),
+	new Modifier("Psyche Up", 1, 1.2, 1, 1.2, 1, 1, 1, 1, 1, 1, 1.65),
+	new Modifier("Oomph+Psyche Up", 1, 1.6 * 1.2, 1.2, 1.1 * 1.2, 1, 1, 1, 1, 1, 1, 1.65)
 ];
 
 //var decisive_monado = [
@@ -1040,7 +1051,7 @@ class Character {
         this.addModifier = function (modifier) {
             this.modifier = modifier;
         }
-		this.modifier = new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false);
+		this.modifier = new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false);
 		this.modifiers = [];
 		if (this.name == null) {
 			this.name = name;
@@ -1054,16 +1065,24 @@ class Character {
 			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)];
 			this.modifiers = this.modifiers.concat(monado);
 		} else if (this.name == "Bowser Jr") {
-			this.modifiers = [new Modifier("Clown Kart", 1, 1, 0.88, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Body", 1, 1, 1.15, 1, 1, 1, 1, 1, 1, 1, false)];
+			this.modifiers = [new Modifier("Clown Kart", 1, 1, 0.88, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Body", 1, 1, 1.15, 1, 1, 1, 1, 1, 1, 1, 1, false)];
 			this.modifier = this.modifiers[0];
 		} else if (this.name == "Wii Fit Trainer") {
 			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), new Modifier("Fast Deep Breathing", 1.25, 1, 0.9, 1, 1, 1, 1, 1, 1, 1), new Modifier("Slow Deep Breathing", 1.16, 1, 0.9, 1, 1, 1, 1, 1, 1, 1)];
 
 		} else if (this.name == "Cloud") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Limit Break", 1, 1, 1, 1, 1, 1.1, 1.1, 1, 1.15, 1.15, false)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Limit Break", 1, 1, 1, 1, 1, 1.1, 1.1, 1, 1.15, 1.15, 1, false)];
 		}
 		else if (this.name == "King Dedede") {
-			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Character Inhaled", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false)];
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Character Inhaled", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false)];
+		}
+		else if (this.name == "Hero") {
+			this.modifiers = [new Modifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)];
+			this.modifiers = this.modifiers.concat(heroRng);
+		}
+		else if (this.name == "Ice Climbers") {
+			this.modifiers = [new Modifier("Popo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, false), new Modifier("Nana", 1, 1, 1.05, 1, 1.05, 1, 1, 1, 1, 1, 1, false)];
+			this.modifier = this.modifiers[0];
 		}
 
         this.getModifier = function (name) {
