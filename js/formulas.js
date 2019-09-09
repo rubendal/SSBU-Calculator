@@ -1073,7 +1073,7 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 	var hitstun = Math.max(0,Hitstun(kb, windbox, electric) + addHitstun);
 	var hitstunSpeedUp = speedupFrames[speedupFrames.length - 1];
 
-	console.log(hitstun, hitstunSpeedUp);
+	//console.log(hitstun, hitstunSpeedUp);
 	//var fsm = TumbleFSM(kb);
 	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
 	var airdodge = false;
