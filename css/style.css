@@ -585,6 +585,10 @@ input[type="checkbox"] {
         transition: all 0.15s;
     }
 
+    input[type="checkbox"].disabled {
+        opacity: 0.5;
+    }
+
     input[type="checkbox"].queue-cb::after {
         content: attr(data-value);
         color: #3b3b3b;
