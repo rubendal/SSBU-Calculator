@@ -325,10 +325,8 @@ app.controller('calculator', function ($scope) {
 
 			if (data.mode !== "normal") {
 				$scope.ko_table = [];
-				console.log(data.mode);
 				if (data.mode === "ko") {
 					for (var i = 0; i < data.rows.length; i++) {
-						console.log(data.rows[i]);
 						$scope.ko_table.push({
 							character: data.rows[i][3],
 							percent: data.rows[i][8]
@@ -344,7 +342,6 @@ app.controller('calculator', function ($scope) {
 						});
 					}
 				}
-				console.log($scope.ko_table);
 			}
 		}
 
