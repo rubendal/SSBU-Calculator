@@ -388,7 +388,7 @@ function buildParams($scope) {
     if (paramsList[69].value != $scope.launch_rate) {
         params.push(new Parameter(paramsList[69].param, $scope.launch_rate));
     }
-	if ($scope.app == "calculator" || $scope.app == "kocalculator") {
+	if ($scope.app == "calculator" || $scope.app == "kocalculator" || $scope.app == "multicalc") {
         if (paramsList[37].value != $scope.stageName) {
             params.push(new Parameter(paramsList[37].param, $scope.stageName));
         }
@@ -2817,7 +2817,8 @@ var effects = [
 var appSelection = [
 	{ appName: "calculator", title: "Calculator", link: "./index.html" },
 	{ appName: "kocalculator", title: "KO Calculator", link: "./kocalc.html" },
-	{ appName: "kbcalculator", title: "Percentage Calculator", link: "./percentcalc.html" }/*,
+	{ appName: "kbcalculator", title: "Percentage Calculator", link: "./percentcalc.html" },
+	{ appName: "multicalc", title: "Multi Calculator", link: "./multicalc.html" }/*,
 	{ appName: "movesearch", title: "Move Search", link: "./movesearch.html" },
 	{ appName: "scriptviewer", title: "Script Viewer", link: "./scripts.html" },
 	{ appName: "scriptdiff", title: "Script Diff Viewer", link: "./scriptdiff.html" },

@@ -117,7 +117,7 @@ function showSaveDialog(data){
 
 var app = angular.module('calculator', []);
 app.controller('calculator', function ($scope) {
-	$scope.app = 'tsvgen';
+	$scope.app = 'multicalc';
 	$scope.apps = GetApps($scope.app);
 	$scope.appLink = $scope.apps[0].link;
 	$scope.sharing_url = "";

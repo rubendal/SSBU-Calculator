@@ -268,6 +268,9 @@ function addKOBestDIRow() {
 	if (d.data.ko) {
 		var k = d.data.kb;
 		k.stick = d.di;
+		if (inverseX)
+			k.stick.X *= -1;
+
 		tsv_rows.push(new Row(attacker, target, attacker_percent, +d.percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, k, wbkb, hit_frame, d.data.faf - 1, d.data.faf, d.data.distance).tsv());
 	}
 	//console.log(tsv_rows);

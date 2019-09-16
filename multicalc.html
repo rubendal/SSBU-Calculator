@@ -54,7 +54,7 @@
                     <h3>Smash Ultimate Calculator</h3>
                 </a>
                 <br />
-                <span class="description"></span>
+                <span class="description">Generate multiple calculations and store data on a table format file</span>
                 <br />
                 <div class="header-links">
                     <select id="appSelect" class="header-select" ng-model="appLink">
@@ -987,15 +987,15 @@
                             <thead>
                                 <tr>
                                     <td class="attribute">Character</td>
-                                    <td class="value">KO %</td>
-                                    <td class="value" ng-if="ko_table[0].angle">Best DI angle</td>
+                                    <td class="multi-value">KO %</td>
+                                    <td class="multi-value" ng-if="ko_table[0].angle">Best DI angle</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="x in ko_table">
                                     <td class="attribute">{{ x.character }}</td>
-                                    <td class="value">{{x.percent}}</td>
-                                    <td class="value" ng-if="x.angle">{{x.angle}}</td>
+                                    <td class="multi-value">{{x.percent}}</td>
+                                    <td class="multi-value" ng-if="x.angle">{{x.angle}}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -209,6 +209,12 @@ table, td, tr {
     width: 25%;
 }
 
+.multi-value {
+    padding: 4px;
+    text-align: center;
+    width: 35%;
+}
+
 .value-left {
     padding: 4px;
     text-align: left;
@@ -428,10 +434,10 @@ input[type=button] {
 
 #multiresults-table {
     color: black;
-    margin-left: 1%;
+    margin-left: 7%;
     font-size: 17px;
     margin-top: 10px;
-    width: 100%;
+    width: 80%;
 }
 
 #extra-table {
