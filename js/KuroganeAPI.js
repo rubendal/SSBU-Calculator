@@ -962,9 +962,9 @@ class Move {
 function getMoveset(attacker, $scope) {
     $scope.moveset = [];
 	var api_name = attacker.api_name.toLowerCase().replace("and", "").replace("&", "").split(".").join("").split(" ").join("");
-	if (attacker.name == "Piranha Plant") {
-		api_name = attacker.api_name.toLowerCase();
-	}
+	//if (attacker.name == "Piranha Plant") {
+	//	api_name = attacker.api_name.toLowerCase();
+	//}
 
 	$scope.moveset_info = "";
 	switch (attacker.display_name) {

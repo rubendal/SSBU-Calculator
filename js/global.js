@@ -1023,8 +1023,9 @@ var monado = [
 var heroRng = [
 	new Modifier("Oomph", 1, 1.6, 1.2, 1.1, 1, 1, 1, 1, 1, 1),
 	new Modifier("Psyche Up", 1, 1.2, 1, 1.2, 1, 1, 1, 1, 1, 1, 1.65),
+	new Modifier("Acceleratle", 1, 1, 1, 1, 1.1, 1.25, 1.5, 1, 1, 2.1, 1, false),
 	new Modifier("Oomph+Psyche Up", 1, 1.6 * 1.2, 1.2, 1.1 * 1.2, 1, 1, 1, 1, 1, 1, 1.65),
-	new Modifier("Acceleratle", 1, 1, 1, 1, 1.1, 1.25, 1.5, 1, 1, 2.1, 1, false)
+	new Modifier("Oomph+Acceleratle", 1, 1, 1.2, 1, 1.1, 1.25, 1.5, 1, 1, 2.1, 1, false)
 ];
 
 //var decisive_monado = [

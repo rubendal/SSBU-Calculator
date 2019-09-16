@@ -10,17 +10,17 @@ class Row {
 		this.attacker_percent = attacker_percent;
 		this.attackerMod = this.attacker.modifier.name;
 		this.targetMod = this.target.modifier.name;
-		this.attacker_display = this.attacker.name;
-		this.target_display = this.target.name;
+		this.attacker_display = this.attacker.display_name;
+		this.target_display = this.target.display_name;
 		if (this.attackerMod == "Normal" || this.attackerMod == "") {
 			this.attackerMod = "";
 		} else {
-			this.attacker_display = this.attacker.name + " (" + this.attackerMod + ")";
+			this.attacker_display = this.attacker.display_name + " (" + this.attackerMod + ")";
 		}
 		if (this.targetMod == "Normal" || this.targetMod == "") {
 			this.targetMod = "";
 		} else {
-			this.target_display = this.target.name + " (" + this.targetMod + ")";
+			this.target_display = this.target.display_name + " (" + this.targetMod + ")";
 		}
 		this.target_percent = target_percent;
 		this.move = move;
@@ -65,7 +65,7 @@ class Row {
 		this.di = Math.floor(GetAngle(kb.stick.X, kb.stick.Y));
 
 		this.tsv = function () {
-			return [this.attacker.name, this.attackerMod, this.attacker_display, this.target.name, this.targetMod, this.target_display,
+			return [this.attacker.display_name, this.attackerMod, this.attacker_display, this.target.display_name, this.targetMod, this.target_display,
 			this.attacker_percent, this.rage, this.target_percent,
 				this.move.name, this.move.base_damage, this.charge_frames, this.base_damage, this.damage, this.staleness, this.stalequeue[0], this.stalequeue[1], this.stalequeue[2], this.stalequeue[3], this.stalequeue[4], this.stalequeue[5], this.stalequeue[6], this.stalequeue[7], this.stalequeue[8], this.staleMult, this.aura, this.stock_dif, this.move.angle, this.move.bkb, this.move.wbkb, this.move.kbg,
 				this.kb_modifier, this.kb_multiplier, this.kb.kb, this.di, this.kb.angle, this.hitstun, this.kb.tumble, this.kb.can_jablock, this.lsi, this.kb.horizontal_launch_speed, this.kb.vertical_launch_speed,
