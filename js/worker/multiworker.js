@@ -1,7 +1,7 @@
 ﻿var headers = ["attacker", "attacker_modifier", "attacker_name", "target", "target_modifier", "target_name", "attacker_percent", "rage", "target_percent",
 	"move", "move_base_damage", "charge_frames", "base_damage", "damage", "ignore_staleness", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "staleness_multiplier", "aura", "stock_difference", "angle", "bkb", "fkb", "kbg",
-	"kb_modifier", "kb_multiplier", "kb", "di_lsi_angle", "launch_angle", "hitstun", "tumble", "can_jab_lock", "lsi_multiplier", "hit_frame", "faf", "horizontal_launch_speed", "vertical_launch_speed",
-	"horizontal_distance", "vertical_distance", "x_position", "y_position", "KO"];
+	"kb_modifier", "kb_multiplier", "kb", "di_lsi_angle", "launch_angle", "hitstun", "tumble", "can_jab_lock", "lsi_multiplier", "horizontal_launch_speed", "vertical_launch_speed",
+	"horizontal_distance", "vertical_distance", "KO"];
 
 class Row {
 	constructor(attacker, target, attacker_percent, target_percent, move, base_damage, charge_frames, damage, staleness, stalequeue, aura, stock_dif, kb_multiplier, kb, wbkb, hit_frame, hitstun, faf, distance) {
@@ -68,8 +68,8 @@ class Row {
 			return [this.attacker.name, this.attackerMod, this.attacker_display, this.target.name, this.targetMod, this.target_display,
 			this.attacker_percent, this.rage, this.target_percent,
 				this.move.name, this.move.base_damage, this.charge_frames, this.base_damage, this.damage, this.staleness, this.stalequeue[0], this.stalequeue[1], this.stalequeue[2], this.stalequeue[3], this.stalequeue[4], this.stalequeue[5], this.stalequeue[6], this.stalequeue[7], this.stalequeue[8], this.staleMult, this.aura, this.stock_dif, this.move.angle, this.move.bkb, this.move.wbkb, this.move.kbg,
-				this.kb_modifier, this.kb_multiplier, this.kb.kb, this.di, this.kb.angle, this.hitstun, this.kb.tumble, this.kb.can_jablock, this.lsi, this.hit_frame, this.faf, this.kb.horizontal_launch_speed, this.kb.vertical_launch_speed,
-				this.distance.max_x, this.distance.max_y, this.h_pos, this.v_pos, this.distance.KO];
+				this.kb_modifier, this.kb_multiplier, this.kb.kb, this.di, this.kb.angle, this.hitstun, this.kb.tumble, this.kb.can_jablock, this.lsi, this.kb.horizontal_launch_speed, this.kb.vertical_launch_speed,
+				this.distance.max_x, this.distance.max_y, this.distance.KO];
 		}
 	}
 };
@@ -231,7 +231,8 @@ function addRow() {
 function addKORow() {
 	calcDamage();
 	var data = calc(damage);
-	tsv_rows.push(new Row(attacker, target, attacker_percent, +data.ko_percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, data.kb, wbkb, hit_frame, data.faf - 1, data.faf, data.distance).tsv());
+	if(data.ko)
+		tsv_rows.push(new Row(attacker, target, attacker_percent, +data.ko_percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, data.kb, wbkb, hit_frame, data.faf - 1, data.faf, data.distance).tsv());
 	//console.log(tsv_rows);
 
 
@@ -264,9 +265,11 @@ function addKOBestDIRow() {
 	});
 
 	var d = list[0];
-	var k = d.data.kb;
-	k.stick = d.di;
-	tsv_rows.push(new Row(attacker, target, attacker_percent, +d.percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, k, wbkb, hit_frame, d.data.faf - 1, d.data.faf, d.data.distance).tsv());
+	if (d.data.ko) {
+		var k = d.data.kb;
+		k.stick = d.di;
+		tsv_rows.push(new Row(attacker, target, attacker_percent, +d.percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, k, wbkb, hit_frame, d.data.faf - 1, d.data.faf, d.data.distance).tsv());
+	}
 	//console.log(tsv_rows);
 
 

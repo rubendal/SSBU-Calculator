@@ -1,7 +1,7 @@
 ﻿var headers = ["attacker", "attacker_modifier", "attacker_name", "target", "target_modifier", "target_name", "attacker_percent", "rage", "target_percent",
-	"move", "move_base_damage", "charge_frames", "base_damage", "damage", "ignore_staleness", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "staleness_multiplier", "aura", "stock_difference", "angle", "bkb", "kbg", "is_wbkb",
-	"kb_modifier", "kb_multiplier", "kb", "di_lsi_angle", "launch_angle", "hitstun", "tumble", "can_jab_lock", "lsi_multiplier", "hit_frame", "faf", "horizontal_launch_speed", "vertical_launch_speed",
-	"horizontal_distance", "vertical_distance", "x_position", "y_position", "KO"];
+	"move", "move_base_damage", "charge_frames", "base_damage", "damage", "ignore_staleness", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "staleness_multiplier", "aura", "stock_difference", "angle", "bkb", "fkb", "kbg",
+	"kb_modifier", "kb_multiplier", "kb", "di_lsi_angle", "launch_angle", "hitstun", "tumble", "can_jab_lock", "lsi_multiplier", "horizontal_launch_speed", "vertical_launch_speed",
+	"horizontal_distance", "vertical_distance", "KO"];
 
 var tsv_rows = [];
 var rows_update = [];
@@ -1241,7 +1241,50 @@ app.controller('calculator', function ($scope) {
 		$scope.generateStyle = { display: 'block' };
 		worker.terminate();
 
+		worker = undefined;
+
 		worker = new Worker('./js/worker/multiworker.js');
+
+		worker.onmessage = function (e) {
+			var data = e.data;
+
+			if (data.rows !== undefined) {
+				tsv_rows = tsv_rows.concat(data.rows);
+
+
+				$scope.cancelStyle = { display: 'none' };
+				$scope.generateStyle = { display: 'block' };
+
+				if (data.mode !== "normal") {
+					$scope.ko_table = [];
+					if (data.mode === "ko") {
+						for (var i = 0; i < data.rows.length; i++) {
+							$scope.ko_table.push({
+								character: data.rows[i][3],
+								percent: data.rows[i][8]
+							});
+						}
+					}
+					else if (data.mode === "best_di") {
+						for (var i = 0; i < data.rows.length; i++) {
+							$scope.ko_table.push({
+								character: data.rows[i][3],
+								percent: data.rows[i][8],
+								angle: data.rows[i][34]
+							});
+						}
+					}
+				}
+			}
+
+			$scope.stored = data.count;
+
+			try {
+				$scope.$apply();
+			} catch (ex) {
+				1;
+			}
+		}
 	};
 
     $scope.clear = function(){

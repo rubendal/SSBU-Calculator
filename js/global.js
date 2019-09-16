@@ -1693,6 +1693,7 @@ class Distance{
 		this.extra = [];
 		this.collisions = 0;
 		this.speedupFrames = speedupFrames;
+		this.faf = faf;
         if (extraFrames !== undefined) {
             this.extraFrames = extraFrames;
 		}
