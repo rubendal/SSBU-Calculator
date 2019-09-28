@@ -1,10 +1,11 @@
-﻿var headers = ["attacker", "attacker_modifier", "attacker_name", "target", "target_modifier", "target_name", "attacker_percent", "rage", "target_percent",
+﻿var headers = ["type", "attacker", "attacker_modifier", "attacker_name", "target", "target_modifier", "target_name", "attacker_percent", "rage", "target_percent",
 	"move", "move_base_damage", "charge_frames", "base_damage", "damage", "ignore_staleness", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "staleness_multiplier", "aura", "stock_difference", "angle", "bkb", "fkb", "kbg",
 	"kb_modifier", "kb_multiplier", "kb", "di_lsi_angle", "launch_angle", "hitstun", "tumble", "can_jab_lock", "lsi_multiplier", "horizontal_launch_speed", "vertical_launch_speed",
 	"horizontal_distance", "vertical_distance", "KO"];
 
 class Row {
-	constructor(attacker, target, attacker_percent, target_percent, move, base_damage, charge_frames, damage, staleness, stalequeue, aura, stock_dif, kb_multiplier, kb, wbkb, hit_frame, hitstun, faf, distance) {
+	constructor(mode, attacker, target, attacker_percent, target_percent, move, base_damage, charge_frames, damage, staleness, stalequeue, aura, stock_dif, kb_multiplier, kb, wbkb, hit_frame, hitstun, faf, distance) {
+		this.mode = mode;
 		this.attacker = attacker;
 		this.target = target;
 		this.attacker_percent = attacker_percent;
@@ -65,7 +66,7 @@ class Row {
 		this.di = Math.floor(GetAngle(kb.stick.X, kb.stick.Y));
 
 		this.tsv = function () {
-			return [this.attacker.display_name, this.attackerMod, this.attacker_display, this.target.display_name, this.targetMod, this.target_display,
+			return [this.mode, this.attacker.display_name, this.attackerMod, this.attacker_display, this.target.display_name, this.targetMod, this.target_display,
 			this.attacker_percent, this.rage, this.target_percent,
 				this.move.name, this.move.base_damage, this.charge_frames, this.base_damage, this.damage, this.staleness, this.stalequeue[0], this.stalequeue[1], this.stalequeue[2], this.stalequeue[3], this.stalequeue[4], this.stalequeue[5], this.stalequeue[6], this.stalequeue[7], this.stalequeue[8], this.staleMult, this.aura, this.stock_dif, this.move.angle, this.move.bkb, this.move.wbkb, this.move.kbg,
 				this.kb_modifier, this.kb_multiplier, this.kb.kb, this.di, this.kb.angle, this.hitstun, this.kb.tumble, this.kb.can_jablock, this.lsi, this.kb.horizontal_launch_speed, this.kb.vertical_launch_speed,
@@ -92,7 +93,10 @@ var is_1v1 = true;
 var shorthop_aerial = false;
 var use_landing_lag = "no";
 var mode = "normal";
+var ko_mode = "ko";
 var diStep = 15;
+
+var rowMode = "Calculation";
 
 var tsv_rows = [];
 
@@ -216,10 +220,10 @@ function addRow() {
 
 		var hitstun = speedUpFAF - 1;
 
-		tsv_rows.push(new Row(attacker, target, attacker_percent, target_percent, move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, hitstun, speedUpFAF, distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, target_percent, move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, hitstun, speedUpFAF, distance).tsv());
 	}
 	else {
-		tsv_rows.push(new Row(attacker, target, attacker_percent, target_percent, move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, Hitstun(kb.base_kb, windbox, electric) + addHitstun, FirstActionableFrame(kb.base_kb, windbox, electric) + addHitstun, distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, target_percent, move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, Hitstun(kb.base_kb, windbox, electric) + addHitstun, FirstActionableFrame(kb.base_kb, windbox, electric) + addHitstun, distance).tsv());
 	}
 
 	//console.log(tsv_rows);
@@ -232,7 +236,7 @@ function addKORow() {
 	calcDamage();
 	var data = calc(damage);
 	if(data.ko)
-		tsv_rows.push(new Row(attacker, target, attacker_percent, +data.ko_percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, data.kb, wbkb, hit_frame, data.faf - 1, data.faf, data.distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, +data.ko_percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, data.kb, wbkb, hit_frame, data.faf - 1, data.faf, data.distance).tsv());
 	//console.log(tsv_rows);
 
 
@@ -271,7 +275,7 @@ function addKOBestDIRow() {
 		if (inverseX)
 			k.stick.X *= -1;
 
-		tsv_rows.push(new Row(attacker, target, attacker_percent, +d.percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, k, wbkb, hit_frame, d.data.faf - 1, d.data.faf, d.data.distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, +d.percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, k, wbkb, hit_frame, d.data.faf - 1, d.data.faf, d.data.distance).tsv());
 	}
 	//console.log(tsv_rows);
 
@@ -474,12 +478,14 @@ onmessage = function (e) {
 	hit_frame = params.hit_frame;
 	faf = params.faf;
 	mode = params.mode;
+	ko_mode = params.ko_mode;
 
 	var funlist = [];
 	var index = 0;
 	var ref = this;
 
 	if (mode === "normal") {
+		rowMode = "Calculation";
 
 		funlist.push(function (f) {
 			addRow();
@@ -615,36 +621,47 @@ onmessage = function (e) {
 			});
 		}
 	}
-	else if (mode === "ko") {
-		funlist.push(function (f) {
-			addKORow();
-			ref.postMessage({
-				count: tsv_rows.length
+	else if (mode === "koCalc") {
+		if (ko_mode == "ko") {
+			rowMode = "KO %";
+			funlist.push(function (f) {
+				addKORow();
+				ref.postMessage({
+					count: tsv_rows.length
+				});
 			});
-		});
+		} else if (ko_mode == "best_di") {
+			rowMode = "Best DI KO %";
+			funlist.push(function (f) {
+				addKOBestDIRow();
+				ref.postMessage({
+					count: tsv_rows.length
+				});
+			});
+		}
 
-		funlist.push(function (f) {
-			for (var i = 0; i < characters.length; i++) {
-				target = characters[i];
-				funlist[f - 1](f - 1);
-			}
-		});
+		if (iterators.modifiers) {
+			funlist.push(function (f) {
+				if (target.modifiers.length > 0) {
+					for (var i = 0; i < target.modifiers.length; i++) {
+						target.modifier = target.modifiers[i];
+						funlist[f - 1](f - 1);
+					}
+				} else {
+					funlist[f - 1](f - 1);
+				}
+			});
+		}
+
+		if (iterators.targets) {
+			funlist.push(function (f) {
+				for (var i = 0; i < characters.length; i++) {
+					target = characters[i];
+					funlist[f - 1](f - 1);
+				}
+			});
+		}
 	
-	}else if (mode === "best_di") {
-		funlist.push(function (f) {
-			
-			addKOBestDIRow();
-			ref.postMessage({
-				count: tsv_rows.length
-			});
-		});
-
-		funlist.push(function (f) {
-			for (var i = 0; i < characters.length; i++) {
-				target = characters[i];
-				funlist[f - 1](f - 1);
-			}
-		});
 	}
 
 	
@@ -655,6 +672,7 @@ onmessage = function (e) {
 
 	this.postMessage({
 		mode: mode,
+		ko_mode: ko_mode,
 		count: tsv_rows.length,
 		rows: tsv_rows
 	});

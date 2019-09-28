@@ -968,9 +968,23 @@
                         </div>
                         <br />
                     </div>
-                    <input type="radio" name="iterate_calc" ng-model="it_mode" value="ko" ng-change="tsv_options()" /> KO % calculations for all characters
-                    <br />
-                    <input type="radio" name="iterate_calc" ng-model="it_mode" value="best_di" ng-change="tsv_options()" /> Best DI KO % calculations for all characters
+                    <input type="radio" name="iterate_calc" ng-model="it_mode" value="koCalc" ng-change="tsv_options()" /> KO calculations
+                    <div ng-style="it_koStyle">
+                        <div style="margin-top: 10px;">
+                            Type
+                            <br/>
+                            <input type="radio" name="iterate_ko_calc" ng-model="it_ko_mode" value="ko" ng-change="tsv_options()" /> KO %
+                            <br />
+                            <input type="radio" name="iterate_ko_calc" ng-model="it_ko_mode" value="best_di" ng-change="tsv_options()" /> Best DI KO %
+                        </div>
+                        <div style="margin-top: 10px;">
+                            Options
+                            <br/>
+                            <input type="checkbox" name="iterate_targets" ng-model="it_targets" ng-change="tsv_options()" /> Use all characters as targets
+                            <br />
+                            <input type="checkbox" name="include_mod" ng-model="inc_mod" ng-change="update()" /> Include modifiers (Monado Arts, Deep Breathing, Limit Break)
+                        </div>
+                    </div>
                     <br />
                     <!--<span>{{"Calculations: " + calculations + ", Maximum at a time: 100000"}}</span>-->
                     <br />

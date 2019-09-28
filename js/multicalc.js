@@ -1,4 +1,4 @@
-﻿var headers = ["attacker", "attacker_modifier", "attacker_name", "target", "target_modifier", "target_name", "attacker_percent", "rage", "target_percent",
+﻿var headers = ["type", "attacker", "attacker_modifier", "attacker_name", "target", "target_modifier", "target_name", "attacker_percent", "rage", "target_percent",
 	"move", "move_base_damage", "charge_frames", "base_damage", "damage", "ignore_staleness", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "staleness_multiplier", "aura", "stock_difference", "angle", "bkb", "fkb", "kbg",
 	"kb_modifier", "kb_multiplier", "kb", "di_lsi_angle", "launch_angle", "hitstun", "tumble", "can_jab_lock", "lsi_multiplier", "horizontal_launch_speed", "vertical_launch_speed",
 	"horizontal_distance", "vertical_distance", "KO"];
@@ -6,76 +6,7 @@
 var tsv_rows = [];
 var rows_update = [];
 
-var worker = new Worker('./js/worker/multiworker.js');
-
-class Row{
-    constructor(attacker, target, attacker_percent, target_percent, move, base_damage, charge_frames, damage, staleness, stalequeue, aura, stock_dif, kb_multiplier, kb, wbkb, hit_frame, hitstun, faf, distance){
-        this.attacker = attacker;
-        this.target = target;
-        this.attacker_percent = attacker_percent;
-        this.attackerMod = this.attacker.modifier.name;
-        this.targetMod = this.target.modifier.name;
-        this.attacker_display = this.attacker.name;
-        this.target_display = this.target.name;
-        if (this.attackerMod == "Normal" || this.attackerMod == "") {
-            this.attackerMod = "";
-        } else {
-            this.attacker_display = this.attacker.name + " (" + this.attackerMod + ")";
-        }
-        if (this.targetMod == "Normal" || this.targetMod == "") {
-            this.targetMod = "";
-        } else {
-            this.target_display = this.target.name + " (" + this.targetMod + ")";
-        }
-        this.target_percent = target_percent;
-        this.move = move;
-        this.base_damage = base_damage;
-        this.charge_frames = charge_frames;
-        this.damage = damage;
-        this.staleness = staleness;
-        this.stalequeue = stalequeue;
-        this.aura = aura;
-        this.stock_dif = stock_dif;
-        if(this.attacker.name != "Lucario"){
-            this.aura = "";
-            this.stock_dif = "";
-        }
-        this.staleMult = StaleNegation(this.stalequeue, this.staleness);
-        this.kb_multiplier = kb_multiplier;
-        this.kb_modifier = this.kb_multiplier == 0.8 ? "Crouch Cancel" : "None";
-
-        this.hit_frame = hit_frame;
-        if (isNaN(hit_frame) || hit_frame === undefined) {
-            this.hit_frame = 1;
-        }
-        this.faf = faf;
-        if (isNaN(faf)) {
-            this.faf = 0;
-        }
-        this.wbkb = wbkb;
-        this.kb = kb;
-        this.kb.calculate();
-        this.distance = distance;
-        if(this.kb.angle > 361){
-            this.distance.max_x = "";
-            this.distance.max_y = "";
-            this.h_pos = "";
-            this.v_pos = "";
-        }
-        this.rage = Rage(attacker_percent); 
-        this.v_pos = distance.finalPosition.y;
-        this.h_pos = distance.finalPosition.x;  
-        this.lsi = this.kb.lsi;
-
-		this.tsv = function () {
-			return [this.attacker.name, this.attackerMod, this.attacker_display, this.target.name, this.targetMod, this.target_display,
-			this.attacker_percent, this.rage, this.target_percent,
-			this.move.name, this.move.base_damage, this.charge_frames, this.base_damage, this.damage, this.staleness, this.stalequeue[0], this.stalequeue[1], this.stalequeue[2], this.stalequeue[3], this.stalequeue[4], this.stalequeue[5], this.stalequeue[6], this.stalequeue[7], this.stalequeue[8], this.staleMult, this.aura, this.stock_dif, this.move.angle, this.move.bkb, this.move.kbg, this.wbkb,
-			this.kb_modifier, this.kb_multiplier, this.kb.kb, this.di, this.kb.angle, this.hitstun, this.kb.tumble, this.kb.can_jablock, this.lsi, this.hit_frame, this.faf, this.kb.horizontal_launch_speed, this.kb.vertical_launch_speed,
-			this.distance.max_x, this.distance.max_y, this.h_pos, this.v_pos, this.distance.KO];
-		}
-    }
-};
+var worker;
 
 function showSaveDialog(data){
     
@@ -310,49 +241,64 @@ app.controller('calculator', function ($scope) {
 	$scope.it_normalStyle = {};
 	$scope.generateStyle = {};
 	$scope.cancelStyle = { display: 'none' };
+	$scope.it_koStyle = { display: 'none' };
+	$scope.it_ko_mode = 'ko';
 
 	$scope.ko_table = [];
 
-	worker.onmessage = function (e) {
-		var data = e.data;
+	$scope.createWorker = function() {
+		worker = new Worker('./js/worker/multiworker.js');
 
-		if (data.rows !== undefined) {
-			tsv_rows = tsv_rows.concat(data.rows);
-			
+		worker.onmessage = function (e) {
+			var data = e.data;
 
-			$scope.cancelStyle = { display: 'none' };
-			$scope.generateStyle = { display: 'block' };
+			if (data.rows !== undefined) {
+				tsv_rows = tsv_rows.concat(data.rows);
 
-			if (data.mode !== "normal") {
-				$scope.ko_table = [];
-				if (data.mode === "ko") {
-					for (var i = 0; i < data.rows.length; i++) {
-						$scope.ko_table.push({
-							character: data.rows[i][3],
-							percent: data.rows[i][8]
-						});
+
+				$scope.cancelStyle = { display: 'none' };
+				$scope.generateStyle = { display: 'block' };
+
+				if (data.mode !== "normal") {
+					$scope.ko_table = [];
+					if (data.ko_mode === "ko") {
+						for (var i = 0; i < tsv_rows.length; i++) {
+							if (tsv_rows[i][0] == "KO %") {
+								$scope.ko_table.push({
+									character: tsv_rows[i][6],
+									percent: tsv_rows[i][9]
+								});
+							}
+						}
 					}
-				}
-				else if (data.mode === "best_di") {
-					for (var i = 0; i < data.rows.length; i++) {
-						$scope.ko_table.push({
-							character: data.rows[i][3],
-							percent: data.rows[i][8],
-							angle: data.rows[i][34]
-						});
+					else if (data.ko_mode === "best_di") {
+						for (var i = 0; i < tsv_rows.length; i++) {
+							if (tsv_rows[i][0] == "Best DI KO %") {
+								$scope.ko_table.push({
+									character: tsv_rows[i][6],
+									percent: tsv_rows[i][9],
+									angle: tsv_rows[i][35]
+								});
+							}
+						}
 					}
 				}
 			}
-		}
 
-		$scope.stored = data.count;
+			if (data.rows === undefined)
+				$scope.stored = data.count + tsv_rows.length;
+			else
+				$scope.stored = tsv_rows.length;
 
-		try {
-			$scope.$apply();
-		} catch (ex) {
-			1;
+			try {
+				$scope.$apply();
+			} catch (ex) {
+				1;
+			}
 		}
 	}
+
+	$scope.createWorker();
 
 	$scope.getStage = function () {
 		for (var i = 0; i < $scope.stages.length; i++) {
@@ -1172,7 +1118,8 @@ app.controller('calculator', function ($scope) {
 			attacker: JSON.parse(JSON.stringify(attacker)),
 			target: JSON.parse(JSON.stringify(target)),
 
-			mode: $scope.it_mode
+			mode: $scope.it_mode,
+			ko_mode: $scope.it_ko_mode
 		};
 
 
@@ -1240,48 +1187,7 @@ app.controller('calculator', function ($scope) {
 
 		worker = undefined;
 
-		worker = new Worker('./js/worker/multiworker.js');
-
-		worker.onmessage = function (e) {
-			var data = e.data;
-
-			if (data.rows !== undefined) {
-				tsv_rows = tsv_rows.concat(data.rows);
-
-
-				$scope.cancelStyle = { display: 'none' };
-				$scope.generateStyle = { display: 'block' };
-
-				if (data.mode !== "normal") {
-					$scope.ko_table = [];
-					if (data.mode === "ko") {
-						for (var i = 0; i < data.rows.length; i++) {
-							$scope.ko_table.push({
-								character: data.rows[i][3],
-								percent: data.rows[i][8]
-							});
-						}
-					}
-					else if (data.mode === "best_di") {
-						for (var i = 0; i < data.rows.length; i++) {
-							$scope.ko_table.push({
-								character: data.rows[i][3],
-								percent: data.rows[i][8],
-								angle: data.rows[i][34]
-							});
-						}
-					}
-				}
-			}
-
-			$scope.stored = data.count;
-
-			try {
-				$scope.$apply();
-			} catch (ex) {
-				1;
-			}
-		}
+		$scope.createWorker();
 	};
 
     $scope.clear = function(){
@@ -1293,7 +1199,7 @@ app.controller('calculator', function ($scope) {
     $scope.download = function(){
         if(tsv_rows.length > 0){
             var tsv = "";
-            for(var i=0;i<headers.length;i++){
+            for(var i=1;i<headers.length;i++){
                 tsv += headers[i];
                 if(i!=headers.length-1){
                     tsv+="\t";
@@ -1302,7 +1208,7 @@ app.controller('calculator', function ($scope) {
             tsv+="\n";
             for(var i=0;i<tsv_rows.length;i++){
                 var row = tsv_rows[i];
-                for(var j=0;j<row.length;j++){
+                for(var j=1;j<row.length;j++){
                     tsv += row[j];
                     if(j!=row.length-1){
                         tsv+="\t";
@@ -1319,11 +1225,12 @@ app.controller('calculator', function ($scope) {
 
 		if ($scope.it_mode === "normal") {
 			$scope.it_normalStyle = { display: 'block' };
+			$scope.it_koStyle = { display: 'none' };
 		}
-		else if ($scope.it_mode === "ko") {
+		else if ($scope.it_mode === "koCalc") {
 			$scope.it_normalStyle = { display: 'none' };
-		} else if ($scope.it_mode === "best_di") {
-			$scope.it_normalStyle = { display: 'none' };
+			$scope.it_koStyle = { display: 'block' };
+
 		}
 
 
