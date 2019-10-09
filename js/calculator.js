@@ -880,7 +880,7 @@ app.controller('calculator', function ($scope) {
 
 		var hitstun = Math.max(0, vskb.hitstun + addHitstun);
 
-		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32 && wbkb == 0) {
+		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32 && wbkb == 0 && vskb.tumble) {
 			var speedUpFAF = damageSpeedUpFrames[damageSpeedUpFrames.length - 1];
 
 			hitstun = speedUpFAF - 1;
