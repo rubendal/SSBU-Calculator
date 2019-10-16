@@ -860,10 +860,10 @@ app.controller('calculator', function ($scope) {
 			kbList.push(new Result("Flower time", FlowerTime(StaleDamage(damage, stale, shieldStale, ignoreStale))));
 		}
 		if (effect == "Bury") {
-			kbList.push(new Result("Buried time", BuriedTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb)));
+			kbList.push(new Result("Buried time", BuriedTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb, stock_dif)));
 		}
 		if (effect == "Sleep") {
-			kbList.push(new Result("Sleep time", SleepTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb)));
+			kbList.push(new Result("Sleep time", SleepTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb, stock_dif)));
 		}
 		if (effect == "Freeze") {
 			kbList.push(new Result("Freeze time", FreezeTime(StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb)));
@@ -872,7 +872,7 @@ app.controller('calculator', function ($scope) {
 			kbList.push(new Result("Stun time", StunTime(vskb.kb)));
 		}
 		if (effect == "Disable") {
-			kbList.push(new Result("Disable time", DisableTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb)));
+			kbList.push(new Result("Disable time", DisableTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb, stock_dif)));
 		}
 		kbList.push(new Result("Hitstun", Math.max(0,Hitstun(vskb.base_kb, windbox, electric) + addHitstun)));
 

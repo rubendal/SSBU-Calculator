@@ -588,17 +588,59 @@ function FlowerTime(damage) {
 	return Math.min(Math.floor(20 + (damage * 40)),3000);
 }
 
-function BuriedTime(percent, damage, kb) {
+function BuriedTime(percent, damage, kb, stock_dif) {
 	if (kb == 0)
 		return 0;
-	return Math.ceil(55 + (Math.min(percent + damage, 999)*0.5) + (kb * 1.5));
+
+	if (stock_dif === undefined)
+		stock_dif = '0';
+	var rank = 0;
+	var handi = 0;
+	switch (stock_dif) {
+		case "-2":
+			handi = 0.375;
+			break;
+		case "-1":
+			handi = 0.25;
+			break;
+		case "+1":
+			rank = 1.5;
+			break;
+		case "+2":
+			rank = 1.8;
+			break;
+	}
+	
+	return Math.ceil(10 + (30 * handi) + (15 * (3 - rank)) + (Math.min(percent + damage, 999)*0.5) + (kb * 1.5));
 }
 
 //Sleep time formula by Meshima https://twitter.com/Meshima_/status/908375931101650945
-function SleepTime(percent, damage, kb) {
+function SleepTime(percent, damage, kb, stock_dif) {
 	if (kb == 0)
 		return 0;
-	return Math.ceil(70 + (Math.min(percent + damage, 999) * 1) + (kb * 25));
+
+	if (stock_dif === undefined)
+		stock_dif = '0';
+	var rank = 0;
+	var handi = 1;
+	switch (stock_dif) {
+		case "-2":
+			handi = 1.45;
+			break;
+		case "-1":
+			handi = 1.225;
+			break;
+		case "+1":
+			handi = 0.5;
+			rank = 0.32;
+			break;
+		case "+2":
+			handi = 0.25;
+			rank = 0.4;
+			break;
+	}
+
+	return Math.ceil(10 + (30 * handi) + (10 * (3 - rank)) + (Math.min(percent + damage, 999) * 1) + (kb * 25));
 }
 
 //Freeze time formula by Meshima https://twitter.com/Meshima_/status/908383003675471872
@@ -614,10 +656,30 @@ function StunTime(kb) {
 }
 
 //Disable time formula by Meshima https://twitter.com/Meshima_/status/908383535265804288
-function DisableTime(percent, damage, kb) {
+function DisableTime(percent, damage, kb, stock_dif) {
 	if (kb == 0)
 		return 0;
-	return Math.ceil(kb + (Math.min(percent + damage, 999) * 1.1));
+
+	if (stock_dif === undefined)
+		stock_dif = '0';
+	var rank = 0;
+	var handi = 0;
+	switch (stock_dif) {
+		case "-2":
+			handi = 0.45;
+			break;
+		case "-1":
+			handi = 0.2;
+			break;
+		case "+1":
+			rank = 1.2;
+			break;
+		case "+2":
+			rank = 1.4;
+			break;
+	}
+
+	return Math.ceil((16 * handi) + (16 * (3 - rank)) + kb + (Math.min(percent + damage, 999) * 1.3));
 }
 
 function PinnedTime(percent) {
