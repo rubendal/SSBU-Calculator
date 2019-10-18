@@ -1326,7 +1326,8 @@ class Knockback {
 			if (!this.aerial && this.base_angle == 0) {
 				groundedZeroAngle = true;
 			}
-            this.angle = this.base_angle;
+			this.angle = this.base_angle;
+			this.tumble = Hitstun(this.kb, windbox, false, true) + 1 >= parameters.tumble_threshold && !windbox;
             if (this.base_angle != 0 && this.base_angle != 180) {
 				this.tumble = Hitstun(this.kb, windbox, false, true) + 1 >= parameters.tumble_threshold  && !windbox;
             }

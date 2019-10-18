@@ -2289,7 +2289,7 @@ class Knockback {
         }
 		this.calculate = function () {
 			var groundedZeroAngle = false;
-            this.kb = this.base_kb * this.launch_rate;
+			this.kb = this.base_kb * this.launch_rate;
             if (this.original_angle == 361) {
 				this.base_angle = SakuraiAngle(this.kb, this.aerial);
 			}
@@ -2297,8 +2297,9 @@ class Knockback {
 				groundedZeroAngle = true;
 			}
 			this.angle = this.base_angle;
+			this.tumble = Hitstun(this.kb, windbox, false, true) + 1 >= parameters.tumble_threshold && !windbox;
             if (this.base_angle != 0 && this.base_angle != 180) {
-				this.tumble = Hitstun(this.kb, windbox, false, true) + 1 >= parameters.tumble_threshold  && !windbox;
+				this.tumble = Hitstun(this.kb, windbox, false, true) + 1 >= parameters.tumble_threshold && !windbox;
             }
             if ((this.base_angle == 0 || this.base_angle == 180) && this.aerial) {
 				this.tumble = Hitstun(this.kb, windbox, false, true) + 1 >= parameters.tumble_threshold && !windbox;
