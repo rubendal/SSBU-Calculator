@@ -271,7 +271,7 @@ class Visualizer {
 					this.launchPoints.push(new DataPoint(launch.positions[i], "Frame " + i + " (%x, %y)" + techString, style));
 
 				if (i == launch.hitstun)
-					this.launchPoints.push(new DataPoint(launch.finalPosition, "Frame " + launch.hitstun + " Hitstun end", settings.visualizer_colors.hitstunEnd));
+					this.launchPoints.push(new DataPoint(launch.positions[launch.hitstun], "Frame " + launch.hitstun + " Hitstun end", settings.visualizer_colors.hitstunEnd));
 
 				if (i == launch.faf)
 					this.launchPoints.push(new DataPoint(launch.positions[launch.faf], "Frame " + launch.faf + " Attacker's FAF", settings.visualizer_colors.attackerFAF));
@@ -580,7 +580,7 @@ class Visualizer {
 
 					context.beginPath();
 
-					context.arc(launch.finalPosition.x, - launch.finalPosition.y, r2, 0, Math.PI * 2);
+					context.arc(launch.positions[launch.hitstun].x, - launch.positions[launch.hitstun].y, r2, 0, Math.PI * 2);
 
 					context.closePath();
 					context.fill();
