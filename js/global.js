@@ -1789,7 +1789,7 @@ class Distance{
 		it should something caused by DamageFlySpeedUp but it could be a thing too
 		At least FAF position seems accurate with these
 		*/
-		var gravityMul = 1.2;
+		var gravityMul = 1.25;
 		var damageFlyTopGravityMul = 1.2;
 
 		for (var i = 0; i < limit; i++){
