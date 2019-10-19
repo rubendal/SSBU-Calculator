@@ -575,10 +575,12 @@ class Visualizer {
 
 				}
 
-				if (launch.hitstun < launch.positions.length) {
+				if (launch.hitstun < launch.positions.length && launch.hitstun >= 0) {
 					context.fillStyle = settings.visualizer_colors.hitstunEnd;
 
 					context.beginPath();
+
+					console.log(launch.positions, launch.hitstun);
 
 					context.arc(launch.positions[launch.hitstun].x, - launch.positions[launch.hitstun].y, r2, 0, Math.PI * 2);
 
