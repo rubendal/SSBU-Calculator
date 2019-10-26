@@ -19,7 +19,9 @@
 	tumble_threshold: 32,
 	hitlag: {
 		mult: 0.65,
-		constant: 6
+		constant: 6,
+		parryConstant: 14,
+		parryMax: 30
 	},
 	hitstunCancel: {
 		frames: {

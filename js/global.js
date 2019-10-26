@@ -45,7 +45,9 @@ var defaultParameters = {
 	tumble_threshold: 32,
 	hitlag: {
 		mult: 0.65,
-		constant: 6
+		constant: 6,
+		parryConstant: 14,
+		parryMax: 30
 	},
 	hitstunCancel: {
 		frames: {
@@ -71,7 +73,6 @@ var defaultParameters = {
 		grounded: 0.725
 	}
 };
-
 var settings = {
 	stick_color: "#000000",
 	visualizer_colors: {
@@ -1181,7 +1182,7 @@ class Result {
             this.addStyle({ 'color': 'red' });
             this.value = "Invalid data";
         } else {
-			if (name == "Hitstun" || name == "Hitstun with speed up" || name == "Attacker Hitlag" || name == "Target Hitlag" || name == "Shield stun" || name == "Shield Hitlag" || name == "Shield Advantage" || name == "Hit Advantage" || name == "Paralysis time" || name == "Reeling hitstun" || name == "Luma hitstun"
+			if (name == "Hitstun" || name == "Hitstun with speed up" || name == "Attacker Hitlag" || name == "Target Hitlag" || name == "Shield stun" || name == "Shield Hitlag" || name == "Attacker Shield Hitlag" || name == "Shield Advantage" || name == "Hit Advantage" || name == "Paralysis time" || name == "Reeling hitstun" || name == "Luma hitstun"
 				|| name == "Flower time" || name == "Buried time" || name == "Sleep time" || name == "Freeze time" || name == "Stun time" || name == "Disable time") {
                 this.value = value + (value == 1 ? " frame" : " frames");
 			} else if (name == "Airdodge hitstun cancel" || name == "Aerial hitstun cancel" || name == "First Actionable Frame" || name == "FAF with speed up" || name == "Reeling FAF") {

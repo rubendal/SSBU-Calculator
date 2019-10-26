@@ -767,12 +767,17 @@ app.controller('calculator', function ($scope) {
 
 		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0,vskb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, parseFloat($scope.extra_vis_frames));
 
+		var damageWithout1v1 = damage;
+
 		if ($scope.is_1v1) {
 			damage *= 1.2;
 		}
 		if ($scope.throw) {
 			damage *= attacker.modifier.damage_dealt;
 		}
+
+		
+
 
         //if(stage != null){
         //    if(distance.bounce_speed >= 1){
@@ -827,11 +832,11 @@ app.controller('calculator', function ($scope) {
 		}
 		damageList.push(new Result("Damage", +StaleDamage(damage, stale, shieldStale, ignoreStale).toFixed(6) + "%"));
 		damageList.push(new Result("Target's %", +(target_percent + (preDamage * StaleNegation(stale, shieldStale, ignoreStale)) + StaleDamage(damage, stale, shieldStale, ignoreStale)).toFixed(6) + "%"));
-        if (!paralyzer) {
-			damageList.push(new Result("Attacker Hitlag", Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), is_projectile ? 0 : hitlag, electric, 1)));
-			damageList.push(new Result("Target Hitlag", Hitlag(StaleDamage(damage, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch))));
+		if (!paralyzer) {
+			damageList.push(new Result("Attacker Hitlag", Hitlag(StaleDamage(damageWithout1v1, stale, shieldStale, ignoreStale), is_projectile ? 0 : hitlag, electric, 1, is_projectile)));
+			damageList.push(new Result("Target Hitlag", Hitlag(StaleDamage(damageWithout1v1, stale, shieldStale, ignoreStale), hitlag, electric, HitlagCrouch(crouch), is_projectile)));
         } else {
-			damageList.push(new Result("Attacker Hitlag", ParalyzerHitlag(StaleDamage(damage, shieldStale, stale, ignoreStale), is_projectile ? 0 : hitlag, 1)));
+			damageList.push(new Result("Attacker Hitlag", ParalyzerHitlag(StaleDamage(damageWithout1v1, shieldStale, stale, ignoreStale), is_projectile ? 0 : hitlag, 1)));
 		}
 		if (r != 1) {
 			kbList.push(new Result("KB modifier", "x" + +r.toFixed(6)));
@@ -854,7 +859,7 @@ app.controller('calculator', function ($scope) {
 		
         kbList.push(new Result("Launch angle", +vskb.angle.toFixed(6)));
 		if (effect == "Paralyze") {
-            kbList.push(new Result("Paralysis time", ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch))));
+			kbList.push(new Result("Paralysis time", ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch))));
 		}
 		if (effect == "Flower") {
 			kbList.push(new Result("Flower time", FlowerTime(StaleDamage(damage, stale, shieldStale, ignoreStale))));
@@ -953,7 +958,8 @@ app.controller('calculator', function ($scope) {
 				shieldList.push(new Result("Shield Break", sv >= 50 * target.modifier.shield ? "Yes" : "No"));
 			}
 
-			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric)));
+			shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile)));
+			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile)));
 			shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun), ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun) == 1));
 			shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, uses_aerial_shieldstun)));
 			shieldList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_smash, uses_aerial_shieldstun)));

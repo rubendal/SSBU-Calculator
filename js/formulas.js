@@ -19,7 +19,9 @@
 	tumble_threshold: 32,
 	hitlag: {
 		mult: 0.65,
-		constant: 6
+		constant: 6,
+		parryConstant: 14,
+		parryMax: 30
 	},
 	hitstunCancel: {
 		frames: {
@@ -51,109 +53,108 @@ function TrainingKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fal
 }
 
 function Rage(percent) {
-    if (percent <= 35) {
-        return 1;
-    }
-    if (percent >= 150) {
-        return 1.1;
-    }
-    return 1 + (percent - 35) * (1.1 - 1) / (150 - 35);
+	if (percent <= 35) {
+		return 1;
+	}
+	if (percent >= 150) {
+		return 1.1;
+	}
+	return 1 + (percent - 35) * (1.1 - 1) / (150 - 35);
 }
 
 function Aura(percent, stock_dif, game_format) {
-    if(stock_dif == undefined){
-        stock_dif = "0";
-    }
-    if(game_format == undefined){
-        game_format = "Singles";
-    }
-    var aura = 0;
-    if (percent <= 70) {
-        aura = (66 + ((17.0 / 35.0) * percent)) / 100;
-    }else if (percent <= 190) {
-        aura = (100 + ((7.0 / 12.0) * (percent - 70))) / 100;
-    }else{
-        aura = 1.7;
-    }
-    //1v1 Rank multipliers by Meshima: https://twitter.com/Meshima_/status/1146757439112355840
-    var m = 1;
-    var min = 0.6;
-    var max = 1.7;
-    if(stock_dif == "0"){
-        return aura;
-    }
-    if(game_format == "Singles"){
-        switch(stock_dif){
-            case "-2":
-                m = 1.4;
-                min = 0.924;
-                max = 1.8;
-            break;
-            case "-1":
-                m = 1.12;
-                min = 0.792;
-                max = 1.8;
-            break;
-            case "+1":
-                m = 0.8888;
+	if (stock_dif == undefined) {
+		stock_dif = "0";
+	}
+	if (game_format == undefined) {
+		game_format = "Singles";
+	}
+	var aura = 0;
+	if (percent <= 70) {
+		aura = (66 + ((17.0 / 35.0) * percent)) / 100;
+	} else if (percent <= 190) {
+		aura = (100 + ((7.0 / 12.0) * (percent - 70))) / 100;
+	} else {
+		aura = 1.7;
+	}
+	//1v1 Rank multipliers by Meshima: https://twitter.com/Meshima_/status/1146757439112355840
+	var m = 1;
+	var min = 0.6;
+	var max = 1.7;
+	if (stock_dif == "0") {
+		return aura;
+	}
+	if (game_format == "Singles") {
+		switch (stock_dif) {
+			case "-2":
+				m = 1.4;
+				min = 0.924;
+				max = 1.8;
+				break;
+			case "-1":
+				m = 1.12;
+				min = 0.792;
+				max = 1.8;
+				break;
+			case "+1":
+				m = 0.8888;
 				max = 1.464;
 				min = 0.6039;
-            break;
-            case "+2":
-                m = 0.83;
-                max = 1.328;
-            break;
-        }
-    }else{
-        switch(stock_dif){
-            case "-2":
-                m = 2;
-                min = 1.32;
-                max = 1.8;
-            break;
-            case "-1":
-                m = 1.3333;
-                min = 0.88;
-                max = 1.8;
-            break;
-            case "+1":
-                m = 0.8;
-                max = 1.36;
-            break;
-            case "+2":
-                m = 0.6333;
-                max = 1.076;
-            break;
-        }
-    }
-    aura *= m;
-    if(aura < min){
-        aura = min;
-    }else if(aura > max){
-        aura = max;
-    }
-    return aura;
+				break;
+			case "+2":
+				m = 0.83;
+				max = 1.328;
+				break;
+		}
+	} else {
+		switch (stock_dif) {
+			case "-2":
+				m = 2;
+				min = 1.32;
+				max = 1.8;
+				break;
+			case "-1":
+				m = 1.3333;
+				min = 0.88;
+				max = 1.8;
+				break;
+			case "+1":
+				m = 0.8;
+				max = 1.36;
+				break;
+			case "+2":
+				m = 0.6333;
+				max = 1.076;
+				break;
+		}
+	}
+	aura *= m;
+	if (aura < min) {
+		aura = min;
+	} else if (aura > max) {
+		aura = max;
+	}
+	return aura;
 }
 
 function StaleNegation(queue, shieldQueue, ignoreStale) {
-    if (ignoreStale) {
-        return 1;
-    }
+	if (ignoreStale) {
+		return 1;
+	}
 	var S = [0.09, 0.08545, 0.07635, 0.0679, 0.05945, 0.05035, 0.04255, 0.03345, 0.025];
-    var s = 1;
-    for (var i = 0; i < queue.length; i++)
-    {
+	var s = 1;
+	for (var i = 0; i < queue.length; i++) {
 		if (queue[i]) {
 			if (!shieldQueue[i])
 				s -= S[i];
 			else
 				s -= S[i] * 0.85;
-        }
-    }
-    if (s == 1) {
-        return 1.05;
-    }
-    return s;
+		}
+	}
+	if (s == 1) {
+		return 1.05;
+	}
+	return s;
 }
 
 function TumbleFSM(kb) {
@@ -247,14 +248,14 @@ function LumaHitstun(kb, windbox, electric) {
 }
 
 function SakuraiAngle(kb, aerial) {
-    if (aerial) {
+	if (aerial) {
 		return (0.663225 * 180 / Math.PI);
-    }
-    if (kb < 60) {
-        return 0;
-    }
-    if (kb >= 88) {
-        return 38;
+	}
+	if (kb < 60) {
+		return 0;
+	}
+	if (kb >= 88) {
+		return 38;
 	}
 	return Math.min((kb - 60) / (88 - 60) * 38 + 1, 38); //https://twitter.com/BenArthur_7/status/956316733597503488
 }
@@ -273,72 +274,72 @@ function StaleDamage(base_damage, queue, shieldQueue, ignoreStale) {
 }
 
 function FirstActionableFrame(kb, windbox, electric, ignoreReeling) {
-    var hitstun = Hitstun(kb, windbox, electric, ignoreReeling);
-    if (hitstun == 0) {
-        return 0;
-    }
-    return hitstun + 1;
+	var hitstun = Hitstun(kb, windbox, electric, ignoreReeling);
+	if (hitstun == 0) {
+		return 0;
+	}
+	return hitstun + 1;
 }
 
 function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, addHitstun) {
-    var res = { 'airdodge': 0, 'aerial': 0 };
-    if (windbox) {
-        return res;
+	var res = { 'airdodge': 0, 'aerial': 0 };
+	if (windbox) {
+		return res;
 	}
 	var hitstun = Math.max(0, Hitstun(kb, windbox, electric) + addHitstun);
 	//var fsm = TumbleFSM(kb);
-    var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
-    var airdodge = false;
-    var aerial = false;
-    var launch_speed = { 'x': Math.abs(launch_speed_x), 'y': Math.abs(launch_speed_y) };
-    var decay = { 'x': Math.abs(parameters.decay * Math.cos(angle * Math.PI / 180)), 'y': Math.abs(parameters.decay * Math.sin(angle * Math.PI / 180)) };
+	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
+	var airdodge = false;
+	var aerial = false;
+	var launch_speed = { 'x': Math.abs(launch_speed_x), 'y': Math.abs(launch_speed_y) };
+	var decay = { 'x': Math.abs(parameters.decay * Math.cos(angle * Math.PI / 180)), 'y': Math.abs(parameters.decay * Math.sin(angle * Math.PI / 180)) };
 	var ec = electric ? 1 : 0;
-    for (var i = 0; i < hitstun; i++) {
-        if (launch_speed.x != 0) {
-            var x_dir = launch_speed.x / Math.abs(launch_speed.x);
-            launch_speed.x -= decay.x;
-            if (x_dir == -1 && launch_speed.x > 0) {
-                launch_speed.x = 0;
-            } else if (x_dir == 1 && launch_speed.x < 0) {
-                launch_speed.x = 0;
-            }
-        }
-        if (launch_speed.y != 0) {
-            var y_dir = launch_speed.y / Math.abs(launch_speed.y);
-            launch_speed.y -= decay.y;
-            if (y_dir == -1 && launch_speed.y > 0) {
-                launch_speed.y = 0;
-            } else if (y_dir == 1 && launch_speed.y < 0) {
-                launch_speed.y = 0;
-            }
+	for (var i = 0; i < hitstun; i++) {
+		if (launch_speed.x != 0) {
+			var x_dir = launch_speed.x / Math.abs(launch_speed.x);
+			launch_speed.x -= decay.x;
+			if (x_dir == -1 && launch_speed.x > 0) {
+				launch_speed.x = 0;
+			} else if (x_dir == 1 && launch_speed.x < 0) {
+				launch_speed.x = 0;
+			}
+		}
+		if (launch_speed.y != 0) {
+			var y_dir = launch_speed.y / Math.abs(launch_speed.y);
+			launch_speed.y -= decay.y;
+			if (y_dir == -1 && launch_speed.y > 0) {
+				launch_speed.y = 0;
+			} else if (y_dir == 1 && launch_speed.y < 0) {
+				launch_speed.y = 0;
+			}
 		}
 		var lc = Math.sqrt(Math.pow(launch_speed.x, 2) + Math.pow(launch_speed.y, 2));
-        if (lc < parameters.hitstunCancel.launchSpeed.airdodge && !airdodge) {
-            airdodge = true;
+		if (lc < parameters.hitstunCancel.launchSpeed.airdodge && !airdodge) {
+			airdodge = true;
 			res.airdodge = Math.max(i + 2, parameters.hitstunCancel.frames.airdodge + 1 + ec);
-        }
-        if (lc < parameters.hitstunCancel.launchSpeed.aerial && !aerial) {
-            aerial = true;
-            res.aerial = Math.max(i + 2, parameters.hitstunCancel.frames.aerial + 1 + ec);
 		}
-    }
+		if (lc < parameters.hitstunCancel.launchSpeed.aerial && !aerial) {
+			aerial = true;
+			res.aerial = Math.max(i + 2, parameters.hitstunCancel.frames.aerial + 1 + ec);
+		}
+	}
 
-    if (res.airdodge > hitstun) {
-        res.airdodge = hitstun + 1;
-    }
-    if (res.aerial > hitstun) {
-        res.aerial = hitstun + 1;
+	if (res.airdodge > hitstun) {
+		res.airdodge = hitstun + 1;
+	}
+	if (res.aerial > hitstun) {
+		res.aerial = hitstun + 1;
 	}
 
 	//if (fsm >= 1) {
 	//	res.airdodge -= fsm * 5;
 	//	res.aerial -= fsm * 5;
 	//}
-    
-    return res;
+
+	return res;
 }
 
-function Hitlag(base_damage, hitlag_mult, electric, crouch, players) {
+function Hitlag(base_damage, hitlag_mult, electric, crouch, is_projectile, players) {
 	var electric_mult = 1;
 	if (electric) {
 		electric_mult = 1.5;
@@ -348,35 +349,59 @@ function Hitlag(base_damage, hitlag_mult, electric, crouch, players) {
 		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
 		player_mult = p[players - 2];
 	}
-	var h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult) * crouch);// - 1;
-    if (h > 30) {
-        return 30;
-    }
-    if (h < 0) {
-        return 0;
-    }
-    return h;
+	var h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant ) * electric_mult) * hitlag_mult) * crouch);// - 1;
+	if (h > 30) {
+		return 30;
+	}
+	if (h < 0) {
+		return 0;
+	}
+	return h;
+}
+
+function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, players) {
+	var electric_mult = 1;
+	if (electric) {
+		electric_mult = 1.5;
+	}
+	var player_mult = 1;
+	if (players) {
+		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
+		player_mult = p[players - 2];
+	}
+	var h = 0;
+	if (!is_projectile)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
+	else
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult) * .52);// - 1;
+	if (h > parameters.hitlag.parryMax) {
+		return parameters.hitlag.parryMax;
+	}
+	if (h < 0) {
+		return 0;
+	}
+	return h;
 }
 
 function ChargeSmash(base_damage, frames, megaman_fsmash, witch_time, maxSmashChargeMult) {
 	var mult = maxSmashChargeMult == 1.4 ? 1 : 0.5;
-    if (megaman_fsmash) {
-        return base_damage * (1 + (frames * mult / 86));
-    }
-    if(witch_time){
+	if (megaman_fsmash) {
+		return base_damage * (1 + (frames * mult / 86));
+	}
+	if (witch_time) {
 		return base_damage * (1 + (frames * mult * 0.5 / 150));
-    }
+	}
 	return base_damage * (1 + (frames * mult / 150));
 }
 
 function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time, maxSmashChargeMult) {
 	var mult = maxSmashChargeMult == 1.4 ? 1 : 0.5;
-    if (megaman_fsmash) {
+	if (megaman_fsmash) {
 		return (1 + (frames * mult / 86));
-    }
-    if(witch_time){
+	}
+	if (witch_time) {
 		return (1 + (frames * mult * 0.5 / 150));
-    }
+	}
 	return (1 + (frames * mult / 150));
 }
 
@@ -418,24 +443,33 @@ function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, 
 	return Math.floor((damage * parameters.shield.mult * mult) + parameters.shield.constant) - 1;
 }
 
-function ShieldHitlag(damage, hitlag, electric) {
+function ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile) {
 	//if (hitlag > 1) {
 	//	hitlag *= 0.8;
 	//	if (hitlag < 1)
 	//		hitlag = 1;
 	//}
 	hitlag *= 0.67;
+	//if (is_projectile)
+	//	hitlag *= 0.52;
 	if (damage == 0)
 		return 0;
-	return Hitlag(damage, hitlag, electric, 1);
+	if (perfectShield)
+		return ParryHitlag(damage, hitlag, electric, is_projectile) - 1;
+	return Hitlag(damage, hitlag, electric, 1, is_projectile);
 }
 
-function AttackerShieldHitlag(damage, hitlag, electric) {
-	return ShieldHitlag(damage, hitlag, electric);
+function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile) {
+	if (is_projectile)
+		return 0;
+	var h = ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile);
+	if (perfectShield)
+		h += 3;
+	return h;
 }
 
 function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric));
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
@@ -559,7 +593,7 @@ function HitAdvantage(hitstun, hitframe, faf, paralysis) {
 }
 
 //Formula by Arthur https://docs.google.com/spreadsheets/d/1E3kEQUOZy1C-kSzcoOSKay5gDqpo-ZZgq-8G511Bmw4/edit#gid=1810400970
-function WeightDependentThrowFrame(frame, weight, animationLength) {	
+function WeightDependentThrowFrame(frame, weight, animationLength) {
 	return Math.ceil((frame - 1) * (1 + (26 / (animationLength - 1)) * (weight * 0.01 - 1)) + 1);
 }
 
@@ -580,12 +614,12 @@ function ParalysisTime(kb, base_damage, hitlag_mult, crouch) {
 	if (p < 0) {
 		return 0;
 	}
-	
+
 	return p;
 }
 
 function FlowerTime(damage) {
-	return Math.min(Math.floor(20 + (damage * 40)),3000);
+	return Math.min(Math.floor(20 + (damage * 40)), 3000);
 }
 
 function BuriedTime(percent, damage, kb, stock_dif) {
@@ -610,8 +644,8 @@ function BuriedTime(percent, damage, kb, stock_dif) {
 			rank = 1.8;
 			break;
 	}
-	
-	return Math.ceil(10 + (30 * handi) + (15 * (3 - rank)) + (Math.min(percent + damage, 999)*0.5) + (kb * 1.5));
+
+	return Math.ceil(10 + (30 * handi) + (15 * (3 - rank)) + (Math.min(percent + damage, 999) * 0.5) + (kb * 1.5));
 }
 
 //Sleep time formula by Meshima https://twitter.com/Meshima_/status/908375931101650945
@@ -736,7 +770,7 @@ function AngleToStickPosition(r, angle) {
 			y = 0;
 		return { X: x, Y: y };
 	}
-	
+
 }
 
 function Lerp(x, x2, y) {
@@ -749,26 +783,26 @@ function lerp(min, max, x, xMax) {
 
 //Launch visualizer formulas
 
-function InvertXAngle(angle){
-    if(angle < 180){
-        return 180 - angle;
-    }else{
-        return 360 - (angle - 180);
-    }
+function InvertXAngle(angle) {
+	if (angle < 180) {
+		return 180 - angle;
+	} else {
+		return 360 - (angle - 180);
+	}
 }
 
-function InvertYAngle(angle){
-    if(angle < 180){
-        return (180 - angle) + 180;
-    }else{
-        return 180 - (angle - 180);
-    }
+function InvertYAngle(angle) {
+	if (angle < 180) {
+		return (180 - angle) + 180;
+	} else {
+		return 180 - (angle - 180);
+	}
 }
 
 function InterpolatedAngle(a, b) {
 	var t = Math.max(a, b) - Math.min(a, b) % 360;
-	return Math.floor(Math.min(a,b) + ((((2 * t) % 360) - t) * 0.5));
-	
+	return Math.floor(Math.min(a, b) + ((((2 * t) % 360) - t) * 0.5));
+
 }
 
 function Magnitude(x, y) {
@@ -781,32 +815,32 @@ function LineDistance(point, line) {
 }
 
 //Get the closest line from a point
-function closestLine(point, surface){
-    var x = point[0];
-    var y = point[1];
+function closestLine(point, surface) {
+	var x = point[0];
+	var y = point[1];
 
-	var line = {i:-1, line:[]};
-    var min_distance = null;
+	var line = { i: -1, line: [] };
+	var min_distance = null;
 
-	for (var i = 0; i < surface.length - 1; i++){
+	for (var i = 0; i < surface.length - 1; i++) {
 		var x1 = surface[i][0];
 		var x2 = surface[i + 1][0];
 		var y1 = surface[i][1];
 		var y2 = surface[i + 1][1];
-        var distance = Math.abs(((y2-y1) * x) - ((x2-x1) * y) + (x2*y1) - (y2*x1)) / Math.sqrt(Math.pow(y2-y1,2) + Math.pow(x2-x1,2));
+		var distance = Math.abs(((y2 - y1) * x) - ((x2 - x1) * y) + (x2 * y1) - (y2 * x1)) / Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2));
 		if (min_distance == null) {
 			line.i = i;
 			min_distance = distance;
 			line.line = [[x1, y1], [x2, y2]];
-        }else{
-            if(distance < min_distance){
+		} else {
+			if (distance < min_distance) {
 				min_distance = distance;
 				line.i = i;
 				line.line = [[x1, y1], [x2, y2]];
-            }
-        }
-    }
-    return line;
+			}
+		}
+	}
+	return line;
 }
 
 function LineMidPoint(p1, p2) {
@@ -818,9 +852,9 @@ function LineLength(p1, p2) {
 }
 
 var LineTypes = {
-	FLOOR : 1,
-	WALL : 2,
-	CEILING : 3
+	FLOOR: 1,
+	WALL: 2,
+	CEILING: 3
 };
 
 //Get if line is floor, wall or ceiling
@@ -982,7 +1016,7 @@ function GetSpeedUpFAF(faf, angle) {
 function InitDamageSpeedUp(reaction_frame_last, angle, arg3) {
 	var damage_fly_speed_up_reaction_frame_min = 30;
 	var damage_fly_speed_up_reaction_frame_max = 80;
-	
+
 	var damage_fly_speed_up_max_mag = 6;
 	var damage_fly_speed_up_angle_base = 90;
 	var damage_fly_speed_up_min_max_angle = 45;
@@ -1009,7 +1043,7 @@ function InitDamageSpeedUp(reaction_frame_last, angle, arg3) {
 		var angle_hi = angle_base + damage_fly_speed_up_min_max_angle;
 
 		var angle_ratio;
-		
+
 		if (angle > angle_lw && angle <= angle_base) {
 			//0x000ce024
 			angle_ratio = (angle - angle_lw) / (angle_base - angle_lw);
@@ -1093,13 +1127,13 @@ function DamageSpeedUpFrames(faf, angle) {
 	}
 
 	var value = list[0];
-	for (i = 0; i < list.length;i++) {
+	for (i = 0; i < list.length; i++) {
 		list[i] = (list[i] - value) * -1;
 		if (list[i] == -0) {
 			list[i] = 0;
 		}
 	}
-	
+
 	return list;
 }
 
@@ -1107,7 +1141,7 @@ function GetFrameWithSpeedUp(list, frame) {
 	if (frame == 0)
 		frame++;
 	var value = list[frame];
-	for (var i = frame+1; i < list.length; i++) {
+	for (var i = frame + 1; i < list.length; i++) {
 		if (list[i] > value) {
 			return i - 1;
 		}
@@ -1132,7 +1166,7 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 	if (windbox) {
 		return res;
 	}
-	var hitstun = Math.max(0,Hitstun(kb, windbox, electric) + addHitstun);
+	var hitstun = Math.max(0, Hitstun(kb, windbox, electric) + addHitstun);
 	var hitstunSpeedUp = speedupFrames[speedupFrames.length - 1];
 
 	//console.log(hitstun, hitstunSpeedUp);
@@ -1188,7 +1222,7 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 			}
 			frameCount++;
 		}
-		
+
 	}
 
 	if (res.airdodge > hitstunSpeedUp) {
