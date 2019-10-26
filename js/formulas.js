@@ -369,14 +369,17 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, players)
 		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
 		player_mult = p[players - 2];
 	}
+	if (hitlag_mult > 0.67) {
+		hitlag_mult *= 0.88;
+	}
 	var h = 0;
 	if (!is_projectile)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
 	else
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult) * .52);// - 1;
-	if (h > parameters.hitlag.parryMax) {
-		return parameters.hitlag.parryMax;
-	}
+	//if (h > parameters.hitlag.parryMax) {
+	//	return parameters.hitlag.parryMax;
+	//}
 	if (h < 0) {
 		return 0;
 	}
