@@ -369,9 +369,6 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, players)
 		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
 		player_mult = p[players - 2];
 	}
-	//if (hitlag_mult > 0.67) {
-	//	hitlag_mult *= 0.88;
-	//}
 	var h = 0;
 	if (!is_projectile)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
@@ -447,16 +444,9 @@ function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, 
 }
 
 function ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile) {
-	//if (hitlag > 1) {
-	//	hitlag *= 0.8;
-	//	if (hitlag < 1)
-	//		hitlag = 1;
-	//}
 	if (hitlag < 1)
 		hitlag = 1;
 	hitlag *= 0.67;
-	//if (is_projectile)
-	//	hitlag *= 0.52;
 	if (damage == 0)
 		return 0;
 	if (perfectShield)
