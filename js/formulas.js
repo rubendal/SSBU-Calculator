@@ -377,9 +377,9 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, players)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
 	else
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
-	//if (h > parameters.hitlag.parryMax) {
-	//	return parameters.hitlag.parryMax;
-	//}
+	if (h > parameters.hitlag.parryMax + 2) {
+		return parameters.hitlag.parryMax + 2;
+	}
 	if (h < 0) {
 		return 0;
 	}
