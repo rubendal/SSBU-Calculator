@@ -464,7 +464,7 @@ function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projec
 }
 
 function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield));
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
