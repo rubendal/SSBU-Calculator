@@ -302,6 +302,10 @@ img.banjo-and-kazooie {
    background: #f8934b;
 }
 
+img.terry {
+    background: #6eb5ff;
+}
+
 /*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
@@ -605,4 +609,8 @@ div.hero {
 
 div.banjo-and-kazooie {
     border-top: 5px solid #f8934b;
+}
+
+div.terry {
+    border-top: 5px solid #6eb5ff;
 }
