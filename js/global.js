@@ -1877,8 +1877,8 @@ class Distance{
 							//Get line that is on the direction of sliding direction
 							var prev_line = [previousCollision.vertex[prev_index], previousCollision.vertex[previousCollisionIntersection.i]];
 							var next_line = [previousCollision.vertex[next_index], previousCollision.vertex[next_index2]];
-							var prev_line_floor = GetLineType(previousCollision.materials[prev_index]) == LineTypes.FLOOR;
-							var next_line_floor = GetLineType(previousCollision.materials[next_index]) == LineTypes.FLOOR;
+							var prev_line_floor = GetLineType(previousCollision.materials[(prev_index - 1) % previousCollision.materials.length]) == LineTypes.FLOOR;
+							var next_line_floor = GetLineType(previousCollision.materials[(next_index - 1) % previousCollision.materials.length]) == LineTypes.FLOOR;
 							var material = null;
 							var selected_line = null;
 							var selected_index = 0;
