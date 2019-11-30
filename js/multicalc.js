@@ -87,6 +87,7 @@ app.controller('calculator', function ($scope) {
 	$scope.delayed_shorthop_aerial = null;
 	$scope.shorthop_aerial = false;
 	$scope.throw = false;
+	$scope.inkValue = 0;
 
 	$scope.attackerPercent_style = {};
 	$scope.targetPercent_style = {};
@@ -953,6 +954,8 @@ app.controller('calculator', function ($scope) {
 
 		addHitstun = parseFloat($scope.addHitstun);
 
+		ink = parseFloat($scope.inkValue);
+
 		position = { x: parseFloat($scope.position_x), y: parseFloat($scope.position_y) };
 
 		$scope.sharing_url = buildURL($scope);
@@ -1083,6 +1086,7 @@ app.controller('calculator', function ($scope) {
 			shieldstunMult: parseFloat($scope.shieldstunMult),
 
 			addHitstun: parseFloat($scope.addHitstun),
+			ink: parseFloat($scope.inkValue),
 			charge_data: $scope.charge_data,
 			is_1v1: $scope.is_1v1,
 			shorthop_aerial: $scope.shorthop_aerial,

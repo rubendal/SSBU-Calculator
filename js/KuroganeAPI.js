@@ -577,7 +577,7 @@ var chargeMoves = [
 		return [Math.max(Math.floor(frames * 1.1 * 3), 1), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Water Shuriken (Uncharged)"], 0, 39, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [lerp(3, 11, frames, 40), lerp(bkb, 20, frames, 40), kbg, shieldDamage];
+		return [lerp(3, 11, frames, 40), lerp(10, 20, frames, 40), lerp(45,85,frames,40), shieldDamage];
 	}),
 	new ChargeData(["Sun Salutation"], 0, 85, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(5, 18, frames, 85), bkb, kbg, shieldDamage];
@@ -665,13 +665,13 @@ class Move {
 				return +this.charge.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[0].toFixed(4);
 			}
 			this.charge_bkb = function (frames) {
-				return Math.floor(this.charge.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[1]);
+				return (this.charge.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[1]);
 			}
 			this.charge_kbg = function (frames) {
-				return Math.floor(this.charge.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[2]);
+				return (this.charge.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[2]);
 			}
 			this.charge_shieldDamage = function (frames) {
-				return Math.floor(this.charge.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[3]);
+				return (this.charge.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[3]);
 			}
         }
 

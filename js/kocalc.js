@@ -38,6 +38,7 @@ app.controller('calculator', function ($scope) {
 	$scope.charging_frames_type = "Frames charged";
 	$scope.shorthop_aerial = false;
 	$scope.throw = false;
+	$scope.inkValue = 0;
 
 	$scope.attackerPercent_style = {};
 	$scope.targetPercent_style = {};
@@ -811,6 +812,8 @@ app.controller('calculator', function ($scope) {
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
+		damage *= InkDamageMult(ink);
+		preDamage *= InkDamageMult(ink);
 		if ($scope.is_1v1) {
 			preDamage *= 1.2;
 		}
@@ -1435,6 +1438,8 @@ app.controller('calculator', function ($scope) {
 		launch_rate = parseFloat($scope.launch_rate);
 
 		addHitstun = parseFloat($scope.addHitstun);
+
+		ink = parseFloat($scope.inkValue);
 
 		position = { x: parseFloat($scope.position_x), y: parseFloat($scope.position_y) };
 

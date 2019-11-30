@@ -1755,6 +1755,10 @@ var is_aerial_move = false;
 var uses_aerial_shieldstun = false;
 
 var addHitstun = 0;
+var attachedWeapon = false;
+var indirectHitbox = false;
+
+var ink = 0;
 
 var effects = [
 	{ id: 0, name: "None/Other" },

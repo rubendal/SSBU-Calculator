@@ -248,8 +248,8 @@
                 <div class="pos-right pos-attr">
                     <table>
                         <!--<tr>
-                        <td>Target</td>
-                    </tr>-->
+        <td>Target</td>
+    </tr>-->
                         <tr>
                             <td>Damage taken</td>
                             <td>
@@ -306,6 +306,14 @@
                             <td>
                                 &nbsp;&nbsp;&nbsp;<input name="target_traction" type="number" min="0" max="1"
                                                          step="0.001" ng-model="target_traction" ng-change="updateAttr()" />
+                            </td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td>Ink</td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;<input name="ink_value" type="number" min="0" max="300"
+                                                         step="0.01" ng-model="inkValue" ng-change="updateAttr()" />
                             </td>
                         </tr>
                     </table>
@@ -498,6 +506,10 @@
                             <br />
                         </span>
                         <input type="checkbox" ng-model="is_projectile" ng-change="update()" /> Projectile
+                        <!--<br />
+                        <input type="checkbox" ng-model="attachedWeapon" ng-change="update()" /> Weapon attached
+                        <br />
+                        <input type="checkbox" ng-model="indirectHitbox" ng-change="update()" /> Indirect hitbox-->
                         <br />
                         <input type="checkbox" ng-model="in_air" ng-change="updateAttackData()" /> Target in air
                         <br />
@@ -509,9 +521,9 @@
                         <input type="checkbox" name="set_weight" ng-model="set_weight" ng-change="update()" /> Set
                         weight
                         <!--<br />
-                    <input type="checkbox" name="isFinishingTouch" ng-model="isFinishingTouch"
-                        ng-change="update()" /> Finishing Touch
-                        -->
+    <input type="checkbox" name="isFinishingTouch" ng-model="isFinishingTouch"
+        ng-change="update()" /> Finishing Touch
+        -->
                     </div>
                 </div>
             </div>

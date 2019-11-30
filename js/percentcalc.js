@@ -50,6 +50,7 @@ app.controller('calculator', function ($scope) {
     $scope.target_damage_taken = target.modifier.damage_taken;
 	$scope.target_kb_received = target.modifier.kb_received;
 	$scope.is_1v1 = true;
+	$scope.inkValue = 0;
 
 	$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
 	$scope.target_mod = $scope.targetModifiers.length > 0 ? {} : { 'display': 'none' };
@@ -524,7 +525,8 @@ app.controller('calculator', function ($scope) {
         stock_dif = $scope.stock_dif;
         game_format = $scope.format;
 
-        launch_rate = parseFloat($scope.launch_rate);
+		launch_rate = parseFloat($scope.launch_rate);
+		ink = parseFloat($scope.inkValue);
 
         if($scope.charge_data == null && $scope.is_smash){
 			base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4 );
@@ -536,6 +538,8 @@ app.controller('calculator', function ($scope) {
 
 		base_damage *= attacker.modifier.base_damage;
 		preDamage *= attacker.modifier.base_damage;
+		damage *= InkDamageMult(ink);
+		preDamage *= InkDamageMult(ink);
 
         var damage = base_damage;
         

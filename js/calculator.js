@@ -39,6 +39,7 @@ app.controller('calculator', function ($scope) {
 	$scope.delayed_shorthop_aerial = null;
 	$scope.shorthop_aerial = false;
 	$scope.throw = false;
+	$scope.inkValue = 0;
 
 	$scope.attackerPercent_style = {};
 	$scope.targetPercent_style = {};
@@ -102,6 +103,8 @@ app.controller('calculator', function ($scope) {
 
 	$scope.shieldstunMult = 1;
 	$scope.addHitstun = 0;
+	$scope.attachedWeapon = false;
+	$scope.indirectHitbox = false;
 
     $scope.section_main = { 'background': 'rgba(0, 0, 255, 0.3)' };
     $scope.section_attributes = { 'background': 'transparent' };
@@ -740,6 +743,8 @@ app.controller('calculator', function ($scope) {
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
+		damage *= InkDamageMult(ink);
+		preDamage *= InkDamageMult(ink);
 
 		if ($scope.is_1v1) {
 			preDamage *= 1.2;
@@ -817,6 +822,9 @@ app.controller('calculator', function ($scope) {
 		}
 		if ($scope.shorthop_aerial) {
 			damageList.push(new Result("Short hop aerial", "x0.85"));
+		}
+		if (!isNaN(ink) && ink > 0) {
+			damageList.push(new Result("Ink damage multiplier", "x" + +InkDamageMult(ink).toFixed(4)));
 		}
 		if (attacker.name == "Lucario") {
 			damageList.push(new Result("Aura", "x" + +Aura(attacker_percent, stock_dif, game_format).toFixed(6)));
@@ -958,11 +966,11 @@ app.controller('calculator', function ($scope) {
 				shieldList.push(new Result("Shield Break", sv >= 50 * target.modifier.shield ? "Yes" : "No"));
 			}
 
-			shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile)));
-			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile)));
+			shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
 			shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun), ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun) == 1));
 			shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, uses_aerial_shieldstun)));
-			shieldList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
+			shieldList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, indirectHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
 
 			if (!windbox) {
 				if (!is_projectile)
@@ -1105,13 +1113,18 @@ app.controller('calculator', function ($scope) {
 
         set_weight = $scope.set_weight;
 
-		effect = $scope.effect
+		effect = $scope.effect;
         
 		launch_rate = parseFloat($scope.launch_rate);
 
 		shieldstunMult = parseFloat($scope.shieldstunMult);
 
 		addHitstun = parseFloat($scope.addHitstun);
+
+		attachedWeapon = $scope.attachedWeapon;
+		indirectHitbox = $scope.indirectHitbox;
+
+		ink = parseFloat($scope.inkValue);
 
         $scope.results = $scope.calculate();
 

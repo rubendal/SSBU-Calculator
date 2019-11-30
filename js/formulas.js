@@ -21,6 +21,8 @@
 		mult: 0.65,
 		constant: 6,
 		parryConstant: 14,
+		attachedParryConstant: 11,
+		indirectHitboxConstant: 8,
 		parryMax: 30
 	},
 	hitstunCancel: {
@@ -359,7 +361,7 @@ function Hitlag(base_damage, hitlag_mult, electric, crouch, is_projectile, playe
 	return h;
 }
 
-function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, players) {
+function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached, indirect, players) {
 	var electric_mult = 1;
 	if (electric) {
 		electric_mult = 1.5;
@@ -370,10 +372,19 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, players)
 		player_mult = p[players - 2];
 	}
 	var h = 0;
-	if (!is_projectile)
+	if (!is_projectile && !indirect)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
-	else
+	else if (!is_projectile && indirect)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && indirect && !attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && indirect && attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && !indirect && !attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && !indirect && attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
+
 	if (h > parameters.hitlag.parryMax + 2) {
 		return parameters.hitlag.parryMax + 2;
 	}
@@ -381,6 +392,39 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, players)
 		return 0;
 	}
 	return h;
+}
+
+function AttackerParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached, indirect, players) {
+	var electric_mult = 1;
+	if (electric) {
+		electric_mult = 1.5;
+	}
+	var player_mult = 1;
+	if (players) {
+		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
+		player_mult = p[players - 2];
+	}
+	var h = 0;
+	if (!is_projectile && !indirect)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
+	else if (!is_projectile && indirect)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.indirectHitboxConstant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && indirect && !attached)
+		h = 0;
+	else if (is_projectile && indirect && attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.indirectHitboxConstant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && !indirect && !attached)
+		h = 0;
+	else if (is_projectile && !indirect && attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.attachedParryConstant) * electric_mult) * hitlag_mult));// - 1;
+
+	if (h > parameters.hitlag.parryMax + 2) {
+		return parameters.hitlag.parryMax + 2;
+	}
+	if (h < 0) {
+		return 0;
+	}
+	return h + 3;
 }
 
 function ChargeSmash(base_damage, frames, megaman_fsmash, witch_time, maxSmashChargeMult) {
@@ -443,28 +487,36 @@ function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, 
 	return Math.floor((damage * parameters.shield.mult * mult) + parameters.shield.constant) - 1;
 }
 
-function ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile) {
+function ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, indirect) {
+	if (hitlag < 1)
+		hitlag = 1;
+	hitlag *= 0.67;
+	if (damage == 0)
+		return 0;
+	if (perfectShield) 
+		return ParryHitlag(damage, hitlag, electric, is_projectile, attached, indirect) - 1;
+	return Hitlag(damage, hitlag, electric, 1, is_projectile);
+}
+
+function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, indirect) {
+	if (is_projectile && !attached)
+		return 0;
+	//var h = ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, indirect);
+	//if (perfectShield)
+	//	h += 3;
+	//return h;
 	if (hitlag < 1)
 		hitlag = 1;
 	hitlag *= 0.67;
 	if (damage == 0)
 		return 0;
 	if (perfectShield)
-		return ParryHitlag(damage, hitlag, electric, is_projectile) - 1;
+		return AttackerParryHitlag(damage, hitlag, electric, is_projectile, attached, indirect) - 1;
 	return Hitlag(damage, hitlag, electric, 1, is_projectile);
 }
 
-function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile) {
-	if (is_projectile)
-		return 0;
-	var h = ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile);
-	if (perfectShield)
-		h += 3;
-	return h;
-}
-
-function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile));
+function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, indirect, electric, perfectshield, is_smash, is_aerial) {
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached , indirect) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, indirect));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
@@ -774,6 +826,16 @@ function Lerp(x, x2, y) {
 
 function lerp(min, max, x, xMax) {
 	return (1 - (x / xMax)) * min + (x / xMax) * max;
+}
+
+function InkDamageMult(ink) {
+	if (ink <= 0)
+		return 1;
+
+	if (ink >= 180)
+		ink = 180;
+
+	return lerp(1, 1.5, ink, 180);
 }
 
 //Launch visualizer formulas

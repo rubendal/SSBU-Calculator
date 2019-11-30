@@ -197,8 +197,8 @@
                 <div class="pos-right pos-attr">
                     <table>
                         <!--<tr>
-                        <td>Target</td>
-                    </tr>-->
+        <td>Target</td>
+    </tr>-->
                         <tr>
                             <td>Damage taken</td>
                             <td>x <input name="target_damage_taken" type="number" min="0" max="100" step="0.01" ng-model="target_damage_taken" ng-change="updateAttr()" /></td>
@@ -230,6 +230,14 @@
                         <tr>
                             <td>Traction</td>
                             <td>&nbsp;&nbsp;&nbsp;<input name="target_traction" type="number" min="0" max="1" step="0.001" ng-model="target_traction" ng-change="updateAttr()" /></td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td>Ink</td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;<input name="ink_value" type="number" min="0" max="300"
+                                                         step="0.01" ng-model="inkValue" ng-change="updateAttr()" />
+                            </td>
                         </tr>
                     </table>
                 </div>
