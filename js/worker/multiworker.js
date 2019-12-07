@@ -171,7 +171,7 @@ function calcDamage() {
 	damage *= target.modifier.damage_taken;
 	preDamage *= attacker.modifier.damage_dealt;
 	preDamage *= target.modifier.damage_taken;
-	damage *= InkDamageMult(ink);
+
 	preDamage *= InkDamageMult(ink);
 
 	if (!move.throw) {

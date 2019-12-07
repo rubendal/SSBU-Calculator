@@ -743,7 +743,7 @@ app.controller('calculator', function ($scope) {
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
-		damage *= InkDamageMult(ink);
+		//Ink doesn't affect KB, but throw collaterals change target % before throw
 		preDamage *= InkDamageMult(ink);
 
 		if ($scope.is_1v1) {
@@ -780,6 +780,7 @@ app.controller('calculator', function ($scope) {
 		if ($scope.throw) {
 			damage *= attacker.modifier.damage_dealt;
 		}
+		damage *= InkDamageMult(ink);
 
 		
 

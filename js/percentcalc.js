@@ -538,7 +538,7 @@ app.controller('calculator', function ($scope) {
 
 		base_damage *= attacker.modifier.base_damage;
 		preDamage *= attacker.modifier.base_damage;
-		damage *= InkDamageMult(ink);
+		
 		preDamage *= InkDamageMult(ink);
 
         var damage = base_damage;
