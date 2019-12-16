@@ -208,7 +208,7 @@ function addRow() {
 		damageSpeedUpFrames = DamageSpeedUpFrames(Math.max(0, FirstActionableFrame(kb.base_kb, windbox, electric) + addHitstun), kb.angle);
 	}
 
-	var distance = new Distance(kb.kb, kb.horizontal_launch_speed, kb.vertical_launch_speed, kb.tumble, Math.max(0, kb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, kb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, (use_landing_lag == "yes" ? faf + landing_lag : use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, 0);
+	var distance = new Distance(kb.kb, kb.horizontal_launch_speed, kb.vertical_launch_speed, kb.tumble, Math.max(0, kb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, kb.angle, kb.damageflytop, kb.damageflytop, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, (use_landing_lag == "yes" ? faf + landing_lag : use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, 0);
 
 	if (is_1v1) {
 		damage *= 1.2;
@@ -308,7 +308,7 @@ function getDistance(damage) {
 		f = damageSpeedUpFrames[damageSpeedUpFrames.length - 1];
 	}
 
-	var distance = new Distance(kb.kb, kb.horizontal_launch_speed, kb.vertical_launch_speed, kb.tumble, Math.max(0, kb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, kb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, (use_landing_lag == "yes" ? faf + landing_lag : use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, false, 0);
+	var distance = new Distance(kb.kb, kb.horizontal_launch_speed, kb.vertical_launch_speed, kb.tumble, Math.max(0, kb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, kb.angle, kb.damageflytop, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, (use_landing_lag == "yes" ? faf + landing_lag : use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, false, 0);
 
 	return {
 		distance: distance, kb: kb, faf: f

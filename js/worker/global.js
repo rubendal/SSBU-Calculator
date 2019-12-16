@@ -702,7 +702,7 @@ class DILine {
 }
 
 class Distance{
-	constructor(kb, x_launch_speed, y_launch_speed, tumble, hitstun, speedupFrames, isFKB, angle, gravity, damageflytop_gravity, faf, fall_speed, damageflytop_fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch) {
+	constructor(kb, x_launch_speed, y_launch_speed, tumble, hitstun, speedupFrames, isFKB, angle, damageFlyTop, gravity, damageflytop_gravity, faf, fall_speed, damageflytop_fall_speed, traction, isFinishingTouch, inverseX, onSurface, position, stage, doPlot, extraFrames, ssb4Launch) {
         this.kb = kb;
         this.x_launch_speed = x_launch_speed;
 		this.y_launch_speed = y_launch_speed;
@@ -808,7 +808,7 @@ class Distance{
 		var hc = HitstunCancel(kb, x_launch_speed, y_launch_speed, angle, false, false, addHitstun);
 		this.launchData = new LaunchData([{ x: this.position.x, y: this.position.y }], { x: 0, y: 0 }, [], hitstun, hc.airdodge, hc.aerial, faf, -1);
 
-		var isDamageFlyTop = this.tumble && this.angle >= 70 && this.angle <= 110;
+		var isDamageFlyTop = this.tumble && damageFlyTop;
 
 		//var tumbleFSM = TumbleFSM(this.kb);
 

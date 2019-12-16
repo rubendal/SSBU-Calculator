@@ -719,7 +719,7 @@ app.controller('calculator', function ($scope) {
 			damageSpeedUpFrames = DamageSpeedUpFrames(Math.max(0, FirstActionableFrame(vskb.base_kb, windbox, electric) + addHitstun), vskb.angle);
 		}
 
-		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0, vskb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, vskb.angle, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
+		var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0, vskb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, vskb.angle, vskb.damageflytop, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, $scope.stage, false, 0);
 
 		return distance;
 	}
@@ -958,8 +958,9 @@ app.controller('calculator', function ($scope) {
 			param = false;
 
 		$scope.update();
+		$scope.update();
 		if ($scope.charge_data == null && $scope.is_smash) {
-			base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4 );
+			base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4);
 		}
 		if (attacker.name == "Lucario") {
 			base_damage *= Aura(attacker_percent, stock_dif, game_format);
@@ -970,13 +971,20 @@ app.controller('calculator', function ($scope) {
 		preDamage *= attacker.modifier.base_damage;
 
 		var damage = base_damage;
-		damage *= attacker.modifier.damage_dealt;
+		if (!$scope.throw) {
+			damage *= attacker.modifier.damage_dealt;
+		}
 		damage *= target.modifier.damage_taken;
 		preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
+
+		preDamage *= InkDamageMult(ink);
 		if ($scope.is_1v1) {
-			damage *= 1.2;
 			preDamage *= 1.2;
+		}
+		if ($scope.shorthop_aerial) {
+			damage *= parameters.shorthop_aerial;
+			preDamage *= parameters.shorthop_aerial;
 		}
 
 		var step = parseFloat($scope.di_step);
