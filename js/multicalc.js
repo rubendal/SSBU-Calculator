@@ -58,6 +58,7 @@ app.controller('calculator', function ($scope) {
 	$scope.attackerName = attacker.display_name;
 	$scope.attackerModifiers = attacker.modifiers;
 	$scope.encodedAttackerValue = encodeURI(attacker.name.split("(")[0].trim());
+	$scope.dataViewerAttackerValue = encodeURI(attacker.DataViewerName);
 	$scope.targetValue = target.display_name;
 	$scope.targetModifiers = target.modifiers;
 	$scope.attackerPercent = attacker_percent;
@@ -876,7 +877,7 @@ app.controller('calculator', function ($scope) {
     $scope.update = function () {
 		$scope.check();
 		$scope.encodedAttackerValue = encodeURI(attacker.name.split("(")[0].trim());
-
+		$scope.dataViewerAttackerValue = encodeURI(attacker.DataViewerName);
 		attacker_percent = parseFloat($scope.attackerPercent);
 		target_percent = parseFloat($scope.targetPercent);
 		preDamage = parseFloat($scope.preDamage);

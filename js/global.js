@@ -981,7 +981,7 @@ var characterNames = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina & 
 var names = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina & Luma", "Bowser Jr.", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar", "Piranha Plant", "Joker", "Hero", "Banjo & Kazooie", "Terry"];
 var KHcharacters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar", "Piranha Plant", "Joker", "Hero", "Banjo-Kazooie", "Terry"];
 var gameNames = ["mario", "luigi", "peach", "koopa", "yoshi", "rosetta", "koopajr", "wario", "donkey", "diddy", "gamewatch", "littlemac", "link", "zelda", "sheik", "ganon", "toonlink", "samus", "szerosuit", "pit", "palutena", "marth", "ike", "reflet", "duckhunt", "kirby", "dedede", "metaknight", "fox", "falco", "pikachu", "plizardon", "lucario", "purin", "gekkouga", "robot", "ness", "captain", "murabito", "pikmin", "wiifit", "shulk", "mariod", "pitb", "lucina", "pacman", "rockman", "sonic", "mewtwo", "lucas", "roy", "ryu", "cloud", "kamui", "bayonetta", "miiswordsman", "miifighter", "miigunner", "popo", "pichu", "younglink", "snake", "pzenigame", "pfushigisou", "wolf", "inkling", "daisy", "ridley", "chrom", "samusd", "simon", "richter", "krool", "shizue", "ken", "gaogaen", "packun", "joker", "brave", "buddy", "dolly"];
-
+var dataViewerNames = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Mr Game And Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar", "Piranha Plant", "Joker", "Hero", "Banjo & Kazooie", "Terry"];
 class Modifier {
 	constructor(name, base_damage, damage_dealt, damage_taken, kb_dealt, kb_received, gravity, fall_speed, shield, air_friction, traction, shieldDamage, attackerShow, targetShow) {
 		this.name = name;
@@ -1051,6 +1051,7 @@ class Character {
 		var name = characters[names.indexOf(n)];
 		this.CharacterName = characterNames[names.indexOf(n)];
 		this.GameName = gameNames[names.indexOf(n)];
+		this.DataViewerName = dataViewerNames[names.indexOf(n)];
         this.addModifier = function (modifier) {
             this.modifier = modifier;
         }
@@ -2700,8 +2701,8 @@ function getStages(){
 
 function sorted_characters() {
     var list = [];
-    for (var i = 0; i < characters.length; i++) {
-        list.push({ 'character': characters[i], 'name': names[i], 'game': gameNames[i], 'display': characterNames[i] });
+	for (var i = 0; i < characters.length; i++) {
+		list.push({ 'character': characters[i], 'name': names[i], 'game': gameNames[i], 'display': characterNames[i], "dataViewer": dataViewerNames[i] });
     }
     list.sort(function (a, b) {
         return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1));
@@ -2711,6 +2712,8 @@ function sorted_characters() {
         names[i] = list[i].name;
 		gameNames[i] = list[i].game;
 		characterNames[i] = list[i].display;
+		dataViewerNames[i] = list[i].dataViewer;
+		dataViewerNames[i] = list[i].dataViewer;
     }
 }
 
