@@ -352,7 +352,7 @@ class Collision {
 				TotalLaunchSpeed(launch_speed.x, launch_speed.y) / 0.9 <= 3; //Ignore speed multiplier since floor techs cannot be done during collision
 		};
 
-		if (stage == null)
+		if (!stage || !stage.collisions)
 			return;
 
 		var launch_line = [position, next_position];
