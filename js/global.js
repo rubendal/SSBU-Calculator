@@ -2908,129 +2908,129 @@ function PercentColor(val) {
 
 //Mobile devices
 
-var currentDisplay = "inputs";
+//var currentDisplay = "inputs";
 
-var displays = ["inputs", "results"];
+//var displays = ["inputs", "results"];
 
-var windowInput = {
-	start: {on: false, x:0, y:0},
-	move: {x:0, y:0}
-};
+//var windowInput = {
+//	start: {on: false, x:0, y:0},
+//	move: {x:0, y:0}
+//};
 
-var isTouch = false;
+//var isTouch = false;
 
-window.onresize = function (event) {
-	if (window.innerWidth > 800) {
-		document.getElementById("main").style.display = "block";
-		document.getElementById("results").style.display = "block";
-		document.getElementById("swipeRight").style.display = "none";
-		document.getElementById("swipeLeft").style.display = "none";
-	} else {
-		if (isTouch) {
-			if (currentDisplay === "inputs") {
-				document.getElementById("results").style.display = "none";
-				document.getElementById("results").style.marginTop = "0";
-				document.getElementById("swipeRight").style.display = "block";
-			}
-			else if (currentDisplay === "results") {
-				document.getElementById("main").style.display = "none";
-				document.getElementById("swipeLeft").style.display = "block";
-			}
-		} else {
-			document.getElementById("swipeRight").style.display = "none";
-			document.getElementById("swipeLeft").style.display = "none";
-		}
-	}
-};
+//window.onresize = function (event) {
+//	if (window.innerWidth > 800) {
+//		document.getElementById("main").style.display = "block";
+//		document.getElementById("results").style.display = "block";
+//		document.getElementById("swipeRight").style.display = "none";
+//		document.getElementById("swipeLeft").style.display = "none";
+//	} else {
+//		if (isTouch) {
+//			if (currentDisplay === "inputs") {
+//				document.getElementById("results").style.display = "none";
+//				document.getElementById("results").style.marginTop = "0";
+//				document.getElementById("swipeRight").style.display = "block";
+//			}
+//			else if (currentDisplay === "results") {
+//				document.getElementById("main").style.display = "none";
+//				document.getElementById("swipeLeft").style.display = "block";
+//			}
+//		} else {
+//			document.getElementById("swipeRight").style.display = "none";
+//			document.getElementById("swipeLeft").style.display = "none";
+//		}
+//	}
+//};
 
-window.ontouchstart = function (event) {
-	if (window.innerWidth <= 800) {
+//window.ontouchstart = function (event) {
+//	if (window.innerWidth <= 800) {
 
-		if (!isTouch) {
-			document.getElementById("results").style.display = "none";
-			document.getElementById("results").style.marginTop = "0";
-			document.getElementById("swipeRight").style.display = "block";
-			isTouch = true;
-		}
+//		if (!isTouch) {
+//			document.getElementById("results").style.display = "none";
+//			document.getElementById("results").style.marginTop = "0";
+//			document.getElementById("swipeRight").style.display = "block";
+//			isTouch = true;
+//		}
 
-		if (event.touches.length === 1 && event.touches[0].identifier === 0) {
-			windowInput.on = true;
-			windowInput.start.x = event.touches[0].pageX;
-			windowInput.start.y = event.touches[0].pageY;
-		}
+//		if (event.touches.length === 1 && event.touches[0].identifier === 0) {
+//			windowInput.on = true;
+//			windowInput.start.x = event.touches[0].pageX;
+//			windowInput.start.y = event.touches[0].pageY;
+//		}
 
-	}
-};
+//	}
+//};
 
-window.ontouchmove = function (event) {
-	if (window.innerWidth <= 800) {
+//window.ontouchmove = function (event) {
+//	if (window.innerWidth <= 800) {
 		
-		if (event.touches.length === 1 && windowInput.on) {
+//		if (event.touches.length === 1 && windowInput.on) {
 
-			windowInput.move.x = event.touches[0].pageX;
-			windowInput.move.y = event.touches[0].pageY;
+//			windowInput.move.x = event.touches[0].pageX;
+//			windowInput.move.y = event.touches[0].pageY;
 
-			var direction = windowInput.move.x - windowInput.start.x > 0;
+//			var direction = windowInput.move.x - windowInput.start.x > 0;
 
-			var distance = windowInput.move.x - windowInput.start.x;
+//			var distance = windowInput.move.x - windowInput.start.x;
 
-			if (Math.abs(distance) > window.innerWidth / 4.5) {
-				//Change display using X direction
-				if (currentDisplay === "inputs") {
-					if (!direction) {
-						document.getElementById("main").style.display = "none";
-						document.getElementById("results").style.display = "block";
+//			if (Math.abs(distance) > window.innerWidth / 4.5) {
+//				//Change display using X direction
+//				if (currentDisplay === "inputs") {
+//					if (!direction) {
+//						document.getElementById("main").style.display = "none";
+//						document.getElementById("results").style.display = "block";
 
-						document.getElementById("swipeRight").style.display = "none";
-						document.getElementById("swipeLeft").style.display = "block";
+//						document.getElementById("swipeRight").style.display = "none";
+//						document.getElementById("swipeLeft").style.display = "block";
 
-						currentDisplay = "results";
+//						currentDisplay = "results";
 
-						windowInput.start.x = event.touches[0].pageX;
-						windowInput.start.y = event.touches[0].pageY;
-					}
-				}
-				else if (currentDisplay === "results") {
-					if (direction) {
-						document.getElementById("main").style.display = "block";
-						document.getElementById("results").style.display = "none";
-						document.getElementById("swipeLeft").style.display = "none";
-						document.getElementById("swipeRight").style.display = "block";
+//						windowInput.start.x = event.touches[0].pageX;
+//						windowInput.start.y = event.touches[0].pageY;
+//					}
+//				}
+//				else if (currentDisplay === "results") {
+//					if (direction) {
+//						document.getElementById("main").style.display = "block";
+//						document.getElementById("results").style.display = "none";
+//						document.getElementById("swipeLeft").style.display = "none";
+//						document.getElementById("swipeRight").style.display = "block";
 
-						windowInput.start.x = event.touches[0].pageX;
-						windowInput.start.y = event.touches[0].pageY;
+//						windowInput.start.x = event.touches[0].pageX;
+//						windowInput.start.y = event.touches[0].pageY;
 
-						currentDisplay = "inputs";
-					}
-				}
-			}
-		}
+//						currentDisplay = "inputs";
+//					}
+//				}
+//			}
+//		}
 
-	}
-};
+//	}
+//};
 
-window.ontouchend = function (event) {
-	if (window.innerWidth <= 800) {
+//window.ontouchend = function (event) {
+//	if (window.innerWidth <= 800) {
 
-		windowInput.on = false;
+//		windowInput.on = false;
 
-		//Test
-		//var distance = touchInput.move.x - touchInput.start.x;
+//		//Test
+//		//var distance = touchInput.move.x - touchInput.start.x;
 
-		//alert("Width:" + window.innerWidth + "\nDistance: " + distance);
+//		//alert("Width:" + window.innerWidth + "\nDistance: " + distance);
 
-	}
-};
+//	}
+//};
 
-window.onmousedown = function (event) {
-	if (isTouch && window.innerWidth > 800) {
-		isTouch = false;
+//window.onmousedown = function (event) {
+//	if (isTouch && window.innerWidth > 800) {
+//		isTouch = false;
 
-		document.getElementById("main").style.display = "block";
-		document.getElementById("results").style.display = "block";
+//		document.getElementById("main").style.display = "block";
+//		document.getElementById("results").style.display = "block";
 
-		document.getElementById("swipeLeft").style.display = "none";
-		document.getElementById("swipeRight").style.display = "none";
+//		document.getElementById("swipeLeft").style.display = "none";
+//		document.getElementById("swipeRight").style.display = "none";
 		
-	}
-}
+//	}
+//}

@@ -1082,7 +1082,7 @@ function InitDamageSpeedUp(reaction_frame_last, angle, arg3) {
 	var damage_speed_up_max_mag = 0;
 	var damage_speed_up = false;
 
-	if (CheckDamageSpeedUp(reaction_frame_last) || arg3) {
+	if (CheckDamageSpeedUp(reaction_frame_last) || arg3) { //arg3 is probably "is not FKB" since it doesn't use it on hitboxes with FKB
 		var reaction_frame_min = damage_fly_speed_up_reaction_frame_min;
 		var reaction_frame_max = damage_fly_speed_up_reaction_frame_max;
 
