@@ -306,6 +306,10 @@ img.terry {
     background: #6eb5ff;
 }
 
+img.byleth {
+    background: #cee0d4;
+}
+
 /*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
@@ -613,4 +617,8 @@ div.banjo-and-kazooie {
 
 div.terry {
     border-top: 5px solid #6eb5ff;
+}
+
+div.byleth {
+    border-top: 5px solid #cee0d4;
 }
