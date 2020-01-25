@@ -201,6 +201,9 @@ class Visualizer {
 			this.dataPoints.push(new DataPoint({ x: 0, y: stage.blast_zones[2] }, "Top Blast zone (%y)", settings.visualizer_colors.blastzone));
 			this.dataPoints.push(new DataPoint({ x: 0, y: stage.blast_zones[3] }, "Bottom Blast zone (%y)", settings.visualizer_colors.blastzone));
 
+			if (stage.camera[3] - 25 >= stage.blast_zones[3])
+				this.dataPoints.push(new DataPoint({ x: 0, y: stage.camera[3] - 25 }, "Special blast zone for meteor smashed opponents (%y)", settings.visualizer_colors.meteorBlastzone));
+
 
 			this.ClearCanvas();
 			this.Draw();
@@ -440,6 +443,16 @@ class Visualizer {
 				context.closePath();
 				context.stroke();
 
+				//Blast zone for meteors
+				if (stage.camera[3] - 20 > stage.blast_zones[3]) {
+					context.strokeStyle = settings.visualizer_colors.meteorBlastzone;
+					context.beginPath();
+					this.MoveTo(stage.blast_zones[0], stage.camera[3] - 25);
+					this.LineTo(stage.blast_zones[1], stage.camera[3] - 25);
+					context.closePath();
+					context.stroke();
+				}
+
 				if (stage.name == "Training Stage") {
 					context.strokeStyle = "#1ab500"; //FD blast zones
 					context.beginPath();
@@ -579,8 +592,6 @@ class Visualizer {
 					context.fillStyle = settings.visualizer_colors.hitstunEnd;
 
 					context.beginPath();
-
-					console.log(launch.positions, launch.hitstun);
 
 					context.arc(launch.positions[launch.hitstun].x, - launch.positions[launch.hitstun].y, r2, 0, Math.PI * 2);
 

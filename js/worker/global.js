@@ -1252,6 +1252,15 @@ class Distance{
 							}
 						}
 					}
+					else if (this.y[i] + character_size <= this.stage.camera[3] - 25) {
+						if (this.vertical_speed[i] <= -2.4) { //If it has lower launch speed it will pass the blast zone without a KO
+
+							this.extra.push(new Result("Meteor smash KO", "Frame " + i, "", false, true));
+							ko = true;
+							this.launchData.KOFrame = i;
+							break;
+						}
+					}
 				}
 
 			}
