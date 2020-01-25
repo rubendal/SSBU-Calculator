@@ -1755,7 +1755,8 @@ class Distance{
 		var launch_speed = { 'x': x_speed, 'y': y_speed };
 		var next_position = { 'x': 0, 'y': 0 };
         var character_speed = { 'x': 0, 'y': 0 };
-        this.vertical_speed = [];
+		this.vertical_speed = [];
+		this.character_vertical_speed = [];
 		var momentum = 1;
 		var g = 0;
         var fg = 0;
@@ -1807,7 +1808,8 @@ class Distance{
 
             this.launch_speeds.push(Math.sqrt(Math.pow(launch_speed.x, 2) + Math.pow(launch_speed.y, 2)));
 
-            this.vertical_speed.push((launch_speed.y));
+			this.vertical_speed.push((launch_speed.y));
+			this.character_vertical_speed.push((character_speed.y));
 
             //Vertical direction
             if(next_y > character_position.y){
@@ -2222,7 +2224,7 @@ class Distance{
 						}
 					}
 					else if (this.y[i] + character_size <= this.stage.camera[3] - 25) {
-						if (this.vertical_speed[i] <= -2.4) { //If it has lower launch speed it will pass the blast zone without a KO
+						if (this.vertical_speed[i] + this.character_vertical_speed[i] <= -3) { //If it has lower launch speed it will pass the blast zone without a KO
 
 							this.extra.push(new Result("Meteor smash KO", "Frame " + i, "", false, true));
 							ko = true;
