@@ -565,11 +565,15 @@ app.controller('calculator', function ($scope) {
         var kb = parseFloat($scope.kb);
         var type = $scope.kbType;
 
+        if (wbkb == 0)
+            launch_rate = 1;
+
 		var kb = new PercentFromKnockback(kb, type, base_damage, damage, preDamage, angle, set_weight ? 100 : target.attributes.weight, target.attributes.gravity, target.attributes.fall_speed, in_air, bkb, kbg, wbkb, attacker_percent, r, stale, shieldStale, ignoreStale, windbox, electric, target.modifier.name == "Character Inhaled", launch_rate);
         if (kb.wbkb == 0) {
             kb.addModifier(attacker.modifier.kb_dealt);
+            kb.addModifier(target.modifier.kb_received);
         }
-        kb.addModifier(target.modifier.kb_received);
+        
         kb.bounce(bounce);
         var resultsList = [];
         if(kb.wbkb != 0){

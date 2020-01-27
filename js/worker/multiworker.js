@@ -198,8 +198,7 @@ function addRow() {
 		kb.addModifier(attacker.modifier.kb_dealt);
 		kb.addModifier(target.modifier.kb_received);
 	} else {
-		kb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, r, target_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
-		kb.addModifier(target.modifier.kb_received);
+		kb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, r, target_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", 1);
 	}
 	//kb.bounce(bounce);
 	var damageSpeedUpFrames = [];
