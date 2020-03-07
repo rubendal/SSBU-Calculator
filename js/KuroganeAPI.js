@@ -540,8 +540,8 @@ var chargeMoves = [
 		}
 		return [base_damage + (2 * frames), bkb, kbg, shieldDamage];
 	}),
-	new ChargeData(["Charge Shot"], 0, 111, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [lerp(base_damage, 25, frames, 112), lerp(bkb, 30, frames, 112), lerp(kbg, 62, frames, 112), lerp(shieldDamage, 3, frames, 112)];
+	new ChargeData(["Charge Shot"], 0, 112, function (base_damage, bkb, kbg, shieldDamage, frames) {
+		return [lerp(5, 28, frames, 112), lerp(14, 46, frames, 112), lerp(42, 50, frames, 112), lerp(-2.5, -7, frames, 112)];
 	}),
 	new ChargeData(["Charge Blast (No Charge)"], 0, 119, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(base_damage, 22, frames, 120), lerp(bkb, 20, frames, 120), lerp(kbg, 64, frames, 120), shieldDamage];
@@ -556,13 +556,10 @@ var chargeMoves = [
 		return [5 + (((frames + 15) / 120) * .32 * 100), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Dragon Fang Shot (Bite, No Charge)"], 0, 30, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [base_damage + (7.7 * (frames / 30)), bkb, kbg, shieldDamage];
+		return [lerp(10,18,frames,30), 50, 100, 3];
 	}),
 	new ChargeData(["Dragon Fang Shot (Shot, No Charge)"], 0, 29, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		//21 and 27 frames charged have floating point precision error in-game, so they are rounded down
-		if (frames == 21 || frames == 27)
-			return [base_damage * (1 + (1.25 * (frames / 30))), Math.floor(bkb + (frames * 0.6666667)) - 1];
-		return [base_damage * (1 + (1.25 * (frames / 30))), bkb + (frames * 0.6666667), kbg, shieldDamage];
+			return [lerp(4,9,frames, 30), lerp(20, 30, frames, 30), kbg, shieldDamage];
 	}),
 	new ChargeData(["Aura Sphere (Release from Charge)"], 0, 89, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(10, 25, frames, 90) * 0.69, lerp(bkb, 35, frames, 90), lerp(kbg, 69, frames, 90), lerp(shieldDamage, 3, frames, 90)];
@@ -571,19 +568,19 @@ var chargeMoves = [
 		//Formula by Arthur https://twitter.com/BenArthur_7/status/917873355386183686
 		return [base_damage + ((6 / 35) * (frames + 1)), bkb, kbg, shieldDamage];
 	}),
-	new ChargeData(["Rollout (Ground, Release)", "Rollout (Aerial, Release)"], 0, 7, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Rollout (Ground, Release)", "Rollout (Aerial, Release)"], 0, 6.5, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		if (frames < 2)
 			return [7, bkb];
-		return [Math.max(Math.floor(frames * 1.1 * 3), 1), bkb, kbg, shieldDamage];
+		return [Math.max(Math.floor(frames * 1.5 * 3.4), 1), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Water Shuriken (Uncharged)"], 0, 39, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [lerp(3, 11, frames, 40), lerp(10, 20, frames, 40), lerp(45,85,frames,40), shieldDamage];
+		return [lerp(3, 11, frames, 40), lerp(10, 20, frames, 40), lerp(45,85,frames,40), lerp(-1.5, -5.5, frames, 40)];
 	}),
 	new ChargeData(["Sun Salutation"], 0, 85, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [lerp(5, 18, frames, 85), bkb, kbg, shieldDamage];
+		return [lerp(5, 21, frames, 85), 30, 63, lerp(-2.5, -5.3,frames, 85)];
 	}),
 	new ChargeData(["Shadow Ball"], 0, 119, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		return [lerp(2.5, 25, frames, 120), lerp(bkb, 30, frames, 120), lerp(kbg, 67, frames, 120), lerp(shieldDamage, 3, frames, 120)];
+		return [lerp(2.5, 25, frames, 120), lerp(bkb, 30, frames, 120), lerp(kbg, 67, frames, 120), lerp(shieldDamage, -4, frames, 120)];
 	})
 
 ];
