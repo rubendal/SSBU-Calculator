@@ -36,14 +36,14 @@ class HitboxActiveFrames {
 };
 
 class CancelCond{
-    constructor(cond){
+	constructor(cond) {
         this.rawValue = cond;
-		if (cond.includes("&gt;")) {
+		if (cond.includes(">")) {
 			//Greater than
 			this.type = ">=";
-			this.value = parseFloat(cond.replace("&gt;", ""));
+			this.value = parseFloat(cond.replace(">", ""));
 			this.values = null;
-			this.rawValue = this.rawValue.replace("&gt;", "&ge;")
+			this.rawValue = this.rawValue.replace(">", ">=")
             this.print = function(){
                 return this.value + ">";
             }
