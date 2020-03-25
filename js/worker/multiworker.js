@@ -95,6 +95,7 @@ var use_landing_lag = "no";
 var mode = "normal";
 var ko_mode = "ko";
 var diStep = 15;
+var preDamageCalc = 0;
 
 var rowMode = "Calculation";
 
@@ -149,6 +150,7 @@ function generateStickPositions(step) {
 }
 
 function calcDamage() {
+	preDamageCalc = preDamage;
 	if (move.charge == null) {
 		bd = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge);
 	} else {
@@ -160,34 +162,34 @@ function calcDamage() {
 	}
 	if (attacker.name == "Lucario") {
 		bd *= Aura(attacker_percent, stock_dif, game_format);
-		preDamage *= Aura(attacker_percent, stock_dif, game_format);
+		preDamageCalc *= Aura(attacker_percent, stock_dif, game_format);
 	}
 
 	bd *= attacker.modifier.base_damage;
-	preDamage *= attacker.modifier.base_damage;
+	preDamageCalc *= attacker.modifier.base_damage;
 
 	damage = bd;
 	damage *= attacker.modifier.damage_dealt;
 	damage *= target.modifier.damage_taken;
-	preDamage *= attacker.modifier.damage_dealt;
-	preDamage *= target.modifier.damage_taken;
+	preDamageCalc *= attacker.modifier.damage_dealt;
+	preDamageCalc *= target.modifier.damage_taken;
 
-	preDamage *= InkDamageMult(ink);
+	preDamageCalc *= InkDamageMult(ink);
 
 	if (!move.throw) {
 		damage *= attacker.modifier.damage_dealt;
 	}
 	damage *= target.modifier.damage_taken;
-	preDamage *= attacker.modifier.damage_dealt;
-	preDamage *= target.modifier.damage_taken;
+	preDamageCalc *= attacker.modifier.damage_dealt;
+	preDamageCalc *= target.modifier.damage_taken;
 
 	if (is_1v1) {
-		preDamage *= 1.2;
+		preDamageCalc *= 1.2;
 	}
 
 	if (shorthop_aerial) {
 		damage *= parameters.shorthop_aerial;
-		preDamage *= parameters.shorthop_aerial;
+		preDamageCalc *= parameters.shorthop_aerial;
 	}
 }
 
@@ -226,8 +228,6 @@ function addRow() {
 	else {
 		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, target_percent, move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, Hitstun(kb.base_kb, windbox, electric) + addHitstun, FirstActionableFrame(kb.base_kb, windbox, electric) + addHitstun, distance).tsv());
 	}
-
-	//console.log(tsv_rows);
 
 
 
