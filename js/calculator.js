@@ -738,9 +738,9 @@ app.controller('calculator', function ($scope) {
 		preDamage *= attacker.modifier.base_damage;
 
 		var damage = base_damage;
-		if (!$scope.throw) {
-			damage *= attacker.modifier.damage_dealt;
-		}
+		//if (!$scope.throw) {
+		//	damage *= attacker.modifier.damage_dealt; No longer affects KB
+		//}
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
@@ -777,9 +777,7 @@ app.controller('calculator', function ($scope) {
 		if ($scope.is_1v1) {
 			damage *= 1.2;
 		}
-		if ($scope.throw) {
-			damage *= attacker.modifier.damage_dealt;
-		}
+		damage *= attacker.modifier.damage_dealt
 		damage *= InkDamageMult(ink);
 
 		

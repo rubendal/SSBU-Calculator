@@ -546,9 +546,9 @@ app.controller('calculator', function ($scope) {
 
         var damage = base_damage;
         
-		if (!$scope.throw) {
-			damage *= attacker.modifier.damage_dealt;
-		}
+		//if (!$scope.throw) {
+		//	damage *= attacker.modifier.damage_dealt;
+		//}
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;

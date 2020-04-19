@@ -169,16 +169,16 @@ function calcDamage() {
 	preDamageCalc *= attacker.modifier.base_damage;
 
 	damage = bd;
-	damage *= attacker.modifier.damage_dealt;
+	//damage *= attacker.modifier.damage_dealt;
 	damage *= target.modifier.damage_taken;
 	preDamageCalc *= attacker.modifier.damage_dealt;
 	preDamageCalc *= target.modifier.damage_taken;
 
 	preDamageCalc *= InkDamageMult(ink);
 
-	if (!move.throw) {
-		damage *= attacker.modifier.damage_dealt;
-	}
+	//if (!move.throw) {
+	//	damage *= attacker.modifier.damage_dealt;
+	//}
 	damage *= target.modifier.damage_taken;
 	preDamageCalc *= attacker.modifier.damage_dealt;
 	preDamageCalc *= target.modifier.damage_taken;
@@ -214,9 +214,7 @@ function addRow() {
 	if (is_1v1) {
 		damage *= 1.2;
 	}
-	if (move.throw) {
-		damage *= attacker.modifier.damage_dealt;
-	}
+	damage *= attacker.modifier.damage_dealt;
 
 	if (FirstActionableFrame(kb.base_kb, windbox, electric) >= 32 && wbkb == 0) {
 		var speedUpFAF = damageSpeedUpFrames[damageSpeedUpFrames.length - 1];

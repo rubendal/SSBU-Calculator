@@ -806,9 +806,9 @@ app.controller('calculator', function ($scope) {
 		preDamage *= attacker.modifier.base_damage;
 
         var damage = base_damage;
-		if (!$scope.throw) {
-			damage *= attacker.modifier.damage_dealt;
-		}
+		//if (!$scope.throw) {
+		//	damage *= attacker.modifier.damage_dealt;
+		//}
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
@@ -851,12 +851,11 @@ app.controller('calculator', function ($scope) {
 		preDamage *= attacker.modifier.base_damage;
 
 		var damage = base_damage;
-		damage *= attacker.modifier.damage_dealt;
+		//damage *= attacker.modifier.damage_dealt;
 		damage *= target.modifier.damage_taken;
 		preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
 		if ($scope.is_1v1) {
-			damage *= 1.2;
 			preDamage *= 1.2;
 		}
 
@@ -971,9 +970,9 @@ app.controller('calculator', function ($scope) {
 		preDamage *= attacker.modifier.base_damage;
 
 		var damage = base_damage;
-		if (!$scope.throw) {
-			damage *= attacker.modifier.damage_dealt;
-		}
+		//if (!$scope.throw) {
+		//	damage *= attacker.modifier.damage_dealt;
+		//}
 		damage *= target.modifier.damage_taken;
 		preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
@@ -1199,12 +1198,11 @@ app.controller('calculator', function ($scope) {
 		preDamage *= attacker.modifier.base_damage;
 
 		var damage = base_damage;
-		damage *= attacker.modifier.damage_dealt;
+		//damage *= attacker.modifier.damage_dealt;
 		damage *= target.modifier.damage_taken;
 		preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
 		if ($scope.is_1v1) {
-			damage *= 1.2;
 			preDamage *= 1.2;
 		}
 
