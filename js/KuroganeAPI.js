@@ -1103,13 +1103,19 @@ function GetSmash4Data(attacker, $scope) {
 
 					try {
 						$scope.$apply(function () {
-							if ($scope.attackerName != moves[1].character) {
-								//If this is a previous request ignore it and do not overwrite current move list
-								return;
+							if (moves.length > 1) {
+								if ($scope.attackerName != moves[1].character) {
+									//If this is a previous request ignore it and do not overwrite current move list
+									return;
+								}
+								$scope.moveset_info += "Smash 4 move data";
+								$scope.moveset = moves;
+								$scope.detectAttack();
+							} else {
+								$scope.moveset_info = "";
+								$scope.moveset = [new Move(0, -1, "No data available", 0, 0, 0, 0, false, 0, 0, 0).invalidate()];
+								$scope.detectAttack();
 							}
-							$scope.moveset_info += "Smash 4 move data";
-							$scope.moveset = moves;
-							$scope.detectAttack();
 
 						});
 					} catch (err) {
