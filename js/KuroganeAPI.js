@@ -1113,7 +1113,7 @@ function GetSmash4Data(attacker, $scope) {
 								$scope.detectAttack();
 							} else {
 								$scope.moveset_info = "";
-								$scope.moveset = [new Move(0, -1, "No data available", 0, 0, 0, 0, false, 0, 0, 0).invalidate()];
+								$scope.moveset = [new Move(0, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 0).invalidate()];
 								$scope.detectAttack();
 							}
 
