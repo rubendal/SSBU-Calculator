@@ -169,7 +169,6 @@ function calcDamage() {
 	preDamageCalc *= attacker.modifier.base_damage;
 
 	damage = bd;
-	//damage *= attacker.modifier.damage_dealt;
 	damage *= target.modifier.damage_taken;
 	preDamageCalc *= attacker.modifier.damage_dealt;
 	preDamageCalc *= target.modifier.damage_taken;
