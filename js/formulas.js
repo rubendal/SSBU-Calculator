@@ -1053,7 +1053,7 @@ function colorLerp(min, max, x, xMin, xMax) {
 		return min;
 	if (x >= xMax)
 		return max;
-	return (1 - ((x - xMin) / xMax)) * min + ((x - xMin) / xMax) * max;
+	return (1 - ((x - xMin) / (xMax - xMin))) * min + ((x - xMin) / (xMax - xMin)) * max;
 }
 
 //Damage speed up
