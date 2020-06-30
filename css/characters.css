@@ -310,6 +310,10 @@ img.byleth {
     background: #cee0d4;
 }
 
+img.min-min {
+    background: #ffff5a;
+}
+
 /*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
@@ -621,4 +625,8 @@ div.terry {
 
 div.byleth {
     border-top: 5px solid #cee0d4;
+}
+
+div.min-min {
+    border-top: 5px solid #ffff5a;
 }

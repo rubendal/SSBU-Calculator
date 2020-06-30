@@ -512,6 +512,10 @@ input[type=button] {
     background: white;
 }
 
+#smash4-data{
+    font-weight:600;
+}
+
 /*.result-table thead{
     border-bottom: 1px solid black;
 }*/

@@ -1108,7 +1108,7 @@ function GetSmash4Data(attacker, $scope) {
 									//If this is a previous request ignore it and do not overwrite current move list
 									return;
 								}
-								$scope.moveset_info += "Smash 4 move data";
+								$scope.moveset_info += "Smash 4 move data, check scripts for Ultimate data";
 								$scope.moveset = moves;
 								$scope.detectAttack();
 							} else {
@@ -1122,7 +1122,7 @@ function GetSmash4Data(attacker, $scope) {
 						if ($scope.attackerName != moves[0].character) {
 							return;
 						}
-						$scope.moveset_info += "Smash 4 move data";
+						$scope.moveset_info += "Smash 4 move data, check scripts for Ultimate data";
 						$scope.moveset = moves;
 						$scope.detectAttack();
 					}

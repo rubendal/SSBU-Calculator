@@ -886,9 +886,8 @@ app.controller('calculator', function ($scope) {
 		if (effect == "Disable") {
 			kbList.push(new Result("Disable time", DisableTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb, stock_dif)));
 		}
-		kbList.push(new Result("Hitstun", Math.max(0,Hitstun(vskb.base_kb, windbox, electric) + addHitstun)));
 
-		kbList.push(new Result("First Actionable Frame", Math.max(0,FirstActionableFrame(vskb.base_kb, windbox, electric) + addHitstun)));
+
 
 		var hitstun = Math.max(0, vskb.hitstun + addHitstun);
 
@@ -897,8 +896,15 @@ app.controller('calculator', function ($scope) {
 
 			hitstun = speedUpFAF - 1;
 
-			kbList.push(new Result("Hitstun with speed up", speedUpFAF - 1));
-			kbList.push(new Result("FAF with speed up", speedUpFAF));
+			kbList.push(new Result("Hitstun", speedUpFAF - 1));
+			kbList.push(new Result("FAF", speedUpFAF));
+
+			kbList.push(new Result("Using launch speed up", "Yes"));
+		}
+		else {
+			kbList.push(new Result("Hitstun", Math.max(0, Hitstun(vskb.base_kb, windbox, electric) + addHitstun)));
+
+			kbList.push(new Result("FAF", Math.max(0, FirstActionableFrame(vskb.base_kb, windbox, electric) + addHitstun)));
 		}
 
 
