@@ -1180,7 +1180,7 @@ class Result {
             this.addStyle({ 'color': 'red' });
             this.value = "Invalid data";
         } else {
-			if (name == "Hitstun" || name == "Hitstun with speed up" || name == "Attacker Hitlag" || name == "Target Hitlag" || name == "Shield stun" || name == "Shield Hitlag" || name == "Attacker Shield Hitlag" || name == "Shield Advantage" || name == "Hit Advantage" || name == "Paralysis time" || name == "Reeling hitstun" || name == "Luma hitstun"
+			if (name == "Hitstun" || name == "Hitstun with speed up" || name == "Attacker Hitlag" || name == "Target Hitlag" || name == "Shield stun" || name == "Shield Hitlag" || name == "Shield Hitlag (Training)" || name == "Shield Hitlag (VS)" || name == "Attacker Shield Hitlag" || name == "Shield Advantage" || name == "Shield Advantage (Training)" || name == "Shield Advantage (VS)" || name == "Hit Advantage" || name == "Paralysis time" || name == "Reeling hitstun" || name == "Luma hitstun"
 				|| name == "Flower time" || name == "Buried time" || name == "Sleep time" || name == "Freeze time" || name == "Stun time" || name == "Disable time") {
                 this.value = value + (value == 1 ? " frame" : " frames");
 			} else if (name == "Airdodge hitstun cancel" || name == "Aerial hitstun cancel" || name == "First Actionable Frame" || name == "FAF" || name == "FAF with speed up" || name == "Reeling FAF") {

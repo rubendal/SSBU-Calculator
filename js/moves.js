@@ -11,7 +11,7 @@ class ChargeData {
 	static get(list, move_name) {
 		for (var i = 0; i < list.length; i++) {
 			for (var j = 0; j < list[i].names.length; j++) {
-				if (move_name.includes(list[i].names[j])) {
+				if (move_name == (list[i].names[j])) {
 					return list[i];
 				}
 			}
@@ -32,13 +32,13 @@ var chargeMoves = [
 	new ChargeData(["Palutena Bow", "Palutena's Bow", "Palutena's Bow (No Charge)", "Palutena's Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [3.2 + (frames * 0.09), bkb, kbg, shieldDamage];
 	}),
-	new ChargeData(["Silver Bow", "Silver Bow (No Charge)", "Silver Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Silver Bow", "Silver Bow (Grounded Sideways)", "Silver Bow (Grounded Upwards)", "Silver Bow (Aerial Sideways)", "Silver Bow (Aerial Upwards)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [5.5 + (frames * 0.1417), bkb, kbg, shieldDamage];
 	}),
-	new ChargeData(["Flare Blade (Uncharged)"], 0, 239, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Flare Blade"], 0, 239, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [8 + (frames * 5 / 30), bkb, kbg, shieldDamage];
 	}),
-	new ChargeData(["Shield Breaker (No Charge)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Shield Breaker"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [base_damage * ((60 - frames) / 60 + (frames * 2.2 / 60)), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Eruption"], 0, 119, function (base_damage, bkb, kbg, shieldDamage, frames) {
@@ -112,20 +112,9 @@ class MoveData {
 		this.Grabs = []; //Ignore grabs
 
 		var charge = ChargeData.get(chargeMoves, this.Name.EN);
+		
 		if (charge) {
 			this.ChargeData = charge;
-			this.charge_damage = function (frames) {
-				return +this.ChargeData.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[0].toFixed(4);
-			}
-			this.charge_bkb = function (frames) {
-				return (this.ChargeData.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[1]);
-			}
-			this.charge_kbg = function (frames) {
-				return (this.ChargeData.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[2]);
-			}
-			this.charge_shieldDamage = function (frames) {
-				return (this.ChargeData.formula(this.base_damage, this.bkb, this.kbg, this.shieldDamage, frames)[3]);
-			}
 		}
 
 		this.maxSmashChargeMult = this.smash_attack ? 1.4 : 1;
@@ -201,6 +190,22 @@ class MoveData {
 			}
 			else if (this.Hitboxes[i].GroundAir == "COLLISION_SITUATION_MASK_A") {
 				this.Hitboxes[i].OptionClass.push("aerialOnly");
+			}
+
+			if (this.ChargeData != null) {
+				this.Hitboxes[i].ChargeData = this.ChargeData;
+				this.Hitboxes[i].charge_damage = function (frames) {
+					return +this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[0].toFixed(4);
+				}
+				this.Hitboxes[i].charge_bkb = function (frames) {
+					return (this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[1]);
+				}
+				this.Hitboxes[i].charge_kbg = function (frames) {
+					return (this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[2]);
+				}
+				this.Hitboxes[i].charge_shieldDamage = function (frames) {
+					return (this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[3]);
+				}
 			}
 				
 		}

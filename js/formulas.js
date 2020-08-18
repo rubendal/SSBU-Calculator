@@ -361,7 +361,7 @@ function Hitlag(base_damage, hitlag_mult, electric, crouch, is_projectile, playe
 	return h;
 }
 
-function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached, indirect, players) {
+function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached, direct, players) {
 	var electric_mult = 1;
 	if (electric) {
 		electric_mult = 1.5;
@@ -372,17 +372,17 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached
 		player_mult = p[players - 2];
 	}
 	var h = 0;
-	if (!is_projectile && !indirect)
+	if (!is_projectile && direct)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
-	else if (!is_projectile && indirect)
+	else if (!is_projectile && !direct)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
-	else if (is_projectile && indirect && !attached)
+	else if (is_projectile && !direct && !attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult)) - 1;
+	else if (is_projectile && !direct && attached)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
-	else if (is_projectile && indirect && attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
-	else if (is_projectile && !indirect && !attached)
+	else if (is_projectile && direct && !attached)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
-	else if (is_projectile && !indirect && attached)
+	else if (is_projectile && direct && attached)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
 
 	if (h > parameters.hitlag.parryMax + 2) {
@@ -391,10 +391,12 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached
 	if (h < 0) {
 		return 0;
 	}
+
+
 	return h;
 }
 
-function AttackerParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached, indirect, players) {
+function VSParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached, direct, players) {
 	var electric_mult = 1;
 	if (electric) {
 		electric_mult = 1.5;
@@ -405,17 +407,52 @@ function AttackerParryHitlag(base_damage, hitlag_mult, electric, is_projectile, 
 		player_mult = p[players - 2];
 	}
 	var h = 0;
-	if (!is_projectile && !indirect)
+	if (!is_projectile && direct)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
-	else if (!is_projectile && indirect)
+	else if (!is_projectile && !direct)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && !direct && !attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult)) + 2;
+	else if (is_projectile && !direct && attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && direct && !attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
+	else if (is_projectile && direct && attached)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
+
+	if (h > parameters.hitlag.parryMax + 2) {
+		return parameters.hitlag.parryMax + 2;
+	}
+	if (h < 0) {
+		return 0;
+	}
+
+
+	return h;
+}
+
+function AttackerParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached, direct, players) {
+	var electric_mult = 1;
+	if (electric) {
+		electric_mult = 1.5;
+	}
+	var player_mult = 1;
+	if (players) {
+		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
+		player_mult = p[players - 2];
+	}
+	var h = 0;
+	if (!is_projectile && direct)
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
+	else if (!is_projectile && !direct)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.indirectHitboxConstant) * electric_mult) * hitlag_mult));// - 1;
-	else if (is_projectile && indirect && !attached)
+	else if (is_projectile && !direct && !attached)
 		h = 0;
-	else if (is_projectile && indirect && attached)
+	else if (is_projectile && !direct && attached)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.indirectHitboxConstant) * electric_mult) * hitlag_mult));// - 1;
-	else if (is_projectile && !indirect && !attached)
+	else if (is_projectile && direct && !attached)
 		h = 0;
-	else if (is_projectile && !indirect && attached)
+	else if (is_projectile && direct && attached)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.attachedParryConstant) * electric_mult) * hitlag_mult));// - 1;
 
 	if (h > parameters.hitlag.parryMax + 2) {
@@ -487,21 +524,32 @@ function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, 
 	return Math.floor((damage * parameters.shield.mult * mult) + parameters.shield.constant) - 1;
 }
 
-function ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, indirect) {
+function ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, direct) {
 	if (hitlag < 1)
 		hitlag = 1;
 	hitlag *= 0.67;
 	if (damage == 0)
 		return 0;
-	if (perfectShield) 
-		return ParryHitlag(damage, hitlag, electric, is_projectile, attached, indirect) - 1;
+	if (perfectShield)
+		return ParryHitlag(damage, hitlag, electric, is_projectile, attached, direct) - 1;
 	return Hitlag(damage, hitlag, electric, 1, is_projectile);
 }
 
-function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, indirect) {
+function VSShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, direct) {
+	if (hitlag < 1)
+		hitlag = 1;
+	hitlag *= 0.67;
+	if (damage == 0)
+		return 0;
+	if (perfectShield)
+		return VSParryHitlag(damage, hitlag, electric, is_projectile, attached, direct) - 1;
+	return Hitlag(damage, hitlag, electric, 1, is_projectile);
+}
+
+function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, direct) {
 	if (is_projectile && !attached)
 		return 0;
-	//var h = ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, indirect);
+	//var h = ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, direct);
 	//if (perfectShield)
 	//	h += 3;
 	//return h;
@@ -511,12 +559,16 @@ function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projec
 	if (damage == 0)
 		return 0;
 	if (perfectShield)
-		return AttackerParryHitlag(damage, hitlag, electric, is_projectile, attached, indirect) - 1;
+		return AttackerParryHitlag(damage, hitlag, electric, is_projectile, attached, direct) - 1;
 	return Hitlag(damage, hitlag, electric, 1, is_projectile);
 }
 
-function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, indirect, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached , indirect) - (is_projectile ? 0 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, indirect));
+function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, direct, electric, perfectshield, is_smash, is_aerial) {
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct));
+}
+
+function VSShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, direct, electric, perfectshield, is_smash, is_aerial) {
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + VSShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
