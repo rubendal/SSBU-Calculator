@@ -377,7 +377,7 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached
 	else if (!is_projectile && !direct)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && !direct && !attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult)) - 1;
+		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));
 	else if (is_projectile && !direct && attached)
 		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && direct && !attached)
@@ -564,11 +564,11 @@ function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projec
 }
 
 function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, direct, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct));
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile && perfectshield ? 2 : (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct)));
 }
 
 function VSShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, direct, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + VSShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct));
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + VSShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile && perfectshield ? 2 : (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct)));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
