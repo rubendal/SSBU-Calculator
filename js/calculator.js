@@ -973,13 +973,14 @@ app.controller('calculator', function ($scope) {
 
 			if (!is_projectile)
 				shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
-			if (perfectshield && is_projectile) {
-				shieldList.push(new Result("Shield Hitlag (Training)", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
-				shieldList.push(new Result("Shield Hitlag (VS)", VSShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
-			}
-			else {
-				shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
-			}
+			//if (perfectshield && is_projectile) {
+			//	shieldList.push(new Result("Shield Hitlag (Training)", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+			//	shieldList.push(new Result("Shield Hitlag (VS)", VSShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+			//}
+			//else {
+			//	shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+			//}
+			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
 			shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun), ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun) == 1));
 			shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, uses_aerial_shieldstun)));
 			if (perfectshield && is_projectile) {

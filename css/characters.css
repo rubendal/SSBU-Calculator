@@ -314,6 +314,10 @@ img.min-min {
     background: #ffff5a;
 }
 
+img.steve {
+    background: #ffff5a;
+}
+
 /*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
@@ -628,5 +632,9 @@ div.byleth {
 }
 
 div.min-min {
+    border-top: 5px solid #ffff5a;
+}
+
+div.steve {
     border-top: 5px solid #ffff5a;
 }
