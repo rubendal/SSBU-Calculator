@@ -72,17 +72,17 @@ function Aura(percent, stock_dif, game_format) {
 		game_format = "Singles";
 	}
 	var aura = 0;
-	if (percent <= 70) {
-		aura = (66 + ((17.0 / 35.0) * percent)) / 100;
+	if (percent <= 65) {
+		aura = (66 + ((34.0 / 65.0) * percent)) / 100;
 	} else if (percent <= 190) {
-		aura = (100 + ((7.0 / 12.0) * (percent - 70))) / 100;
+		aura = (100 + ((67.0 / 125.0) * (percent - 65))) / 100;
 	} else {
-		aura = 1.7;
+		aura = 1.67;
 	}
 	//1v1 Rank multipliers by Meshima: https://twitter.com/Meshima_/status/1146757439112355840
 	var m = 1;
 	var min = 0.6;
-	var max = 1.7;
+	var max = 1.67;
 	if (stock_dif == "0") {
 		return aura;
 	}
