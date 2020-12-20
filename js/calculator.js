@@ -756,6 +756,12 @@ app.controller('calculator', function ($scope) {
 			preDamage *= parameters.shorthop_aerial;
 		}
 
+		if (attacker.modifier.name == "Winged Mode") {
+			//Winged Mode affects KB like short hop multiplier
+			damage *= attacker.modifier.damage_dealt;
+			preDamage *= attacker.modifier.damage_dealt;
+		}
+
 		if (wbkb == 0) {
 			vskb = VSKB(target_percent + (preDamage * StaleNegation(stale, shieldStale, ignoreStale)), base_damage, damage, set_weight ? 100 : target.attributes.weight, kbg, bkb, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, r, stale, shieldStale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", launch_rate);
             vskb.addModifier(attacker.modifier.kb_dealt);

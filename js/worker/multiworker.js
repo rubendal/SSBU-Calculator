@@ -190,6 +190,12 @@ function calcDamage() {
 		damage *= parameters.shorthop_aerial;
 		preDamageCalc *= parameters.shorthop_aerial;
 	}
+
+	if (attacker.modifier.name == "Winged Mode") {
+		//Winged Mode affects KB like short hop multiplier
+		damage *= attacker.modifier.damage_dealt;
+		preDamage *= attacker.modifier.damage_dealt;
+	}
 }
 
 function addRow() {
