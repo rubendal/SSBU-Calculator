@@ -177,7 +177,7 @@ class MoveParser {
 
 			var setweight = false;
 			if (hitboxActiveTooltip != null && hitboxActiveTooltip.SetWeight != undefined) {
-				shieldDamage = hitboxActiveTooltip.SetWeight;
+				setweight = hitboxActiveTooltip.SetWeight;
 			} else if (baseDamageTooltip != null && baseDamageTooltip.SetWeight != undefined) {
 				setweight = baseDamageTooltip.SetWeight;
 			}
