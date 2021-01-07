@@ -1,0 +1,370 @@
+[{
+  "InstanceId": "8ab0654dba4fed83b4f475551baf2cdb",
+  "OwnerId": 18,
+  "Name": "Jab 1",
+  "BaseDamage": {
+    "Normal": "3.0/3.0/3.0"
+  },
+  "HitboxActive": {
+    "Frames": "5-6"
+  },
+  "FirstActionableFrame": 17,
+  "Angle": "361/180/361",
+  "KnockbackGrowth": "25/20/20",
+  "BaseKnockBackSetKnockback": "18/20/20"
+}, {
+  "InstanceId": "c2a4d459a3bf9ffdf7645d91a034166c",
+  "OwnerId": 18,
+  "Name": "Jab 2",
+  "BaseDamage": {
+    "Normal": "3.0"
+  },
+  "HitboxActive": {
+    "Frames": "5-6"
+  },
+  "FirstActionableFrame": 20,
+  "Angle": "361",
+  "KnockbackGrowth": "50",
+  "BaseKnockBackSetKnockback": "50"
+}, {
+  "InstanceId": "e8ac42bcc15ca1a19264696eeed0862b",
+  "OwnerId": 18,
+  "Name": "Dash Attack",
+  "BaseDamage": {
+    "Normal": "12.0"
+  },
+  "HitboxActive": {
+    "Frames": "5-7"
+  },
+  "FirstActionableFrame": 40,
+  "Angle": "43",
+  "KnockbackGrowth": "83",
+  "BaseKnockBackSetKnockback": "57"
+}, {
+  "InstanceId": "2f5ba049ae24ad08b350b1e4186c0900",
+  "OwnerId": 18,
+  "Name": "Dash Attack (Late)",
+  "BaseDamage": {
+    "Normal": "8.0"
+  },
+  "HitboxActive": {
+    "Frames": "8-20"
+  },
+  "FirstActionableFrame": 40,
+  "Angle": "43",
+  "KnockbackGrowth": "83",
+  "BaseKnockBackSetKnockback": "8"
+}, {
+  "InstanceId": "8d7a8ceda469b01c8e6dcd4614863425",
+  "OwnerId": 18,
+  "Name": "Ftilt",
+  "BaseDamage": {
+    "Normal": "10.0"
+  },
+  "HitboxActive": {
+    "Frames": "7-10"
+  },
+  "FirstActionableFrame": 25,
+  "Angle": "361",
+  "KnockbackGrowth": "100",
+  "BaseKnockBackSetKnockback": "8"
+}, {
+  "InstanceId": "11d2cf3172a2abbd632c36d3329b54d",
+  "OwnerId": 18,
+  "Name": "Utilt",
+  "BaseDamage": {
+    "Normal": "9.0"
+  },
+  "HitboxActive": {
+    "Frames": "9-10"
+  },
+  "FirstActionableFrame": 25,
+  "Angle": "96",
+  "KnockbackGrowth": "120",
+  "BaseKnockBackSetKnockback": "40"
+}, {
+  "InstanceId": "bf5d6b4c298e471886c5afb187ee0853",
+  "OwnerId": 18,
+  "Name": "Utilt (Late)",
+  "BaseDamage": {
+    "Normal": "8.0"
+  },
+  "HitboxActive": {
+    "Frames": "11-13"
+  },
+  "FirstActionableFrame": 25,
+  "Angle": "88",
+  "KnockbackGrowth": "120",
+  "BaseKnockBackSetKnockback": "40"
+}, {
+  "InstanceId": "5567d36150fee46d9efe6da5fb2102cc",
+  "OwnerId": 18,
+  "Name": "Dtilt",
+  "BaseDamage": {
+    "Normal": "10.0"
+  },
+  "HitboxActive": {
+    "Frames": "10-12"
+  },
+  "FirstActionableFrame": 31,
+  "Angle": "20",
+  "KnockbackGrowth": "68",
+  "BaseKnockBackSetKnockback": "50"
+}, {
+  "InstanceId": "2c9ce00dc6d1682664fdba59162e556f",
+  "OwnerId": 18,
+  "Name": "Fsmash",
+  "BaseDamage": {
+    "Normal": "16.0"
+  },
+  "HitboxActive": {
+    "Frames": "16-19"
+  },
+  "FirstActionableFrame": 50,
+  "Angle": "361",
+  "KnockbackGrowth": "110",
+  "BaseKnockBackSetKnockback": "10"
+}, {
+  "InstanceId": "a1a900e9bdbb9569a63c4d1747c46221",
+  "OwnerId": 18,
+  "Name": "Fsmash (Late)",
+  "BaseDamage": {
+    "Normal": "14.0"
+  },
+  "HitboxActive": {
+    "Frames": "20-24"
+  },
+  "FirstActionableFrame": 50,
+  "Angle": "361",
+  "KnockbackGrowth": "85",
+  "BaseKnockBackSetKnockback": "6"
+}, {
+  "InstanceId": "f085598577a8656e4c695908aea8b0ce",
+  "OwnerId": 18,
+  "Name": "Usmash",
+  "BaseDamage": {
+    "Normal": "15.0"
+  },
+  "HitboxActive": {
+    "Frames": "16-19"
+  },
+  "FirstActionableFrame": 46,
+  "Angle": "87",
+  "KnockbackGrowth": "100",
+  "BaseKnockBackSetKnockback": "20"
+}, {
+  "InstanceId": "e55605a0e2c486e7ea40f5d1c13b3dac",
+  "OwnerId": 18,
+  "Name": "Dsmash",
+  "BaseDamage": {
+    "Normal": "11.0"
+  },
+  "HitboxActive": {
+    "Frames": "14-16"
+  },
+  "FirstActionableFrame": 49,
+  "Angle": "0",
+  "KnockbackGrowth": "99",
+  "BaseKnockBackSetKnockback": "34"
+}, {
+  "InstanceId": "4228c4e58da00d93190d04fbba2197f9",
+  "OwnerId": 18,
+  "Name": "Nair",
+  "BaseDamage": {
+    "Normal": "11.0"
+  },
+  "HitboxActive": {
+    "Frames": "6-7"
+  },
+  "FirstActionableFrame": 44,
+  "Angle": "361",
+  "KnockbackGrowth": "100",
+  "BaseKnockBackSetKnockback": "30",
+	"AutoCancel": "1-3, 40>",
+	"LandingLag": "9"
+}, {
+  "InstanceId": "773d635717debf74e106240414403488",
+  "OwnerId": 18,
+  "Name": "Nair (Late)",
+  "BaseDamage": {
+    "Normal": "6.0"
+  },
+  "HitboxActive": {
+    "Frames": "8-30"
+  },
+  "FirstActionableFrame": 44,
+  "Angle": "361",
+  "KnockbackGrowth": "70",
+  "BaseKnockBackSetKnockback": "50",
+	"AutoCancel": "1-3, 40>",
+	"LandingLag": "9"
+}, {
+  "InstanceId": "aa036eebba0eaebf30d99b2c81d89480",
+  "OwnerId": 18,
+  "Name": "Fair",
+  "BaseDamage": {
+    "Normal": "9.0"
+  },
+  "HitboxActive": {
+    "Frames": "8-9"
+  },
+  "FirstActionableFrame": 37,
+  "Angle": "361",
+  "KnockbackGrowth": "98",
+  "BaseKnockBackSetKnockback": "30",
+	"AutoCancel": "1-3, 28>",
+	"LandingLag": "9"
+}, {
+  "InstanceId": "c2cd110878612f02f548d07be554c6b2",
+  "OwnerId": 18,
+  "Name": "Fair (Late)",
+  "BaseDamage": {
+    "Normal": "6.0"
+  },
+  "HitboxActive": {
+    "Frames": "10-20"
+  },
+  "FirstActionableFrame": 37,
+  "Angle": "361",
+  "KnockbackGrowth": "70",
+  "BaseKnockBackSetKnockback": "30",
+	"AutoCancel": "1-3, 28>",
+	"LandingLag": "9"
+}, {
+  "InstanceId": "9a94db7cead45076e83d8bd6d5d40d8",
+  "OwnerId": 18,
+  "Name": "Bair",
+  "BaseDamage": {
+    "Normal": "13.0/13.0"
+  },
+  "HitboxActive": {
+    "Frames": "10-11"
+  },
+  "FirstActionableFrame": 38,
+  "Angle": "42/42",
+  "KnockbackGrowth": "120/120",
+  "BaseKnockBackSetKnockback": "0/30",
+	"AutoCancel": "1-3, 26>",
+	"LandingLag": "11"
+}, {
+  "InstanceId": "91c8ed73e543eeaa6cafcf0ae7e43c1d",
+  "OwnerId": 18,
+  "Name": "Uair",
+  "BaseDamage": {
+    "Normal": "9.0"
+  },
+  "HitboxActive": {
+    "Frames": "9-21"
+  },
+  "FirstActionableFrame": 40,
+  "Angle": "88",
+  "KnockbackGrowth": "100",
+  "BaseKnockBackSetKnockback": "30",
+	"AutoCancel": "1-3, 35>",
+	"LandingLag": "9"
+}, {
+  "InstanceId": "6c5b3a9d912598f3d6baaaca492184fc",
+  "OwnerId": 18,
+  "Name": "Dair (Hits 1-8)",
+  "BaseDamage": {
+    "Normal": "1.5/1.5"
+  },
+  "HitboxActive": {
+    "Frames": "7-8, 10-11, 13-14, 16-17, 19-20, 22-23, 25-26, 28-29"
+  },
+  "FirstActionableFrame": 53,
+  "Angle": "145/280",
+  "KnockbackGrowth": "100/100",
+  "BaseKnockBackSetKnockback": "10/F: 30",
+	"AutoCancel": "1-1, 42>",
+	"LandingLag": "12"
+}, {
+  "InstanceId": "8759b95837bd0815b3856ad8215674d",
+  "OwnerId": 18,
+  "Name": "Dair (Hit 9)",
+  "BaseDamage": {
+    "Normal": "2.0"
+  },
+  "HitboxActive": {
+    "Frames": "31-32"
+  },
+  "FirstActionableFrame": 53,
+  "Angle": "45",
+  "KnockbackGrowth": "150",
+  "BaseKnockBackSetKnockback": "30",
+	"AutoCancel": "1-1, 42>",
+	"LandingLag": "12"
+}, {
+  "InstanceId": "5a7994137b2d6cd4e40dbc9cb97f4579",
+  "OwnerId": 18,
+  "Name": "Rollout",
+  "BaseDamage": {
+    "Normal": "7.0"
+  },
+  "HitboxActive": {
+    "Frames": "1-61"
+  },
+  "Angle": "30",
+  "KnockbackGrowth": "60",
+  "BaseKnockBackSetKnockback": "60"
+}, {
+  "InstanceId": "457d9bfff9da78cfd7ff129550358619",
+  "OwnerId": 18,
+  "Name": "Rollout (Air)",
+  "BaseDamage": {
+    "Normal": "10.0"
+  },
+  "HitboxActive": {
+    "Frames": "1-61"
+  },
+  "Angle": "30",
+  "KnockbackGrowth": "60",
+  "BaseKnockBackSetKnockback": "60"
+}, {
+  "InstanceId": "d2a3c97aaa05676384e387aff98d94ed",
+  "OwnerId": 18,
+  "Name": "Pound",
+  "BaseDamage": {
+    "Normal": "11.0"
+  },
+  "HitboxActive": {
+    "Frames": "13-28",
+    "SD": "20",
+		"ShieldstunMultiplier": "1.5",
+		"AdditionalHitstun": "2"
+  },
+  "FirstActionableFrame": 40,
+  "Angle": "75",
+  "KnockbackGrowth": "75",
+  "BaseKnockBackSetKnockback": "52"
+}, {
+  "InstanceId": "f1d747719db23377db7eec73bab6375c",
+  "OwnerId": 18,
+  "Name": "Sing",
+  "BaseDamage": {
+    "Normal": "0.0/0.0"
+  },
+  "HitboxActive": {
+    "Frames": "27-36, 61-70, 100-115",
+		"Effect": "Sleep"
+  },
+  "FirstActionableFrame": 150,
+  "Angle": "361/361",
+  "KnockbackGrowth": "40/30",
+  "BaseKnockBackSetKnockback": "0/0"
+}, {
+  "InstanceId": "178b4d53ed7fcad1565575ea64e14f8a",
+  "OwnerId": 18,
+  "Name": "Rest",
+  "BaseDamage": {
+    "Normal": "20.0"
+  },
+  "HitboxActive": {
+    "Frames": "2-4",
+		"Effect": "Flower"
+  },
+  "FirstActionableFrame": 210,
+  "Angle": "88",
+  "KnockbackGrowth": "66",
+  "BaseKnockBackSetKnockback": "100"
+}]
