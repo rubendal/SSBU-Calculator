@@ -117,6 +117,7 @@ class MoveParser {
 
 		this.setweight = false;
 		this.shieldstun = 1;
+		this.addHitstun = 0;
 
         if (!this.throw) {
             this.hitboxActive = parseHitbox(hitboxActive);
@@ -195,6 +196,13 @@ class MoveParser {
 			}
 
 			this.shieldstun = shieldstunMult;
+
+			var addHitstun = 0;
+			if (hitboxActiveTooltip != null && hitboxActiveTooltip.AdditionalHitstun != undefined && hitboxActiveTooltip.AdditionalHitstun != "") {
+				addHitstun = parseFloat(hitboxActiveTooltip.AdditionalHitstun);
+			} // addHitstun not available from API
+
+			this.addHitstun = addHitstun;
 
 			//if (hitboxActiveTooltip) {
 			//	shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
@@ -420,7 +428,7 @@ class MoveParser {
 							}
 						}
 					}
-					this.moves.push(new Move(this.id, i, hitbox_name, this.name, parseFloat(d), parseFloat(a), parseFloat(b), parseFloat(k), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, s, this.setweight, this.shieldstun));
+					this.moves.push(new Move(this.id, i, hitbox_name, this.name, parseFloat(d), parseFloat(a), parseFloat(b), parseFloat(k), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, s, this.setweight, this.shieldstun, this.addHitstun));
                     if (ignore_hitboxes) {
                         return;
                     }
@@ -453,17 +461,17 @@ class MoveParser {
 				}
                 if (this.base_damage == "" && this.angle == "" && this.bkb == "" && this.kbg == "") {
 					if (this.grab) {
-						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun));
+						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun));
                     } else {
-						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun).invalidate());
+						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun).invalidate());
                     }
                 } else {
-					this.moves.push(new Move(this.id, 0, this.name, this.name, parseFloat(this.base_damage), parseFloat(this.angle), parseFloat(this.bkb), parseFloat(this.kbg), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun));
+					this.moves.push(new Move(this.id, 0, this.name, this.name, parseFloat(this.base_damage), parseFloat(this.angle), parseFloat(this.bkb), parseFloat(this.kbg), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun));
                 }
             }
 
         } else {
-			this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, [new HitboxActiveFrames(NaN, NaN)], NaN, parseFloat(this.landingLag), this.autoCancel, 0, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun).invalidate());
+			this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, [new HitboxActiveFrames(NaN, NaN)], NaN, parseFloat(this.landingLag), this.autoCancel, 0, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun).invalidate());
         }
 
 
@@ -586,7 +594,7 @@ var chargeMoves = [
 ];
 
 class Move {
-	constructor(api_id, hitbox_no, name, moveName, base_damage, angle, bkb, kbg, wbkb, hitboxActive, faf, landingLag, autoCancel, preDamage, counterMult, rehitRate, shieldDamage, setweight, shieldstun) {
+	constructor(api_id, hitbox_no, name, moveName, base_damage, angle, bkb, kbg, wbkb, hitboxActive, faf, landingLag, autoCancel, preDamage, counterMult, rehitRate, shieldDamage, setweight, shieldstun, addHitstun) {
         this.api_id = api_id;
         this.id = 0;
         this.hitbox_no = hitbox_no;
@@ -607,6 +615,7 @@ class Move {
 		this.shieldDamage = shieldDamage;
 		this.setweight = setweight;
 		this.shieldstun = shieldstun;
+		this.addHitstun = addHitstun;
 		this.weightDependent = false;
 
         this.eval_autoCancel = function(value){
