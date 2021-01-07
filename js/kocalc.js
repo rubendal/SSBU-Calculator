@@ -299,7 +299,7 @@ app.controller('calculator', function ($scope) {
 					$scope.is_aerial_move = false;
 					$scope.charging_frames_type = attacker.name == "Donkey Kong" ? "Arm swings" : (attacker.name == "Jigglypuff" ? "Speed" : "Frames charged");
                     $scope.updateCharge();
-                    
+
                 }else{
                     $scope.charge_data = null;
                     $scope.charge_min = 0;
@@ -322,7 +322,7 @@ app.controller('calculator', function ($scope) {
             }
             $scope.checkSmashVisibility();
         }
-        
+
     }
 
     $scope.prev_hit_frame = function(){
@@ -512,6 +512,7 @@ app.controller('calculator', function ($scope) {
 			$scope.isFinishingTouch = false;
             $scope.windbox = attack.windbox;
 			$scope.shieldDamage = attack.shieldDamage;
+			$scope.addHitstun = attack.addHitstun;
 			$scope.set_weight = attack.setweight;
             if (!isNaN(attack.hitboxActive[0].start)) {
                 $scope.hit_frame = attack.hitboxActive[0].start;
@@ -587,7 +588,7 @@ app.controller('calculator', function ($scope) {
 				}
             }
         }
-        
+
         $scope.check();
         $scope.update();
     }
@@ -710,7 +711,7 @@ app.controller('calculator', function ($scope) {
 		} else {
 			//trainingkb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.fall_speed * target.modifier.fall_speed, r, target_percent, damage, 0, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled");
 			vskb = WeightBasedKB(set_weight ? 100 : target.attributes.weight, bkb, wbkb, kbg, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, r, target_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, set_weight, stick, target.modifier.name == "Character Inhaled", 1);
-			
+
 		}
 
 		var damageSpeedUpFrames = [];
@@ -812,7 +813,7 @@ app.controller('calculator', function ($scope) {
         damage *= target.modifier.damage_taken;
         preDamage *= attacker.modifier.damage_dealt;
 		preDamage *= target.modifier.damage_taken;
-		
+
 		preDamage *= InkDamageMult(ink);
 		if ($scope.is_1v1) {
 			preDamage *= 1.2;
@@ -945,7 +946,7 @@ app.controller('calculator', function ($scope) {
 			$scope.visualizer_extra.push(new Result("Stick Y", p.di.Y, "", false, true));
 			$scope.visualizer_extra.push(new Result("Stick angle", Math.floor(GetAngle(p.di.X * (inverseX ? -1 : 1), p.di.Y)), "", false, true));
 			$scope.visualizer_extra.push(new Result("Calculated Target %", +p.percent.toFixed(6).toString() + (using_error ? "*" : ""), "", false, false));
-			
+
 			$scope.visualizer.SetStage($scope.stage);
 			$scope.visualizer.SetLaunch(data.distance.launchData);
 			stick = $scope.stick;
@@ -1048,7 +1049,7 @@ app.controller('calculator', function ($scope) {
 			$scope.visualizer.SetLaunch(data.distance.launchData);
 
 			stick = $scope.stick;
-			
+
 		}
 		else {
 			$scope.visualizer_extra.push(new Result("Can't KO", "Move doesn't KO at 999%", "", false, true));
@@ -1171,7 +1172,7 @@ app.controller('calculator', function ($scope) {
 		if (a.possible && b.possible) {
 			if (a.di != -1 && b.di != -1) {
 
-				
+
 				var i_position = { x: +((a.position[0] + b.position[0]) / 2).toFixed(6), y: +((a.position[1] + b.position[1]) / 2).toFixed(6) };
 
 				if (!$scope.checkPosition([i_position.x, i_position.y]))
@@ -1234,7 +1235,7 @@ app.controller('calculator', function ($scope) {
 			positions.push([center[0] + (left_margin * (i + 1)), center[1] + top_margin]);
 			positions.push([center[0] + (left_margin * (i + 1)), center[1] + (2 * top_margin)]);
 			positions.push([center[0] + (left_margin * (i + 1)), center[1] + (3 * top_margin)]);
-			
+
 		}
 
 		positions.push([center[0], center[1] + bottom_margin]);
@@ -1242,7 +1243,7 @@ app.controller('calculator', function ($scope) {
 		positions.push([center[0], center[1] + top_margin]);
 		positions.push([center[0], center[1] + (2 * top_margin)]);
 		positions.push([center[0], center[1] + (3 * top_margin)]);
-		
+
 
 		for (var i = 0; i < 3; i++) {
 			positions.push([center[0] + (right_margin * (i + 1)), center[1] + bottom_margin]);
@@ -1250,7 +1251,7 @@ app.controller('calculator', function ($scope) {
 			positions.push([center[0] + (right_margin * (i + 1)), center[1] + top_margin]);
 			positions.push([center[0] + (right_margin * (i + 1)), center[1] + (2 * top_margin)]);
 			positions.push([center[0] + (right_margin * (i + 1)), center[1] + (3 * top_margin)]);
-			
+
 		}
 
 
@@ -1260,7 +1261,7 @@ app.controller('calculator', function ($scope) {
 		for (var i = 0; i < positions.length; i++) {
 			possible_positions.push({ position: positions[i], possible: $scope.checkPosition(positions[i]), di:-1 });
 		}
-		
+
 
 		var distances = [];
 
@@ -1314,14 +1315,14 @@ app.controller('calculator', function ($scope) {
 						list[0].data.distance.doDILine(list[0].di, false);
 						distances = distances.concat(list[0].data.distance.diLines);
 					} else {
-						
+
 						possible_positions[p].di = -1;
 
 						list[0].data.distance.doDILine(list[0].di, true);
 						distances = distances.concat(list[0].data.distance.diLines);
 					}
 				}
-				
+
 			}
 		}
 
@@ -1448,7 +1449,7 @@ app.controller('calculator', function ($scope) {
         set_weight = $scope.set_weight;
 
         paralyzer = $scope.effect == "Paralyze";
-        
+
 		launch_rate = parseFloat($scope.launch_rate);
 
 		addHitstun = parseFloat($scope.addHitstun);
@@ -1541,7 +1542,7 @@ app.controller('calculator', function ($scope) {
 
 		if (step == undefined)
 			step = 1;
-		
+
 		var controller = JSON.parse($scope.game_controller);
 
 		var list = [];

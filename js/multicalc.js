@@ -9,7 +9,7 @@ var rows_update = [];
 var worker;
 
 function showSaveDialog(data){
-    
+
     var filename = "data.tsv";
     if(window.navigator.msSaveBlob){
         //Edge
@@ -19,7 +19,7 @@ function showSaveDialog(data){
         //Firefox
         if(window.globalStorage){
             var a = document.createElement('a');
-            a.style = "display: none";  
+            a.style = "display: none";
             a.download = filename;
             a.href = "data:application/octet-stream;base64," + btoa(data);
             document.body.appendChild(a);
@@ -30,7 +30,7 @@ function showSaveDialog(data){
 		} else {
 			//Chrome and others
             var a = document.createElement('a');
-            a.style = "display: none";  
+            a.style = "display: none";
             var blob = new Blob([data],{type : 'text/tsv'});
             var url = window.URL.createObjectURL(blob);
             a.download = filename;
@@ -42,7 +42,7 @@ function showSaveDialog(data){
                 window.URL.revokeObjectURL(url);
             },200);
         }
-            
+
     }
 }
 
@@ -660,6 +660,7 @@ app.controller('calculator', function ($scope) {
 			$scope.windbox = attack.windbox;
 			$scope.shieldDamage = attack.shieldDamage;
 			$scope.shieldstunMult = attack.shieldstun;
+			$scope.addHitstun = attack.addHitstun;
 			$scope.set_weight = attack.setweight;
 			if (!isNaN(attack.hitboxActive[0].start)) {
 				$scope.hit_frame = attack.hitboxActive[0].start;
@@ -668,6 +669,12 @@ app.controller('calculator', function ($scope) {
 			}
 			$scope.faf = attack.faf;
 			$scope.landing_lag = attack.landingLag;
+			if(attack.effect != "" && effects.some(e => e.name == attack.effect)){
+				$scope.effect = attack.effect;
+				$scope.updateEffect();
+			}else{
+				$scope.effect = effects[0].name;
+			}
 			if (!$scope.is_smash) {
 				$scope.smashCharge = 0;
 				charge_frames = 0;
@@ -963,7 +970,7 @@ app.controller('calculator', function ($scope) {
 
 		$scope.visualizer.SetStage(stage);
 		$scope.visualizer.SetLaunch(new LaunchData([{ x: position.x, y: position.y }], { x: position.x, y: position.y }, [], -1, -1, -1, -1, -1));
-        
+
         //$scope.changeCharacters($scope.inc_mod, $scope.inc_cust);
 
   //      var at_from = parseFloat($scope.attacker_from);
@@ -979,7 +986,7 @@ app.controller('calculator', function ($scope) {
 		//if ($scope.move == 0) {
 		//	m = new Move(0, 0, "Custom", "Custom", base_damage, angle, bkb, kbg, wbkb, [], 0, -1, [], 0, 0, 0, shieldDamage);
   //          m.is_smash = is_smash;
-  //      }else{ 
+  //      }else{
   //          m = $scope.moveset[$scope.move];
   //      }
 
@@ -1149,7 +1156,7 @@ app.controller('calculator', function ($scope) {
         //    window.alert("Amount of calculations to be used exceed maximum");
         //    return;
         //}
-        
+
 		if ($scope.move == 0) {
 			params.move = JSON.parse(JSON.stringify(new Move(0, "Custom", "Custom", base_damage, angle, bkb, kbg, wbkb, [], 0, -1, [], 0, 0, 0, 0)));
 			params.move.is_smash = is_smash;
@@ -1182,7 +1189,7 @@ app.controller('calculator', function ($scope) {
 		//$scope.targetModifiers = target.modifiers;
 		//$scope.targetMod = selectedMod;
 		//$scope.stored = tsv_rows.length;
-        
+
 	};
 
 	$scope.cancel = function () {
@@ -1221,7 +1228,7 @@ app.controller('calculator', function ($scope) {
                 }
                 tsv+="\n";
             }
-            
+
             showSaveDialog(tsv);
         }
     }
