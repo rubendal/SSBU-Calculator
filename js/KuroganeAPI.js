@@ -971,7 +971,7 @@ function getMoveset(attacker, $scope) {
 			break;
 	}
 
-	loadAsyncFunctionJSON("./Data/" + attacker.GameName + "/movesBowser.json", function (moveset) {
+	loadAsyncFunctionJSON("./Data/" + attacker.GameName + "/moves.json", function (moveset) {
 		handleMovesetData(moveset);
 	}, function () {
 	}, function () {
