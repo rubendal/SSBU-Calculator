@@ -532,7 +532,12 @@ app.controller('calculator', function ($scope) {
             }
 			$scope.faf = attack.faf;
 			$scope.landing_lag = attack.landingLag;
-			$scope.effect = (attack.effect != "" && effects.some(e => e.name == attack.effect)) ? attack.effect : effects[0].name;
+			if(attack.effect != "" && effects.some(e => e.name == attack.effect)){
+				$scope.effect = attack.effect;
+				$scope.updateEffect();
+			}else{
+				$scope.effect = effects[0].name;
+			}
             if (!$scope.is_smash) {
                 $scope.smashCharge = 0;
                 charge_frames = 0;
