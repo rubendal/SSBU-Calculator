@@ -712,6 +712,7 @@ app.controller('calculator', function ($scope) {
 					$scope.throw = false;
 					$scope.isFinishingTouch = false;
 					$scope.selected_move = null;
+					$scope.uses_aerial_shieldstun = $scope.is_aerial_move;
 				}
 			}
 		} else {
@@ -723,6 +724,7 @@ app.controller('calculator', function ($scope) {
 				$scope.throw = false;
 				$scope.isFinishingTouch = false;
 				$scope.selected_move = null;
+				$scope.uses_aerial_shieldstun = $scope.is_aerial_move;
 
 				//Check if url has short hop aerial multiplier (Possible aerial with hitbox data modified)
 				if ($scope.delayed_shorthop_aerial != null) {

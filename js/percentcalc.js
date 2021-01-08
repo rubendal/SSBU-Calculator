@@ -363,6 +363,7 @@ app.controller('calculator', function ($scope) {
 					$scope.unblockable = false;
 					$scope.throw = false;
                     $scope.selected_move = null;
+                    $scope.uses_aerial_shieldstun = $scope.is_aerial_move;
                 }
             }
         } else {
@@ -372,7 +373,9 @@ app.controller('calculator', function ($scope) {
                 $scope.preDamage = 0;
 				$scope.unblockable = false;
 				$scope.throw = false;
-				$scope.selected_move = null;
+                $scope.selected_move = null;
+                $scope.uses_aerial_shieldstun = $scope.is_aerial_move;
+
 				//Check if url has short hop aerial multiplier (Possible aerial with hitbox data modified)
 				if ($scope.delayed_shorthop_aerial != null) {
 
@@ -558,7 +561,12 @@ app.controller('calculator', function ($scope) {
 		if ($scope.shorthop_aerial) {
 			damage *= parameters.shorthop_aerial;
 			preDamage *= parameters.shorthop_aerial;
-		}
+        }
+        if (attacker.modifier.name == "Winged Mode") {
+            //Winged Mode affects KB like short hop multiplier
+            damage *= attacker.modifier.damage_dealt;
+            preDamage *= attacker.modifier.damage_dealt;
+        }
 
         set_weight = $scope.set_weight;
 
