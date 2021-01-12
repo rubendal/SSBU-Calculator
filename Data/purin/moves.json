@@ -367,4 +367,52 @@
   "Angle": "88",
   "KnockbackGrowth": "66",
   "BaseKnockBackSetKnockback": "100"
+}, {
+  "InstanceId": "ab080acd8dfbf47244d68b96744d15ac",
+  "OwnerId": 18,
+  "Name": "Fthrow",
+  "BaseDamage": {
+    "Normal": "5"
+  },
+  "HitboxActive": null,
+  "FirstActionableFrame": null,
+  "Angle": "35",
+  "KnockbackGrowth": "30",
+  "BaseKnockBackSetKnockback": "103"
+}, {
+  "InstanceId": "ceb1b93d61d5347b70017edce1e96efe",
+  "OwnerId": 18,
+  "Name": "Bthrow",
+  "BaseDamage": {
+    "Normal": "10"
+  },
+  "HitboxActive": null,
+  "FirstActionableFrame": null,
+  "Angle": "135",
+  "KnockbackGrowth": "25",
+  "BaseKnockBackSetKnockback": "90"
+}, {
+  "InstanceId": "1edf9df6eca9c10814997d74866078d7",
+  "OwnerId": 18,
+  "Name": "Uthrow",
+  "BaseDamage": {
+    "Normal": "8"
+  },
+  "HitboxActive": null,
+  "FirstActionableFrame": null,
+  "Angle": "90",
+  "KnockbackGrowth": "30",
+  "BaseKnockBackSetKnockback": "130"
+}, {
+  "InstanceId": "adc199b37851280c5e9f05d9f52ee45",
+  "OwnerId": 18,
+  "Name": "Dthrow",
+  "BaseDamage": {
+    "Normal": "6"
+  },
+  "HitboxActive": null,
+  "FirstActionableFrame": null,
+  "Angle": "75",
+  "KnockbackGrowth": "45",
+  "BaseKnockBackSetKnockback": "105"
 }]
