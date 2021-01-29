@@ -782,6 +782,7 @@ app.controller('calculator', function ($scope) {
 
 		var damageWithout1v1 = damage;
 
+		var lumaDamage = damage;
 		if ($scope.is_1v1) {
 			damage *= 1.2;
 		}
@@ -950,14 +951,14 @@ app.controller('calculator', function ($scope) {
 
         if (target.name == "Rosalina And Luma") {
             if (!wbkb) {
-				var luma_vskb = VSKB(15 + luma_percent, base_damage, damage, 100, kbg, bkb, target.attributes.gravity, target.attributes.fall_speed, r, stale, shieldStale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, stick);
+				var luma_vskb = VSKB(15 + luma_percent, base_damage, lumaDamage, 100, kbg, bkb, target.attributes.gravity, target.attributes.fall_speed, r, stale, shieldStale, ignoreStale, attacker_percent, angle, in_air, windbox, electric, stick);
                 luma_vskb.addModifier(attacker.modifier.kb_dealt);
                 luma_vskb.addModifier(target.modifier.kb_received);
 				kbList.push(new Result("Luma KB", +luma_vskb.kb.toFixed(6)));
 				kbList.push(new Result("Luma launched", luma_vskb.tumble ? "Yes" : "No"));
 				kbList.push(new Result("Luma hitstun", LumaHitstun(luma_vskb.kb, windbox, electric), luma_vskb.tumble));
             } else {
-				var luma_vskb = WeightBasedKB(100, bkb, kbg, target.attributes.gravity, target.attributes.fall_speed, r, 15 + luma_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, stick);
+				var luma_vskb = WeightBasedKB(100, bkb, wbkb, kbg, target.attributes.gravity, target.attributes.fall_speed, r, 15 + luma_percent, StaleDamage(damage, stale, shieldStale, ignoreStale), attacker_percent, angle, in_air, windbox, electric, stick);
                 luma_vskb.addModifier(target.modifier.kb_received);
                 luma_vskb.addModifier(target.modifier.kb_received);
                 kbList.push(new Result("Luma KB", +luma_vskb.kb.toFixed(6)));
