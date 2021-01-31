@@ -1116,29 +1116,6 @@ class Character {
 			} else {
 				this.icon = "./img/stock_icons/" + this.name.toLowerCase().replace(/\./g, "").replace(/-/g, "").replace("&", "").replace(/ /g, "") + ".png";
 			}
-
-			//To do: Icons for modifiers and change Robin/Corrin to female versions (when assets are available)
-
-            //if (this.modifier.name != "Normal") {
-            //    //Custom icons
-            //    if (this.modifier.name == "Limit Break") {
-            //        this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_limit_01.png";
-            //    } else if (this.modifier.name.includes("Deep Breathing")) {
-            //        this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_db_01.png";
-            //    } else if(this.modifier.name.includes("Jump")){
-            //        this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_jump_01.png";
-            //    } else if (this.modifier.name.includes("Speed")) {
-            //        this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_speed_01.png";
-            //    } else if (this.modifier.name.includes("Shield")) {
-            //        this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_shield_01.png";
-            //    } else if (this.modifier.name.includes("Buster")) {
-            //        this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_buster_01.png";
-            //    } else if (this.modifier.name.includes("Smash")) {
-            //        this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_smash_01.png";
-            //    }
-            //} else {
-            //    this.icon = "./img/stock_icons/stock_90_" + gameNames[characters.indexOf(this.name)] + "_01.png";
-            //}
 		}
 
 		this.updateImage = function () {
@@ -1729,7 +1706,6 @@ class Distance{
         if(this.inverseX){
             angle = InvertXAngle(angle);
 		}
-		//var decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
 
 		var s = (this.kb / 80);
 
@@ -1762,12 +1738,6 @@ class Distance{
         this.bounce_frame = -1;
 		this.bounce_speed = 0;
 		var state = CharacterState.LAUNCH_START;
-
-		//if (aerial) {
-		//	state |= CharacterState.AERIAL;
-		//} else {
-		//	state |= CharacterState.GROUNDED;
-		//}
 
         this.launch_speeds = [];
 		var limit = hitstun < 200 ? hitstun + this.extraFrames : 200;
@@ -1840,7 +1810,6 @@ class Distance{
 					previousCollisionIntersection = c.collision_data.intersection;
 					slidingDirection = c.collision_data.slideDirection;
 					
-					//decay = { 'x': x_speed / hitstun, 'y': y_speed / hitstun };
 					decay = { 'x': parameters.decay * Math.cos(angle * Math.PI / 180), 'y': parameters.decay * Math.sin(angle * Math.PI / 180) };
 					if (ssb4Launch) {
 						decay = { 'x': 0.051 * Math.cos(angle * Math.PI / 180), 'y': 0.051 * Math.sin(angle * Math.PI / 180) };
@@ -1851,12 +1820,6 @@ class Distance{
 						c.applyDecaySpeedUp(decay, GetNextFrameWithSpeedUp(speedupFrames, i));
 					}
 					this.launchData.collisions.push(c);
-					//if (Math.cos(angle * Math.PI / 180) < 0) {
-					//	decay.x *= -1;
-					//}
-					//if (Math.sin(angle * Math.PI / 180) < 0) {
-					//	decay.y *= -1;
-					//}
 
 					if (c.collision_data.resetGravity) {
 						g = 0;
@@ -2164,16 +2127,6 @@ class Distance{
 
 		this.vertical_speed.push((launch_speed.y));
 
-		//var fsmFactor = 1;
-
-		//if (tumbleFSM >= 1) {
-		//	for (var i = 0; i < tumbleFSM; i++) {
-		//		this.x.splice(i + 1, fsmFactor);
-		//		this.y.splice(i + 1, fsmFactor);
-		//		this.vertical_speed.splice(i + 1, fsmFactor);
-		//		this.launchData.positions.splice(i + 1, fsmFactor);
-		//	}
-		//}
 
 
 		if (this.stage != null) {
@@ -2294,7 +2247,6 @@ class Knockback {
             this.launch_rate = 1;
         }
 		this.hitstun = Hitstun(this.base_kb, this.windbox, this.electric);
-		//this.hitstunFSM = HitstunWithFSM(this.base_kb, this.windbox, this.electric);
         if (stick !== undefined) {
             this.stick = stick;
         } else {
@@ -2415,7 +2367,6 @@ class Knockback {
             }
 
 			this.hitstun = Hitstun(this.base_kb, this.windbox, this.electric);
-			//this.hitstunFSM = HitstunWithFSM(this.base_kb, this.windbox, this.electric);
         };
         this.addModifier = function (modifier) {
             this.base_kb *= modifier;
@@ -2841,14 +2792,7 @@ var appSelection = [
 	{ appName: "calculator", title: "Calculator", link: "./index.html" },
 	{ appName: "kocalculator", title: "KO Calculator", link: "./kocalc.html" },
 	{ appName: "kbcalculator", title: "Percentage Calculator", link: "./percentcalc.html" },
-	{ appName: "multicalc", title: "Multi Calculator", link: "./multicalc.html" }/*,
-	{ appName: "movesearch", title: "Move Search", link: "./movesearch.html" },
-	{ appName: "scriptviewer", title: "Script Viewer", link: "./scripts.html" },
-	{ appName: "scriptdiff", title: "Script Diff Viewer", link: "./scriptdiff.html" },
-	{ appName: "scriptsearch", title: "Script Search", link: "./scriptsearch.html" },
-	{ appName: "params", title: "Param Viewer", link: "./params.html" },
-	{ appName: "mscviewer", title: "MSC Script Viewer", link: "./msc.html" },
-	{ appName: "mscsearch", title: "MSC Script Search", link: "./mscsearch.html" }*/
+	{ appName: "multicalc", title: "Multi Calculator", link: "./multicalc.html" }
 ];
 
 function GetApps(current) {

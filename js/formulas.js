@@ -289,7 +289,6 @@ function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, elect
 		return res;
 	}
 	var hitstun = Math.max(0, Hitstun(kb, windbox, electric) + addHitstun);
-	//var fsm = TumbleFSM(kb);
 	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
 	var airdodge = false;
 	var aerial = false;
@@ -332,11 +331,6 @@ function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, elect
 	if (res.aerial > hitstun) {
 		res.aerial = hitstun + 1;
 	}
-
-	//if (fsm >= 1) {
-	//	res.airdodge -= fsm * 5;
-	//	res.aerial -= fsm * 5;
-	//}
 
 	return res;
 }
@@ -549,10 +543,7 @@ function VSShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, 
 function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, direct) {
 	if (is_projectile && !attached)
 		return 0;
-	//var h = ShieldHitlag(damage, hitlag, electric, perfectShield, is_projectile, attached, direct);
-	//if (perfectShield)
-	//	h += 3;
-	//return h;
+
 	if (hitlag < 1)
 		hitlag = 1;
 	hitlag *= 0.67;
@@ -1278,8 +1269,6 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 	var hitstun = Math.max(0, Hitstun(kb, windbox, electric) + addHitstun);
 	var hitstunSpeedUp = speedupFrames[speedupFrames.length - 1];
 
-	//console.log(hitstun, hitstunSpeedUp);
-	//var fsm = TumbleFSM(kb);
 	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
 	var airdodge = false;
 	var aerial = false;
