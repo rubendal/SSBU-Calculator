@@ -1,1 +1,1 @@
-{"name":"edge","weight":79,"gravity":0.18,"fall_speed":1.84,"traction":0.11,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.068544,"damageflytop_fall_speed":1.8}
+{"name":"edge","weight":79,"gravity":0.108,"fall_speed":1.84,"traction":0.11,"soft_landing_lag":1,"hard_landing_lag":3,"damageflytop_gravity":0.068544,"damageflytop_fall_speed":1.8}
