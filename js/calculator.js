@@ -105,7 +105,7 @@ app.controller('calculator', function ($scope) {
 	$scope.shieldstunMult = 1;
 	$scope.addHitstun = 0;
 	$scope.attachedWeapon = false;
-	$scope.indirectHitbox = false;
+	$scope.directHitbox = true;
 
     $scope.section_main = { 'background': 'rgba(0, 0, 255, 0.3)' };
     $scope.section_attributes = { 'background': 'transparent' };
@@ -981,23 +981,23 @@ app.controller('calculator', function ($scope) {
 			}
 
 			if (!is_projectile)
-				shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+				shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
 			//if (perfectshield && is_projectile) {
-			//	shieldList.push(new Result("Shield Hitlag (Training)", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
-			//	shieldList.push(new Result("Shield Hitlag (VS)", VSShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+			//	shieldList.push(new Result("Shield Hitlag (Training)", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
+			//	shieldList.push(new Result("Shield Hitlag (VS)", VSShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
 			//}
 			//else {
-			//	shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+			//	shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
 			//}
-			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, indirectHitbox)));
+			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
 			shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun), ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun) == 1));
 			shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, uses_aerial_shieldstun)));
 			if (perfectshield && is_projectile) {
-				shieldList.push(new Result("Parry Advantage (Training)", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, indirectHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
-				shieldList.push(new Result("Parry Advantage (VS)", VSShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, indirectHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
+				shieldList.push(new Result("Parry Advantage (Training)", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
+				shieldList.push(new Result("Parry Advantage (VS)", VSShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
 			}
 			else {
-				shieldList.push(new Result((perfectshield ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, indirectHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
+				shieldList.push(new Result((perfectshield ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
 			}
 			
 			if (!windbox) {
@@ -1151,7 +1151,7 @@ app.controller('calculator', function ($scope) {
 		addHitstun = parseFloat($scope.addHitstun);
 
 		attachedWeapon = $scope.attachedWeapon;
-		indirectHitbox = $scope.indirectHitbox;
+		directHitbox = $scope.directHitbox;
 
 		ink = parseFloat($scope.inkValue);
 
