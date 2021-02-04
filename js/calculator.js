@@ -1151,7 +1151,7 @@ app.controller('calculator', function ($scope) {
 		addHitstun = parseFloat($scope.addHitstun);
 
 		attachedWeapon = $scope.attachedWeapon;
-		directHitbox = $scope.directHitbox;
+		directHitbox = !$scope.is_projectile; //$scope.directHitbox;
 
 		ink = parseFloat($scope.inkValue);
 
