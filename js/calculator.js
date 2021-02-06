@@ -300,7 +300,7 @@ app.controller('calculator', function ($scope) {
 					$scope.uses_aerial_shieldstun = false;
 					$scope.charging_frames_type = attacker.name == "Donkey Kong" ? "Arm swings" : (attacker.name == "Jigglypuff" ? "Speed" : "Frames charged");
                     $scope.updateCharge();
-                    
+
                 }else{
                     $scope.charge_data = null;
                     $scope.charge_min = 0;
@@ -325,7 +325,7 @@ app.controller('calculator', function ($scope) {
             }
             $scope.checkSmashVisibility();
         }
-        
+
     }
 
     $scope.prev_hit_frame = function(){
@@ -523,6 +523,7 @@ app.controller('calculator', function ($scope) {
             $scope.windbox = attack.windbox;
 			$scope.shieldDamage = attack.shieldDamage;
 			$scope.shieldstunMult = attack.shieldstun;
+			$scope.addHitstun = attack.addHitstun;
 			$scope.set_weight = attack.setweight;
             if (!isNaN(attack.hitboxActive[0].start)) {
                 $scope.hit_frame = attack.hitboxActive[0].start;
@@ -531,6 +532,12 @@ app.controller('calculator', function ($scope) {
             }
 			$scope.faf = attack.faf;
 			$scope.landing_lag = attack.landingLag;
+			if(attack.effect != "" && effects.some(e => e.name == attack.effect)){
+				$scope.effect = attack.effect;
+				$scope.updateEffect();
+			}else{
+				$scope.effect = effects[0].name;
+			}
             if (!$scope.is_smash) {
                 $scope.smashCharge = 0;
                 charge_frames = 0;
@@ -602,7 +609,7 @@ app.controller('calculator', function ($scope) {
 				}
             }
         }
-        
+
         $scope.check();
         $scope.update();
     }
@@ -693,7 +700,7 @@ app.controller('calculator', function ($scope) {
         target = new Character($scope.targetValue);
         $scope.targetMod = "Normal";
         $scope.targetModifiers = [];
-        
+
 		for (var i = 0; i < target.modifiers.length; i++) {
 			if (target.modifiers[i].targetShow)
 				$scope.targetModifiers.push(target.modifiers[i]);
@@ -789,7 +796,7 @@ app.controller('calculator', function ($scope) {
 		damage *= attacker.modifier.damage_dealt
 		damage *= InkDamageMult(ink);
 
-		
+
 
 
         //if(stage != null){
@@ -798,10 +805,10 @@ app.controller('calculator', function ($scope) {
         //        //bounce = distance.bounce;
         //    }
         //}
-		
+
 		//var vsDistance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.hitstun, vskb.hitstunFSM, vskb.angle, target.attributes.gravity * target.modifier.gravity, ($scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, !graph, parseFloat($scope.extra_vis_frames));
 		vskb.bounce(bounce);
-		var v_hc = HitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, addHitstun);		
+		var v_hc = HitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, addHitstun);
 
 		//Results categories
 		var resultList = [];
@@ -817,7 +824,7 @@ app.controller('calculator', function ($scope) {
 			} else {
 				damageList.push(new Result("Stale-move negation", "x" + +StaleNegation(stale, shieldStale, ignoreStale).toFixed(6)));
 			}
-			
+
 		}
 		if (target.modifier.damage_taken != 1) {
 			damageList.push(new Result("Damage taken", "x" + +target.modifier.damage_taken.toFixed(6)));
@@ -872,7 +879,7 @@ app.controller('calculator', function ($scope) {
 		if ($scope.kb_modifier == "buried") {
 			kbList.push(new Result("Buried removed", vskb.kb >= parameters.buried_kb_threshold ? "Yes" : "No"));
 		}
-		
+
         kbList.push(new Result("Launch angle", +vskb.angle.toFixed(6)));
 		if (effect == "Paralyze") {
 			kbList.push(new Result("Paralysis time", ParalysisTime(vskb.kb, damage, hitlag, HitlagCrouch(crouch))));
@@ -924,7 +931,7 @@ app.controller('calculator', function ($scope) {
 
 			//Frame hitstun cancel is possible isn't affected by speed up
 
-			var suv_hc = SpeedUpHitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, damageSpeedUpFrames, addHitstun);	
+			var suv_hc = SpeedUpHitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, windbox, electric, damageSpeedUpFrames, addHitstun);
 
 			kbList.push(new Result("Airdodge hitstun cancel", suv_hc.airdodge, (Hitstun(vskb.base_kb, windbox, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.airdodge)));
 			kbList.push(new Result("Aerial hitstun cancel", suv_hc.aerial, (Hitstun(vskb.base_kb, windbox, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.aerial)));
@@ -999,7 +1006,7 @@ app.controller('calculator', function ($scope) {
 			else {
 				shieldList.push(new Result((perfectshield ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
 			}
-			
+
 			if (!windbox) {
 				if (!is_projectile)
 					shieldList.push(new Result("Attacker shield pushback", +AttackerShieldPushback(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale)).toFixed(6)));
@@ -1010,7 +1017,7 @@ app.controller('calculator', function ($scope) {
             shieldList.push(new Result("Unblockable attack", "Yes"));
         }
 
-        
+
 		if (graph) {
 			$scope.visualizer.SetStage(stage);
 			$scope.visualizer.SetLaunch(distance.launchData);
@@ -1143,7 +1150,7 @@ app.controller('calculator', function ($scope) {
         set_weight = $scope.set_weight;
 
 		effect = $scope.effect;
-        
+
 		launch_rate = parseFloat($scope.launch_rate);
 
 		shieldstunMult = parseFloat($scope.shieldstunMult);
@@ -1224,7 +1231,7 @@ app.controller('calculator', function ($scope) {
 	}
 
 
-    
+
 	$scope.themes = styleList;
 	$scope.theme = styleList[0].name;
 
@@ -1234,7 +1241,7 @@ app.controller('calculator', function ($scope) {
 		$scope.updateDI();
 	}
 
-	
+
 	$scope.controllers = ControllerList;
 	$scope.game_controller = JSON.stringify($scope.controllers[0]);
 
@@ -1295,7 +1302,7 @@ app.controller('calculator', function ($scope) {
 		var input = null;
 
 		for (var i = 0; i < $scope.stickInputs.length; i++) {
-			if ($scope.stickInputs[i].X == $scope.stick.X && $scope.stickInputs[i].Y == $scope.stick.Y) {		
+			if ($scope.stickInputs[i].X == $scope.stick.X && $scope.stickInputs[i].Y == $scope.stick.Y) {
 				input = $scope.stickInputs[i];
 				break;
 			}
