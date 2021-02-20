@@ -116,7 +116,31 @@ app.controller('calculator', function ($scope) {
 	$scope.unblockable = false;
 	$scope.isFinishingTouch = false;
 
-	getMoveset(attacker, $scope);
+	$scope.moveset = LoadMoves(attacker.GameName);
+
+	$scope.movelist = $scope.moveset.reduce((a, e) => {
+		var index = -1;
+		for (var i = 0; i < a.length; i++) {
+			if (a[i].name == e.MoveRef.NameId) {
+				index = i;
+				break;
+			}
+		}
+		if (index == -1) {
+			a.push({
+				name: e.MoveRef.NameId,
+				moves: [
+					e
+				]
+			});
+		}
+		else {
+			a[index].moves.push(e);
+		}
+
+		return a;
+	}, []);
+
 	$scope.move = "0";
 
 	$scope.game_mode = game_mode;
@@ -275,53 +299,50 @@ app.controller('calculator', function ($scope) {
 					$scope.$apply();
 				}, 10);
 			}
-			$scope.is_aerial_move = $scope.selected_move.aerial;
-			$scope.uses_aerial_shieldstun = $scope.selected_move.aerial_shieldstun;
+			$scope.is_aerial_move = $scope.selected_move.MoveRef.IsAerialAttack;
+			$scope.uses_aerial_shieldstun = $scope.selected_move.MoveRef.IsAerialAttack;
 			$scope.is_aerial = $scope.selected_move.aerial ? {} : { 'display': 'none' };
-			if ($scope.selected_move.aerial && !isNaN($scope.selected_move.landingLag)) {
+			if ($scope.selected_move.aerial && $scope.selected_move.MoveRef.LandingLag != null) {
 				$scope.use_landing_lag = "yes";
 				$scope.update_faf();
 			}
 			$scope.prev_hf = { 'display': 'none' };
-			$scope.next_hf = { 'display': $scope.selected_move.hitboxActive.length > 1 ? 'inline' : 'none' };
-			if ($scope.selected_move.chargeable) {
-				if ($scope.selected_move.charge != null) {
-					$scope.charge_data = $scope.selected_move.charge;
-					$scope.charge_min = $scope.charge_data.min;
-					$scope.charge_max = $scope.charge_data.max;
-					if ($scope.smashCharge < $scope.charge_data.min) {
-						$scope.smashCharge = $scope.charge_data.min;
-					} else if ($scope.smashCharge > $scope.charge_data.max) {
-						$scope.smashCharge = $scope.charge_data.max;
-					}
-					$scope.charge_special = true;
-					$scope.is_smash = true;
-					$scope.is_aerial_move = false;
-					$scope.uses_aerial_shieldstun = false;
-					$scope.charging_frames_type = attacker.name == "Donkey Kong" ? "Arm swings" : (attacker.name == "Jigglypuff" ? "Speed" : "Frames charged");
-					$scope.updateCharge();
-
-				} else {
-					$scope.charge_data = null;
-					$scope.charge_min = 0;
-					$scope.smashCharge = 0;
-					$scope.charge_max = 60;
-					$scope.charge_special = false;
-					$scope.is_smash = $scope.selected_move.smash_attack;
-					$scope.is_aerial_move = false;
-					$scope.uses_aerial_shieldstun = false;
-					$scope.charging_frames_type = "Frames charged";
+			//$scope.next_hf = { 'display': $scope.selected_move.hitboxActive.length > 1 ? 'inline' : 'none' };
+			if ($scope.selected_move.MoveRef.ChargeData != null) {
+				$scope.charge_data = $scope.selected_move.MoveRef.ChargeData;
+				$scope.charge_min = $scope.charge_data.min;
+				$scope.charge_max = $scope.charge_data.max;
+				if ($scope.smashCharge < $scope.charge_data.min) {
+					$scope.smashCharge = $scope.charge_data.min;
+				} else if ($scope.smashCharge > $scope.charge_data.max) {
+					$scope.smashCharge = $scope.charge_data.max;
 				}
+				$scope.charge_special = true;
+				$scope.is_smash = true;
+				$scope.is_aerial_move = false;
+				$scope.uses_aerial_shieldstun = false;
+				$scope.charging_frames_type = attacker.name == "Donkey Kong" ? "Arm swings" : (attacker.name == "Jigglypuff" ? "Speed" : "Frames charged");
+				$scope.updateCharge();
 			} else {
 				$scope.charge_data = null;
 				$scope.charge_min = 0;
 				//$scope.smashCharge = 0;
 				$scope.charge_max = 60;
 				$scope.charge_special = false;
-				$scope.is_smash = $scope.selected_move.smash_attack;
-				$scope.is_aerial_move = $scope.selected_move.aerial;
-				$scope.uses_aerial_shieldstun = $scope.selected_move.aerial_shieldstun;
+				$scope.is_smash = $scope.selected_move.MoveRef.IsSmashAttack;
+				$scope.is_aerial_move = $scope.selected_move.MoveRef.IsAerialAttack;
+				$scope.uses_aerial_shieldstun = $scope.selected_move.MoveRef.IsAerialAttack;
 				$scope.charging_frames_type = "Frames charged";
+
+				//$scope.charge_data = null;
+				//$scope.charge_min = 0;
+				//$scope.smashCharge = 0;
+				//$scope.charge_max = 60;
+				//$scope.charge_special = false;
+				//$scope.is_smash = $scope.selected_move.smash_attack;
+				//$scope.is_aerial_move = false;
+				//$scope.uses_aerial_shieldstun = false;
+				//$scope.charging_frames_type = "Frames charged";
 			}
 			$scope.checkSmashVisibility();
 		}
@@ -329,26 +350,26 @@ app.controller('calculator', function ($scope) {
 	}
 
 	$scope.prev_hit_frame = function () {
-		$scope.hitbox_active_index--;
-		if (!isNaN($scope.selected_move.hitboxActive[$scope.hitbox_active_index].start)) {
-			$scope.hit_frame = $scope.selected_move.hitboxActive[$scope.hitbox_active_index].start;
-		} else {
-			$scope.hit_frame = 0;
-		}
-		$scope.prev_hf = { 'display': $scope.hitbox_active_index != 0 ? 'inline' : 'none' };
-		$scope.next_hf = { 'display': $scope.hitbox_active_index < $scope.selected_move.hitboxActive.length - 1 ? 'inline' : 'none' };
+		//$scope.hitbox_active_index--;
+		//if (!isNaN($scope.selected_move.hitboxActive[$scope.hitbox_active_index].start)) {
+		//    $scope.hit_frame = $scope.selected_move.hitboxActive[$scope.hitbox_active_index].start;
+		//} else {
+		//    $scope.hit_frame = 0;
+		//}
+		//$scope.prev_hf = { 'display': $scope.hitbox_active_index != 0 ? 'inline' : 'none' };
+		//$scope.next_hf = { 'display': $scope.hitbox_active_index < $scope.selected_move.hitboxActive.length-1 ? 'inline' : 'none' };
 		$scope.update();
 	}
 
 	$scope.next_hit_frame = function () {
-		$scope.hitbox_active_index++;
-		if (!isNaN($scope.selected_move.hitboxActive[$scope.hitbox_active_index].start)) {
-			$scope.hit_frame = $scope.selected_move.hitboxActive[$scope.hitbox_active_index].start;
-		} else {
-			$scope.hit_frame = 0;
-		}
-		$scope.prev_hf = { 'display': $scope.hitbox_active_index != 0 ? 'inline' : 'none' };
-		$scope.next_hf = { 'display': $scope.hitbox_active_index < $scope.selected_move.hitboxActive.length - 1 ? 'inline' : 'none' };
+		//$scope.hitbox_active_index++;
+		//if (!isNaN($scope.selected_move.hitboxActive[$scope.hitbox_active_index].start)) {
+		//    $scope.hit_frame = $scope.selected_move.hitboxActive[$scope.hitbox_active_index].start;
+		//} else {
+		//    $scope.hit_frame = 0;
+		//}
+		//$scope.prev_hf = { 'display': $scope.hitbox_active_index != 0 ? 'inline' : 'none' };
+		//$scope.next_hf = { 'display': $scope.hitbox_active_index < $scope.selected_move.hitboxActive.length-1 ? 'inline' : 'none' };
 		$scope.update();
 	}
 
@@ -356,32 +377,15 @@ app.controller('calculator', function ($scope) {
 		landing_lag = 0;
 		switch ($scope.use_landing_lag) {
 			case "no":
-				$scope.faf = $scope.selected_move.faf;
+				$scope.faf = $scope.selected_move.MoveRef.FAF;
 				break;
 			case "yes":
 				$scope.faf = $scope.hit_frame + 1;
-				landing_lag = $scope.selected_move.landingLag;
+				landing_lag = $scope.selected_move.MoveRef.LandingLag;
 				break;
 			case "autocancel":
 				var i = $scope.hit_frame;
-				var h = $scope.hit_frame + 50;
-				var f = false;
-				for (i = $scope.hit_frame; i < h; i++) {
-					for (var x = 0; x < $scope.selected_move.autoCancel.length; x++) {
-						if ($scope.selected_move.autoCancel[x].eval(i)) {
-							f = true;
-							break;
-						}
-					}
-					if (f) {
-						break;
-					}
-				}
-				if (f) {
-					$scope.faf = i;
-				} else {
-					$scope.faf = NaN;
-				}
+				$scope.faf = $scope.selected_move.MoveRef.LandingLagEndFrame;
 				break;
 		}
 		$scope.update();
@@ -443,13 +447,34 @@ app.controller('calculator', function ($scope) {
 		$scope.attacker_image = attacker.image;
 		$scope.attacker_class = attacker.class;
 		$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
-		if (notInAPICharacters.indexOf(attacker.display_name) == -1) {
-			getMoveset(attacker, $scope);
-		}
-		else {
-			$scope.moveset_info = null;
-			$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-		}
+		$scope.moveset = LoadMoves(attacker.GameName);
+
+
+		//var moves = $scope.moveset.reduce((entryMap, e) => entryMap.set(e.MoveRef.NameId, [...entryMap.get(e.MoveRef.NameId) || [], e]), { name: "", hitboxes: [] });
+
+		$scope.movelist = $scope.moveset.reduce((a, e) => {
+			var index = -1;
+			for (var i = 0; i < a.length; i++) {
+				if (a[i].name == e.MoveRef.NameId) {
+					index = i;
+					break;
+				}
+			}
+			if (index == -1) {
+				a.push({
+					name: e.MoveRef.NameId,
+					moves: [
+						e
+					]
+				});
+			}
+			else {
+				a[index].moves.push(e);
+			}
+
+			return a;
+		}, []);
+
 		$scope.move = "0";
 		$scope.preDamage = 0;
 		$scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
@@ -505,103 +530,100 @@ app.controller('calculator', function ($scope) {
 
 	$scope.updateAttack = function () {
 		var attack = $scope.moveset[$scope.move];
-		if (attack.valid) {
-			if (attack.counterMult == 0) {
-				$scope.counteredDamage = 0;
-			}
-			$scope.angle = attack.angle;
-			$scope.baseDamage = attack.base_damage;
-			$scope.bkb = attack.bkb;
-			$scope.kbg = attack.kbg;
-			$scope.wbkb = attack.wbkb;
-			$scope.is_smash = attack.smash_attack;
-			$scope.preDamage = attack.preDamage;
-			$scope.counterMult = attack.counterMult;
-			$scope.unblockable = attack.unblockable || attack.throw;
-			$scope.throw = attack.throw;
-			$scope.isFinishingTouch = false;
-			$scope.windbox = attack.windbox;
-			$scope.shieldDamage = attack.shieldDamage;
-			$scope.shieldstunMult = attack.shieldstun;
-			$scope.set_weight = attack.setweight;
-			if (!isNaN(attack.hitboxActive[0].start)) {
-				$scope.hit_frame = attack.hitboxActive[0].start;
-			} else {
-				$scope.hit_frame = 0;
-			}
-			$scope.faf = attack.faf;
-			$scope.landing_lag = attack.landingLag;
-			if (!$scope.is_smash) {
-				$scope.smashCharge = 0;
-				charge_frames = 0;
-			}
-			if (attack.name == "Fsmash" && attacker.name == "Mega Man") {
-				$scope.megaman_fsmash = true;
-			} else {
-				$scope.megaman_fsmash = false;
-			}
-			$scope.checkSmashVisibility();
-			$scope.checkCounterVisibility();
-			if ($scope.counterMult != 0) {
-				$scope.counterDamage();
-			}
-			$scope.selected_move = attack;
-			$scope.check_move();
+
+		$scope.angle = attack.Angle;
+		$scope.baseDamage = attack.Damage;
+		$scope.bkb = attack.BKB;
+		$scope.kbg = attack.KBG;
+		$scope.wbkb = attack.FKB;
+		$scope.is_smash = attack.smash_attack;
+		$scope.preDamage = attack.preDamage;
+		$scope.unblockable = attack.SetWeight == null || attack.throw;
+		$scope.throw = attack.throw;
+		$scope.windbox = attack.Flinchless;
+		$scope.hitlag = attack.Hitlag;
+		$scope.shieldDamage = attack.ShieldDamage != null ? attack.ShieldDamage : 0;
+		$scope.shieldstunMult = attack.ShieldstunMultiplier;
+		$scope.set_weight = attack.SetWeight;
+		$scope.addHitstun = attack.AdditionalHitstun;
+
+		if (attack.StartFrame != null) {
+			$scope.hit_frame = attack.StartFrame;
 		} else {
-			//console.debug(attack.name + " not valid");
+			$scope.hit_frame = 0;
 		}
+		$scope.faf = attack.MoveRef.FAF;
+		$scope.landing_lag = attack.MoveRef.LandingLag;
+		if (!$scope.is_smash) {
+			$scope.smashCharge = 0;
+			charge_frames = 0;
+		}
+		if (attack.MoveRef.NameId == "Fsmash" && attacker.name == "Mega Man") {
+			$scope.megaman_fsmash = true;
+		} else {
+			$scope.megaman_fsmash = false;
+		}
+		$scope.checkSmashVisibility();
+		$scope.checkCounterVisibility();
+		if ($scope.counterMult != 0) {
+			$scope.counterDamage();
+		}
+		$scope.selected_move = attack;
+		$scope.check_move();
+
+
 		$scope.update();
 	}
 
 	$scope.updateAttackData = function () {
-		var attack = $scope.moveset[$scope.move];
-		if (attack.valid) {
-			if ($scope.angle == attack.angle &&
-				$scope.baseDamage == attack.base_damage &&
-				$scope.bkb == attack.bkb &&
-				$scope.kbg == attack.kbg &&
-				$scope.wbkb == attack.wbkb &&
-				$scope.is_smash == attack.smash_attack &&
-				$scope.is_aerial_move == attack.aerial &&
-				$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
-				$scope.windbox == attack.windbox &&
-				$scope.shieldDamage == attack.shieldDamage) {
-			} else {
-				if (!$scope.detectAttack()) {
-					$scope.move = "0";
-					$scope.moveset[0].name = "Custom move";
-					$scope.preDamage = 0;
-					$scope.unblockable = false;
-					$scope.throw = false;
-					$scope.isFinishingTouch = false;
-					$scope.selected_move = null;
-					$scope.uses_aerial_shieldstun = $scope.is_aerial_move;
-				}
-			}
-		} else {
-			if (!$scope.detectAttack()) {
-				$scope.move = "0";
-				$scope.moveset[0].name = "Custom move";
-				$scope.preDamage = 0;
-				$scope.unblockable = false;
-				$scope.throw = false;
-				$scope.isFinishingTouch = false;
-				$scope.selected_move = null;
-				$scope.uses_aerial_shieldstun = $scope.is_aerial_move;
+		//     var attack = $scope.moveset[$scope.move];
+		//     if (attack.valid) {
+		//         if($scope.angle == attack.angle &&
+		//         $scope.baseDamage == attack.base_damage &&
+		//         $scope.bkb == attack.bkb &&
+		//         $scope.kbg == attack.kbg &&
+		//         $scope.wbkb == attack.wbkb &&
+		//$scope.is_smash == attack.smash_attack &&
+		//$scope.is_aerial_move == attack.aerial &&
+		//$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
+		//         $scope.windbox == attack.windbox &&
+		//         $scope.shieldDamage == attack.shieldDamage){
+		//         } else {
+		//             if (!$scope.detectAttack()) {
+		//                 $scope.move = "0";
+		//                 $scope.moveset[0].name = "Custom move";
+		//                 $scope.preDamage = 0;
+		//		$scope.unblockable = false;
+		//		$scope.throw = false;
+		//		$scope.isFinishingTouch = false;
+		//		$scope.selected_move = null;
+		//		$scope.uses_aerial_shieldstun = $scope.is_aerial_move;
+		//             }
+		//         }
+		//     } else {
+		//         if (!$scope.detectAttack()) {
+		//             $scope.move = "0";
+		//             $scope.moveset[0].name = "Custom move";
+		//             $scope.preDamage = 0;
+		//	$scope.unblockable = false;
+		//	$scope.throw = false;
+		//	$scope.isFinishingTouch = false;
+		//	$scope.selected_move = null;
+		//	$scope.uses_aerial_shieldstun = $scope.is_aerial_move;
 
-				//Check if url has short hop aerial multiplier (Possible aerial with hitbox data modified)
-				if ($scope.delayed_shorthop_aerial != null) {
+		//	//Check if url has short hop aerial multiplier (Possible aerial with hitbox data modified)
+		//	if ($scope.delayed_shorthop_aerial != null) {
 
-					$scope.is_aerial = {};
-					$scope.shorthop_aerial = $scope.delayed_shorthop_aerial;
+		//		$scope.is_aerial = {};
+		//		$scope.shorthop_aerial = $scope.delayed_shorthop_aerial;
 
-					setTimeout(function () {
-						$scope.delayed_shorthop_aerial = null;
-						$scope.$apply();
-					}, 10);
-				}
-			}
-		}
+		//		setTimeout(function () {
+		//			$scope.delayed_shorthop_aerial = null;
+		//			$scope.$apply();
+		//		}, 10);
+		//	}
+		//         }
+		//     }
 
 		$scope.check();
 		$scope.update();
@@ -622,70 +644,70 @@ app.controller('calculator', function ($scope) {
 	}
 
 	$scope.detectAttack = function () {
-		var detected = false;
-		for (var i = 1; i < $scope.moveset.length; i++) {
-			attack = $scope.moveset[i];
-			if (attack.character != $scope.attackerValue) {
-				//Using another character moveset
-				return false;
-			}
-			if (attack.valid) {
-				if ($scope.angle == attack.angle &&
-					$scope.baseDamage == attack.base_damage &&
-					$scope.bkb == attack.bkb &&
-					$scope.kbg == attack.kbg &&
-					$scope.wbkb == attack.wbkb &&
-					$scope.is_smash == attack.smash_attack &&
-					$scope.is_aerial_move == attack.aerial &&
-					$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
-					$scope.windbox == attack.windbox &&
-					$scope.shieldDamage == attack.shieldDamage) {
-					$scope.move = i.toString();
-					$scope.preDamage = attack.preDamage;
-					$scope.counterMult = attack.counterMult;
-					$scope.unblockable = attack.unblockable || attack.throw;
-					$scope.throw = attack.throw;
-					$scope.isFinishingTouch = false;
-					$scope.selected_move = attack;
-					$scope.check_move();
-					detected = true;
-					return true;
-				} else {
+		//   var detected = false;
+		//   for (var i = 1; i < $scope.moveset.length; i++) {
+		//       attack = $scope.moveset[i];
+		//       if (attack.character != $scope.attackerValue) {
+		//           //Using another character moveset
+		//           return false;
+		//       }
+		//       if (attack.valid) {
+		//           if ($scope.angle == attack.Angle &&
+		//               $scope.baseDamage == attack.Damage &&
+		//               $scope.bkb == attack.BKB &&
+		//               $scope.kbg == attack.KBG &&
+		//               $scope.wbkb == attack.FKB &&
+		//$scope.is_smash == attack.smash_attack &&
+		//$scope.is_aerial_move == attack.aerial &&
+		//$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
+		//               $scope.windbox == attack.windbox &&
+		//               $scope.shieldDamage == attack.shieldDamage) {
+		//                   $scope.move = i.toString();
+		//                   $scope.preDamage = attack.preDamage;
+		//                   $scope.counterMult = attack.counterMult;
+		//$scope.unblockable = attack.unblockable || attack.throw;
+		//$scope.throw = attack.throw;
+		//$scope.isFinishingTouch = false;
+		//                   $scope.selected_move = attack;
+		//                   $scope.check_move();
+		//                   detected = true;
+		//                   return true;
+		//           } else {
 
-				}
-			}
-		}
-		if (!detected) {
-			//Chargeable attacks
-			for (var i = 1; i < $scope.moveset.length; i++) {
-				attack = $scope.moveset[i];
-				if (attack.valid) {
-					if ($scope.angle == attack.angle &&
-						parseFloat($scope.baseDamage) >= parseFloat(attack.base_damage) &&
-						parseInt($scope.bkb) >= attack.bkb &&
-						parseInt($scope.kbg) >= attack.kbg &&
-						parseInt($scope.wbkb) >= attack.wbkb &&
-						$scope.is_smash == (attack.smash_attack || attack.chargeable) &&
-						$scope.is_aerial_move == attack.aerial &&
-						$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
-						$scope.windbox == attack.windbox &&
-						parseInt($scope.shieldDamage) >= attack.shieldDamage &&
-						(attack.chargeable || attack.counterMult != 0)) {
-						$scope.preDamage = attack.preDamage;
-						$scope.counterMult = attack.counterMult;
-						$scope.unblockable = attack.unblockable;
-						$scope.throw = attack.throw;
-						$scope.isFinishingTouch = false;
-						$scope.move = i.toString();
-						$scope.selected_move = attack;
-						$scope.check_move();
-						return true;
-					} else {
+		//           }
+		//       }
+		//   }
+		//   if (!detected) {
+		//       //Chargeable attacks
+		//       for (var i = 1; i < $scope.moveset.length; i++) {
+		//           attack = $scope.moveset[i];
+		//           if (attack.valid) {
+		//               if ($scope.angle == attack.angle &&
+		//	parseFloat($scope.baseDamage) >= parseFloat(attack.base_damage) &&
+		//                   parseInt($scope.bkb) >= attack.bkb &&
+		//                   parseInt($scope.kbg) >= attack.kbg &&
+		//	parseInt($scope.wbkb) >= attack.wbkb &&
+		//	$scope.is_smash == (attack.smash_attack || attack.chargeable) &&
+		//	$scope.is_aerial_move == attack.aerial &&
+		//	$scope.uses_aerial_shieldstun == attack.aerial_shieldstun &&
+		//                   $scope.windbox == attack.windbox &&
+		//	parseInt($scope.shieldDamage) >= attack.shieldDamage &&
+		//                   (attack.chargeable || attack.counterMult != 0)) {
+		//                       $scope.preDamage = attack.preDamage;
+		//                       $scope.counterMult = attack.counterMult;
+		//	$scope.unblockable = attack.unblockable;
+		//	$scope.throw = attack.throw;
+		//	$scope.isFinishingTouch = false;
+		//                       $scope.move = i.toString();
+		//                       $scope.selected_move = attack;
+		//                       $scope.check_move();
+		//                       return true;
+		//               } else {
 
-					}
-				}
-			}
-		}
+		//               }
+		//           }
+		//       }
+		//   }
 		return false;
 	}
 
@@ -729,7 +751,7 @@ app.controller('calculator', function ($scope) {
 
 	$scope.calculate = function () {
 		if ($scope.charge_data == null && $scope.is_smash) {
-			base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4);
+			base_damage = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.MoveRef.maxSmashChargeMult : 1.4);
 		}
 		if (attacker.name == "Lucario") {
 			base_damage *= Aura(attacker_percent, stock_dif, game_format);
@@ -786,7 +808,7 @@ app.controller('calculator', function ($scope) {
 		if ($scope.is_1v1) {
 			damage *= 1.2;
 		}
-		damage *= attacker.modifier.damage_dealt
+		damage *= attacker.modifier.damage_dealt;
 		damage *= InkDamageMult(ink);
 
 
@@ -838,7 +860,7 @@ app.controller('calculator', function ($scope) {
 			damageList.push(new Result("Aura", "x" + +Aura(attacker_percent, stock_dif, game_format).toFixed(6)));
 		}
 		if (is_smash && $scope.charge_data == null) {
-			damageList.push(new Result("Charged Smash", "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.maxSmashChargeMult : 1.4).toFixed(6)));
+			damageList.push(new Result("Charged Smash", "x" + +ChargeSmashMultiplier(charge_frames, megaman_fsmash, witch_time_smash_charge, $scope.selected_move != null ? $scope.selected_move.MoveRef.maxSmashChargeMult : 1.4).toFixed(6)));
 		}
 		if (attacker.modifier.base_damage != 1) {
 			damageList.push(new Result("Base damage multiplier", "x" + +attacker.modifier.base_damage.toFixed(6)));
@@ -895,9 +917,6 @@ app.controller('calculator', function ($scope) {
 		if (effect == "Disable") {
 			kbList.push(new Result("Disable time", DisableTime(target_percent + StaleDamage(preDamage, stale, shieldStale, ignoreStale), StaleDamage(damage, stale, shieldStale, ignoreStale), vskb.kb, stock_dif)));
 		}
-
-
-
 		var hitstun = Math.max(0, vskb.hitstun + addHitstun);
 
 		if (FirstActionableFrame(vskb.base_kb, windbox, electric) >= 32 && wbkb == 0 && vskb.tumble) {
@@ -980,25 +999,11 @@ app.controller('calculator', function ($scope) {
 				shieldList.push(new Result("Shield Break", sv >= 50 * target.modifier.shield ? "Yes" : "No"));
 			}
 
-			if (!is_projectile)
-				shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
-			//if (perfectshield && is_projectile) {
-			//	shieldList.push(new Result("Shield Hitlag (Training)", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
-			//	shieldList.push(new Result("Shield Hitlag (VS)", VSShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
-			//}
-			//else {
-			//	shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
-			//}
+			shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox), AttackerShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield) == ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
 			shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), hitlag, electric, perfectshield, is_projectile, attachedWeapon, directHitbox)));
 			shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun), ShieldStunMultiplier(shieldstunMult, is_projectile, is_smash, uses_aerial_shieldstun) == 1));
 			shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, is_projectile, perfectshield, is_smash, uses_aerial_shieldstun)));
-			if (perfectshield && is_projectile) {
-				shieldList.push(new Result("Parry Advantage (Training)", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
-				shieldList.push(new Result("Parry Advantage (VS)", VSShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
-			}
-			else {
-				shieldList.push(new Result((perfectshield ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
-			}
+			shieldList.push(new Result("Shield Advantage", ShieldAdvantage(StaleDamage(damageOnShield, stale, shieldStale, ignoreStale), shieldstunMult, hitlag, hitframe, $scope.use_landing_lag == "yes" ? faf + landing_lag : $scope.use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf, is_projectile, attachedWeapon, directHitbox, electric, perfectshield, is_smash, uses_aerial_shieldstun)));
 
 			if (!windbox) {
 				if (!is_projectile)
@@ -1061,8 +1066,8 @@ app.controller('calculator', function ($scope) {
 			$scope.bkb = $scope.selected_move.charge_bkb(parseFloat($scope.smashCharge));
 			$scope.kbg = $scope.selected_move.charge_kbg(parseFloat($scope.smashCharge));
 			$scope.shieldDamage = $scope.selected_move.charge_shieldDamage(parseFloat($scope.smashCharge));
-			$scope.hit_frame = $scope.selected_move.hitboxActive[$scope.hitbox_active_index].start + parseFloat($scope.smashCharge);
-			$scope.faf = $scope.selected_move.faf + parseFloat($scope.smashCharge);
+			$scope.hit_frame = $scope.selected_move.StartFrame + parseFloat($scope.smashCharge);
+			$scope.faf = $scope.selected_move.MoveRef.FAF + parseFloat($scope.smashCharge);
 		}
 		$scope.update();
 	}
@@ -1083,13 +1088,13 @@ app.controller('calculator', function ($scope) {
 		shieldStale = $scope.shieldStale;
 		hitlag = parseFloat($scope.hitlag);
 
-		if ($scope.selected_move != null) {
-			if ($scope.selected_move.calculateThrowData != null) {
-				var throwData = $scope.selected_move.calculateThrowData(target.name, target.attributes.weight);
-				$scope.hit_frame = throwData.hitFrame;
-				$scope.faf = throwData.faf;
-			}
-		}
+		//if ($scope.selected_move != null) {
+		//	if ($scope.selected_move.calculateThrowData != null) {
+		//		var throwData = $scope.selected_move.calculateThrowData(target.name, target.attributes.weight);
+		//		$scope.hit_frame = throwData.hitFrame;
+		//		$scope.faf = throwData.faf;
+		//	}
+		//}
 
 		hitframe = parseFloat($scope.hit_frame);
 		faf = parseFloat($scope.faf);

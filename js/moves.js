@@ -99,7 +99,7 @@ var chargeMoves = [
 ];
 
 class MoveData {
-	constructor(character, move) {
+	constructor(character, move, moveType) {
 
 		for (var property in move) {
 			this[property] = move[property];
@@ -107,7 +107,10 @@ class MoveData {
 		this.character = character;
 		this.ChargeData = null;
 
-		
+		this.Type = moveType.Type;
+		this.InputType = moveType.InputType;
+		this.IsSmashAttack = moveType.IsSmashAttack;
+		this.IsAerialAttack = moveType.IsAerialAttack;
 
 		this.Grabs = []; //Ignore grabs
 
@@ -261,7 +264,7 @@ class MoveData {
 				}
 			}
 			else {
-				if (this.Hitboxes.length > 0) {
+				if (this.InputType != "throw" && this.Hitboxes.length > 0) {
 					this.Throws[i].MoveName += ` (Throw)`;
 				}
 				//this.Throws[i].MoveName += ` (${this.Throws[i].Kind})`;
@@ -285,32 +288,35 @@ function LoadMoves(character) {
 		var internalName = moves.InternalName;
 
 		var index = 0;
+		for (var n = 0; n < moves.MoveTypes.length; n++) {
+			var moveType = moves.MoveTypes[n];
+			for (var i = 0; i < moveType.Moves.length; i++) {
+				var move = new MoveData(characterName, moveType.Moves[i], moveType);
+				for (var m = 0; m < move.Hitboxes.length; m++) {
+					var hitbox = move.Hitboxes[m];
 
-		for (var i = 0; i < moves.Moves.length; i++) {
-			var move = new MoveData(characterName, moves.Moves[i]);
-			for (var m = 0; m < move.Hitboxes.length; m++) {
-				var hitbox = move.Hitboxes[m];
+					if (hitbox.Effect == "collision_attr_search")
+						continue;
 
-				if (hitbox.Effect == "collision_attr_search")
-					continue;
-				
-				hitbox.index = index;
-				moveData.push(hitbox);
-				index++;
-			}
+					hitbox.index = index;
+					moveData.push(hitbox);
+					index++;
+				}
 
-			for (var m = 0; m < move.Throws.length; m++) {
-				var t = move.Throws[m];
+				for (var m = 0; m < move.Throws.length; m++) {
+					var t = move.Throws[m];
 
-				//Remove grab releases, Byleth uses Kind FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH for a throw on up B but uses id = 1
-				if (t.Kind == 'FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH' && t.Id == 0) 
-					continue;
+					//Remove grab releases, Byleth uses Kind FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH for a throw on up B but uses id = 1
+					if (t.Kind == 'FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH' && t.Id == 0)
+						continue;
 
-				t.index = index;
-				moveData.push(t);
-				index++;
+					t.index = index;
+					moveData.push(t);
+					index++;
+				}
 			}
 		}
+		
 
 		//console.log(moveData);
 
