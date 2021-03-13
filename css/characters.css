@@ -322,6 +322,10 @@ img.sephiroth {
     background: #374b4b;
 }
 
+img.pyra, img.mythra {
+    background: #69e6c3;
+}
+
 /*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
@@ -645,4 +649,8 @@ div.steve {
 
 div.sephiroth {
     border-top: 5px solid #374b4b;
+}
+
+div.pyra, div.mythra {
+    border-top: 5px solid #69e6c3;
 }
