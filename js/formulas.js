@@ -689,7 +689,7 @@ function WeightDependentThrowFrame(frame, weight, animationLength) {
 
 //Effect formulas
 function ParalyzerHitlag(base_damage, hitlag_mult, crouch) {
-	var h = Math.floor(((base_damage * parameters.hitlag.mult + parameters.paralyzer.constant)) * hitlag_mult * crouch * parameters.paralyzer.mult);
+	var h = Math.floor(((base_damage * parameters.hitlag.mult + parameters.hitlag.constant)) * hitlag_mult * crouch);
 	if (h < 0) {
 		return 0;
 	}
@@ -697,7 +697,9 @@ function ParalyzerHitlag(base_damage, hitlag_mult, crouch) {
 }
 
 function ParalysisTime(kb, base_damage, hitlag_mult, crouch) {
-	var p = Math.floor((((base_damage * parameters.hitlag.mult + parameters.paralyzer.constant)) * hitlag_mult) * crouch * parameters.paralyzer.mult * kb / 10);
+	//var p = Math.floor((((base_damage * parameters.hitlag.mult * parameters.paralyzer.mult + parameters.hitlag.constant)) * hitlag_mult) * crouch * kb);
+	var p = Math.ceil(kb * hitlag_mult * crouch * parameters.paralyzer.mult);//  + parameters.paralyzer.constant - 1;
+
 	if (p > parameters.paralyzer.max) {
 		return parameters.paralyzer.max;
 	}
