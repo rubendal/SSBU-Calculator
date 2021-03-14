@@ -698,7 +698,7 @@ function ParalyzerHitlag(base_damage, hitlag_mult, crouch) {
 
 function ParalysisTime(kb, base_damage, hitlag_mult, crouch) {
 	//var p = Math.floor((((base_damage * parameters.hitlag.mult * parameters.paralyzer.mult + parameters.hitlag.constant)) * hitlag_mult) * crouch * kb);
-	var p = Math.ceil(kb * hitlag_mult * crouch * parameters.paralyzer.mult);//  + parameters.paralyzer.constant - 1;
+	var p = Math.floor(kb * hitlag_mult * parameters.paralyzer.mult) + parameters.paralyzer.constant;
 
 	if (p > parameters.paralyzer.max) {
 		return parameters.paralyzer.max;
