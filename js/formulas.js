@@ -1332,3 +1332,7 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 
 	return res;
 }
+
+function ToDegrees(rad) {
+	return rad * 180 / Math.PI;
+}

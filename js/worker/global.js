@@ -1318,7 +1318,7 @@ class Knockback {
         this.vertical_launch_speed = 0;
         this.launch_rate = launch_rate;
 		this.electric = electric;
-		this.damageflytop = this.tumble && this.angle >= 70 && this.angle <= 110;
+		this.damageflytop = this.tumble && this.angle >= ToDegrees(1.22173) && this.angle <= ToDegrees(1.91986);
 		this.damageflytop_gravity = damageflytop_gravity;
 
         if (this.launch_rate == undefined) {
@@ -1356,15 +1356,15 @@ class Knockback {
 
 			var gravity = this.gravity;
 
-			this.damageflytop = this.tumble && this.angle >= 70 && this.angle <= 110;
+			this.damageflytop = this.tumble && this.angle >= ToDegrees(1.22173) && this.angle <= ToDegrees(1.91986);
 
-			if (this.damageflytop)
-				gravity = this.damageflytop_gravity;
-			else
-				gravity = this.gravity;
+			//if (this.damageflytop)
+			//	gravity = this.damageflytop_gravity;
+			//else
+			//	gravity = this.gravity;
 
 			this.add_gravity_speed = parameters.gravity.mult * (gravity - parameters.gravity.constant);
-			if (!this.tumble || this.set_weight) {
+			if (!this.tumble || this.set_weight || this.damageflytop) {
 				this.add_gravity_speed = 0;
 			}
 
