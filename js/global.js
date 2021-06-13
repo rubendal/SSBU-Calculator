@@ -1758,13 +1758,6 @@ class Distance{
 		var ignoreGravityAdd = false;
 		var waitFramesCollisionSpeedUp = 0;
 
-		/*Made these from comparisons and trying to make results match in-game positions... 
-		it should something caused by DamageFlySpeedUp but it could be a thing too
-		At least FAF position seems accurate with these
-		*/
-		var gravityMul = 1.25;
-		var damageFlyTopGravityMul = 1.2;
-
 		for (var i = 0; i < limit; i++){
 
             var next_x = character_position.x + launch_speed.x + character_speed.x;
@@ -1993,17 +1986,15 @@ class Distance{
 				//Gravity
 				if (countGravity) {
 					if (!ignoreGravityAdd) {
-						if (!this.isFinishingTouch) {
-							if (!isDamageFlyTop) {
-								g -= gravity * gravityMul;
+						if (!isDamageFlyTop) {
+								g -= gravity;
 								fg = Math.max(g, -fall_speed);
 								character_speed.y = fg;
 								character_speed.y = +character_speed.y.toFixed(6);
 							} else {
-								//First 45 frames
 								if (i < hitstun) {
 									//Set DamageFlyTop values
-									g -= damageflytop_gravity * damageFlyTopGravityMul;
+									g -= damageflytop_gravity;
 									fg = Math.max(g, -damageflytop_fall_speed);
 									character_speed.y = fg;
 									character_speed.y = +character_speed.y.toFixed(6);
@@ -2013,44 +2004,18 @@ class Distance{
 									}
 									if (character_speed.y < -fall_speed) {
 										//Current fall speed is higher than character normal fall speed, add gravity until it reduces to fall speed
-										g += gravity * gravityMul;
+										g += gravity;
 										fg = Math.min(g, -fall_speed);
 										character_speed.y = fg;
 										character_speed.y = +character_speed.y.toFixed(6);
 									} else {
-										g -= gravity * gravityMul;
+										g -= gravity;
 										fg = Math.max(g, -fall_speed);
 										character_speed.y = fg;
 										character_speed.y = +character_speed.y.toFixed(6);
 									}
 								}
 							}
-						} else {
-							//First 22 frames
-							if (i < 22) {
-								//Set gravity to 0.087 and fall speed to 1.5
-								g -= 0.087;
-								fg = Math.max(g, -1.5);
-								character_speed.y = fg;
-								character_speed.y = +character_speed.y.toFixed(6);
-							} else {
-								if (i == 22) {
-									g = fg;
-								}
-								if (character_speed.y < -fall_speed) {
-									//Current fall speed is higher than character normal fall speed, add gravity until it reduces to fall speed
-									g += gravity * gravityMul;
-									fg = Math.min(g, -fall_speed);
-									character_speed.y = fg;
-									character_speed.y = +character_speed.y.toFixed(6);
-								} else {
-									g -= gravity * gravityMul;
-									fg = Math.max(g, -fall_speed);
-									character_speed.y = fg;
-									character_speed.y = +character_speed.y.toFixed(6);
-								}
-							}
-						}
 					}
 				} else {
 					character_speed.y = 0;
@@ -2126,7 +2091,7 @@ class Distance{
 		this.launchData.hitstun = hitstun;
 
 		this.vertical_speed.push((launch_speed.y));
-
+		this.character_vertical_speed.push((character_speed.y));
 
 
 		if (this.stage != null) {
