@@ -326,6 +326,10 @@ img.pyra, img.mythra {
     background: #69e6c3;
 }
 
+div.kazuya {
+    background: #a52319;
+}
+
 /*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
@@ -653,4 +657,8 @@ div.sephiroth {
 
 div.pyra, div.mythra {
     border-top: 5px solid #69e6c3;
+}
+
+div.kazuya {
+    border-top: 5px solid #a52319;
 }
