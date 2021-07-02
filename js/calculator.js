@@ -758,7 +758,7 @@ app.controller('calculator', function ($scope) {
 			preDamage *= parameters.shorthop_aerial;
 		}
 
-		if (attacker.modifier.name == "Winged Mode") {
+		if (attacker.modifier.name == "Winged Mode" || attacker.modifier.name == "Rage") {
 			//Winged Mode affects KB like short hop multiplier
 			damage *= attacker.modifier.damage_dealt;
 			preDamage *= attacker.modifier.damage_dealt;
