@@ -94,39 +94,39 @@ function Aura(percent, stock_dif, game_format) {
 				max = 1.8;
 				break;
 			case "-1":
-				m = 1.12;
+				m = 1.2;
 				min = 0.792;
 				max = 1.8;
 				break;
 			case "+1":
-				m = 0.8888;
-				max = 1.464;
+				m = 0.915;
+				max = 1.5281;
 				min = 0.6039;
 				break;
 			case "+2":
 				m = 0.83;
-				max = 1.328;
+				max = 1.3861;
 				break;
 		}
 	} else {
 		switch (stock_dif) {
 			case "-2":
-				m = 2;
+				m = 1.8;
 				min = 1.32;
 				max = 1.8;
 				break;
 			case "-1":
-				m = 1.3333;
+				m = 1.4;
 				min = 0.88;
 				max = 1.8;
 				break;
 			case "+1":
-				m = 0.8;
-				max = 1.36;
+				m = 0.83;
+				max = 1.3861;
 				break;
 			case "+2":
-				m = 0.6333;
-				max = 1.076;
+				m = 0.66;
+				max = 1.1022;
 				break;
 		}
 	}
