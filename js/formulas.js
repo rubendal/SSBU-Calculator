@@ -47,12 +47,14 @@
 		constant: 3,
 		aerial: 0.33,
 		grounded: 0.725
-	}
+	},
+	staling: {
+		factors: [0.09, 0.08545, 0.07635, 0.0679, 0.05945, 0.05035, 0.04255, 0.03345, 0.025],
+		freshnessBonus: 1.05
+	} 
 };
 
-function TrainingKB(percent, base_damage, damage, weight, kbg, bkb, gravity, fall_speed, r, angle, in_air, windbox, electric, set_weight, stick, dddinhale, launch_rate) {
-	return new Knockback((((((((percent + damage) / 10) + (((percent + damage) * base_damage) / 20)) * (200 / (weight + 100)) * 1.4 * (dddinhale ? 0.25 : 1)) + 18) * (kbg / 100)) + bkb) * r, angle, gravity, fall_speed, in_air, windbox, electric, percent + damage, set_weight, stick, 1);
-}
+var PI = Math.PI; //3.1415927; //PI with single-float precision
 
 function Rage(percent) {
 	if (percent <= 35) {
@@ -64,11 +66,11 @@ function Rage(percent) {
 	return 1 + (percent - 35) * (1.1 - 1) / (150 - 35);
 }
 
-function Aura(percent, stock_dif, game_format) {
+function Aura(percent, stock_dif, players) {
 	if (stock_dif == undefined) {
 		stock_dif = "0";
 	}
-	if (game_format == undefined) {
+	if (players == "2") {
 		game_format = "Singles";
 	}
 	var aura = 0;
@@ -143,7 +145,7 @@ function StaleNegation(queue, shieldQueue, ignoreStale) {
 	if (ignoreStale) {
 		return 1;
 	}
-	var S = [0.09, 0.08545, 0.07635, 0.0679, 0.05945, 0.05035, 0.04255, 0.03345, 0.025];
+	var S = parameters.staling.factors;
 	var s = 1;
 	for (var i = 0; i < queue.length; i++) {
 		if (queue[i]) {
@@ -154,24 +156,12 @@ function StaleNegation(queue, shieldQueue, ignoreStale) {
 		}
 	}
 	if (s == 1) {
-		return 1.05;
+		return parameters.staling.freshnessBonus;
 	}
 	return s;
 }
 
-function TumbleFSM(kb) {
-	var hitstun = (kb * parameters.hitstun);
-	if (hitstun < 0) {
-		return 0;
-	}
-	var fsm = Math.floor(hitstun / 10) - 2;
-	if (fsm >= 2) {
-		return fsm - 1;
-	}
-	return 0;
-}
-
-function Hitstun(kb, windbox, electric, ignoreReeling) {
+function Hitstun(kb, windbox) {
 	if (windbox) {
 		return 0;
 	}
@@ -180,58 +170,11 @@ function Hitstun(kb, windbox, electric, ignoreReeling) {
 		return 0;
 	}
 
-	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
-	//if (electric) {
-	//	hitstun++;
-	//}
-
+	//Minimum hitstun for non-windbox hitboxes
 	if (hitstun < 5)
 		hitstun = 5;
 
 	return Math.floor(hitstun) - 1;
-}
-
-//Test function
-function HitstunWithFSM(kb, windbox, electric) {
-	if (windbox) {
-		return 0;
-	}
-	var hitstun = (kb * parameters.hitstun);
-	if (hitstun < 0) {
-		return 0;
-	}
-
-	//var fsm = TumbleFSM(kb);
-	//if (fsm >= 1) {
-	//	hitstun -= 5 * fsm;
-	//}
-
-	////Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521 (Not sure if they do on Ultimate but leaving this here for now)
-	//if (electric) {
-	//	hitstun++;
-	//}
-
-	return Math.floor(hitstun) - 1;
-}
-
-function S4Hitstun(kb, windbox, electric, ignoreReeling) {
-	if (windbox) {
-		return 0;
-	}
-	var hitstun = Math.floor(kb * parameters.hitstun) - 1;
-	if (!ignoreReeling) {
-		if (kb * parameters.hitstun >= parameters.tumble_threshold) {
-			hitstun++;
-		}
-	}
-	//Electric moves deal +1 hitstun https://twitter.com/Meshima_/status/786780420817899521
-	if (electric) {
-		hitstun++;
-	}
-	if (hitstun < 0) {
-		return 0;
-	}
-	return hitstun;
 }
 
 function LumaHitstun(kb, windbox, electric) {
@@ -251,7 +194,7 @@ function LumaHitstun(kb, windbox, electric) {
 
 function SakuraiAngle(kb, aerial) {
 	if (aerial) {
-		return (0.663225 * 180 / Math.PI);
+		return ToDegrees(0.663225);
 	}
 	if (kb < 60) {
 		return 0;
@@ -284,16 +227,16 @@ function FirstActionableFrame(kb, windbox, electric, ignoreReeling) {
 }
 
 function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, electric, addHitstun) {
-	var res = { 'airdodge': 0, 'aerial': 0 };
+	var res = { airdodge: 0, aerial: 0 };
 	if (windbox) {
 		return res;
 	}
 	var hitstun = Math.max(0, Hitstun(kb, windbox, electric) + addHitstun);
-	var res = { 'airdodge': hitstun + 1, 'aerial': hitstun + 1 };
+	var res = { airdodge: hitstun + 1, aerial: hitstun + 1 };
 	var airdodge = false;
 	var aerial = false;
-	var launch_speed = { 'x': Math.abs(launch_speed_x), 'y': Math.abs(launch_speed_y) };
-	var decay = { 'x': Math.abs(parameters.decay * Math.cos(angle * Math.PI / 180)), 'y': Math.abs(parameters.decay * Math.sin(angle * Math.PI / 180)) };
+	var launch_speed = { x: Math.abs(launch_speed_x), y: Math.abs(launch_speed_y) };
+	var decay = { x: Math.abs(parameters.decay * Math.cos(angle * PI / 180)), y: Math.abs(parameters.decay * Math.sin(angle * PI / 180)) };
 	var ec = electric ? 1 : 0;
 	for (var i = 0; i < hitstun; i++) {
 		if (launch_speed.x != 0) {
@@ -335,7 +278,7 @@ function HitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox, elect
 	return res;
 }
 
-function Hitlag(base_damage, hitlag_mult, electric, crouch, is_projectile, players) {
+function Hitlag(base_damage, hitlag_mult, electric, crouch, is_projectile, players, spiritsEnabled) {
 	var electric_mult = 1;
 	if (electric) {
 		electric_mult = 1.5;
@@ -345,7 +288,10 @@ function Hitlag(base_damage, hitlag_mult, electric, crouch, is_projectile, playe
 		var p = [1, 0.925, 0.862, 0.8116, 0.77464, 0.752464, 0.75];
 		player_mult = p[players - 2];
 	}
-	var h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant ) * electric_mult) * hitlag_mult) * crouch);// - 1;
+	var h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult) * crouch);// - 1;
+	if (spiritsEnabled && h > 16) {
+		return 16;
+	}
 	if (h > 30) {
 		return 30;
 	}
@@ -617,13 +563,13 @@ function StickSensibility(value) {
 
 function DI(stick, launchSpeed, totalLaunchSpeed) {
 	if (totalLaunchSpeed < 0.00001) //There is an if on MSC but it shouldn't happen since it requires tumble for DI to work
-		return Math.atan2(launchSpeed.Y, launchSpeed.X) * 180 / Math.PI;
+		return Math.atan2(launchSpeed.Y, launchSpeed.X) * 180 / PI;
 
 	if (Math.abs(Math.atan2(launchSpeed.Y, launchSpeed.X)) < parameters.di) //Cannot DI if launch angle is less than DI angle change param
-		return Math.atan2(launchSpeed.Y, launchSpeed.X) * 180 / Math.PI;
+		return Math.atan2(launchSpeed.Y, launchSpeed.X) * 180 / PI;
 
-	var X = StickSensibility(stick.X);
-	var Y = StickSensibility(stick.Y);
+	var X = StickSensibility(stick.x);
+	var Y = StickSensibility(stick.y);
 
 	var check = Y * launchSpeed.X - X * launchSpeed.Y < 0;
 
@@ -634,9 +580,9 @@ function DI(stick, launchSpeed, totalLaunchSpeed) {
 	var angle = 0;
 
 	if (check)
-		angle = (Math.atan2(launchSpeed.Y, launchSpeed.X) - di) * 180 / Math.PI;
+		angle = (Math.atan2(launchSpeed.Y, launchSpeed.X) - di) * 180 / PI;
 	else
-		angle = (Math.atan2(launchSpeed.Y, launchSpeed.X) + di) * 180 / Math.PI;
+		angle = (Math.atan2(launchSpeed.Y, launchSpeed.X) + di) * 180 / PI;
 
 	if (angle < 0)
 		angle += 360;
@@ -681,9 +627,10 @@ function HitAdvantage(hitstun, hitframe, faf, paralysis) {
 }
 
 //Formula by Arthur https://docs.google.com/spreadsheets/d/1E3kEQUOZy1C-kSzcoOSKay5gDqpo-ZZgq-8G511Bmw4/edit#gid=1810400970
-function WeightDependentThrowFrame(frame, weight, animationLength) {
-	return Math.ceil((frame - 1) * (1 + (26 / (animationLength - 1)) * (weight * 0.01 - 1)) + 1);
-}
+//Not used in Ultimate
+//function WeightDependentThrowFrame(frame, weight, animationLength) {
+//	return Math.ceil((frame - 1) * (1 + (26 / (animationLength - 1)) * (weight * 0.01 - 1)) + 1);
+//}
 
 //Effect formulas
 function ParalyzerHitlag(base_damage, hitlag_mult, crouch) {
@@ -818,7 +765,7 @@ function InsideStickGate(r, X, Y) {
 }
 
 function GetAngle(X, Y) {
-	var angle = Math.atan2(Y, X) * 180 / Math.PI;
+	var angle = Math.atan2(Y, X) * 180 / PI;
 	if (angle < 0)
 		angle += 360;
 
@@ -827,8 +774,8 @@ function GetAngle(X, Y) {
 
 function AngleToStickPosition(r, angle) {
 	if (r != 0) {
-		var x = Math.floor(r * Math.cos(angle * Math.PI / 180));
-		var y = Math.floor(r * Math.sin(angle * Math.PI / 180));
+		var x = Math.floor(r * Math.cos(angle * PI / 180));
+		var y = Math.floor(r * Math.sin(angle * PI / 180));
 
 		if (x < -127)
 			x = -127;
@@ -842,8 +789,8 @@ function AngleToStickPosition(r, angle) {
 		return { X: x, Y: y };
 	} else {
 
-		var x = Math.floor(128 * Math.cos(angle * Math.PI / 180));
-		var y = Math.floor(128 * Math.sin(angle * Math.PI / 180));
+		var x = Math.floor(128 * Math.cos(angle * PI / 180));
+		var y = Math.floor(128 * Math.sin(angle * PI / 180));
 
 		if (x < -24)
 			x = -127;
@@ -858,7 +805,7 @@ function AngleToStickPosition(r, angle) {
 			y = 128;
 		else
 			y = 0;
-		return { X: x, Y: y };
+		return { x, y };
 	}
 
 }
@@ -1017,8 +964,8 @@ function PointInLine(point, line) {
 }
 
 function GetPointFromSlide(point, speed, angle, line) {
-	var x = point[0] + (Math.abs(speed.x) * Math.cos(angle * Math.PI / 180));
-	var y = point[1] + (Math.abs(speed.y) * Math.sin(angle * Math.PI / 180));
+	var x = point[0] + (Math.abs(speed.x) * Math.cos(angle * PI / 180));
+	var y = point[1] + (Math.abs(speed.y) * Math.sin(angle * PI / 180));
 	return [x, y];
 
 }
@@ -1052,7 +999,7 @@ function ClosestPointToLine(point, line) {
 
 //Check if launch angle goes to the opposite direction of the line normal vector angle, returns false when the line is on the same direction or parallel
 function LineCollision(launch_angle, line_angle) {
-	var a = Math.cos(Math.abs(line_angle - launch_angle) * Math.PI / 180);
+	var a = Math.cos(Math.abs(line_angle - launch_angle) * PI / 180);
 	if (a > 0) {
 		return false;
 	}
@@ -1061,7 +1008,7 @@ function LineCollision(launch_angle, line_angle) {
 
 //Check if launch angle goes to the same direction of the line normal vector angle
 function LinePassthroughCollision(launch_angle, line_angle) {
-	var a = Math.cos(Math.abs(line_angle - launch_angle) * Math.PI / 180);
+	var a = Math.cos(Math.abs(line_angle - launch_angle) * PI / 180);
 	if (a <= 0) {
 		return false;
 	}
@@ -1088,7 +1035,7 @@ function IntersectionLines(line, vertex) {
 
 //Get line angle given by two points
 function LineAngle(line) {
-	return ((Math.atan2(line[1][1] - line[0][1], line[1][0] - line[0][0]) * 180 / Math.PI) + 360) % 360;
+	return ((Math.atan2(line[1][1] - line[0][1], line[1][0] - line[0][0]) * 180 / PI) + 360) % 360;
 }
 
 function colorLerp(min, max, x, xMin, xMax) {
@@ -1273,7 +1220,7 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 	var airdodge = false;
 	var aerial = false;
 	var launch_speed = { 'x': Math.abs(launch_speed_x), 'y': Math.abs(launch_speed_y) };
-	var decay = { 'x': Math.abs(parameters.decay * Math.cos(angle * Math.PI / 180)), 'y': Math.abs(parameters.decay * Math.sin(angle * Math.PI / 180)) };
+	var decay = { 'x': Math.abs(parameters.decay * Math.cos(angle * PI / 180)), 'y': Math.abs(parameters.decay * Math.sin(angle * PI / 180)) };
 	var frameCount = 0;
 	var ec = electric ? 0 : 0;
 	for (var i = 0; i < hitstun; i++) {
@@ -1334,5 +1281,9 @@ function SpeedUpHitstunCancel(kb, launch_speed_x, launch_speed_y, angle, windbox
 }
 
 function ToDegrees(rad) {
-	return rad * 180 / Math.PI;
+	return rad * 180 / PI;
+}
+
+function ToRadians(deg) {
+	return deg * PI / 180;
 }

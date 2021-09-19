@@ -1,26 +1,102 @@
 ﻿[
   {
-    "name": "Ultimate",
+    "name": "Dark",
     "main": "css/style.css",
     "visualSettings": {
-      "stick_color": "#000000",
-      "visualizer_bg": "#FCFCFF"
-    }
-  },
-  {
-    "name": "Smash 4",
-    "main": "css/smash4/style.css",
-    "visualSettings": {
-      "stick_color": "#000000",
-      "visualizer_bg": "#FCFCFF"
-    }
-  },
-  {
-    "name": "Dark",
-    "main": "css/dark/style.css",
-    "visualSettings": {
       "stick_color": "#FFFFFF",
-      "visualizer_bg": "#212121"
+      "visualizer_colors": {
+        "upward": "#2888d1",
+        "downward": "#FF0000",
+        "airdodge": "#00cccc",
+        "aerial": "#8B008B",
+        "hitstunEnd": "#A52A2A",
+        "actionable": "#FF8A00",
+        "attackerFAF": "#0066FF",
+        "stage": "#008000",
+        "platform": "#008000",
+        "noWallJump": "#800080",
+        "semitechable": "#FF0000",
+        "camera": "#2888d1",
+        "blastzone": "#FF0000",
+        "meteorBlastzone": "#800080",
+        "ko": "#FF0000",
+        "diLine": "#FFFFFF",
+        "interpolatedLine": "#808080",
+        "background": "#222222",
+        "techable": "#53b953",
+        "techableOnlyCollision": "#af24b1",
+        "untechable": "#cb4d4d",
+        "border": "#ffffff",
+        "grid": {
+          "line1": {
+            "color": "#FF0000",
+            "opacity": 0.6,
+            "lineWidth": 0.5
+          },
+          "line2": {
+            "color": "#2888d1",
+            "opacity": 0.6,
+            "lineWidth": 0.2
+          },
+          "unitLine": {
+            "color": "#FFFFFF",
+            "opacity": 0.4,
+            "lineWidth": 0.05,
+            "opacity10": 0.5,
+            "lineWidth10": 0.1
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "Light",
+    "main": "css/light/style.css",
+    "visualSettings": {
+      "stick_color": "#000000",
+      "visualizer_colors": {
+        "upward": "#0000FF",
+        "downward": "#FF0000",
+        "airdodge": "#00cccc",
+        "aerial": "#8B008B",
+        "hitstunEnd": "#A52A2A",
+        "actionable": "#FF8A00",
+        "attackerFAF": "#0066FF",
+        "stage": "#008000",
+        "platform": "#008000",
+        "noWallJump": "#800080",
+        "semitechable": "#FF0000",
+        "camera": "#0000FF",
+        "blastzone": "#FF0000",
+        "meteorBlastzone": "#800080",
+        "ko": "#FF0000",
+        "diLine": "#000000",
+        "interpolatedLine": "#808080",
+        "background": "#FCFCFF",
+        "techable": "#53b953",
+        "techableOnlyCollision": "#af24b1",
+        "untechable": "#cb4d4d",
+        "border": "#000000",
+        "grid": {
+          "line1": {
+            "color": "#FF0000",
+            "opacity": 0.6,
+            "lineWidth": 0.5
+          },
+          "line2": {
+            "color": "#0000FF",
+            "opacity": 0.5,
+            "lineWidth": 0.2
+          },
+          "unitLine": {
+            "color": "#000000",
+            "opacity": 0.3,
+            "lineWidth": 0.05,
+            "opacity10": 0.5,
+            "lineWidth10": 0.1
+          }
+        }
+      }
     }
   }
 ]

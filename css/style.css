@@ -2,7 +2,9 @@
     position: relative;
     margin: 0;
     min-height: 100%;
-    background: #FCFCFF;
+    /*background: #FCFCFF;*/
+    background: #222222;
+    color: white;
 }
 
 .icon {
@@ -44,8 +46,9 @@
 }
 
 .cur-link {
-    color: white;
+    color: black;
     cursor: pointer;
+    font-weight: 600;
 }
 
 .hide-link {
@@ -99,7 +102,7 @@ table, td, tr {
     right: 0;
     top: 0;
     left: 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
     width: 100%;
     padding: 10px 0 10px 0;
     height: auto;
@@ -242,6 +245,7 @@ table, td, tr {
     position: relative;
     top: 0;
     float: right;
+    padding-right: 30px;
 }
 
 #filter {
@@ -294,7 +298,7 @@ input[type=button] {
 }
 
 .stick-container {
-    width: 240px;
+    width: 255px;
 }
 
 .stick-div {
@@ -320,23 +324,21 @@ input[type=button] {
     font-size: 14px;
 }
 
-#main {
+#output {
     position: relative;
     display: block;
     float: left;
-    width: 50%;
+    width: 55%;
 }
 
-#main2 {
+#input {
     position: relative;
     display: block;
-    width: 100%;
-}
-
-#main-scripts {
-    position: relative;
-    display: block;
-    margin-left: 10px;
+    font-size: 15px;
+    background: none;
+    color: white;
+    float: right;
+    width: 45%;
 }
 
 #main-params {
@@ -351,7 +353,7 @@ input[type=button] {
     position: relative;
     display: block;
     font-size: 15px;
-    color: black;
+    color: white;
     float: right;
     width: 50%;
 }
@@ -360,7 +362,7 @@ input[type=button] {
     position: relative;
     display: block;
     font-size: 15px;
-    color: black;
+    color: white;
     width: 100%;
 }
 
@@ -368,9 +370,57 @@ input[type=button] {
     position: relative;
     display: block;
     font-size: 15px;
-    color: black;
+    color: white;
     float: right;
     width: 70%;
+}
+
+.group-header {
+    width: 99%;
+    padding: 5px;
+    margin-bottom: 5px;
+    /*    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;*/
+    background: rgb(200 200 200 / 0.5);
+    color: black;
+}
+
+.sub-header {
+    width: 89%;
+    padding: 3px;
+    background: rgb(200 200 200 / 0.5);
+    color: black;
+}
+
+.content {
+    padding-bottom: 10px;
+}
+
+.group-header.collapsed{
+    width: 15%;
+    min-width: 150px;
+    padding-left: 40px;
+}
+
+    .sub-header.collapsed {
+        width: 10%;
+        min-width: 100px;
+        padding-left: 10px;
+    }
+
+#visualizer-content{
+    padding-left: 15px;
+}
+
+
+
+#input .group-header.collapsed {
+    float: right;
+}
+
+#input > div{
+    clear: both;
 }
 
 .header-group {
@@ -427,13 +477,21 @@ input[type=button] {
 }
 
 #results-table {
-    color: black;
-    margin-left: 5%;
+    color: white;
     font-size: 17px;
 }
 
+    #results-table > .res-data {
+        margin-left: 3%;
+    }
+
+#results-table table {
+    width: 88%;
+}
+
+
 #multiresults-table {
-    color: black;
+    color: white;
     margin-left: 7%;
     font-size: 17px;
     margin-top: 10px;
@@ -441,8 +499,10 @@ input[type=button] {
 }
 
 #extra-table {
-    color: black;
-    margin-left: 10%;
+    color: white;
+    margin-left: 10px;
+    width: 88%;
+    padding-top: 10px;
 }
 
 #attributes {
@@ -508,8 +568,8 @@ input[type=button] {
 
 #themeSelect, #appSelect {
     font-size: 13px;
-    color: black;
-    background: white;
+    color: white;
+    background: #222222;
 }
 
 #smash4-data{
@@ -532,7 +592,7 @@ input[type="checkbox"] {
     top: 5px;
     font: 20px/26px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
     font-weight: 600;
-    background: #dedede linear-gradient(to top, #dedede, #ffffff);
+    background: #222222 linear-gradient(to top, #222222, #414141);
     outline: none;
     border: 1px solid #a7a7a7;
     position: relative;
@@ -561,12 +621,12 @@ input[type="checkbox"] {
     }
 
     input[type="checkbox"]:checked {
-        background: #dedede linear-gradient(to top, #dedede, #ffffff);
+        background: #222222 linear-gradient(to top, #222222, #414141);
     }
 
         input[type="checkbox"]:checked:after {
             content: '\2713';
-            color: #3b3b3b;
+            color: #c7c7c7;
             position: absolute;
             left: 50%;
             top: 50%;
@@ -582,7 +642,7 @@ input[type="checkbox"] {
         top: 5px;
         font: 16px/22px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
         font-weight: 600;
-        background: #dedede linear-gradient(to top, #dedede, #ffffff);
+        background: #222222 linear-gradient(to top, #222222, #414141);
         outline: none;
         border: 1px solid #a7a7a7;
         position: relative;
@@ -609,7 +669,7 @@ input[type="checkbox"] {
 
     input[type="checkbox"].queue-cb::after {
         content: attr(data-value);
-        color: #3b3b3b;
+        color: #c7c7c7;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -619,11 +679,11 @@ input[type="checkbox"] {
         transform: translate(-50%,-50%);
     }
     input[type="checkbox"].queue-cb:checked {
-        background: rgba(35, 35, 35, 0.90);
+        background: rgba(195, 195, 195, 0.90);
     }
     input[type="checkbox"].queue-cb:checked:after {
         content: attr(data-value);
-        color: white;
+        color: black;
     }
 
 input[type="radio"] {
@@ -631,7 +691,7 @@ input[type="radio"] {
     height: 20px;
     top: 5px;
     font: 20px/26px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
-    background: #dedede linear-gradient(to top, #dedede, #ffffff);
+    background: #222222 linear-gradient(to top, #222222, #414141);
     outline: none;
     border: 1px solid #a7a7a7;
     position: relative;
@@ -659,28 +719,31 @@ input[type="radio"] {
         box-shadow: 0 0 2px 2px rgba(0, 0, 255, 0.3) !important;
     }
 
-input[type="radio"]:checked {
-    background: #dedede linear-gradient(to top, #dedede, #ffffff);
-}
-
-    input[type="radio"]:checked:after {
-        content: '\26ab';
-        font-size: 14px;
-        color: #3b3b3b;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        display: block;
-        -webkit-transform: translate(-50%,-50%);
-        -moz-transform: translate(-50%,-50%);
-        -ms-transform: translate(-50%,-50%);
-        transform: translate(-50%,-50%);
+    input[type="radio"]:checked {
+        background: #222222 linear-gradient(to top, #222222, #414141);
     }
+
+        input[type="radio"]:checked:after {
+            background: #c7c7c7;
+            font-size: 14px;
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            display: block;
+            content: ' ';
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
 
 button {
     background-color: transparent;
     border: 1px solid #dedede;
-    color: black;
+    color: white;
     padding: 5px 10px;
     text-align: center;
     display: inline-block;
@@ -696,8 +759,8 @@ button {
 }
 
     button:hover {
-        background-color: #dedede;
-        color: black;
+        background-color: #545454;
+        color: white;
     }
 
     button:focus {
@@ -714,7 +777,7 @@ button {
 
 /* --------Sections-------- */
 
-.characters-header {
+/*.characters-header {
     background: rgba(34, 34, 34, 0.95);
 }
 
@@ -727,6 +790,14 @@ button {
 }
 
 .modifiers-header {
+    background: rgba(34, 34, 34, 0.95);
+}
+
+.variables-header {
+    background: rgba(34, 34, 34, 0.95);
+}
+
+.settings-header {
     background: rgba(34, 34, 34, 0.95);
 }
 
@@ -754,17 +825,21 @@ button {
     background: rgba(34, 34, 34, 0.95);
 }
 
+.data-header {
+    background: rgba(34, 34, 34, 0.95);
+}
+
 .kb-header {
     background: rgba(34, 34, 34, 0.95);
 }
 
 .filters-header {
     background: rgba(34, 34, 34, 0.95);
-}
+}*/
 
-.sorting-header {
+/*.sorting-header {
     background: rgba(34, 34, 34, 0.95);
-}
+}*/
 
 /*---Inputs---*/
 input, select {
@@ -776,8 +851,10 @@ input, select {
     font-size: 14px;
     /*font-family: 'Century Gothic';
     font-weight: 600;*/
-    border: 0.5px solid black;
-    background: #FCFCFF;
+    border: 0.5px solid white;
+    /*background: #FCFCFF;*/
+    background: none;
+    color: white;
 }
 
     input:focus, select:focus {
@@ -802,28 +879,29 @@ input[type=number].percent-input + span {
     font-style: italic;
     font-weight: 800;
     font-size: 1.5em;
-    color: black;
+    color: white;
     -webkit-text-fill-color: white;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
+    background:none;
 }
 
-input[type=number].percent-input {
-    width: 140px;
-    font-family: 'Century Gothic';
-    font-style: italic;
-    font-weight: 800;
-    font-size: 40px;
-    border: none;
-    color: black;
-    -webkit-text-fill-color: white;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
-    background: none;
-    text-shadow: 2px 2px black;
-    text-align: right;
-    padding: 0px 5px;
-}
+    input[type=number].percent-input {
+        width: 140px;
+        font-family: 'Century Gothic';
+        font-style: italic;
+        font-weight: 800;
+        font-size: 40px;
+        border: none;
+        color: white;
+        -webkit-text-fill-color: white;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+        background: none;
+        text-shadow: 2px 2px black;
+        text-align: right;
+        padding: 0px 5px;
+    }
 
     input[type=number].percent-input:focus {
         outline: none;
@@ -905,8 +983,23 @@ select.character-select {
     width: 220px;
 }
 
+.positionInput {
+    width: 8em !important;
+}
+
+option{
+    color:white;
+    background: #222222;
+}
+
+optgroup {
+    color: white;
+    background: #222222;
+}
+
 .character-select option {
-    color: black;
+    color: white;
+    background: #222222;
     text-transform: none;
     font-size: 15px;
 }
@@ -916,6 +1009,26 @@ select.character-select {
     position: relative;
     left: 5px;
     top: 5px;
+}
+
+#attributes-content tr > td:nth-child(2) {
+    padding-left: 10px;
+}
+
+#variables-content tr > td:nth-child(2) {
+    padding-left: 10px;
+}
+
+#settings-content > tr > td:nth-child(2) {
+    padding-left: 10px;
+}
+
+#visualizer-content tr > td:nth-child(2) {
+    padding-left: 10px;
+}
+
+#parameters-content tr > td:nth-child(2) {
+    padding-left: 10px;
 }
 
 /* --------Screen sizes-------- */
@@ -1170,6 +1283,7 @@ select.character-select {
         height: 40px;
         font: 20px/26px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
         font-weight: 600;
+
     }
 }
 
@@ -1225,3 +1339,16 @@ select.character-select {
     width:50px;
     height:auto;
 }
+
+.table, .table-striped, .table-sm {
+    color: white;
+}
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        color: white;
+        background: #3a3a3a;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(even) {
+        color: white;
+    }

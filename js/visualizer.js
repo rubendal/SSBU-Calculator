@@ -15,6 +15,20 @@
 	}
 }
 
+class VisualizerOptions {
+	constructor() {
+		this.StageName = "Final Destination";
+		this.Position = {
+			x: 0,
+			y: 0
+		};
+		this.InvertX = false;
+		this.AdditionalFramesAfterHitstun = 20;
+		this.Spawns = [];
+		this.Spawn = "";
+	}
+}
+
 class Visualizer {
 	constructor(canvas) {
 		this.canvas = canvas;
@@ -53,9 +67,9 @@ class Visualizer {
 		var visualizer = this;
 
 		this.SetSize = function (size) {
-			this.size = size;
-			this.canvas.width = this.size * 16;
-			this.canvas.height = this.size * 9;
+			this.size = size * 0.9;
+			this.canvas.width = this.size;
+			this.canvas.height = this.size * 9 / 16;
 			this.canvasSize = { width: this.canvas.width, height: this.canvas.height };
 			this.Reset();
 			this.Draw();
@@ -98,7 +112,7 @@ class Visualizer {
 				this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 			}
 
-			this.context.strokeStyle = "#000000";
+			this.context.strokeStyle = settings.visualizer_colors.border;
 			this.context.strokeRect(0, 0, this.canvas.width, this.canvas.height);
 
 			this.context.restore();
@@ -121,7 +135,7 @@ class Visualizer {
 
 			this.dataPoints = [];
 
-			if (stage == null)
+			if (stage == null || stage.stage == "No stage")
 				return;
 
 			for (var i = 0; i < stage.collisions.length; i++) {
@@ -215,8 +229,11 @@ class Visualizer {
 
 			this.launchPoints = [];
 
-			if (launch == null)
+			if (launch == null) {
+				this.ClearCanvas();
+				this.Draw();
 				return;
+			}
 
 			var style = settings.visualizer_colors.upward;
 
@@ -323,8 +340,11 @@ class Visualizer {
 
 			this.diPoints = [];
 
-			if (lines == null)
+			if (lines == null) {
+				this.ClearCanvas();
+				this.Draw();
 				return;
+			}
 
 			var style = settings.visualizer_colors.diLine;
 
@@ -357,7 +377,7 @@ class Visualizer {
 
 			context.lineWidth = 2 / context.prevScale;
 
-			if (this.stage != null) {
+			if (this.stage != null && stage.stage != "No stage") {
 
 				for (var i = 0; i < stage.collisions.length; i++) {
 					context.strokeStyle = settings.visualizer_colors.stage;
@@ -580,7 +600,7 @@ class Visualizer {
 					context.fillStyle = style;
 					context.beginPath();
 
-					context.arc(launch.positions[i].x, - launch.positions[i].y, r, 0, Math.PI * 2);
+					context.arc(launch.positions[i].x, - launch.positions[i].y, r, 0, PI * 2);
 
 					context.closePath();
 					context.fill();
@@ -593,7 +613,7 @@ class Visualizer {
 
 					context.beginPath();
 
-					context.arc(launch.positions[launch.hitstun].x, - launch.positions[launch.hitstun].y, r2, 0, Math.PI * 2);
+					context.arc(launch.positions[launch.hitstun].x, - launch.positions[launch.hitstun].y, r2, 0, PI * 2);
 
 					context.closePath();
 					context.fill();
@@ -606,7 +626,7 @@ class Visualizer {
 
 						context.beginPath();
 
-						context.arc(launch.positions[launch.faf].x, - launch.positions[launch.faf].y, r2, 0, Math.PI * 2);
+						context.arc(launch.positions[launch.faf].x, - launch.positions[launch.faf].y, r2, 0, PI * 2);
 
 						context.closePath();
 						context.fill();
@@ -619,7 +639,7 @@ class Visualizer {
 
 						context.beginPath();
 
-						context.arc(launch.positions[launch.KOFrame].x, - launch.positions[launch.KOFrame].y, r2, 0, Math.PI * 2);
+						context.arc(launch.positions[launch.KOFrame].x, - launch.positions[launch.KOFrame].y, r2, 0, PI * 2);
 
 						context.closePath();
 						context.fill();
@@ -714,7 +734,7 @@ class Visualizer {
 						context.fillStyle = style;
 						context.beginPath();
 
-						context.arc(this.storedLaunches[si].positions[i].x, - this.storedLaunches[si].positions[i].y, r, 0, Math.PI * 2);
+						context.arc(this.storedLaunches[si].positions[i].x, - this.storedLaunches[si].positions[i].y, r, 0, PI * 2);
 
 						context.closePath();
 						context.fill();
@@ -727,7 +747,7 @@ class Visualizer {
 
 						context.beginPath();
 
-						context.arc(this.storedLaunches[si].finalPosition.x, - this.storedLaunches[si].finalPosition.y, r2, 0, Math.PI * 2);
+						context.arc(this.storedLaunches[si].finalPosition.x, - this.storedLaunches[si].finalPosition.y, r2, 0, PI * 2);
 
 						context.closePath();
 						context.fill();
@@ -740,7 +760,7 @@ class Visualizer {
 
 							context.beginPath();
 
-							context.arc(this.storedLaunches[si].positions[this.storedLaunches[si].faf].x, - this.storedLaunches[si].positions[this.storedLaunches[si].faf].y, r2, 0, Math.PI * 2);
+							context.arc(this.storedLaunches[si].positions[this.storedLaunches[si].faf].x, - this.storedLaunches[si].positions[this.storedLaunches[si].faf].y, r2, 0, PI * 2);
 
 							context.closePath();
 							context.fill();
@@ -753,7 +773,7 @@ class Visualizer {
 
 							context.beginPath();
 
-							context.arc(this.storedLaunches[si].positions[this.storedLaunches[si].KOFrame].x, - this.storedLaunches[si].positions[this.storedLaunches[si].KOFrame].y, r2, 0, Math.PI * 2);
+							context.arc(this.storedLaunches[si].positions[this.storedLaunches[si].KOFrame].x, - this.storedLaunches[si].positions[this.storedLaunches[si].KOFrame].y, r2, 0, PI * 2);
 
 							context.closePath();
 							context.fill();
@@ -782,7 +802,7 @@ class Visualizer {
 							this.context.fillStyle = settings.visualizer_colors.interpolatedLine;
 
 						this.context.beginPath();
-						this.context.arc(point.x, -point.y, 2, 0, Math.PI * 2);
+						this.context.arc(point.x, -point.y, 2, 0, PI * 2);
 						this.context.closePath();
 						this.context.fill();
 					}
@@ -795,20 +815,20 @@ class Visualizer {
 						this.context.beginPath();
 						this.MoveTo(point.x, point.y);
 
-						point.x += (d * Math.cos(angle * Math.PI / 180));
-						point.y += (d * Math.sin(angle * Math.PI / 180));
+						point.x += (d * Math.cos(angle * PI / 180));
+						point.y += (d * Math.sin(angle * PI / 180));
 
 						this.LineTo(point.x, point.y);
 
 						var head_angle = 135;
 
-						this.LineTo((point.x + ((d / 3) * Math.cos((angle + head_angle) * Math.PI / 180))),
-							(point.y + ((d / 3) * Math.sin((angle + head_angle) * Math.PI / 180))));
+						this.LineTo((point.x + ((d / 3) * Math.cos((angle + head_angle) * PI / 180))),
+							(point.y + ((d / 3) * Math.sin((angle + head_angle) * PI / 180))));
 
 						this.LineTo(point.x, point.y);
 
-						this.LineTo((point.x + ((d / 3) * Math.cos((angle - head_angle) * Math.PI / 180))),
-							(point.y + ((d / 3) * Math.sin((angle - head_angle) * Math.PI / 180))));
+						this.LineTo((point.x + ((d / 3) * Math.cos((angle - head_angle) * PI / 180))),
+							(point.y + ((d / 3) * Math.sin((angle - head_angle) * PI / 180))));
 
 						this.context.stroke();
 					}
@@ -838,22 +858,22 @@ class Visualizer {
 				for (var x = -500; x <= 500; x += step) {
 
 					if (x % 100 == 0) {
-						this.context.globalAlpha = 0.6;
-						this.context.strokeStyle = '#FF0000';
-						this.context.lineWidth = 0.5;
+						this.context.globalAlpha = settings.visualizer_colors.grid.line1.opacity;
+						this.context.strokeStyle = settings.visualizer_colors.grid.line1.color;
+						this.context.lineWidth = settings.visualizer_colors.grid.line1.lineWidth;
 					} else {
 						if (x % 50 == 0) {
-							this.context.globalAlpha = 0.5;
-							this.context.lineWidth = 0.2;
-							this.context.strokeStyle = '#0000FF';
+							this.context.globalAlpha = settings.visualizer_colors.grid.line2.opacity;
+							this.context.lineWidth = settings.visualizer_colors.grid.line2.lineWidth;
+							this.context.strokeStyle = settings.visualizer_colors.grid.line2.color;
 						} else {
-							this.context.strokeStyle = '#000000';
-							this.context.globalAlpha = 0.3;
+							this.context.strokeStyle = settings.visualizer_colors.grid.unitLine.color;
+							this.context.globalAlpha = settings.visualizer_colors.grid.unitLine.opacity;
 							if (x % 10 == 0) {
-								this.context.lineWidth = 0.1;
-								this.context.globalAlpha = 0.5;
+								this.context.lineWidth = settings.visualizer_colors.grid.unitLine.lineWidth10;
+								this.context.globalAlpha = settings.visualizer_colors.grid.unitLine.opacity10;
 							} else {
-								this.context.lineWidth = 0.05;
+								this.context.lineWidth = settings.visualizer_colors.grid.unitLine.lineWidth;
 							}
 						}
 					}
@@ -870,21 +890,22 @@ class Visualizer {
 				for (var y = -500; y <= 500; y += step) {
 
 					if (y % 100 == 0) {
-						this.context.strokeStyle = '#FF0000';
-						this.context.lineWidth = 0.5;
-						this.context.globalAlpha = 0.6;
+						this.context.globalAlpha = settings.visualizer_colors.grid.line1.opacity;
+						this.context.strokeStyle = settings.visualizer_colors.grid.line1.color;
+						this.context.lineWidth = settings.visualizer_colors.grid.line1.lineWidth;
 					} else {
 						if (y % 50 == 0) {
-							this.context.lineWidth = 0.2;
-							this.context.strokeStyle = '#0000FF';
-							this.context.globalAlpha = 0.5;
+							this.context.globalAlpha = settings.visualizer_colors.grid.line2.opacity;
+							this.context.lineWidth = settings.visualizer_colors.grid.line2.lineWidth;
+							this.context.strokeStyle = settings.visualizer_colors.grid.line2.color;
 						} else {
-							this.context.strokeStyle = '#000000';
-							this.context.globalAlpha = 0.3;
+							this.context.strokeStyle = settings.visualizer_colors.grid.unitLine.color;
+							this.context.globalAlpha = settings.visualizer_colors.grid.unitLine.opacity;
 							if (y % 10 == 0) {
-								this.context.lineWidth = 0.1;
+								this.context.lineWidth = settings.visualizer_colors.grid.unitLine.lineWidth10;
+								this.context.globalAlpha = settings.visualizer_colors.grid.unitLine.opacity10;
 							} else {
-								this.context.lineWidth = 0.05;
+								this.context.lineWidth = settings.visualizer_colors.grid.unitLine.lineWidth;
 							}
 						}
 					}
@@ -904,12 +925,12 @@ class Visualizer {
 
 					if (x % 100 == 0) {
 						this.context.globalAlpha = 0.8;
-						this.context.fillStyle = '#FF0000';
+						this.context.fillStyle = settings.visualizer_colors.grid.line1.color;
 						this.context.fillText(Math.abs(x / 10), x * gridScale + 1, -1);
 					} else {
 						if (x % 50 == 0) {
 							this.context.globalAlpha = 0.8;
-							this.context.fillStyle = '#0000FF';
+							this.context.fillStyle = settings.visualizer_colors.grid.line2.color;
 							this.context.fillText(Math.abs(x / 10), x * gridScale + 1, -1);
 						}
 					}
@@ -919,12 +940,12 @@ class Visualizer {
 
 					if (y % 100 == 0) {
 						this.context.globalAlpha = 0.8;
-						this.context.fillStyle = '#FF0000';
+						this.context.fillStyle = settings.visualizer_colors.grid.line1.color;
 						this.context.fillText(Math.abs(y / 10), 1, y * gridScale - 1);
 					} else {
 						if (y % 50 == 0) {
 							this.context.globalAlpha = 0.8;
-							this.context.fillStyle = '#0000FF';
+							this.context.fillStyle = settings.visualizer_colors.grid.line2.color;
 							this.context.fillText(Math.abs(y / 10), 1, y * gridScale - 1);
 						}
 					}
@@ -1154,7 +1175,7 @@ class Visualizer {
 						visualizer.context.fillStyle = "#000000";
 						visualizer.context.beginPath();
 						//stageCanvas.context.fillRect(((point.position.x + stageCanvas.prevTranslate.x) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, ((point.position.y + stageCanvas.prevTranslate.y) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, stageCanvas.prevScale / 2, stageCanvas.prevScale / 2);
-						visualizer.context.arc((point.position.x + visualizer.prevTranslate.x) * visualizer.prevScale, (point.position.y + visualizer.prevTranslate.y) * visualizer.prevScale, 2 / visualizer.prevScale, 0, Math.PI * 2);
+						visualizer.context.arc((point.position.x + visualizer.prevTranslate.x) * visualizer.prevScale, (point.position.y + visualizer.prevTranslate.y) * visualizer.prevScale, 2 / visualizer.prevScale, 0, PI * 2);
 						visualizer.context.closePath();
 						visualizer.context.fill();
 
@@ -1321,7 +1342,7 @@ class Visualizer {
 						visualizer.context.fillStyle = "#000000";
 						visualizer.context.beginPath();
 						//stageCanvas.context.fillRect(((point.position.x + stageCanvas.prevTranslate.x) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, ((point.position.y + stageCanvas.prevTranslate.y) * stageCanvas.prevScale) - stageCanvas.prevScale / 4, stageCanvas.prevScale / 2, stageCanvas.prevScale / 2);
-						visualizer.context.arc((point.position.x + visualizer.prevTranslate.x) * visualizer.prevScale, (point.position.y + visualizer.prevTranslate.y) * visualizer.prevScale, 2 / visualizer.prevScale, 0, Math.PI * 2);
+						visualizer.context.arc((point.position.x + visualizer.prevTranslate.x) * visualizer.prevScale, (point.position.y + visualizer.prevTranslate.y) * visualizer.prevScale, 2 / visualizer.prevScale, 0, PI * 2);
 						visualizer.context.closePath();
 						visualizer.context.fill();
 
@@ -1465,5 +1486,12 @@ class Visualizer {
 
 		}
 
+
+
+		var ref = this;
+
+		window.onresize = function (event) {
+			ref.SetSize(canvas.parentElement.clientWidth);
+		}
 	}
 }

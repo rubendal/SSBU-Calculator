@@ -1,11 +1,102 @@
-﻿
+﻿var effects = [
+	{ id: "none", name: "None/Other" },
+	{ id: "electric", name: "Electric" },
+	{ id: "freeze", name: "Freeze" },
+	{ id: "sleep", name: "Sleep" },
+	{ id: "bury", name: "Bury" },
+	{ id: "stun", name: "Stun" },
+	{ id: "paralyze", name: "Paralyze" },
+	{ id: "flower", name: "Flower" },
+	{ id: "bind_extra", name: "Disable" }
+];
+
+var baseMove = {
+	Name: "Custom move",
+	Article: "",
+	Script: "",
+	Id: 0,
+	IgnoreGrabbed: false,
+	StartFrame: 5,
+	EndFrame: 7,
+	Part: 0,
+	Bone: "top",
+	Damage: 3,
+	Angle: 361,
+	KBG: 12,
+	FKB: 0,
+	BKB: 30,
+	Size: 3,
+	X: 0.5,
+	Y: 0,
+	Z: 1.5,
+	X2: 0,
+	Y2: 0,
+	Z2: 0,
+	Hitlag: 1,
+	SDI: 1,
+	ClangRebound: "ATTACK_SETOFF_KIND_ON",
+	FacingRestrict: "ATTACK_LR_CHECK_F",
+	SetWeight: false,
+	ShieldDamage: 0,
+	Trip: 0,
+	Rehit: 0,
+	Reflectable: false,
+	Absorbable: false,
+	Flinchless: false,
+	DisableHitlag: false,
+	DirectIndirect: true,
+	GroundAir: "COLLISION_SITUATION_MASK_GA",
+	Hitbits: "COLLISION_CATEGORY_MASK_ALL",
+	CollisionPart: "COLLISION_PART_MASK_ALL",
+	FriendlyFire: false,
+	Effect: "collision_attr_none",
+	SFXLevel: "ATTACK_SOUND_LEVEL_S",
+	SFXType: "",
+	Type: "",
+	ShieldstunMultiplier: 1,
+	AdditionalHitstun: 0,
+	MoveRef: {
+		NameId: "Custom move",
+		Name: {
+			EN: "Custom move",
+			JP: ""
+		},
+		IsProjectile: false,
+		IsProjectileAttached: false,
+		IsItem: false,
+		FAF: 26,
+		LandingLag: null,
+		LandingLagStartFrame: null,
+		LandingLagEndFrame: null,
+		Hitboxes: [],
+		Grabs: [],
+		Throws: [],
+		Counter: null,
+		Reflector: null,
+		character: "",
+		ChargeData: null,
+		Type: "",
+		InputType: "attack",
+		IsSmashAttack: false,
+		IsAerialAttack: false,
+		maxSmashChargeMult: 1
+	},
+	preDamage: 0,
+	MoveName: "Custom move",
+	OptionClass: [],
+	Index: "-1"
+};
 
 class ChargeData {
-	constructor(names, min, max, formula) {
+	constructor(names, min, max, formula, label) {
 		this.names = names;
 		this.min = min;
 		this.max = max;
 		this.formula = formula;
+		this.label = null;
+
+		if (label)
+			this.label = label;
 	}
 
 	static get(list, move_name) {
@@ -20,13 +111,9 @@ class ChargeData {
 	}
 };
 
-class HitboxActiveFrames {
-	constructor(start, end) {
-		this.start = start;
-		this.end = end;
-	}
-};
-
+var smashAttackCharge = new ChargeData(["Usmash", "Fsmash", "Dsmash"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	return [base_damage * (1 + (frames * 1.4 / 150)), bkb, kbg, shieldDamage];
+});
 
 var chargeMoves = [
 	new ChargeData(["Palutena Bow", "Palutena's Bow", "Palutena's Bow (No Charge)", "Palutena's Bow (No Charge, Aerial)"], 0, 60, function (base_damage, bkb, kbg, shieldDamage, frames) {
@@ -52,7 +139,7 @@ var chargeMoves = [
 			frames = 0;
 		}
 		return [base_damage + (2 * frames), bkb, kbg, shieldDamage];
-	}),
+	}, 'Arm swings'),
 	new ChargeData(["Charge Shot"], 0, 112, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(5, 28, frames, 112), lerp(14, 46, frames, 112), lerp(42, 50, frames, 112), lerp(-2.5, -7, frames, 112)];
 	}),
@@ -85,7 +172,7 @@ var chargeMoves = [
 		if (frames < 2)
 			return [7, bkb];
 		return [Math.max(Math.floor(frames * 1.5 * 3.4), 1), bkb, kbg, shieldDamage];
-	}),
+	}, 'Current speed'),
 	new ChargeData(["Water Shuriken (Uncharged)"], 0, 39, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(3, 11, frames, 40), lerp(10, 20, frames, 40), lerp(45, 85, frames, 40), lerp(-1.5, -5.5, frames, 40)];
 	}),
@@ -99,7 +186,7 @@ var chargeMoves = [
 ];
 
 class MoveData {
-	constructor(character, move) {
+	constructor(character, move, moveType) {
 
 		for (var property in move) {
 			this[property] = move[property];
@@ -107,12 +194,15 @@ class MoveData {
 		this.character = character;
 		this.ChargeData = null;
 
-		
+		this.Type = moveType.Type;
+		this.InputType = moveType.InputType;
+		this.IsSmashAttack = moveType.IsSmashAttack;
+		this.IsAerialAttack = moveType.IsAerialAttack;
 
 		this.Grabs = []; //Ignore grabs
 
 		var charge = ChargeData.get(chargeMoves, this.Name.EN);
-		
+
 		if (charge) {
 			this.ChargeData = charge;
 		}
@@ -160,6 +250,11 @@ class MoveData {
 			this.Hitboxes[i].preDamage = 0;
 			this.Hitboxes[i].MoveName = this.Name.EN;
 
+			this.Hitboxes[i]._Damage = this.Hitboxes[i].Damage;
+			this.Hitboxes[i]._BKB = this.Hitboxes[i].BKB;
+			this.Hitboxes[i]._KBG = this.Hitboxes[i].KBG;
+			this.Hitboxes[i]._ShieldDamage = this.Hitboxes[i].ShieldDamage;
+
 			if (this.InputType == 'throw')
 				this.Hitboxes[i].MoveName += ' (Collateral)';
 
@@ -184,7 +279,7 @@ class MoveData {
 			}
 
 			this.Hitboxes[i].OptionClass = [];
-			
+
 			if (this.Hitboxes[i].GroundAir == "COLLISION_SITUATION_MASK_G") {
 				this.Hitboxes[i].OptionClass.push("groundOnly");
 			}
@@ -194,20 +289,20 @@ class MoveData {
 
 			if (this.ChargeData != null) {
 				this.Hitboxes[i].ChargeData = this.ChargeData;
-				this.Hitboxes[i].charge_damage = function (frames) {
-					return +this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[0].toFixed(4);
+				this.Hitboxes[i].ChargeDamage = function (frames) {
+					return +this.ChargeData.formula(this._Damage, this._BKB, this._KBG, this._ShieldDamage, frames)[0].toFixed(4);
 				}
-				this.Hitboxes[i].charge_bkb = function (frames) {
-					return (this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[1]);
+				this.Hitboxes[i].ChargeBKB = function (frames) {
+					return (this.ChargeData.formula(this._Damage, this._BKB, this._KBG, this._ShieldDamage, frames)[1]);
 				}
-				this.Hitboxes[i].charge_kbg = function (frames) {
-					return (this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[2]);
+				this.Hitboxes[i].ChargeKBG = function (frames) {
+					return (this.ChargeData.formula(this._Damage, this._BKB, this._KBG, this._ShieldDamage, frames)[2]);
 				}
-				this.Hitboxes[i].charge_shieldDamage = function (frames) {
-					return (this.ChargeData.formula(this.BaseDamage, this.BKB, this.KBG, this.ShieldDamage, frames)[3]);
+				this.Hitboxes[i].ChargeShieldDamage = function (frames) {
+					return (this.ChargeData.formula(this._Damage, this._BKB, this._KBG, this._ShieldDamage, frames)[3]);
 				}
 			}
-				
+
 		}
 
 		var sameKind = true;
@@ -271,50 +366,39 @@ class MoveData {
 		}
 
 
+		this.GetHitboxes = function () {
+			return this.Hitboxes.filter(h => h.Effect != "collision_attr_search");
+		}
+
+		this.GetThrows = function () {
+			return this.Throws.filter(t => t.Kind != "FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH" || t.Id != 0);
+		}
+
 	}
 }
 
 
-function LoadMoves(character) {
-	var moves = loadJSONPath("/Data/" + character + "/moves.json");
-
-	if (moves) {
-
-		var moveData = [];
-		var characterName = moves.Name.EN;
-		var internalName = moves.InternalName;
-
-		var index = 0;
-
-		for (var i = 0; i < moves.Moves.length; i++) {
-			var move = new MoveData(characterName, moves.Moves[i]);
-			for (var m = 0; m < move.Hitboxes.length; m++) {
-				var hitbox = move.Hitboxes[m];
-
-				if (hitbox.Effect == "collision_attr_search")
-					continue;
-				
-				hitbox.index = index;
-				moveData.push(hitbox);
-				index++;
-			}
-
-			for (var m = 0; m < move.Throws.length; m++) {
-				var t = move.Throws[m];
-
-				//Remove grab releases, Byleth uses Kind FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH for a throw on up B but uses id = 1
-				if (t.Kind == 'FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH' && t.Id == 0) 
-					continue;
-
-				t.index = index;
-				moveData.push(t);
-				index++;
-			}
+class Move{
+    constructor(index, data = null) {
+        let d = data;
+        if (!data)
+            d = baseMove;
+        for (var property in d) {
+            this[property] = d[property];
 		}
 
-		//console.log(moveData);
+		this.Index = index.toString();
 
-		return moveData;
+		this.ApplyCharge = function (chargeFrames, witchTimeActive = false) {
+			if (this.ChargeData != null) {
+				this.Damage = this.charge_damage(chargeFrames);
+				this.BKB = this.charge_bkb(chargeFrames);
+				this.KBG = this.charge_kbg(chargeFrames);
+				this.ShieldDamage = this.charge_shieldDamage(chargeFrames);
+			}
+			if (this.MoveRef.smash_attack) {
+				this.Damage = ChargeSmash(this._Damage, chargeFrames, (this.MoveRef.character == "Mega Man" && this.MoveRef.NameId == "Fsmash"), this.MoveRef.character == "Bayonetta" ? witchTimeActive : false, this.MoveRef.maxSmashChargeMult)
+			}
+		}
 	}
-	return [];
 }
