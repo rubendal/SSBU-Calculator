@@ -1327,9 +1327,12 @@ class Calculator {
                 this.SelectedMove.Effect = "bury";
             }
             else {
-                let match = effects.filter(e => e.id == this.SelectedMove.Effect);
+                let match = effects.filter(e => e.id == this.SelectedMove.Effect.replace("collision_attr_", ""));
                 if (match.length == 0) {
                     this.SelectedMove.Effect = "none";
+                }
+                else {
+                    this.SelectedMove.Effect = match[0].id;
 				}
             }
 

@@ -1,7 +1,7 @@
 ﻿var effects = [
 	{ id: "none", name: "None/Other" },
-	{ id: "electric", name: "Electric" },
-	{ id: "freeze", name: "Freeze" },
+	{ id: "elec", name: "Electric" },
+	{ id: "ice", name: "Freeze" },
 	{ id: "sleep", name: "Sleep" },
 	{ id: "bury", name: "Bury" },
 	{ id: "stun", name: "Stun" },
