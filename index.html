@@ -645,8 +645,10 @@
                                 <input type="radio" ng-model="Calculator.GameVariables.AerialFrameAdvantageType" value="1" ng-change="Calculator.UpdateAerialFrameAdvantageCalculationType()" /> Use FAF
                                 <br />
                                 <input type="radio" ng-model="Calculator.GameVariables.AerialFrameAdvantageType" value="2" ng-change="Calculator.UpdateAerialFrameAdvantageCalculationType()" /> Use landing lag
-                                <br />
-                                <input type="radio" ng-model="Calculator.GameVariables.AerialFrameAdvantageType" value="3" ng-change="Calculator.UpdateAerialFrameAdvantageCalculationType()" /> Use autocancel
+                                <span ng-if="Calculator.SelectedMove.MoveRef.LandingLagEndFrame">
+                                    <br />
+                                    <input type="radio" ng-model="Calculator.GameVariables.AerialFrameAdvantageType" value="3" ng-change="Calculator.UpdateAerialFrameAdvantageCalculationType()" /> Use autocancel
+                                </span>
                             </div>
                             <table>
                                 <tr ng-if="Calculator.GameVariables.AerialFrameAdvantageType == '3' || Calculator.GameVariables.AerialFrameAdvantageType == '2'">

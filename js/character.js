@@ -253,7 +253,7 @@ class Character {
 
 						for (var i = 0; i < ultHitboxData.moves.length; i++) {
 							let u = ultHitboxData.moves[i];
-							moveTypes.push(new UltHitboxMoveData(u));
+							moveTypes.push(new UltHitboxMoveData(u, ref.Params));
 						}
 
 						for (var i = 0; i < moveTypes.length; i++) {

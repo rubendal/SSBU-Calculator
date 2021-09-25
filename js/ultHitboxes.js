@@ -1,9 +1,5 @@
 ﻿class UltHitboxMoveData {
-	constructor(data) {
-
-		
-		this.IsSmashAttack = data.name.includes("Forward Smash") || data.name.includes("Up Smash") || data.name.includes("Down Smash");
-		this.IsAerialAttack = data.name.includes("Neutral Air") ||data.name.includes("Forward Air") || data.name.includes("Back Air") || data.name.includes("Up Air") || data.name.includes("Down Air");
+	constructor(data, params) {
 
 		data.name = data.name
 			.replace("Forward Tilt", "Ftilt")
@@ -17,6 +13,9 @@
 			.replace("Back Air", "Bair")
 			.replace("Up Air", "Uair")
 			.replace("Down Air", "Dair");
+
+		this.IsSmashAttack = data.name.includes("Fsmash") || data.name.includes("Usmash") || data.name.includes("Dsmash");
+		this.IsAerialAttack = data.name.includes("Nair") ||data.name.includes("Fair") || data.name.includes("Bair") || data.name.includes("Uair") || data.name.includes("Dair");
 
 		this.Type = "";
 		this.NameId = data.name;
@@ -141,6 +140,26 @@
 
 					move.Throws.push(t);
 				}
+			}
+		}
+
+		if (params && (data.name.includes("Nair") || data.name.includes("Fair") || data.name.includes("Bair") || data.name.includes("Uair") || data.name.includes("Dair"))) {
+			//Use landing lag values from character parameters
+
+			if (data.name.includes("Nair")) {
+				move.LandingLag = params.NairLandingLag;
+			}
+			else if (data.name.includes("Fair")) {
+				move.LandingLag = params.FairLandingLag;
+			}
+			else if (data.name.includes("Bair")) {
+				move.LandingLag = params.BairLandingLag;
+			}
+			else if (data.name.includes("Uair")) {
+				move.LandingLag = params.UairLandingLag;
+			}
+			else if (data.name.includes("Dair")) {
+				move.LandingLag = params.DairLandingLag;
 			}
 		}
 

@@ -4,7 +4,7 @@ Web based Smash Ultimate knockback calculator
 ### How to use it
 Just input your data, the calculator will update the results when you change something
 
-Move data from Ultimate Hitboxes doesn't contain landing lag, autocancel, additional shieldstun multipliers nor additional hitstun frames
+Move data from Ultimate Hitboxes doesn't contain autocancel windows, additional shieldstun multipliers nor additional hitstun frames
 
 #### Launch Visualizer
 *Note: Stage layout collision detection might give weird results and bounced trajectories are not accurate, character models/ECBs/animations not included so KO percents are not accurate* 
