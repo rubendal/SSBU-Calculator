@@ -208,13 +208,12 @@ class MoveData {
 		}
 
 		this.maxSmashChargeMult = this.smash_attack ? 1.4 : 1;
-
 		//Smash attacks
 		if (this.IsSmashAttack) {
 			if (this.character == "Bayonetta" || this.character == "Olimar") {
 				this.maxSmashChargeMult = 1.2;
 			}
-			if (this.character == "Ness" && (this.name.includes("Usmash") || this.Name.EN.includes("Dsmash"))) {
+			if (this.character == "Ness" && (this.Name.EN.includes("Usmash") || this.Name.EN.includes("Dsmash"))) {
 				this.maxSmashChargeMult = 1.2;
 			}
 			if ((this.character == "Mega Man" || this.character == "Villager") && this.Name.EN.includes("Fsmash")) {

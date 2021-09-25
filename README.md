@@ -4,7 +4,7 @@ Web based Smash Ultimate knockback calculator
 ### How to use it
 Just input your data, the calculator will update the results when you change something
 
-A lot of hitbox data has been ported from Smash 4 so still using KH API to load them for now, however keep in mind that some hitboxes have new base damages and might have BKB/KBG/FKB changed, you can input move data manually as well
+Move data from Ultimate Hitboxes doesn't contain landing lag, autocancel, additional shieldstun multipliers nor additional hitstun frames
 
 #### Launch Visualizer
 *Note: Stage layout collision detection might give weird results and bounced trajectories are not accurate, character models/ECBs/animations not included so KO percents are not accurate* 
@@ -33,5 +33,4 @@ https://rubendal.github.io/SSBU-Calculator/percentcalc.html
 Get target percent required to obtain certain knockback, on FKB moves calculate the minimum rage to reach specified knockback
 
 ## Credits
-* [@KuroganeHammer](https://twitter.com/KuroganeHammer) [frame data repository](http://kuroganehammer.com/Smash4)
-* [FrannHammer (KuroganeHammer API)](https://github.com/Frannsoft/FrannHammer)
+* [Ultimate Hitboxes](https://ultimate-hitboxes.com/) character data which was generated from scripts on the Data Viewer

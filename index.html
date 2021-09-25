@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="js/visualizer.js"></script>
     <script src="js/game.js"></script>
-    <script src="js/KH_API.js"></script>
+    <script src="js/ultHitboxes.js"></script>
     <script src="js/move.js"></script>
     <script src="js/character.js"></script>
     <script src="js/knockback.js"></script>
@@ -253,9 +253,13 @@
 
                         </div>
 
+
+
                     </div>
 
-
+                    <div style="padding-left: 10px;">
+                        <input class="displayDetails" name="displayDetails" type="checkbox" ng-model="Calculator.DisplayDetailedResults" ng-change="Calculator.Update()" /> Display additional data on results
+                    </div>
                 </div>
             </div>
 
@@ -497,6 +501,9 @@
 
                         </select>
 
+                        <span style="padding: 0px 3px;">
+                            {{Calculator.Attacker.MoveSource}}
+                        </span>
 
                         <table>
                             <tr>
@@ -645,7 +652,7 @@
                                 <tr>
                                     <td ng-repeat="n in Calculator.GameVariables.StaleQueue track by $index" class="queue-td">
                                         <input class="queue-cb" name="stale{{$index}}" data-value="{{$index+1}}"
-                                               type="checkbox" ng-model="Calculator.GameVariables.StaleQueue[$index]" ng-change="Calculator.Update()" /> <!--ng-change="update()"-->
+                                               type="checkbox" ng-model="Calculator.GameVariables.StaleQueue[$index]" ng-change="Calculator.Update()" />
                                     </td>
                                 </tr>
                             </table>
@@ -654,7 +661,7 @@
                                 <tr>
                                     <td ng-repeat="n in Calculator.GameVariables.ShieldStaleQueue track by $index" class="queue-td">
                                         <input class="queue-cb" name="shieldStale{{$index}}" data-value="{{$index+1}}"
-                                               type="checkbox" ng-model="Calculator.GameVariables.ShieldStaleQueue[$index]" ng-change="Calculator.Update()" /> <!--ng-change="update()"-->
+                                               type="checkbox" ng-model="Calculator.GameVariables.ShieldStaleQueue[$index]" ng-change="Calculator.Update()" /> 
                                     </td>
                                 </tr>
                             </table>

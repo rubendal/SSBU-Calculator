@@ -1202,6 +1202,7 @@ class Calculator {
         this.SharingUrl = "";
 
         //Specific variables
+        this.DisplayDetailedResults = false;
 
         //Percentage calculator
         this.KBInput = 30;
@@ -1534,6 +1535,7 @@ class Calculator {
 
             //Calculation results
 
+            //Damage
             if (!this.GameVariables.StalenessDisabled) {
                 if (staleMult > 1) {
                     damageList.push(new Result("Freshness bonus", "x" + staleMult));
@@ -1542,17 +1544,19 @@ class Calculator {
                 }
 
             }
-            if (this.Target.Modifier.DamageReceivedMultiplier != 1) {
-                damageList.push(new Result("Damage taken", "x" + +this.Target.Modifier.DamageReceivedMultiplier.toFixed(6)));
-            }
-            if (this.Attacker.Modifier.DamageDealtMultiplier != 1) {
-                damageList.push(new Result("Damage dealt", "x" + +this.Attacker.Modifier.DamageDealtMultiplier.toFixed(6)));
-            }
-            if (is1v1) {
-                damageList.push(new Result("1v1 Damage increase", "x1.2"));
-            }
-            if (this.GameVariables.ShortHop) {
-                damageList.push(new Result("Short hop aerial", "x0.85"));
+            if (this.DisplayDetailedResults) {
+                if (this.Target.Modifier.DamageReceivedMultiplier != 1) {
+                    damageList.push(new Result("Damage taken", "x" + +this.Target.Modifier.DamageReceivedMultiplier.toFixed(6)));
+                }
+                if (this.Attacker.Modifier.DamageDealtMultiplier != 1) {
+                    damageList.push(new Result("Damage dealt", "x" + +this.Attacker.Modifier.DamageDealtMultiplier.toFixed(6)));
+                }
+                if (is1v1) {
+                    damageList.push(new Result("1v1 Damage increase", "x1.2"));
+                }
+                if (this.GameVariables.ShortHop) {
+                    damageList.push(new Result("Short hop aerial", "x0.85"));
+                }
             }
             if (this.GameVariables.InkValue) {
                 damageList.push(new Result("Ink damage multiplier", "x" + +InkDamageMult(this.GameVariables.InkValue).toFixed(4)));
@@ -1563,8 +1567,10 @@ class Calculator {
             if (this.SelectedMove.MoveRef.IsSmashAttack) {
                 damageList.push(new Result("Charged Smash", "x" + +ChargeSmashMultiplier(this.GameVariables.ChargeFrames, megamanFsmash, this.GameVariables.WitchTimeActive, this.GameVariables.SmashChargeMaxDamageMultiplier).toFixed(6)));
             }
-            if (this.Attacker.Modifier.BaseDamageMultiplier != 1) {
-                damageList.push(new Result("Base damage multiplier", "x" + +this.Attacker.Modifier.BaseDamageMultiplier.toFixed(6)));
+            if (this.DisplayDetailedResults) {
+                if (this.Attacker.Modifier.BaseDamageMultiplier != 1) {
+                    damageList.push(new Result("Base damage multiplier", "x" + +this.Attacker.Modifier.BaseDamageMultiplier.toFixed(6)));
+                }
             }
             if (preDamage != 0) {
                 damageList.push(new Result("Before launch damage", "+" + +(preDamage * staleMult).toFixed(6) + "%"));
@@ -1577,23 +1583,29 @@ class Calculator {
             } else {
                 damageList.push(new Result("Attacker Hitlag", ParalyzerHitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.MoveRef.IsProjectile ? 0 : this.SelectedMove.Hitlag, 1)));
             }
-            if (r != 1) {
-                kbList.push(new Result("KB modifier", "x" + +r.toFixed(6)));
+
+            //Knockback
+            if (this.DisplayDetailedResults) {
+                if (r != 1) {
+                    kbList.push(new Result("KB modifier", "x" + +r.toFixed(6)));
+                }
+                if (this.GameVariables.GameSettings.LaunchRate != 1) {
+                    kbList.push(new Result("Launch rate", "x" + +this.GameVariables.GameSettings.LaunchRate.toFixed(6), true));
+                }
+                if (this.Target.Modifier.KBReceivedMultiplier != 1) {
+                    kbList.push(new Result("KB received", "x" + +this.Target.Modifier.KBReceivedMultiplier.toFixed(6)));
+                }
+                if (this.Attacker.Modifier.KBDealtMultiplier != 1) {
+                    kbList.push(new Result("KB dealt", "x" + +this.Attacker.Modifier.KBDealtMultiplier.toFixed(6)));
+                }
             }
-            if (this.GameVariables.GameSettings.LaunchRate != 1) {
-                kbList.push(new Result("Launch rate", "x" + +this.GameVariables.GameSettings.LaunchRate.toFixed(6), true));
-            }
-            if (this.Target.Modifier.KBReceivedMultiplier != 1) {
-                kbList.push(new Result("KB received", "x" + +this.Target.Modifier.KBReceivedMultiplier.toFixed(6)));
-            }
-            if (this.Attacker.Modifier.KBDealtMultiplier != 1) {
-                kbList.push(new Result("KB dealt", "x" + +this.Attacker.Modifier.KBDealtMultiplier.toFixed(6)));
-            }
-            if (!this.GameVariables.StalenessDisabled)
+            if (!this.GameVariables.StalenessDisabled && Rage(this.AttackerPercent.Percent) > 1)
                 kbList.push(new Result("Rage", "x" + +Rage(this.AttackerPercent.Percent).toFixed(6)));
             kbList.push(new Result("Total KB", +vskb.kb.toFixed(6)));
-            if (this.GameVariables.Buried) {
-                kbList.push(new Result("Buried removed", vskb.kb >= parameters.buried_kb_threshold ? "Yes" : "No"));
+            if (this.DisplayDetailedResults) {
+                if (this.GameVariables.Buried) {
+                    kbList.push(new Result("Buried removed", vskb.kb >= parameters.buried_kb_threshold ? "Yes" : "No"));
+                }
             }
             kbList.push(new Result("Launch angle", +vskb.angle.toFixed(6)));
             if (paralyzer) {
@@ -1628,7 +1640,7 @@ class Calculator {
                 kbList.push(new Result("Hitstun", speedUpFAF - 1));
                 kbList.push(new Result("FAF", speedUpFAF));
 
-                kbList.push(new Result("Using launch speed up", "Yes"));
+                //kbList.push(new Result("Using launch speed up", "Yes"));
             }
             else {
                 kbList.push(new Result("Hitstun", Math.max(0, Hitstun(vskb.base_kb, this.SelectedMove.Flinchless, electric) + this.SelectedMove.AdditionalHitstun)));
@@ -1646,6 +1658,10 @@ class Calculator {
                 kbList.push(new Result("Aerial hitstun cancel", suv_hc.aerial, (Hitstun(vskb.base_kb, this.SelectedMove.Flinchless, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.aerial)));
             }
 
+            kbList.push(new Result("Hit Advantage", HitAdvantage(hitstun, this.SelectedMove.MoveRef.IsProjectile ? this.GameVariables.SelectedHitframe + Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, crouchHitlag) - 1 : this.GameVariables.SelectedHitframe,
+                this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF, paralyzer ? ParalysisTime(vskb.kb, damage, this.SelectedMove.Hitlag, crouchHitlag) : 0)));
+
+
             kbList.push(new Result("Tumble", vskb.tumble ? "Yes" : "No"));
 
             kbList.push(new Result("Reeling", vskb.reeling ? "30%" : "0%", !vskb.reeling));
@@ -1655,14 +1671,13 @@ class Calculator {
             }
 
             kbList.push(new Result("LSI", +vskb.lsi.toFixed(6), vskb.lsi == 1));
-            kbList.push(new Result("Horizontal Launch Speed", +vskb.horizontal_launch_speed.toFixed(6)));
-            kbList.push(new Result("Gravity boost", +vskb.add_gravity_speed.toFixed(6), vskb.add_gravity_speed == 0));
-            kbList.push(new Result("Vertical Launch Speed", vskb.vertical_launch_speed));
-            kbList.push(new Result("Launch Speed", +vskb.total_launch_speed.toFixed(6)));
-
-            kbList.push(new Result("Hit Advantage", HitAdvantage(hitstun, this.SelectedMove.MoveRef.IsProjectile ? this.GameVariables.SelectedHitframe + Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, crouchHitlag) - 1 : this.GameVariables.SelectedHitframe,
-                this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF, paralyzer ? ParalysisTime(vskb.kb, damage, this.SelectedMove.Hitlag, crouchHitlag) : 0)));
-
+            if (this.DisplayDetailedResults) {
+                kbList.push(new Result("Horizontal Launch Speed", +vskb.horizontal_launch_speed.toFixed(6)));
+                kbList.push(new Result("Gravity boost", +vskb.add_gravity_speed.toFixed(6), vskb.add_gravity_speed == 0));
+                kbList.push(new Result("Vertical Launch Speed", vskb.vertical_launch_speed));
+                kbList.push(new Result("Launch Speed", +vskb.total_launch_speed.toFixed(6)));
+            }
+            
             if (this.Target.name == "Rosalina And Luma") {
                 if (this.SelectedMove.FKB == 0) {
                     var luma_vskb = VSKB(15 + 0, baseDamage, lumaDamage, 100, this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled, this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.Stick);
@@ -1695,13 +1710,7 @@ class Calculator {
 
                 if (!this.SelectedMove.MoveRef.IsProjectile)
                     shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect), AttackerShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect) == ShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
-                //if (this.GameVariables.ShieldState == ShieldStates.Perfect && this.SelectedMove.MoveRef.IsProjectile) {
-                //	shieldList.push(new Result("Shield Hitlag (Training)", ShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
-                //	shieldList.push(new Result("Shield Hitlag (VS)", VSShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
-                //}
-                //else {
-                //	shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
-                //}
+
                 shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
                 shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack), ShieldStunMultiplier(this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack) == 1));
                 shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
@@ -1711,12 +1720,13 @@ class Calculator {
                 else {
                     shieldList.push(new Result((this.GameVariables.ShieldState == ShieldStates.Perfect ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
                 }
+                if (this.DisplayDetailedResults) {
+                    if (!this.SelectedMove.Flinchless) {
+                        if (!this.SelectedMove.MoveRef.IsProjectile)
+                            shieldList.push(new Result("Attacker shield pushback", +AttackerShieldPushback(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled)).toFixed(6)));
 
-                if (!this.SelectedMove.Flinchless) {
-                    if (!this.SelectedMove.MoveRef.IsProjectile)
-                        shieldList.push(new Result("Attacker shield pushback", +AttackerShieldPushback(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled)).toFixed(6)));
-
-                    shieldList.push(new Result("Target shield pushback", +(ShieldPushback(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.MoveRef.IsProjectile, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)).toFixed(6), sv >= 50 * this.Target.Modifier.ShieldHPMultiplier));
+                        shieldList.push(new Result("Target shield pushback", +(ShieldPushback(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.MoveRef.IsProjectile, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)).toFixed(6), sv >= 50 * this.Target.Modifier.ShieldHPMultiplier));
+                    }
                 }
             } else {
                 shieldList.push(new Result("Unblockable attack", "Yes"));

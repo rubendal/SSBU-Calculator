@@ -5,7 +5,7 @@ var displayNames = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina & Lu
 var KHcharacters = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Mr. Game & Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar", "Piranha Plant", "Joker", "Hero", "Banjo-Kazooie", "Terry", "Byleth", "Min Min", "Steve", "Sephiroth", "Pyra", "Mythra", "Kazuya"];
 var gameNames = ["mario", "luigi", "peach", "koopa", "yoshi", "rosetta", "koopajr", "wario", "donkey", "diddy", "gamewatch", "littlemac", "link", "zelda", "sheik", "ganon", "toonlink", "samus", "szerosuit", "pit", "palutena", "marth", "ike", "reflet", "duckhunt", "kirby", "dedede", "metaknight", "fox", "falco", "pikachu", "plizardon", "lucario", "purin", "gekkouga", "robot", "ness", "captain", "murabito", "pikmin", "wiifit", "shulk", "mariod", "pitb", "lucina", "pacman", "rockman", "sonic", "mewtwo", "lucas", "roy", "ryu", "cloud", "kamui", "bayonetta", "miiswordsman", "miifighter", "miigunner", "popo", "pichu", "younglink", "snake", "pzenigame", "pfushigisou", "wolf", "inkling", "daisy", "ridley", "chrom", "samusd", "simon", "richter", "krool", "shizue", "ken", "gaogaen", "packun", "jack", "brave", "buddy", "dolly", "master", "tantan", "pickel", "edge", "eflame", "elight", "demon"];
 var dataViewerNames = ["Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Rosalina And Luma", "Bowser Jr", "Wario", "Donkey Kong", "Diddy Kong", "Mr Game And Watch", "Little Mac", "Link", "Zelda", "Sheik", "Ganondorf", "Toon Link", "Samus", "Zero Suit Samus", "Pit", "Palutena", "Marth", "Ike", "Robin", "Duck Hunt", "Kirby", "King Dedede", "Meta Knight", "Fox", "Falco", "Pikachu", "Charizard", "Lucario", "Jigglypuff", "Greninja", "R.O.B", "Ness", "Captain Falcon", "Villager", "Olimar", "Wii Fit Trainer", "Shulk", "Dr. Mario", "Dark Pit", "Lucina", "PAC-MAN", "Mega Man", "Sonic", "Mewtwo", "Lucas", "Roy", "Ryu", "Cloud", "Corrin", "Bayonetta", "Mii Swordfighter", "Mii Brawler", "Mii Gunner", "Ice Climbers", "Pichu", "Young Link", "Snake", "Squirtle", "Ivysaur", "Wolf", "Inkling", "Daisy", "Ridley", "Chrom", "Dark Samus", "Simon", "Richter", "King K. Rool", "Isabelle", "Ken", "Incineroar", "Piranha Plant", "Joker", "Hero", "Banjo & Kazooie", "Terry", "Byleth", "Min Min", "Steve", "Sephiroth", "Pyra", "Mythra", "Kazuya"];
-
+var ultHitboxesFilenames = ["01_mario", "09_luigi", "13_peach", "14_bowser", "05_yoshi", "48_rosalina-luma", "58_bowser-jr", "30_wario", "02_donkey-kong", "36_diddy-kong", "26_mr-game-watch", "49_little-mac", "03_link", "17_zelda", "16_sheik", "23_ganondorf", "43_toon-link", "04_samus", "29_zero-suit-samus", "28_pit", "54_palutena", "21_marth", "32_ike", "56_robin", "59_duck-hunt", "06_kirby", "39_king-dedede", "27_meta-knight", "07_fox", "20_falco", "08_pikachu", "35_charizard", "41_lucario", "12_jigglypuff", "50_greninja", "42_rob", "10_ness", "11_captain-falcon", "45_villager", "40_olimar", "47_wii-fit-trainer", "57_shulk", "18_dr-mario", "28e_dark-pit", "21e_lucina", "55_pac-man", "46_mega-man", "38_sonic", "24_mewtwo", "37_lucas", "25_roy", "60_ryu", "61_cloud", "62_corrin", "63_bayonetta", "52_mii-swordfighter", "51_mii-brawler", "53_mii-gunner", "15_ice-climbers", "19_pichu", "22_young-link", "31_snake", "33_squirtle", "34_ivysaur", "44_wolf", "64_inkling", "13e_daisy", "65_ridley", "25e_chrom", "04e_dark-samus", "66_simon", "66e_richter", "67_king-k-rool", "68_isabelle", "60e_ken", "69_incineroar", "70_piranha-plant", "71_joker", "72_hero", "73_banjo-kazooie", "74_terry", "75_byleth", "76_min-min", "77_steve", "78_sephiroth", "79_pyra", "80_mythra", "81_kazuya"];
 
 class AttributeModifier {
 	constructor(name, base_damage, damage_dealt, damage_taken, kb_dealt, kb_received, gravity, fall_speed, shield, air_friction, traction, shieldDamage) {
@@ -128,13 +128,24 @@ var baseParams = {
 	FinalSmashMeterKBMultiplier: 0.3
 };
 
+var MoveSources = {
+	None: "",
+	Calculator: "Using Script data",
+	UltimateHitboxes: "Using Ultimate Hitboxes data",
+	KuroganeHammer: "Using Kurogane Hammer data"
+};
+
 class Character {
 	constructor(displayName, calculatorRef, $scope, loadMoveData = false) {
 		this.display_name = displayName;
-		var name = characters[displayNames.indexOf(displayName)];
+
+		let index = displayNames.indexOf(displayName);
+
+		var name = characters[index];
 		this.CharacterName = displayName;
-		this.GameName = gameNames[displayNames.indexOf(displayName)];
-		this.DataViewerName = dataViewerNames[displayNames.indexOf(displayName)];
+		this.GameName = gameNames[index];
+		this.DataViewerName = dataViewerNames[index];
+		this.UltHitboxesFilename = ultHitboxesFilenames[index];
 
 		this.Modifier = new AttributeModifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 		this.Modifiers = [];
@@ -198,6 +209,7 @@ class Character {
 
 		this.Moves = [new Move(-1)];
 		this.Moveset = [];
+		this.MoveSource = MoveSources.None;
 
 		var ref = this;
 		LoadCharacterData(this.GameName, function (data) {
@@ -225,81 +237,110 @@ class Character {
 					for (var i = 0; i < attacks.length; i++) {
 						ref.Moves.push(new Move(i, attacks[i]));
 					}
-
+					ref.MoveSource = MoveSources.Calculator;
 					ref.Moveset = ref.MapMovesByName(ref.Moves);
 					ScopeUpdate($scope);
 				}
 				else {
+
+					//Use Ultimate hitboxes data (https://www.ultimate-hitboxes.com/ , Files: https://github.com/RSN-Bran/ultimate-hitboxes/tree/master/server/data)
+					LoadJsonFromPath(`./Data/_ulthitboxes/${ref.UltHitboxesFilename}.json`, function (ultHitboxData) {
+
+						var attacks = [];
+						let moveTypes = [];
+
+						for (var i = 0; i < ultHitboxData.moves.length; i++) {
+							let u = ultHitboxData.moves[i];
+							moveTypes.push(new UltHitboxMoveData(u));
+						}
+
+						for (var i = 0; i < moveTypes.length; i++) {
+							let moveType = moveTypes[i];
+							for (var j = 0; j < moveType.Moves.length; j++) {
+								let move = new MoveData(ref.name, moveType.Moves[j], moveType);
+								attacks = attacks.concat(move.GetHitboxes());
+								attacks = attacks.concat(move.GetThrows());
+							}
+						}
+						for (var i = 0; i < attacks.length; i++) {
+							ref.Moves.push(new Move(i, attacks[i]));
+						}
+						ref.MoveSource = MoveSources.UltimateHitboxes;
+						ref.Moveset = ref.MapMovesByName(ref.Moves);
+						ScopeUpdate($scope);
+					});
+
+
 					//No local move data, use KH API
 
-					loadAsyncFunctionJSON(`https://api.kuroganehammer.com/api/characters/name/${ref.api_name}?game=ultimate`,
-						function (character) {
-							if (character.OwnerId) {
+					//loadAsyncFunctionJSON(`https://api.kuroganehammer.com/api/characters/name/${ref.api_name}?game=ultimate`,
+					//	function (character) {
+					//		if (character.OwnerId) {
 
-								//Get data
-								loadAsyncFunctionJSON(`https://api.kuroganehammer.com/api/characters/${character.OwnerId}/moves?expand=true&game=ultimate`,
-									function (moveset) {
+					//			//Get data
+					//			loadAsyncFunctionJSON(`https://api.kuroganehammer.com/api/characters/${character.OwnerId}/moves?expand=true&game=ultimate`,
+					//				function (moveset) {
 
-										if (moveset) {
-											//Parse move data
+					//					if (moveset) {
+					//						//Parse move data
 
-											let moves = [];
-											let count = 1;
-											for (var i = 0; i < moveset.length; i++) {
-												let move = moveset[i];
-												let parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage != null ? move.BaseDamage.Normal : null, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive != null ? move.HitboxActive.Frames : null, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActive, move.BaseDamage);
-												for (var c = 0; c < parser.moves.length; c++) {
-													let m = parser.moves[c];
-													m.id = count;
-													if (!m.grab && m.valid) {
-														moves.push(m.addCharacter(ref.display_name).updateMoveData());
-														count++;
-													}
-
-
-													if (ref.name == "Olimar" && m.name == "Dthrow") {
-														//Add Purple Pikmin Dthrow
-														var m2 = Object.assign({}, m);
-														m2.id = count;
-														m2.name = "Dthrow (Purple)";
-														m2.moveName = "Dthrow (Purple)";
-														moves.push(m2.addCharacter(ref.name).updateMoveData());
-														count++;
-													}
-												}
-											}
-
-											//Convert KH API data to new move data format
-											for (var i = 0; i < moves.length; i++) {
-												ref.Moves.push(moves[i].ConvertToNewFormat(i));
-											}
-
-											//Update calculator move list
-											ref.Moveset = ref.MapMovesByName(ref.Moves);
-											ScopeUpdate($scope);
-
-										}
+					//						let moves = [];
+					//						let count = 1;
+					//						for (var i = 0; i < moveset.length; i++) {
+					//							let move = moveset[i];
+					//							let parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage != null ? move.BaseDamage.Normal : null, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive != null ? move.HitboxActive.Frames : null, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActive, move.BaseDamage);
+					//							for (var c = 0; c < parser.moves.length; c++) {
+					//								let m = parser.moves[c];
+					//								m.id = count;
+					//								if (!m.grab && m.valid) {
+					//									moves.push(m.addCharacter(ref.display_name).updateMoveData());
+					//									count++;
+					//								}
 
 
-									}, null, function (e) {
-										//Error sending request
-										ref.Moveset = ref.MapMovesByName(ref.Moves);
-										ScopeUpdate($scope);
-									}
-								)
+					//								if (ref.name == "Olimar" && m.name == "Dthrow") {
+					//									//Add Purple Pikmin Dthrow
+					//									var m2 = Object.assign({}, m);
+					//									m2.id = count;
+					//									m2.name = "Dthrow (Purple)";
+					//									m2.moveName = "Dthrow (Purple)";
+					//									moves.push(m2.addCharacter(ref.name).updateMoveData());
+					//									count++;
+					//								}
+					//							}
+					//						}
 
-							}
-							else {
-								//Character isn't available on KH API
-								ref.Moveset = ref.MapMovesByName(ref.Moves);
-								ScopeUpdate($scope);
-							}
-						}, null, function (e) {
-							//Error sending request
-							ref.Moveset = ref.MapMovesByName(ref.Moves);
-							ScopeUpdate($scope);
-						}
-					)
+					//						//Convert KH API data to new move data format
+					//						for (var i = 0; i < moves.length; i++) {
+					//							ref.Moves.push(moves[i].ConvertToNewFormat(i));
+					//						}
+
+					//						//Update calculator move list
+					//						ref.Moveset = ref.MapMovesByName(ref.Moves);
+					//						ScopeUpdate($scope);
+
+					//					}
+
+
+					//				}, null, function (e) {
+					//					//Error sending request
+					//					ref.Moveset = ref.MapMovesByName(ref.Moves);
+					//					ScopeUpdate($scope);
+					//				}
+					//			)
+
+					//		}
+					//		else {
+					//			//Character isn't available on KH API
+					//			ref.Moveset = ref.MapMovesByName(ref.Moves);
+					//			ScopeUpdate($scope);
+					//		}
+					//	}, null, function (e) {
+					//		//Error sending request
+					//		ref.Moveset = ref.MapMovesByName(ref.Moves);
+					//		ScopeUpdate($scope);
+					//	}
+					//)
 				}
 
 			}
@@ -368,7 +409,7 @@ class Character {
 function sorted_characters() {
 	var list = [];
 	for (var i = 0; i < characters.length; i++) {
-		list.push({ character: characters[i], name: displayNames[i], game: gameNames[i], dataViewer: dataViewerNames[i] });
+		list.push({ character: characters[i], name: displayNames[i], game: gameNames[i], dataViewer: dataViewerNames[i], ultHitboxes: ultHitboxesFilenames[i] });
 	}
 	
 	list.sort(function (a, b) {
@@ -380,6 +421,7 @@ function sorted_characters() {
 		displayNames[i] = list[i].name;
 		gameNames[i] = list[i].game;
 		dataViewerNames[i] = list[i].dataViewer;
+		ultHitboxesFilenames[i] = list[i].ultHitboxes;
 	}
 
 }
