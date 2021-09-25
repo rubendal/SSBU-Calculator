@@ -1321,3 +1321,18 @@ select.character-select {
     width:50px;
     height:auto;
 }
+
+.character-data {
+    position: absolute;
+    z-index: 100;
+    background: #fcfcffdd;
+    border: 1px solid black;
+    top: -25px;
+    left: -10px;
+    width: 150px;
+    display: none;
+}
+
+    .character-data a {
+        color: blue;
+    }

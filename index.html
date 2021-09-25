@@ -35,7 +35,7 @@
     <link rel="stylesheet" type="text/css" href="css/moves.css" />
     <title>Smash Ultimate Calculator</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.5" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.45" />
     <meta name="description" content="Smash Ultimate knockback calculator" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@Ruben_dal" />
@@ -285,10 +285,21 @@
 
                             <div class="char-select">
                                 <!--<img ng-src="{{Calculator.Attacker.icon}}" class="stock-icon" />-->
-                                <span class="character-image-cont">
+                                <div class="character-image-cont" data-character="attacker">
                                     <img ng-src="{{Calculator.Attacker.image}}"
                                          class="character-image" ng-class="Calculator.Attacker.class" />
-                                </span>
+                                    <div id="attacker-data" class="character-data">
+                                        <div>
+                                            {{Calculator.Attacker.CharacterName}} data
+                                        </div>
+                                        <div>
+                                            <a href="https://rubendal.github.io/ssbu/#/Character/{{Calculator.Attacker.DataViewerName}}" target="_blank">Data Viewer</a>
+                                        </div>
+                                        <div>
+                                            <a href="https://ultimate-hitboxes.com/{{Calculator.Attacker.UltHitboxesName}}" target="_blank">Ultimate Hitboxes</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="percent-div">
                                     <input name="attacker_percent" type="number" class="percent-input" min="0" max="999"
                                            step="0.1" ng-model="Calculator.AttackerPercent.Percent" ng-style="Calculator.AttackerPercent.Style" ng-change="Calculator.UpdateAttackerPercent()" /><!--ng-change="updatePercent()"-->
@@ -330,10 +341,21 @@
 
                             <div class="char-select">
                                 <!--<img ng-src="{{Calculator.Target.icon}}" class="stock-icon" />-->
-                                <span class="character-image-cont">
+                                <div class="character-image-cont" data-character="target">
                                     <img ng-src="{{Calculator.Target.image}}"
                                          class="character-image" ng-class="Calculator.Target.class" />
-                                </span>
+                                    <div id="target-data" class="character-data">
+                                        <div>
+                                            {{Calculator.Target.CharacterName}} data
+                                        </div>
+                                        <div>
+                                            <a href="https://rubendal.github.io/ssbu/#/Character/{{Calculator.Target.DataViewerName}}" target="_blank">Data Viewer</a>
+                                        </div>
+                                        <div>
+                                            <a href="https://ultimate-hitboxes.com/{{Calculator.Target.UltHitboxesName}}" target="_blank">Ultimate Hitboxes</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="percent-div">
                                     <input name="target_percent" type="number" class="percent-input" min="0" max="999"
                                            step="0.1" ng-model="Calculator.TargetPercent.Percent" ng-style="Calculator.TargetPercent.Style" ng-change="Calculator.UpdateTargetPercent()" /><!--ng-change="updatePercent()"-->

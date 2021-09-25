@@ -147,6 +147,8 @@ class Character {
 		this.DataViewerName = dataViewerNames[index];
 		this.UltHitboxesFilename = ultHitboxesFilenames[index];
 
+		this.UltHitboxesName = this.UltHitboxesFilename.substring(this.UltHitboxesFilename.indexOf("_") + 1);
+
 		this.Modifier = new AttributeModifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 		this.Modifiers = [];
 		this.ModifierIndex = "0";

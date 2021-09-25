@@ -27,5 +27,26 @@ app.controller('calculator', function ($scope) {
 		$scope.Calculator.GameVariables.StickVisualizer.drawStick($scope.Calculator.GameVariables.Stick)
 	}
 
+	$('.character-image-cont').on('contextmenu', function (e) {
+		e.preventDefault();
+		let id = `#${$(this).data('character')}-data`;
+		if ($(id).is(':visible')) {
+			$(id).css('display', 'none');
+		}
+		else {
+			$(id).css('display', 'block');
+		}
+
+
+	});
+
+	$(document).on('click', function (e) {
+		if ($('.character-data:visible').length > 0) {
+			if ($(e.target).closest('.character-data:visible').length == 0) {
+				$('.character-data:visible').css('display', 'none');
+			}
+		}
+	});
+
 	$scope.Calculator.Update();
 });

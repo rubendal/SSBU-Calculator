@@ -1352,3 +1352,18 @@ optgroup {
     .table-striped > tbody > tr:nth-of-type(even) {
         color: white;
     }
+
+.character-data {
+    position: absolute;
+    z-index: 100;
+    background: #222222dd;
+    border: 1px solid white;
+    top: -25px;
+    left: -10px;
+    width: 150px;
+    display: none;
+}
+
+.character-data a{
+    color:white;
+}

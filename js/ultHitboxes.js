@@ -97,6 +97,10 @@
 						AdditionalHitstun: 0
 					};
 
+					if (!h.StartFrame) {
+						h.StartFrame = 1;
+					}
+
 					move.Hitboxes.push(h);
 				}
 
@@ -130,6 +134,10 @@
 						Type: _throw.type
 
 					};
+
+					if (!t.AppliedFrame) {
+						t.AppliedFrame = 1;
+					}
 
 					move.Throws.push(t);
 				}
