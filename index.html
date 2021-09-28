@@ -14,6 +14,7 @@
 
     <script src="js/formulas.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/lib/lz-string.min.js"></script>
     <script src="js/visualizer.js"></script>
     <script src="js/game.js"></script>
     <script src="js/ultHitboxes.js"></script>
@@ -453,42 +454,42 @@
                                 <td>Weight</td>
                                 <td>
                                     <input name="target_weight" type="number" min="0" max="999" step="1"
-                                                             ng-model="Calculator.Target.Attributes.Weight" ng-change="Calculator.Update()" />
+                                           ng-model="Calculator.Target.Attributes.Weight" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Gravity</td>
                                 <td>
                                     <input name="target_gravity" type="number" min="0" max="10"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.Gravity" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.Gravity" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Fall speed</td>
                                 <td>
                                     <input name="target_fall_speed" type="number" min="0" max="10"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.FallSpeed" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.FallSpeed" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>DamageFlyTop Gravity</td>
                                 <td>
                                     <input name="target_damageflytop_gravity" type="number" min="0"
-                                                             max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopGravity" ng-change="Calculator.Update()" />
+                                           max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopGravity" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>DamageFlyTop Fall speed</td>
                                 <td>
                                     <input name="target_damageflytop_fall_speed" type="number" min="0"
-                                                             max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopFallSpeed" ng-change="Calculator.Update()" />
+                                           max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopFallSpeed" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Traction</td>
                                 <td>
                                     <input name="target_traction" type="number" min="0" max="1"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.GroundFriction" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.GroundFriction" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr></tr>
@@ -496,7 +497,7 @@
                                 <td>Ink</td>
                                 <td>
                                     <input name="ink_value" type="number" min="0" max="300"
-                                                             step="0.01" ng-model="Calculator.GameVariables.InkValue" ng-change="Calculator.Update()" />
+                                           step="0.01" ng-model="Calculator.GameVariables.InkValue" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                         </table>
@@ -631,7 +632,7 @@
                                 <td>FAF</td>
                                 <td>
                                     <input name="faf" type="number" min="0" max="1000" step="1"
-                                           ng-model="Calculator.SelectedMove.MoveRef.FAF" ng-change="Calculator.Update()" />
+                                           ng-model="Calculator.GameVariables.SelectedFAF" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
 
@@ -689,7 +690,7 @@
                                 <tr>
                                     <td ng-repeat="n in Calculator.GameVariables.ShieldStaleQueue track by $index" class="queue-td">
                                         <input class="queue-cb" name="shieldStale{{$index}}" data-value="{{$index+1}}"
-                                               type="checkbox" ng-model="Calculator.GameVariables.ShieldStaleQueue[$index]" ng-change="Calculator.Update()" /> 
+                                               type="checkbox" ng-model="Calculator.GameVariables.ShieldStaleQueue[$index]" ng-change="Calculator.Update()" />
                                     </td>
                                 </tr>
                             </table>
@@ -859,8 +860,6 @@
             </div>
 
             <!-- /Game settings -->
-
-
             <!-- Parameters -->
             <div id="parameters-settings">
                 <div id="settings-header" class="group-header attack-header collapsed" data-target="#parameters-content">
@@ -1127,6 +1126,20 @@
             </div>
 
             <!-- /Game settings -->
+            <!-- URL Sharing -->
+            <div id="sharing-url">
+                <div id="sharing-header" class="group-header attack-header" data-target="#sharing-content">
+                    <span class="cur-link header-group-text">Share</span>
+                </div>
+                <div id="sharing-content" class="collapse show content">
+                    <div id="genlink">
+                        Copy this URL <input id="shareurl" readonly type="text" ng-model="Calculator.SharingUrl"
+                                             onclick="this.select();" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- /URL Sharing -->
 
         </div>
 

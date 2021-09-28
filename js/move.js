@@ -1,13 +1,13 @@
 ﻿var effects = [
 	{ id: "none", name: "None/Other" },
-	{ id: "elec", name: "Electric" },
-	{ id: "ice", name: "Freeze" },
-	{ id: "sleep", name: "Sleep" },
-	{ id: "bury", name: "Bury" },
-	{ id: "stun", name: "Stun" },
-	{ id: "paralyze", name: "Paralyze" },
-	{ id: "flower", name: "Flower" },
-	{ id: "bind_extra", name: "Disable" }
+	{ id: "collision_attr_elec", name: "Electric" },
+	{ id: "collision_attr_ice", name: "Freeze" },
+	{ id: "collision_attr_sleep", name: "Sleep" },
+	{ id: "collision_attr_bury", name: "Bury" },
+	{ id: "collision_attr_stun", name: "Stun" },
+	{ id: "collision_attr_paralyze", name: "Paralyze" },
+	{ id: "collision_attr_flower", name: "Flower" },
+	{ id: "collision_attr_bind_extra", name: "Disable" }
 ];
 
 var baseMove = {

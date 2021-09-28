@@ -241,6 +241,16 @@ class Character {
 					}
 					ref.MoveSource = MoveSources.Calculator;
 					ref.Moveset = ref.MapMovesByName(ref.Moves);
+
+					if ($scope.Calculator.SelectedMove.Shared) {
+						ref.Moveset.unshift({
+							Name: $scope.Calculator.SelectedMove.MoveRef.NameId,
+							Moves: [
+								$scope.Calculator.SelectedMove
+							]
+						});
+					}
+
 					ScopeUpdate($scope);
 				}
 				else {
@@ -269,80 +279,18 @@ class Character {
 						}
 						ref.MoveSource = MoveSources.UltimateHitboxes;
 						ref.Moveset = ref.MapMovesByName(ref.Moves);
+
+						if ($scope.Calculator.SelectedMove.Shared) {
+							ref.Moveset.unshift({
+								Name: $scope.Calculator.SelectedMove.MoveRef.NameId,
+								Moves: [
+									$scope.Calculator.SelectedMove
+								]
+							});
+						}
+
 						ScopeUpdate($scope);
 					});
-
-
-					//No local move data, use KH API
-
-					//loadAsyncFunctionJSON(`https://api.kuroganehammer.com/api/characters/name/${ref.api_name}?game=ultimate`,
-					//	function (character) {
-					//		if (character.OwnerId) {
-
-					//			//Get data
-					//			loadAsyncFunctionJSON(`https://api.kuroganehammer.com/api/characters/${character.OwnerId}/moves?expand=true&game=ultimate`,
-					//				function (moveset) {
-
-					//					if (moveset) {
-					//						//Parse move data
-
-					//						let moves = [];
-					//						let count = 1;
-					//						for (var i = 0; i < moveset.length; i++) {
-					//							let move = moveset[i];
-					//							let parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage != null ? move.BaseDamage.Normal : null, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive != null ? move.HitboxActive.Frames : null, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActive, move.BaseDamage);
-					//							for (var c = 0; c < parser.moves.length; c++) {
-					//								let m = parser.moves[c];
-					//								m.id = count;
-					//								if (!m.grab && m.valid) {
-					//									moves.push(m.addCharacter(ref.display_name).updateMoveData());
-					//									count++;
-					//								}
-
-
-					//								if (ref.name == "Olimar" && m.name == "Dthrow") {
-					//									//Add Purple Pikmin Dthrow
-					//									var m2 = Object.assign({}, m);
-					//									m2.id = count;
-					//									m2.name = "Dthrow (Purple)";
-					//									m2.moveName = "Dthrow (Purple)";
-					//									moves.push(m2.addCharacter(ref.name).updateMoveData());
-					//									count++;
-					//								}
-					//							}
-					//						}
-
-					//						//Convert KH API data to new move data format
-					//						for (var i = 0; i < moves.length; i++) {
-					//							ref.Moves.push(moves[i].ConvertToNewFormat(i));
-					//						}
-
-					//						//Update calculator move list
-					//						ref.Moveset = ref.MapMovesByName(ref.Moves);
-					//						ScopeUpdate($scope);
-
-					//					}
-
-
-					//				}, null, function (e) {
-					//					//Error sending request
-					//					ref.Moveset = ref.MapMovesByName(ref.Moves);
-					//					ScopeUpdate($scope);
-					//				}
-					//			)
-
-					//		}
-					//		else {
-					//			//Character isn't available on KH API
-					//			ref.Moveset = ref.MapMovesByName(ref.Moves);
-					//			ScopeUpdate($scope);
-					//		}
-					//	}, null, function (e) {
-					//		//Error sending request
-					//		ref.Moveset = ref.MapMovesByName(ref.Moves);
-					//		ScopeUpdate($scope);
-					//	}
-					//)
 				}
 
 			}
@@ -356,10 +304,9 @@ class Character {
 		this.ApplyModifier = function () {
 			this.Attributes = { ...this.Params };
 
-			if (this.ModifierIndex) {
+			if (this.ModifierIndex && this.Modifiers.length > 0) {
 
 				this.Modifier = this.Modifiers[this.ModifierIndex];			
-
 				this.Attributes.Gravity *= this.Modifier.GravityMultiplier;
 				this.Attributes.FallSpeed *= this.Modifier.FallSpeedMultiplier;
 				this.Attributes.GroundFriction *= this.Modifier.GroundFrictionMultiplier;

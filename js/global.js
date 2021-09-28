@@ -82,848 +82,6 @@ function getWebProtocol() {
     return p.replace(":", "");
 }
 
-class Parameter {
-    constructor(param, value) {
-        this.param = param;
-        this.value = value;
-    }
-
-    static get(list,p) {
-        for (var i = 0; i < list.length; i++) {
-            if (list[i].param == p) {
-                return list[i].value;
-            }
-        }
-        return undefined;
-    }
-};
-
-function getParameters() {
-    var params = window.location.search;
-    var list = [];
-    params.replace(/([^?=&]+)(=([^&]*))?/gi, function (a, b, c, d) {
-        list.push(new Parameter(b, decodeURI(d.replace("%26","&"))));
-    });
-    return list;
-    
-}
-
-//Parameters and default values
-var paramsList = [
-    new Parameter("attacker", null),
-    new Parameter("attackerModifier", "Normal"),
-    new Parameter("attackerPercent", "0"),
-    new Parameter("target", null),
-    new Parameter("targetModifier", "Normal"),
-    new Parameter("targetPercent", "0"),
-    new Parameter("lumaPercent", "0"),
-    new Parameter("baseDamage", "1.5"),
-    new Parameter("angle", "55"),
-    new Parameter("aerial", "0"),
-    new Parameter("bkb", "45"),
-    new Parameter("kbg", "25"),
-    new Parameter("wbkb", "0"),
-    new Parameter("smashAttack", "0"),
-    new Parameter("windbox", "0"),
-    new Parameter("shieldDamage", "0"),
-    new Parameter("hitlag", "1"),
-    new Parameter("staleness", ""),
-    new Parameter("preDamage", "0"),
-    new Parameter("chargeFrames", "0"),
-    new Parameter("hitFrame", "9"),
-    new Parameter("faf", "26"),
-    new Parameter("kbModifier", "none"),
-    new Parameter("effect", "None/Other"),
-    new Parameter("lsi", "none"),
-    new Parameter("bounce", "0"),
-    new Parameter("projectile", "0"),
-    new Parameter("witchTime", "0"),
-    new Parameter("megamanFsmash", "0"),
-    new Parameter("shield", "normal"),
-    new Parameter("stickX", "0"),
-    new Parameter("stickY", "0"),
-    new Parameter("unblockable", "0"),
-    new Parameter("counteredDamage", "0"),
-    new Parameter("counterMult", "0"),
-    new Parameter("stockDif", "0"),
-    new Parameter("gameMode", "Singles"),
-    new Parameter("stage", "Final Destination"),
-    new Parameter("positionX", "0"),
-    new Parameter("positionY", "0"),
-    new Parameter("visInverse", "0"),
-    new Parameter("visSurface", "0"),
-    new Parameter("visGameMode","vs"),
-    new Parameter("KB", "0"),
-    new Parameter("chargeable", "0"),
-    new Parameter("pDI", defaultParameters.di.toString()),
-    new Parameter("pMinLSI", defaultParameters.lsi_min.toString()),
-    new Parameter("pMaxLSI", defaultParameters.lsi_max.toString()),
-    new Parameter("pHitstun", defaultParameters.hitstun),
-    new Parameter("pDecay", defaultParameters.decay),
-    new Parameter("pLaunchSpeed", defaultParameters.launch_speed),
-    new Parameter("pGMult", defaultParameters.gravity.mult),
-    new Parameter("pGConst", defaultParameters.gravity.constant),
-    new Parameter("pHitlagMult", defaultParameters.hitlag.mult),
-    new Parameter("pHitlagConst", defaultParameters.hitlag.constant),
-    new Parameter("pHCdodgef", defaultParameters.hitstunCancel.frames.airdodge),
-    new Parameter("pHCdodgem", defaultParameters.hitstunCancel.launchSpeed.airdodge),
-    new Parameter("pHCaerialf", defaultParameters.hitstunCancel.frames.aerial),
-    new Parameter("pHCaerialm", defaultParameters.hitstunCancel.launchSpeed.aerial),
-    new Parameter("damageDealt", "1"),
-    new Parameter("kbDealt", "1"),
-    new Parameter("weight", "84"),
-    new Parameter("gravity", "0.12"),
-    new Parameter("fallSpeed", "1.77"),
-    new Parameter("damageReceived", "1"),
-    new Parameter("kbReceived", "1"),
-    new Parameter("traction", "0.055"),
-    new Parameter("setWeight", "0"),
-    new Parameter("theme", "Ultimate"),
-    new Parameter("launchRate", "1"),
-    new Parameter("pParalConst", defaultParameters.paralyzer.constant),
-    new Parameter("pParalMult", defaultParameters.paralyzer.mult),
-	new Parameter("useLandingLag", "no"),
-	new Parameter("isFinishingTouch", "0"),
-	new Parameter("1v1", "1"),
-	new Parameter("shorthop", "0"),
-	new Parameter("isAerial", "0"),
-	new Parameter("ignoreStale", "0"),
-	new Parameter("addHitstun", "0")
-];
-
-function checkUndefined(value) {
-    return value == undefined;
-};
-
-function boolToString(value) {
-    return value ? "1" : "0";
-}
-
-function boolArrayToString(value) {
-    //Prints string with position+1 separated by , when true
-    var str = "";
-    for (var i = 0; i < value.length; i++) {
-        if (value[i]) {
-            str += (i + 1) + ",";
-        }
-    }
-    if (str.length > 0) {
-        str = str.substr(0, str.length - 1);
-    }
-    return str;
-}
-
-function buildParams($scope) {
-	var params = [];
-	if (displayNames[displayNames.indexOf(paramsList[0].value)] != displayNames[displayNames.indexOf($scope.attackerValue)]) {
-		params.push(new Parameter(paramsList[0].param, displayNames[displayNames.indexOf($scope.attackerValue)]));
-    }
-    if (paramsList[1].value != $scope.attackerMod) {
-        params.push(new Parameter(paramsList[1].param, $scope.attackerMod));
-    }
-    if (paramsList[2].value != $scope.attackerPercent) {
-        params.push(new Parameter(paramsList[2].param, $scope.attackerPercent));
-    }
-	if (displayNames[displayNames.indexOf(paramsList[3].value)] != displayNames[displayNames.indexOf($scope.targetValue)]) {
-		params.push(new Parameter(paramsList[3].param, displayNames[displayNames.indexOf($scope.targetValue)]));
-    }
-    if (paramsList[4].value != $scope.targetMod) {
-        params.push(new Parameter(paramsList[4].param, $scope.targetMod));
-    }
-    if (paramsList[5].value != $scope.targetPercent) {
-        params.push(new Parameter(paramsList[5].param, $scope.targetPercent));
-    }
-    if (paramsList[6].value != $scope.lumaPercent) {
-        params.push(new Parameter(paramsList[6].param, $scope.lumaPercent));
-    }
-    if (paramsList[7].value != $scope.baseDamage) {
-        params.push(new Parameter(paramsList[7].param, $scope.baseDamage));
-    }
-    if (paramsList[8].value != $scope.angle) {
-        params.push(new Parameter(paramsList[8].param, $scope.angle));
-    }
-    if (paramsList[9].value != boolToString($scope.aerial)) {
-        params.push(new Parameter(paramsList[9].param, boolToString($scope.aerial)));
-    }
-    if (paramsList[10].value != $scope.bkb) {
-        params.push(new Parameter(paramsList[10].param, $scope.bkb));
-    }
-    if (paramsList[11].value != $scope.kbg) {
-        params.push(new Parameter(paramsList[11].param, $scope.kbg));
-    }
-    if (paramsList[12].value != $scope.wbkb) {
-        params.push(new Parameter(paramsList[12].param, $scope.wbkb));
-    }
-    if (paramsList[13].value != boolToString($scope.this.SelectedMove.MoveRef.IsSmashAttack)) {
-        params.push(new Parameter(paramsList[13].param, boolToString($scope.this.SelectedMove.MoveRef.IsSmashAttack)));
-    }
-    if (paramsList[14].value != boolToString($scope.windbox)) {
-        params.push(new Parameter(paramsList[14].param, boolToString($scope.windbox)));
-    }
-    if ($scope.app != "kbcalculator") {
-        if (paramsList[15].value != $scope.shieldDamage) {
-            params.push(new Parameter(paramsList[15].param, $scope.shieldDamage));
-        }
-        if (paramsList[16].value != $scope.hitlag) {
-            params.push(new Parameter(paramsList[16].param, $scope.hitlag));
-        }
-    }
-    if (paramsList[17].value != boolArrayToString($scope.stale)) {
-        params.push(new Parameter(paramsList[17].param, boolArrayToString($scope.stale)));
-    }
-    if (paramsList[18].value != $scope.preDamage) {
-        params.push(new Parameter(paramsList[18].param, $scope.preDamage));
-    }
-    if (paramsList[19].value != $scope.smashCharge) {
-        params.push(new Parameter(paramsList[19].param, $scope.smashCharge));
-    }
-    if (paramsList[22].value != $scope.kb_modifier) {
-        params.push(new Parameter(paramsList[22].param, $scope.kb_modifier));
-    }
-    if ($scope.app != "kbcalculator") {
-		if (paramsList[23].value != $scope.effect) {
-			params.push(new Parameter(paramsList[23].param, $scope.effect));
-        }
-    }
-    if (paramsList[25].value != boolToString($scope.kb_modifier_bounce)) {
-        params.push(new Parameter(paramsList[25].param, boolToString($scope.kb_modifier_bounce)));
-    }
-    if (paramsList[26].value != boolToString($scope.this.SelectedMove.MoveRef.IsProjectile)) {
-        params.push(new Parameter(paramsList[26].param, boolToString($scope.this.SelectedMove.MoveRef.IsProjectile)));
-    }
-    if (paramsList[27].value != boolToString($scope.witch_time_charge)) {
-        params.push(new Parameter(paramsList[27].param, boolToString($scope.witch_time_charge)));
-    }
-    if (paramsList[28].value != boolToString($scope.megaman_fsmash)) {
-        params.push(new Parameter(paramsList[28].param, boolToString($scope.megaman_fsmash)));
-	}
-	if ($scope.stick != undefined) {
-		if (paramsList[30].value != $scope.stick.X) {
-			params.push(new Parameter(paramsList[30].param, $scope.stick.X));
-		}
-		if (paramsList[31].value != $scope.stick.Y) {
-			params.push(new Parameter(paramsList[31].param, $scope.stick.Y));
-		}
-	}
-    if ($scope.app != "kbcalculator") {
-        if (paramsList[20].value != $scope.hit_frame) {
-            params.push(new Parameter(paramsList[20].param, $scope.hit_frame));
-        }
-        if (paramsList[21].value != $scope.faf) {
-            params.push(new Parameter(paramsList[21].param, $scope.faf));
-        }
-        if (paramsList[29].value != $scope.shield) {
-            params.push(new Parameter(paramsList[29].param, $scope.shield));
-        }
-    }
-    if (paramsList[32].value != boolToString($scope.unblockable)) {
-        params.push(new Parameter(paramsList[32].param, boolToString($scope.unblockable)));
-    }
-    if (paramsList[33].value != $scope.counteredDamage) {
-        params.push(new Parameter(paramsList[33].param, $scope.counteredDamage));
-    }
-    if (paramsList[34].value != $scope.counterMult) {
-        params.push(new Parameter(paramsList[34].param, $scope.counterMult));
-    }
-    if (paramsList[35].value != $scope.stock_dif) {
-        params.push(new Parameter(paramsList[35].param, $scope.stock_dif));
-    }
-    if (paramsList[36].value != $scope.format) {
-        params.push(new Parameter(paramsList[36].param, $scope.format));
-    }
-    if (paramsList[44].value != boolToString($scope.charge_special)) {
-        params.push(new Parameter(paramsList[44].param, boolToString($scope.charge_special)));
-    }
-    if (paramsList[59].value != $scope.attacker_damage_dealt) {
-        params.push(new Parameter(paramsList[59].param, $scope.attacker_damage_dealt));
-    }
-    if (paramsList[60].value != $scope.attacker_kb_dealt) {
-        params.push(new Parameter(paramsList[60].param, $scope.attacker_kb_dealt));
-    }
-    if (paramsList[61].value != $scope.target_weight) {
-        params.push(new Parameter(paramsList[61].param, $scope.target_weight));
-    }
-    if (paramsList[62].value != $scope.target_gravity) {
-        params.push(new Parameter(paramsList[62].param, $scope.target_gravity));
-    }
-    if (paramsList[63].value != $scope.target_fall_speed) {
-        params.push(new Parameter(paramsList[63].param, $scope.target_fall_speed));
-    }
-    if (paramsList[64].value != $scope.target_damage_taken) {
-        params.push(new Parameter(paramsList[64].param, $scope.target_damage_taken));
-    }
-    if (paramsList[65].value != $scope.target_kb_received) {
-        params.push(new Parameter(paramsList[65].param, $scope.target_kb_received));
-    }
-    if (paramsList[66].value != $scope.target_traction) {
-        params.push(new Parameter(paramsList[66].param, $scope.target_traction));
-    }
-    if (paramsList[67].value != boolToString($scope.set_weight)) {
-        params.push(new Parameter(paramsList[67].param, boolToString($scope.set_weight)));
-    }
-    if (paramsList[68].value != $scope.theme) {
-        params.push(new Parameter(paramsList[68].param, $scope.theme));
-    }
-    if (paramsList[69].value != $scope.launch_rate) {
-        params.push(new Parameter(paramsList[69].param, $scope.launch_rate));
-    }
-	if ($scope.app == "calculator" || $scope.app == "kocalculator" || $scope.app == "multicalc") {
-        if (paramsList[37].value != $scope.stageName) {
-            params.push(new Parameter(paramsList[37].param, $scope.stageName));
-        }
-        if (paramsList[38].value != $scope.position_x) {
-            params.push(new Parameter(paramsList[38].param, $scope.position_x));
-        }
-        if (paramsList[39].value != $scope.position_y) {
-            params.push(new Parameter(paramsList[39].param, $scope.position_y));
-        }
-        if (paramsList[40].value != boolToString($scope.inverseX)) {
-            params.push(new Parameter(paramsList[40].param, boolToString($scope.inverseX)));
-        }
-        if (paramsList[41].value != boolToString($scope.surface)) {
-            params.push(new Parameter(paramsList[41].param, boolToString($scope.surface)));
-        }
-        if (paramsList[42].value != $scope.game_mode) {
-            params.push(new Parameter(paramsList[42].param, $scope.game_mode));
-        }
-        if (paramsList[45].value != $scope.params.di) {
-            params.push(new Parameter(paramsList[45].param, $scope.params.di));
-        }
-        if (paramsList[46].value != $scope.params.lsi_min) {
-            params.push(new Parameter(paramsList[46].param, $scope.params.lsi_min));
-        }
-        if (paramsList[47].value != $scope.params.lsi_max) {
-            params.push(new Parameter(paramsList[47].param, $scope.params.lsi_max));
-        }
-        if (paramsList[48].value != $scope.params.hitstun) {
-            params.push(new Parameter(paramsList[48].param, $scope.params.hitstun));
-        }
-        if (paramsList[49].value != $scope.params.decay) {
-            params.push(new Parameter(paramsList[49].param, $scope.params.decay));
-        }
-        if (paramsList[50].value != $scope.params.launch_speed) {
-            params.push(new Parameter(paramsList[50].param, $scope.params.launch_speed));
-        }
-        if (paramsList[51].value != $scope.params.gravity.mult) {
-            params.push(new Parameter(paramsList[51].param, $scope.params.gravity.mult));
-        }
-        if (paramsList[52].value != $scope.params.gravity.constant) {
-            params.push(new Parameter(paramsList[52].param, $scope.params.gravity.constant));
-        }
-        if (paramsList[53].value != $scope.params.hitlag.mult) {
-            params.push(new Parameter(paramsList[53].param, $scope.params.hitlag.mult));
-        }
-        if (paramsList[54].value != $scope.params.hitlag.constant) {
-            params.push(new Parameter(paramsList[54].param, $scope.params.hitlag.constant));
-        }
-        if (paramsList[55].value != $scope.params.hitstunCancel.frames.airdodge) {
-            params.push(new Parameter(paramsList[55].param, $scope.params.hitstunCancel.frames.airdodge));
-        }
-        if (paramsList[56].value != $scope.params.hitstunCancel.launchSpeed.airdodge) {
-            params.push(new Parameter(paramsList[56].param, $scope.params.hitstunCancel.launchSpeed.airdodge));
-        }
-        if (paramsList[57].value != $scope.params.hitstunCancel.frames.aerial) {
-            params.push(new Parameter(paramsList[57].param, $scope.params.hitstunCancel.frames.aerial));
-        }
-        if (paramsList[58].value != $scope.params.hitstunCancel.launchSpeed.aerial) {
-            params.push(new Parameter(paramsList[58].param, $scope.params.hitstunCancel.launchSpeed.aerial));
-        }
-        if (paramsList[70].value != $scope.params.paralyzer.constant) {
-            params.push(new Parameter(paramsList[70].param, $scope.params.paralyzer.constant));
-        }
-        if (paramsList[71].value != $scope.params.paralyzer.mult) {
-            params.push(new Parameter(paramsList[71].param, $scope.params.paralyzer.mult));
-        }
-        if (paramsList[72].value != $scope.use_landing_lag) {
-            params.push(new Parameter(paramsList[72].param, $scope.use_landing_lag));
-		}
-		if (paramsList[73].value != boolToString($scope.isFinishingTouch)) {
-			params.push(new Parameter(paramsList[73].param, boolToString($scope.isFinishingTouch)));
-		}
-		if (paramsList[74].value != boolToString($scope.is_1v1)) {
-			params.push(new Parameter(paramsList[74].param, boolToString($scope.is_1v1)));
-		}
-		if (paramsList[75].value != boolToString($scope.shorthop_aerial)) {
-			params.push(new Parameter(paramsList[75].param, boolToString($scope.shorthop_aerial)));
-		}
-		if (paramsList[76].value != boolToString($scope.is_aerial_move)) {
-			params.push(new Parameter(paramsList[76].param, boolToString($scope.is_aerial_move)));
-		}
-		if (paramsList[77].value != boolToString($scope.ignoreStale)) {
-			params.push(new Parameter(paramsList[77].param, boolToString($scope.ignoreStale)));
-		}
-		if (paramsList[78].value != $scope.addHitstun) {
-			params.push(new Parameter(paramsList[78].param, $scope.addHitstun));
-		}
-    } else if ($scope.app == "kbcalculator") {
-        if (paramsList[43].value != $scope.kb) {
-            params.push(new Parameter(paramsList[43].param, $scope.kb));
-        }
-    }
-    return params;
-}
-
-function buildURL($scope) {
-    var url = window.location.href;
-    url = url.replace(window.location.search, "") + "?";
-    var p = "";
-    var params = buildParams($scope);
-    var andIns = false;
-    for (var i = 0; i < params.length; i++) {
-        if (params[i].value === undefined) {
-            continue;
-        }
-        if (andIns) {
-            p += "&";
-        }
-        andIns = true;
-        var u = encodeURI(params[i].value);
-        u = u.replace("&","%26");
-        p += params[i].param + "=" + u;
-    }
-    return url + p;
-}
-
-var get_params = getParameters();
-
-function mapParams($scope) {
-    //Calculators
-    var param = Parameter.get(get_params, "attacker");
-	if (param) {
-		$scope.attackerValue = displayNames[displayNames.indexOf(param)];
-        $scope.updateAttacker();
-    }
-    param = Parameter.get(get_params, "attackerModifier");
-    if (param) {
-        $scope.attackerMod = param;
-        $scope.updateAttackerMod();
-    }
-    param = Parameter.get(get_params, "target");
-    if (param) {
-		$scope.targetValue = displayNames[displayNames.indexOf(param)];
-        $scope.updateTarget();
-    }
-    param = Parameter.get(get_params, "targetModifier");
-    if (param) {
-        $scope.targetMod = param;
-        $scope.updateTargetMod();
-    }
-    param = Parameter.get(get_params, "attackerPercent");
-    if (param) {
-        $scope.attackerPercent = parseFloat(param);
-    }
-    param = Parameter.get(get_params, "targetPercent");
-    if (param) {
-        $scope.targetPercent = parseFloat(param);
-    }
-    param = Parameter.get(get_params, "lumaPercent");
-    if (param) {
-        $scope.lumaPercent = parseFloat(param);
-    }
-    param = Parameter.get(get_params, "baseDamage");
-    if (param) {
-        $scope.baseDamage = parseFloat(param);
-        $scope.updateAttackData();
-    }
-    param = Parameter.get(get_params, "angle");
-    if (param) {
-        $scope.angle = parseFloat(param);
-        $scope.updateAttackData();
-    }
-    param = Parameter.get(get_params, "aerial");
-    if (param) {
-        $scope.in_air = param == "1";
-    }
-    param = Parameter.get(get_params, "bkb");
-    if (param) {
-        $scope.bkb = parseFloat(param);
-        $scope.updateAttackData();
-    }
-    param = Parameter.get(get_params, "wbkb");
-	if (param) {
-        $scope.wbkb = parseFloat(param);
-        $scope.updateAttackData();
-    }
-    param = Parameter.get(get_params, "smashAttack");
-    if (param) {
-        $scope.this.SelectedMove.MoveRef.IsSmashAttack = param == "1";
-        $scope.updateAttackData();
-        $scope.checkSmashVisibility();
-    }
-    param = Parameter.get(get_params, "windbox");
-    if (param) {
-        $scope.windbox = param == "1";
-        $scope.updateAttackData();
-    }
-    param = Parameter.get(get_params, "kbg");
-    if (param) {
-        $scope.kbg = parseFloat(param);
-        $scope.updateAttackData();
-    }
-    param = Parameter.get(get_params, "shieldDamage");
-    if (param) {
-        $scope.shieldDamage = parseFloat(param);
-        $scope.updateAttackData();
-    }
-    param = Parameter.get(get_params, "staleness");
-    if (param) {
-        var s = param.split(",");
-        for (var i = 0; i < s.length; i++) {
-            try {
-                var n = parseFloat(s[i]);
-                $scope.stale[n - 1] = true;
-
-            } catch (e) {
-
-            }
-        }
-    }
-    param = Parameter.get(get_params, "hitlag");
-    if (param) {
-        $scope.hitlag = parseFloat(param);
-    }
-    param = Parameter.get(get_params, "preDamage");
-    if (param) {
-        $scope.preDamage = param;
-        $scope.update();
-    }
-    param = Parameter.get(get_params, "hitFrame");
-    if (param) {
-        $scope.hit_frame = parseFloat(param);
-    }
-    param = Parameter.get(get_params, "faf");
-    if (param) {
-        $scope.faf = parseFloat(param);
-    }
-    param = Parameter.get(get_params, "effect");
-	if (param) {
-		$scope.effect = param;
-		$scope.updateEffect();
-    }
-    param = Parameter.get(get_params, "kbModifier");
-    if (param) {
-        $scope.kb_modifier = param;
-    }
-    param = Parameter.get(get_params, "bounce");
-    if (param) {
-        $scope.kb_modifier_bounce = param == "1";
-    }
-    param = Parameter.get(get_params, "witchTime");
-    if (param) {
-        $scope.witch_time_charge = param == "1";
-    }
-    param = Parameter.get(get_params, "megamanFsmash");
-    if (param) {
-        $scope.megaman_fsmash = param == "1";
-    }
-    param = Parameter.get(get_params, "chargeable");
-    if (param) {
-        $scope.charge_special = param == "1";
-    }
-    param = Parameter.get(get_params, "projectile");
-    if (param) {
-        $scope.this.SelectedMove.MoveRef.IsProjectile = param == "1";
-    }
-    param = Parameter.get(get_params, "shield");
-    if (param) {
-        $scope.shield = param;
-	}
-	param = Parameter.get(get_params, "stickX");
-	if (param) {
-		$scope.stick.X = Math.floor(parseFloat(param));
-		if ($scope.app != "kbcalculator")
-			$scope.updateDI();
-	}
-	param = Parameter.get(get_params, "stickY");
-	if (param) {
-		$scope.stick.Y = Math.floor(parseFloat(param));
-		if ($scope.app != "kbcalculator")
-			$scope.updateDI();
-	}
-  //  param = Parameter.get(get_params, "DI");
-  //  if (param) {
-		//$scope.di = parseFloat(param);
-		//if ($scope.app != "kbcalculator")
-		//	$scope.updateDI();
-  //  }
-  //  param = Parameter.get(get_params, "noDI");
-  //  if (param) {
-		//$scope.noDI = param == 1;
-		//if ($scope.app != "kbcalculator")
-		//	$scope.updateDI();
-  //  }
-    param = Parameter.get(get_params, "counteredDamage");
-    if (param) {
-        $scope.counteredDamage = param;
-    }
-    param = Parameter.get(get_params, "counterMult");
-    if (param) {
-        $scope.counterMult = param;
-    }
-    param = Parameter.get(get_params, "unblockable");
-    if (param) {
-        $scope.unblockable = param == 1;
-    }
-    param = Parameter.get(get_params, "stage");
-    if (param) {
-        if (!checkUndefined($scope.stageName)) {
-            $scope.stageName = param;
-            $scope.getStage();
-        }
-    }
-    param = Parameter.get(get_params, "positionX");
-    if (param) {
-        if (!checkUndefined($scope.position_x)) {
-            $scope.position_x = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "positionY");
-    if (param) {
-        if (!checkUndefined($scope.position_y)) {
-            $scope.position_y = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "stockDif");
-    if (param) {
-        $scope.stock_dif = param;
-    }
-    param = Parameter.get(get_params, "gameMode");
-    if (param) {
-        $scope.format = param;
-    }
-    param = Parameter.get(get_params, "visGameMode");
-    if (param) {
-        $scope.game_mode = param;
-    }
-    param = Parameter.get(get_params, "visInverse");
-    if (param) {
-        if (!checkUndefined($scope.inverseX)) {
-            $scope.inverseX = param == 1;
-        }
-    }
-    param = Parameter.get(get_params, "visSurface");
-    if (param) {
-        if ($scope.surface != undefined) {
-            $scope.surface = param == 1;
-        }
-    }
-    param = Parameter.get(get_params, "pDI");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.di = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pHitstun");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.hitstun = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pMinLSI");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.lsi_min = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pMaxLSI");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.lsi_max = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pDecay");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.decay = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pLaunchSpeed");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.launch_speed = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pGMult");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.gravity.mult = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pGConst");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.gravity.constant = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pHitlagMult");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.hitlag.mult = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pHitlagConst");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.hitlag.constant = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pHCdodgef");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.hitstunCancel.frames.airdodge = Math.floor(parseFloat(param));
-        }
-    }
-    param = Parameter.get(get_params, "pHCdodgem");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.hitstunCancel.launchSpeed.airdodge = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pHCaerialf");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.hitstunCancel.frames.airdodge = Math.floor(parseFloat(param));
-        }
-    }
-    param = Parameter.get(get_params, "pHCaerialm");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.hitstunCancel.launchSpeed.airdodge = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pParalConst");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.paralyzer.constant = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "pParalMult");
-    if (param) {
-        if ($scope.params != undefined) {
-            $scope.params.paralyzer.mult = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "damageDealt");
-    if (param) {
-        if ($scope.attacker_damage_dealt != undefined) {
-            $scope.attacker_damage_dealt = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "kbDealt");
-    if (param) {
-        if ($scope.attacker_kb_dealt != undefined) {
-            $scope.attacker_kb_dealt = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "damageReceived");
-    if (param) {
-        if ($scope.target_damage_taken != undefined) {
-            $scope.target_damage_taken = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "kbReceived");
-    if (param) {
-        if ($scope.target_kb_received != undefined) {
-            $scope.target_kb_received = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "weight");
-    if (param) {
-        if ($scope.target_weight != undefined) {
-            $scope.target_weight = Math.floor(parseFloat(param));
-        }
-    }
-    param = Parameter.get(get_params, "gravity");
-    if (param) {
-        if ($scope.target_gravity != undefined) {
-            $scope.target_gravity = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "fallSpeed");
-    if (param) {
-        if ($scope.target_fall_speed != undefined) {
-            $scope.target_fall_speed = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "traction");
-    if (param) {
-        if ($scope.target_traction != undefined) {
-            $scope.target_traction = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "setWeight");
-    if (param) {
-        if ($scope.set_weight != undefined) {
-            $scope.set_weight = param == 1;
-        }
-    }
-    param = Parameter.get(get_params, "theme");
-    if (param) {
-        $scope.theme = param;
-        $scope.changeTheme();
-    }
-    param = Parameter.get(get_params, "KB");
-    if (param) {
-        if ($scope.kb != undefined) {
-            $scope.kb = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "chargeFrames");
-    if (param) {
-        $scope.smashCharge = parseFloat(param);
-        $scope.updateCharge();
-    }
-    param = Parameter.get(get_params, "launchRate");
-    if (param) {
-        if ($scope.launch_rate != undefined) {
-            $scope.launch_rate = parseFloat(param);
-        }
-    }
-    param = Parameter.get(get_params, "useLandingLag");
-    if (param) {
-        $scope.delayed_landing_lag = param;
-	}
-	param = Parameter.get(get_params, "isFinishingTouch");
-	if (param) {
-		if ($scope.isFinishingTouch != undefined) {
-			$scope.isFinishingTouch = param == 1;
-		}
-	}
-	param = Parameter.get(get_params, "1v1");
-	if (param) {
-		if ($scope.is_1v1 != undefined) {
-			$scope.is_1v1 = param == 1;
-		}
-	}
-	param = Parameter.get(get_params, "shorthop");
-	if (param) {
-		if ($scope.shorthop_aerial != undefined) {
-			$scope.delayed_shorthop_aerial = param == 1;
-			$scope.updateAttackData();
-		}
-	}
-	param = Parameter.get(get_params, "isAerial");
-	if (param) {
-		if ($scope.is_aerial_move != undefined) {
-			$scope.is_aerial_move = param == 1;
-			$scope.updateAttackData();
-		}
-	}
-	param = Parameter.get(get_params, "ignoreStale");
-	if (param) {
-		if ($scope.ignoreStale != undefined) {
-			$scope.ignoreStale = param == 1;
-			$scope.updateAttackData();
-		}
-	}
-	param = Parameter.get(get_params, "addHitstun");
-	if (param) {
-		if ($scope.addHitstun != undefined) {
-			$scope.addHitstun = parseFloat(param);
-		}
-	}
-}
-
 var styleList = [];
 
 LoadJsonFromPathSync("./css/themes.json", function (data) {
@@ -1186,6 +344,15 @@ class Calculator {
         this.StageList = getStages();
         this.Stage = this.StageList.filter(s => s.stage == "Final Destination")[0];
         this.StageName = this.Stage.stage;
+
+        if (this.Stage.center) {
+            this.VisualizerOptions.Position.x = this.Stage.center[0];
+            this.VisualizerOptions.Position.y = this.Stage.center[1];
+        }
+        else {
+            this.VisualizerOptions.Position.x = this.Stage.spawns[0][0];
+            this.VisualizerOptions.Position.y = this.Stage.spawns[0][1];
+        }
         
         this.UpdateCallback = updateCallback;
 
@@ -1218,7 +385,6 @@ class Calculator {
         //Common functions
         this.UpdateStage = function () {
             this.Stage = getStages().filter(s => s.stage == this.StageName)[0];
-
             if (this.Visualizer) {
                 this.VisualizerOptions.StageName = this.Stage.stage;
                 if (this.Stage.stage == "No stage") {
@@ -1243,6 +409,7 @@ class Calculator {
                 }
 
                 this.Visualizer.Reset();
+                this.Visualizer.SetStage(this.Stage);
                 if (this.VisualizerOptions.Spawns.length > 0)
                     this.VisualizerOptions.Spawn = this.VisualizerOptions.Spawns[0];
                 else
@@ -1325,10 +492,10 @@ class Calculator {
 
             //Effects
             if (this.SelectedMove.Effect.includes("bury")) {
-                this.SelectedMove.Effect = "bury";
+                this.SelectedMove.Effect = "collision_attr_bury";
             }
             else {
-                let match = effects.filter(e => e.id == this.SelectedMove.Effect.replace("collision_attr_", ""));
+                let match = effects.filter(e => e.id == this.SelectedMove.Effect);
                 if (match.length == 0) {
                     this.SelectedMove.Effect = "none";
                 }
@@ -1437,18 +604,19 @@ class Calculator {
         this.Update = function () {
             if (this.UpdateCallback) {
                 this.UpdateCallback();
-			}
+            }
+            this.GenerateUrlParams();
 		}
 
         //Calculator
         this.Calculate = function () {
             
             var is1v1 = this.GameVariables.GameSettings.Players == "2";
-            var electric = this.SelectedMove.Effect == "electric";
+            var electric = this.SelectedMove.Effect == "collision_attr_elec";
             var r = this.GameVariables.Crouching ? parameters.crouch_cancelling : 1;
             var crouchHitlag = this.GameVariables.Crouching ? parameters.crouch_hitlag : 1;
 
-            var paralyzer = this.SelectedMove.Effect == "paralyze";
+            var paralyzer = this.SelectedMove.Effect == "collision_attr_paralyze";
             var staleMult = StaleNegation(this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled);
 
             var baseDamage = this.SelectedMove.Damage;
@@ -1507,7 +675,7 @@ class Calculator {
             }
             else {
                 vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
-                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "electric", this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", 1);
+                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", 1);
             }
 
             var damageSpeedUpFrames = [];
@@ -1516,7 +684,7 @@ class Calculator {
                 damageSpeedUpFrames = DamageSpeedUpFrames(Math.max(0, FirstActionableFrame(vskb.base_kb, this.SelectedMove.Flinchless, electric) + this.SelectedMove.AdditionalHitstun), vskb.angle);
             }
 
-            var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0, vskb.hitstun + this.SelectedMove.AdditionalHitstun), damageSpeedUpFrames, this.SelectedMove.FKB != 0, vskb.angle, vskb.damageflytop, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, (this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF) - this.GameVariables.SelectedHitframe, this.Target.Attributes.FallSpeed * this.Target.Modifier.FallSpeedMultiplier, this.Target.Attributes.DamageFlyTopFallSpeed, this.Target.Attributes.GroundFriction * this.Target.Modifier.GroundFrictionMultiplier, this.VisualizerOptions.InvertX, !this.GameVariables.OpponentInAir, this.VisualizerOptions.Position, this.Stage, true, parseFloat(this.VisualizerOptions.AdditionalFramesAfterHitstun));
+            var distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0, vskb.hitstun + this.SelectedMove.AdditionalHitstun), damageSpeedUpFrames, this.SelectedMove.FKB != 0, vskb.angle, vskb.damageflytop, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, (this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF) - this.GameVariables.SelectedHitframe, this.Target.Attributes.FallSpeed * this.Target.Modifier.FallSpeedMultiplier, this.Target.Attributes.DamageFlyTopFallSpeed, this.Target.Attributes.GroundFriction * this.Target.Modifier.GroundFrictionMultiplier, this.VisualizerOptions.InvertX, !this.GameVariables.OpponentInAir, this.VisualizerOptions.Position, this.Stage, true, parseFloat(this.VisualizerOptions.AdditionalFramesAfterHitstun));
 
             var damageWithout1v1 = damage;
 
@@ -1611,22 +779,22 @@ class Calculator {
             if (paralyzer) {
                 kbList.push(new Result("Paralysis time", ParalysisTime(vskb.kb, damage, this.SelectedMove.Hitlag, crouchHitlag)));
             }
-            if (this.SelectedMove.Effect == "flower") {
+            if (this.SelectedMove.Effect == "collision_attr_flower") {
                 kbList.push(new Result("Flower time", FlowerTime(StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled))));
             }
-            if (this.SelectedMove.Effect == "bury") {
+            if (this.SelectedMove.Effect == "collision_attr_bury") {
                 kbList.push(new Result("Buried time", BuriedTime(this.TargetPercent.Percent + StaleDamage(preDamage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), vskb.kb, this.GameVariables.GameSettings.AttackerStockDifference)));
             }
-            if (this.SelectedMove.Effect == "sleep") {
+            if (this.SelectedMove.Effect == "collision_attr_sleep") {
                 kbList.push(new Result("Sleep time", SleepTime(this.TargetPercent.Percent + StaleDamage(preDamage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), vskb.kb, this.GameVariables.GameSettings.AttackerStockDifference)));
             }
-            if (this.SelectedMove.Effect == "freeze") {
+            if (this.SelectedMove.Effect == "collision_attr_ice") {
                 kbList.push(new Result("Freeze time", FreezeTime(StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), vskb.kb)));
             }
-            if (this.SelectedMove.Effect == "bind") {
+            if (this.SelectedMove.Effect == "collision_attr_bind") {
                 kbList.push(new Result("Stun time", StunTime(vskb.kb)));
             }
-            if (this.SelectedMove.Effect == "bind_extra") {
+            if (this.SelectedMove.Effect == "collision_attr_bind_extra") {
                 kbList.push(new Result("Disable time", DisableTime(this.TargetPercent.Percent + StaleDamage(preDamage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), vskb.kb, this.GameVariables.GameSettings.AttackerStockDifference)));
             }
 
@@ -1659,7 +827,7 @@ class Calculator {
             }
 
             kbList.push(new Result("Hit Advantage", HitAdvantage(hitstun, this.SelectedMove.MoveRef.IsProjectile ? this.GameVariables.SelectedHitframe + Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, crouchHitlag) - 1 : this.GameVariables.SelectedHitframe,
-                this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF, paralyzer ? ParalysisTime(vskb.kb, damage, this.SelectedMove.Hitlag, crouchHitlag) : 0)));
+                this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, paralyzer ? ParalysisTime(vskb.kb, damage, this.SelectedMove.Hitlag, crouchHitlag) : 0)));
 
 
             kbList.push(new Result("Tumble", vskb.tumble ? "Yes" : "No"));
@@ -1715,10 +883,10 @@ class Calculator {
                 shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack), ShieldStunMultiplier(this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack) == 1));
                 shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
                 if (this.GameVariables.ShieldState == ShieldStates.Perfect && this.SelectedMove.MoveRef.IsProjectile) {
-                    shieldList.push(new Result("Parry Advantage", ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
+                    shieldList.push(new Result("Parry Advantage", ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
                 }
                 else {
-                    shieldList.push(new Result((this.GameVariables.ShieldState == ShieldStates.Perfect ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
+                    shieldList.push(new Result((this.GameVariables.ShieldState == ShieldStates.Perfect ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
                 }
                 if (this.DisplayDetailedResults) {
                     if (!this.SelectedMove.Flinchless) {
@@ -1733,7 +901,7 @@ class Calculator {
             }
 
 
-            this.Visualizer.SetStage(this.Stage);
+            //this.Visualizer.SetStage(this.Stage);
             this.Visualizer.SetLaunch(distance.launchData);
             
             return {
@@ -1748,11 +916,11 @@ class Calculator {
         //Percentage Calculator
         this.CalculatePercent = function () {
             var is1v1 = this.GameVariables.GameSettings.Players == "2";
-            var electric = this.SelectedMove.Effect == "electric";
+            var electric = this.SelectedMove.Effect == "collision_attr_elec";
             var r = this.GameVariables.Crouching ? parameters.crouch_cancelling : 1;
             var crouchHitlag = this.GameVariables.Crouching ? parameters.crouch_hitlag : 1;
 
-            var paralyzer = this.SelectedMove.Effect == "paralyze";
+            var paralyzer = this.SelectedMove.Effect == "collision_attr_paralyze";
             var staleMult = StaleNegation(this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled);
 
             var baseDamage = this.SelectedMove.Damage;
@@ -2581,7 +1749,7 @@ class Calculator {
         this.GetDistance = function (baseDamage, damage, preDamage, r) {
             let vskb;
             var staleMult = StaleNegation(this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled);
-            var electric = this.SelectedMove.Effect == "electric";
+            var electric = this.SelectedMove.Effect == "collision_attr_elec";
             if (this.SelectedMove.FKB == 0) {
                 vskb = VSKB(this.TargetPercent.Percent + (preDamage * staleMult), baseDamage, damage, this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight,
                     this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled,
@@ -2591,7 +1759,7 @@ class Calculator {
             }
             else {
                 vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
-                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "electric", this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", 1);
+                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", 1);
             }
 
             let damageSpeedUpFrames = [];
@@ -2599,7 +1767,7 @@ class Calculator {
                 damageSpeedUpFrames = DamageSpeedUpFrames(Math.max(0, FirstActionableFrame(vskb.base_kb, this.SelectedMove.Flinchless, electric) + this.SelectedMove.AdditionalHitstun), vskb.angle);
             }
 
-            let distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0, vskb.hitstun + this.SelectedMove.AdditionalHitstun), damageSpeedUpFrames, this.SelectedMove.FKB != 0, vskb.angle, vskb.damageflytop, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, (this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.SelectedMove.MoveRef.FAF) - this.GameVariables.SelectedHitframe, this.Target.Attributes.FallSpeed * this.Target.Modifier.FallSpeedMultiplier, this.Target.Attributes.DamageFlyTopFallSpeed, this.Target.Attributes.GroundFriction * this.Target.Modifier.GroundFrictionMultiplier, this.VisualizerOptions.InvertX, !this.GameVariables.OpponentInAir, this.VisualizerOptions.Position, this.Stage, true, parseFloat(this.VisualizerOptions.AdditionalFramesAfterHitstun), false);
+            let distance = new Distance(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.tumble, Math.max(0, vskb.hitstun + this.SelectedMove.AdditionalHitstun), damageSpeedUpFrames, this.SelectedMove.FKB != 0, vskb.angle, vskb.damageflytop, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, (this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF) - this.GameVariables.SelectedHitframe, this.Target.Attributes.FallSpeed * this.Target.Modifier.FallSpeedMultiplier, this.Target.Attributes.DamageFlyTopFallSpeed, this.Target.Attributes.GroundFriction * this.Target.Modifier.GroundFrictionMultiplier, this.VisualizerOptions.InvertX, !this.GameVariables.OpponentInAir, this.VisualizerOptions.Position, this.Stage, true, parseFloat(this.VisualizerOptions.AdditionalFramesAfterHitstun), false);
 
             return distance;
 		}
@@ -2649,13 +1817,161 @@ class Calculator {
             }
 
             return list;
+        }
+
+        //Url Sharing
+        this.GenerateUrlParams = function () {
+            let params = {
+                Attacker: {
+                    CharacterName: this.Attacker.CharacterName,
+                    ModifierIndex: this.Attacker.ModifierIndex
+                },
+                Target: {
+                    CharacterName: this.Target.CharacterName,
+                    ModifierIndex: this.Target.ModifierIndex
+                },
+                AttackerPercent: this.AttackerPercent.Percent,
+                TargetPercent: this.TargetPercent.Percent,
+                SelectedMove: {
+                    Name: this.SelectedMove.Name,
+                    StartFrame: this.SelectedMove.StartFrame,
+                    EndFrame: this.SelectedMove.EndFrame,
+                    Damage: this.SelectedMove.Damage,
+                    Angle: this.SelectedMove.Angle,
+                    KBG: this.SelectedMove.KBG,
+                    FKB: this.SelectedMove.FKB,
+                    BKB: this.SelectedMove.BKB,
+                    Hitlag: this.SelectedMove.Hitlag,
+                    SetWeight: this.SelectedMove.SetWeight,
+                    Rehit: this.SelectedMove.Rehit,
+                    ShieldDamage: this.SelectedMove.ShieldDamage,
+                    Flinchless: this.SelectedMove.Flinchless,
+                    DisableHitlag: this.SelectedMove.DisableHitlag,
+                    DirectIndirect: this.SelectedMove.DirectIndirect,
+                    Effect: this.SelectedMove.Effect,
+                    ShieldstunMultiplier: this.SelectedMove.ShieldstunMultiplier,
+                    AdditionalHitstun: this.SelectedMove.AdditionalHitstun,
+                    MoveRef: {
+                        NameId: this.SelectedMove.MoveRef.NameId,
+                        IsProjectile: this.SelectedMove.MoveRef.IsProjectile,
+                        IsProjectileAttached: this.SelectedMove.MoveRef.IsProjectileAttached,
+                        IsItem: this.SelectedMove.MoveRef.IsItem,
+                        FAF: this.SelectedMove.MoveRef.FAF,
+                        LandingLag: this.SelectedMove.MoveRef.LandingLag,
+                        LandingLagStartFrame: this.SelectedMove.MoveRef.LandingLagStartFrame,
+                        LandingLagEndFrame: this.SelectedMove.MoveRef.LandingLagEndFrame,
+                        IsSmashAttack: this.SelectedMove.MoveRef.IsSmashAttack,
+                        IsAerialAttack: this.SelectedMove.MoveRef.IsAerialAttack
+                    },
+                    preDamage: this.SelectedMove.preDamage,
+                    MoveName: this.SelectedMove.MoveName,
+                    Index: "-2"
+                },
+                GameVariables: { ...this.GameVariables },
+                VisualizerOptions: { ...this.VisualizerOptions }
+            };
+
+            params.GameVariables.GameParameters = null;
+            params.GameVariables.AdvantageTypeCheckList = null;
+            params.GameVariables.ControllerList = null;
+            params.GameVariables.ControllerInputList = null;
+            params.GameVariables.StickVisualizer = null;
+            params.GameVariables.Controller.$$hashkey = null;
+            params.GameVariables.SelectedStickInput = null;
+            params.GameVariables.GameSettings.StockDifferenceOptions = null;
+            params.VisualizerOptions.Spawns = null;
+
+            let url = window.location.href;
+            url = url.replace(window.location.search, "") + "?data=";
+
+            this.SharingUrl = url + encodeURI(LZString.compressToBase64(JSON.stringify(params)));
+        }
+
+        this.LoadFromUrl = function () {
+            try {
+
+                let getParams = window.location.search;
+                let data = null;
+                getParams.replace(/([^?=&]+)(=([^&]*))?/gi, function (a, b, c, d) {
+                    if (b.toLowerCase() == 'data') {
+                        data = decodeURI(d);
+                    }
+                });
+
+                if (data) {
+
+                    let params = JSON.parse(LZString.decompressFromBase64(data));
+
+                    params.SelectedMove.Shared = true;
+                    params.SelectedMove.MoveRef.NameId += " (Shared)";
+
+                    console.log(params);
+
+                    this.SelectedMove = params.SelectedMove;
+
+                    this.Attacker.CharacterName = params.Attacker.CharacterName;
+                    this.Attacker = new Character(this.Attacker.CharacterName, this, $scope, true);
+                    
+                    this.Attacker.ModifierIndex = params.Attacker.ModifierIndex;
+                    this.Attacker.ApplyModifier();
+
+                    this.Target.CharacterName = params.Target.CharacterName;
+                    this.UpdateTarget();
+                    this.Target.ModifierIndex = params.Target.ModifierIndex;
+                    this.Target.ApplyModifier();
+
+                    this.AttackerPercent.Percent = params.AttackerPercent;
+                    this.TargetPercent.Percent = params.TargetPercent;
+                    this.UpdateAttackerPercent();
+                    this.UpdateTargetPercent();
+
+                    this.GameVariables.ChargeFrames = params.GameVariables.ChargeFrames;
+                    this.GameVariables.SmashChargeMaxFrames = params.GameVariables.SmashChargeMaxFrames;
+                    this.GameVariables.SmashChargeMaxDamageMultiplier = params.GameVariables.SmashChargeMaxDamageMultiplier;
+                    this.GameVariables.AerialFrameAdvantageType = params.GameVariables.AerialFrameAdvantageType;
+                    this.GameVariables.OpponentInAir = params.GameVariables.OpponentInAir;
+                    this.GameVariables.StaleQueue = params.GameVariables.StaleQueue;
+                    this.GameVariables.ShieldStaleQueue = params.GameVariables.ShieldStaleQueue;
+                    this.GameVariables.SelectedHitframe = params.GameVariables.SelectedHitframe;
+                    this.GameVariables.SelectedFAF = params.GameVariables.SelectedFAF;
+                    this.GameVariables.StalenessDisabled = params.GameVariables.StalenessDisabled;
+                    this.GameVariables.WitchTimeActive = params.GameVariables.WitchTimeActive;
+                    this.GameVariables.InkValue = params.GameVariables.InkValue;
+                    this.GameVariables.Controller = params.GameVariables.Controller;
+                    this.GameVariables.Stick = params.GameVariables.Stick;
+                    this.GameVariables.StickAngle = params.GameVariables.StickAngle;
+                    this.GameVariables.LandingFrame = params.GameVariables.LandingFrame;
+                    this.GameVariables.DisplayAdvantageTypeList = params.GameVariables.DisplayAdvantageTypeList;
+                    this.GameVariables.Crouching = params.GameVariables.Crouching;
+                    this.GameVariables.ShortHop = params.GameVariables.ShortHop;
+                    this.GameVariables.ShieldState = params.GameVariables.ShieldState;
+                    this.GameVariables.Buried = params.GameVariables.Buried;
+
+                    this.GameVariables.GameSettings.Players = params.GameVariables.GameSettings.Players;
+                    this.GameVariables.GameSettings.LaunchRate = params.GameVariables.GameSettings.LaunchRate;
+                    this.GameVariables.GameSettings.AttackerStockDifference = params.GameVariables.GameSettings.AttackerStockDifference;
+                    this.GameVariables.GameSettings.SpiritsEnabled = params.GameVariables.GameSettings.SpiritsEnabled;
+
+                    this.VisualizerOptions.StageName = params.VisualizerOptions.StageName;
+                    this.VisualizerOptions.InvertX = params.VisualizerOptions.InvertX;
+                    this.VisualizerOptions.AdditionalFramesAfterHitstun = params.VisualizerOptions.AdditionalFramesAfterHitstun;
+                    this.VisualizerOptions.Spawn = params.VisualizerOptions.Spawn;
+                    this.VisualizerOptions.Position = params.VisualizerOptions.Position;
+
+                    this.UpdateStage();
+                }
+            }
+            catch (e) {
+                console.log(e);
+			}
 		}
 
         this.UpdateAttack();
 
         if (this.Visualizer) {
-            this.Visualizer.SetStage(this.Stage);
             this.UpdateStage();
+            this.Visualizer.SetStage(this.Stage);
+            
         }
 	}
 }
@@ -2821,3 +2137,17 @@ $(document).ready(function () {
 		
 //	}
 //}
+
+const serializeWithoutCircularRefsAndNullValues = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+        if (typeof value === "object" && value !== null) {
+            if (seen.has(value)) {
+                return;
+            }
+            seen.add(value);
+        }
+        if(value != null)
+            return value;
+    };
+};

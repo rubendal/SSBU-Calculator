@@ -51,4 +51,6 @@ app.controller('calculator', function ($scope) {
 	});
 
 	$scope.Calculator.Update();
+
+	$scope.Calculator.LoadFromUrl();
 });
