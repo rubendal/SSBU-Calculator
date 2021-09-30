@@ -109,178 +109,6 @@
     <!-- Calculator page -->
     <div id="calculator" name="calculator">
 
-        <!-- Data Output -->
-        <div id="output">
-
-            <!-- Visualizer -->
-            <div id="visualizer">
-                <div id="visualizer-header" class="group-header visualizer-header" data-target="#visualizer-content">
-                    <span class="cur-link header-group-text">Visualizer</span>
-                </div>
-                <div id="visualizer-content" class="collapse show content">
-
-                    <div id="stage">
-                        <div class="pos-left">
-                            Stage:
-                            <select name="stageSelect" ng-model="Calculator.StageName" ng-change="Calculator.UpdateStage()">
-                                <option ng-selected="$first" ng-repeat="stage in Calculator.StageList" ng-attr-value="{{stage.stage}}">
-                                    {{stage.stage}}
-                                </option>
-                            </select>
-                            <br />
-                            Set position on spawn:
-                            <select name="spawn" ng-model="Calculator.VisualizerOptions.Spawn" ng-change="Calculator.SetSpawnPosition()">
-                                <option ng-selected="$first" ng-repeat="s in Calculator.VisualizerOptions.Spawns" ng-attr-value="{{s}}">{{s}}</option>
-                            </select>
-                            <br />
-                            Target position when hit
-                            <table>
-                                <tr>
-                                    <td>X</td>
-                                    <td>
-                                        <input name="position_x" class="positionInput" type="number" min="-500" max="500" step="1"
-                                               ng-model="Calculator.VisualizerOptions.Position.x" ng-change="Calculator.Update()" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Y</td>
-                                    <td>
-                                        <input name="position_y" class="positionInput" type="number" min="-500" max="500" step="1"
-                                               ng-model="Calculator.VisualizerOptions.Position.y" ng-change="Calculator.Update()" />
-                                    </td>
-                                </tr>
-                            </table>
-                            <div id="graph_options">
-                                <input type="checkbox" name="inverseX" ng-model="Calculator.VisualizerOptions.InvertX" ng-change="Calculator.Update()" /> Target
-                                hit from right side
-                            </div>
-                            <br />
-
-
-
-                            <br />
-                            
-
-                        </div>
-
-                    </div>
-
-                    <div style="clear:both;">
-                        <button ng-click="CalculateKOPercent()">Calculate KO %</button>
-                        <br />
-                        <div style="margin-top:5px;">
-                            DI angle step: <input name="di_step" type="number" min="1" max="90" step="1" ng-model="Calculator.DIStepAngle" />
-                            <button ng-click="CalculateKOPercentForBestWorstDI(true)" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles">Calculate KO % with best DI</button>
-                            <button ng-click="CalculateKOPercentForBestWorstDI(false)" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles">Calculate KO % with worst DI</button>
-                        </div>
-                        <div style="margin-top:5px;">
-                            Target KO'd percent: <input name="percent_ko" type="number" min="0" max="999" step="1" ng-model="Calculator.KOPercentForDICheck" /> %
-                            <button ng-click="CalculateKOPercentBasedDI()" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles">Calculate DI based on KO %</button>
-                        </div>
-                        <div style="margin-top:5px;">
-                            Vector field DI angle step: <input name="di_step" type="number" min="10" max="90" step="1" ng-model="Calculator.VectorDIAngleStep" />
-                            <button ng-click="CalculateDIVectorField()" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles on multiple positions">Calculate best DI vector field</button>
-                            <br />
-                            <input type="checkbox" ng-model="Calculator.IgnoreWithCollisions" /> Ignore positions with stage collisions
-                            <br />
-                            <input type="checkbox" ng-model="Calculator.ShowInterpolatedPositions" /> Show interpolated vectors
-                            <br />
-                        </div>
-                    </div>
-
-                    <div id="extra-table">
-                        <table class="result-table table table-striped table-sm">
-                            <tbody>
-                                <tr ng-repeat="x in results.list">
-                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.value }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <br/>
-
-                    <div style="clear:both;width:100%;">
-                        <canvas id="visualizerCanvas"></canvas>
-
-                    </div>
-
-                    <br />
-
-                    <div style="clear:both;">
-
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Values -->
-            <div id="data">
-                <div id="data-header" class="group-header data-header" data-target="#data-content">
-                    <span class="cur-link header-group-text">Results</span>
-                </div>
-                <div id="data-content" class="collapse show content">
-
-                    <div id="results-table">
-
-                        <div id="damage-header" class="group-header data-header sub-header" data-target="#damage-content">
-                            <span class="cur-link header-group-text">Damage</span>
-                        </div>
-                        <div id="damage-content" class="res-data collapse show content">
-
-                            <table class="table table-striped table-sm">
-                                <tbody>
-                                    <tr ng-repeat="x in results.damage.list">
-                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                        <div id="knockback-header" class="group-header data-header sub-header" data-target="#knockback-content">
-                            <span class="cur-link header-group-text">Knockback</span>
-                        </div>
-                        <div id="knockback-content" class="res-data collapse show content">
-
-                            <table class="table table-striped table-sm">
-                                <tbody>
-                                    <tr ng-repeat="x in results.kb.list">
-                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-
-                        <div id="shield-header" class="group-header data-header sub-header" data-target="#shield-content">
-                            <span class="cur-link header-group-text">Shield</span>
-                        </div>
-                        <div id="shield-content" class="res-data collapse show content">
-
-                            <table class="table table-striped table-sm result-table">
-                                <tbody>
-                                    <tr ng-repeat="x in results.shield.list">
-                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-            </div>
-
-        </div>
-
         <!-- Data input -->
         <div id="input">
 
@@ -468,42 +296,42 @@
                                 <td>Weight</td>
                                 <td>
                                     <input name="target_weight" type="number" min="0" max="999" step="1"
-                                                             ng-model="Calculator.Target.Attributes.Weight" ng-change="Calculator.Update()" />
+                                           ng-model="Calculator.Target.Attributes.Weight" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Gravity</td>
                                 <td>
                                     <input name="target_gravity" type="number" min="0" max="10"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.Gravity" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.Gravity" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Fall speed</td>
                                 <td>
                                     <input name="target_fall_speed" type="number" min="0" max="10"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.FallSpeed" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.FallSpeed" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>DamageFlyTop Gravity</td>
                                 <td>
                                     <input name="target_damageflytop_gravity" type="number" min="0"
-                                                             max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopGravity" ng-change="Calculator.Update()" />
+                                           max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopGravity" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>DamageFlyTop Fall speed</td>
                                 <td>
                                     <input name="target_damageflytop_fall_speed" type="number" min="0"
-                                                             max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopFallSpeed" ng-change="Calculator.Update()" />
+                                           max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopFallSpeed" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Traction</td>
                                 <td>
                                     <input name="target_traction" type="number" min="0" max="1"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.GroundFriction" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.GroundFriction" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr></tr>
@@ -511,7 +339,7 @@
                                 <td>Ink</td>
                                 <td>
                                     <input name="ink_value" type="number" min="0" max="300"
-                                                             step="0.01" ng-model="Calculator.GameVariables.InkValue" ng-change="Calculator.Update()" />
+                                           step="0.01" ng-model="Calculator.GameVariables.InkValue" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                         </table>
@@ -536,10 +364,6 @@
                                 </option>
                             </optgroup>
                         </select>
-
-                        <span style="padding: 0px 3px;">
-                            {{Calculator.Attacker.MoveSource}}
-                        </span>
 
                         <table>
                             <tr>
@@ -653,6 +477,9 @@
                             </tr>
                         </table>
 
+                        <div style="padding: 2px 0px;">
+                            {{Calculator.Attacker.MoveSource}}
+                        </div>
 
                         <div class="staleness">
                             Staleness Queue
@@ -839,8 +666,6 @@
             </div>
 
             <!-- /Game settings -->
-
-
             <!-- Parameters -->
             <div id="parameters-settings">
                 <div id="settings-header" class="group-header attack-header collapsed" data-target="#parameters-content">
@@ -1107,6 +932,136 @@
             </div>
 
             <!-- /Game settings -->
+
+        </div>
+
+        <!-- Data Output -->
+        <div id="output">
+
+            <!-- Visualizer -->
+            <div id="visualizer">
+                <div id="visualizer-header" class="group-header visualizer-header" data-target="#visualizer-content">
+                    <span class="cur-link header-group-text">Visualizer</span>
+                </div>
+                <div id="visualizer-content" class="collapse show content">
+
+                    <div id="stage">
+                        <div class="pos-left">
+                            Stage:
+                            <select name="stageSelect" ng-model="Calculator.StageName" ng-change="Calculator.UpdateStage()">
+                                <option ng-selected="$first" ng-repeat="stage in Calculator.StageList" ng-attr-value="{{stage.stage}}">
+                                    {{stage.stage}}
+                                </option>
+                            </select>
+                            <br />
+                            Set position on spawn:
+                            <select name="spawn" ng-model="Calculator.VisualizerOptions.Spawn" ng-change="Calculator.SetSpawnPosition()">
+                                <option ng-selected="$first" ng-repeat="s in Calculator.VisualizerOptions.Spawns" ng-attr-value="{{s}}">{{s}}</option>
+                            </select>
+                            <br />
+                            Target position when hit
+                            <table>
+                                <tr>
+                                    <td>X</td>
+                                    <td>
+                                        <input name="position_x" class="positionInput" type="number" min="-500" max="500" step="1"
+                                               ng-model="Calculator.VisualizerOptions.Position.x" ng-change="Calculator.Update()" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Y</td>
+                                    <td>
+                                        <input name="position_y" class="positionInput" type="number" min="-500" max="500" step="1"
+                                               ng-model="Calculator.VisualizerOptions.Position.y" ng-change="Calculator.Update()" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="graph_options">
+                                <input type="checkbox" name="inverseX" ng-model="Calculator.VisualizerOptions.InvertX" ng-change="Calculator.Update()" /> Target
+                                hit from right side
+                            </div>
+                            <br />
+
+
+
+                            <br />
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="pos-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    <button ng-click="CalculateKOPercent()">Calculate KO %</button>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    DI angle step: <input name="di_step" type="number" min="1" max="90" step="1" ng-model="Calculator.DIStepAngle" />
+                                </td>
+                                <td>
+                                    <button ng-click="CalculateKOPercentForBestWorstDI(true)" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles">Calculate KO % with best DI</button>
+                                    <button ng-click="CalculateKOPercentForBestWorstDI(false)" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles">Calculate KO % with worst DI</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Target KO'd percent: <input name="percent_ko" type="number" min="0" max="999" step="1" ng-model="Calculator.KOPercentForDICheck" /> %
+                                </td>
+                                <td>
+                                    <button ng-click="CalculateKOPercentBasedDI()" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles">Calculate DI based on KO %</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Vector field DI angle step: <input name="di_step" type="number" min="10" max="90" step="1" ng-model="Calculator.VectorDIAngleStep" />
+                                </td>
+                                <td>
+                                    <button ng-click="CalculateDIVectorField()" title="Note: page can become busy and maybe get a pop up that doesn't respond due to the calculation of all KO %s with all DI angles on multiple positions">Calculate best DI vector field</button>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div style="margin-top:5px;">
+
+                            <input type="checkbox" ng-model="Calculator.IgnoreWithCollisions" /> Ignore positions with stage collisions
+                            <br />
+                            <input type="checkbox" ng-model="Calculator.ShowInterpolatedPositions" /> Show interpolated vectors
+                            <br />
+                        </div>
+                    </div>
+
+                    <div id="extra-table">
+                        <table class="result-table table table-striped table-sm">
+                            <tbody>
+                                <tr ng-repeat="x in results.list">
+                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="clear:both;width:100%;">
+                        <canvas id="visualizerCanvas"></canvas>
+
+                    </div>
+
+                    <br />
+
+                    <div style="clear:both;">
+
+                    </div>
+
+                </div>
+            </div>
+
+
 
         </div>
 

@@ -324,8 +324,8 @@ input[type=button] {
 #output {
     position: relative;
     display: block;
-    float: left;
-    width: 55%;
+    float: right;
+    width: 54%;
 }
 
 #input {
@@ -333,7 +333,7 @@ input[type=button] {
     display: block;
     font-size: 15px;
     color: black;
-    float: right;
+    float: left;
     width: 45%;
 }
 
@@ -375,14 +375,17 @@ input[type=button] {
     width: 99%;
     padding: 5px;
     margin-bottom: 5px;
-/*    border-bottom-right-radius: 25px;
+    /*    border-bottom-right-radius: 25px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;*/
+    clear: both;
 }
 
-.sub-header{
+.sub-header {
     width: 89%;
     padding: 3px;
+    float: right;
+    margin-right: 10px;
 }
 
 .group-header.collapsed{
@@ -395,6 +398,7 @@ input[type=button] {
         width: 10%;
         min-width: 100px;
         padding-left: 10px;
+        float:right;
     }
 
 #visualizer-content{
@@ -403,11 +407,11 @@ input[type=button] {
 
 
 
-#input .group-header.collapsed {
+#output .group-header.collapsed {
     float: right;
 }
 
-#input > div{
+#output > div {
     clear: both;
 }
 
@@ -470,11 +474,15 @@ input[type=button] {
 }
 
     #results-table > .res-data {
-        margin-left: 3%;
+        margin-left: 11%;
     }
 
 #results-table table {
     width: 88%;
+}
+
+#input .content {
+    padding-left: 10px;
 }
 
 
@@ -491,6 +499,7 @@ input[type=button] {
     margin-left: 10px;
     width: 88%;
     padding-top: 10px;
+    clear: both;
 }
 
 #attributes {
@@ -535,8 +544,8 @@ input[type=button] {
     float:left;
 }
 
-#shareurl{
-    width:100%;
+#shareurl {
+    width: 95%;
 }
 
 /*.data-labels{

@@ -85,7 +85,7 @@ function getWebProtocol() {
 var styleList = [];
 
 LoadJsonFromPathSync("./css/themes.json", function (data) {
-    styleList = data;
+    styleList = data.filter(t => t.enabled);
 });
 
 var defaultStyle = styleList[0];
@@ -1867,19 +1867,43 @@ class Calculator {
                     MoveName: this.SelectedMove.MoveName,
                     Index: "-2"
                 },
-                GameVariables: { ...this.GameVariables },
-                VisualizerOptions: { ...this.VisualizerOptions }
+                GameVariables: {
+                    ChargeFrames: this.GameVariables.ChargeFrames,
+                    SmashChargeMaxFrames: this.GameVariables.SmashChargeMaxFrames,
+                    SmashChargeMaxDamageMultiplier: this.GameVariables.SmashChargeMaxDamageMultiplier,
+                    AerialFrameAdvantageType: this.GameVariables.AerialFrameAdvantageType,
+                    OpponentInAir: this.GameVariables.OpponentInAir,
+                    StaleQueue: this.GameVariables.StaleQueue,
+                    ShieldStaleQueue: this.GameVariables.ShieldStaleQueue,
+                    SelectedHitframe: this.GameVariables.SelectedHitframe,
+                    SelectedFAF: this.GameVariables.SelectedFAF,
+                    StalenessDisabled: this.GameVariables.StalenessDisabled,
+                    WitchTimeActive: this.GameVariables.WitchTimeActive,
+                    InkValue: this.GameVariables.InkValue,
+                    Controller: this.GameVariables.Controller,
+                    Stick: this.GameVariables.Stick,
+                    StickAngle: this.GameVariables.StickAngle,
+                    LandingFrame: this.GameVariables.LandingFrame,
+                    DisplayAdvantageTypeList: this.GameVariables.DisplayAdvantageTypeList,
+                    Crouching: this.GameVariables.Crouching,
+                    ShortHop: this.GameVariables.ShortHop,
+                    ShieldState: this.GameVariables.ShieldState,
+                    Buried: this.GameVariables.Buried,
+                    GameSettings: {
+                        Players: this.GameVariables.GameSettings.Players,
+                        LaunchRate: this.GameVariables.GameSettings.LaunchRate,
+                        AttackerStockDifference: this.GameVariables.GameSettings.AttackerStockDifference,
+                        SpiritsEnabled: this.GameVariables.GameSettings.SpiritsEnabled
+                    }
+                },
+                VisualizerOptions: {
+                    StageName: this.VisualizerOptions.StageName,
+                    InvertX: this.VisualizerOptions.InvertX,
+                    AdditionalFramesAfterHitstun: this.VisualizerOptions.AdditionalFramesAfterHitstun,
+                    Spawn: this.VisualizerOptions.Spawn,
+                    Position: this.VisualizerOptions.Position
+                }
             };
-
-            params.GameVariables.GameParameters = null;
-            params.GameVariables.AdvantageTypeCheckList = null;
-            params.GameVariables.ControllerList = null;
-            params.GameVariables.ControllerInputList = null;
-            params.GameVariables.StickVisualizer = null;
-            params.GameVariables.Controller.$$hashkey = null;
-            params.GameVariables.SelectedStickInput = null;
-            params.GameVariables.GameSettings.StockDifferenceOptions = null;
-            params.VisualizerOptions.Spawns = null;
 
             let url = window.location.href;
             url = url.replace(window.location.search, "") + "?data=";
@@ -1904,8 +1928,6 @@ class Calculator {
 
                     params.SelectedMove.Shared = true;
                     params.SelectedMove.MoveRef.NameId += " (Shared)";
-
-                    console.log(params);
 
                     this.SelectedMove = params.SelectedMove;
 
@@ -1963,7 +1985,8 @@ class Calculator {
             }
             catch (e) {
                 console.log(e);
-			}
+            }
+
 		}
 
         this.UpdateAttack();

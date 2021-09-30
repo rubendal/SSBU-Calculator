@@ -109,51 +109,6 @@
     <!-- Calculator page -->
     <div id="calculator" name="calculator">
 
-        <!-- Data Output -->
-        <div id="output">
-
-            <!-- Values -->
-            <div id="data">
-                <div id="data-header" class="group-header data-header" data-target="#data-content">
-                    <span class="cur-link header-group-text">Results</span>
-                </div>
-                <div id="data-content" class="collapse show content">
-
-                    <div id="results-table">
-                        <div style="padding-left:15px;">
-                            <table>
-                                <tr>
-                                    <td>
-                                        KB
-                                    </td>
-                                    <td>
-                                        <input name="kb" type="number" min="0" max="2500" step="0.1"
-                                               ng-model="Calculator.KBInput" ng-change="Calculator.Update()" />
-                                    
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div style="padding-top:10px;">
-
-                        </div>
-                        <table class="table table-striped table-sm result-table">
-                            <tbody>
-                                <tr ng-repeat="x in results.list">
-                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-
-
-                </div>
-            </div>
-
-        </div>
-
         <!-- Data input -->
         <div id="input">
 
@@ -341,42 +296,42 @@
                                 <td>Weight</td>
                                 <td>
                                     <input name="target_weight" type="number" min="0" max="999" step="1"
-                                                             ng-model="Calculator.Target.Attributes.Weight" ng-change="Calculator.Update()" />
+                                           ng-model="Calculator.Target.Attributes.Weight" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Gravity</td>
                                 <td>
                                     <input name="target_gravity" type="number" min="0" max="10"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.Gravity" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.Gravity" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Fall speed</td>
                                 <td>
                                     <input name="target_fall_speed" type="number" min="0" max="10"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.FallSpeed" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.FallSpeed" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>DamageFlyTop Gravity</td>
                                 <td>
                                     <input name="target_damageflytop_gravity" type="number" min="0"
-                                                             max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopGravity" ng-change="Calculator.Update()" />
+                                           max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopGravity" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>DamageFlyTop Fall speed</td>
                                 <td>
                                     <input name="target_damageflytop_fall_speed" type="number" min="0"
-                                                             max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopFallSpeed" ng-change="Calculator.Update()" />
+                                           max="10" step="0.001" ng-model="Calculator.Target.Attributes.DamageFlyTopFallSpeed" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Traction</td>
                                 <td>
                                     <input name="target_traction" type="number" min="0" max="1"
-                                                             step="0.001" ng-model="Calculator.Target.Attributes.GroundFriction" ng-change="Calculator.Update()" />
+                                           step="0.001" ng-model="Calculator.Target.Attributes.GroundFriction" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                             <tr></tr>
@@ -384,7 +339,7 @@
                                 <td>Ink</td>
                                 <td>
                                     <input name="ink_value" type="number" min="0" max="300"
-                                                             step="0.01" ng-model="Calculator.GameVariables.InkValue" ng-change="Calculator.Update()" />
+                                           step="0.01" ng-model="Calculator.GameVariables.InkValue" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
                         </table>
@@ -409,10 +364,6 @@
                                 </option>
                             </optgroup>
                         </select>
-
-                        <span style="padding: 0px 3px;">
-                            {{Calculator.Attacker.MoveSource}}
-                        </span>
 
                         <table>
                             <tr>
@@ -525,6 +476,9 @@
                             </tr>
                         </table>
 
+                        <div style="padding: 2px 0px;">
+                            {{Calculator.Attacker.MoveSource}}
+                        </div>
 
                         <div class="staleness">
                             Staleness Queue
@@ -593,74 +547,74 @@
                 </div>
                 <div id="variables-content" class="collapse show content">
                     <!--<div class="pos-left">
-                        <div class="stick-container">
+                    <div class="stick-container">
+                        <table>
+                            <tr>
+                                <td>Controller</td>
+                                <td>
+                                    <select id="controllers" ng-model="Calculator.GameVariables.Controller.name" ng-change="Calculator.GameVariables.UpdateController()">
+                                        <option ng-selected="$first" ng-repeat="c in Calculator.GameVariables.ControllerList" ng-attr-value="{{c.name}}">{{c.name}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Input</td>
+                                <td>
+                                    <select id="stick_inputs" ng-model="Calculator.GameVariables.SelectedStickInput.name" ng-change="Calculator.GameVariables.UpdateStickInput()">
+                                        <option ng-selected="$first" ng-repeat="i in Calculator.GameVariables.ControllerInputList"
+                                                ng-attr-value="{{i.name}}">
+                                            {{i.name}}
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="stick-div">
+                            <canvas id="stickCanvas"></canvas>
+                        </div>
+
+                        <div class="stick-values">
+                            Stick position
                             <table>
                                 <tr>
-                                    <td>Controller</td>
+                                    <td>X</td>
                                     <td>
-                                        <select id="controllers" ng-model="Calculator.GameVariables.Controller.name" ng-change="Calculator.GameVariables.UpdateController()">
-                                            <option ng-selected="$first" ng-repeat="c in Calculator.GameVariables.ControllerList" ng-attr-value="{{c.name}}">{{c.name}}</option>
-                                        </select>
+                                        <input name="stickX" type="number" min="-127" max="127" step="1"
+                                               ng-model="Calculator.GameVariables.Stick.x" ng-change="Calculator.GameVariables.UpdateDI()" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Input</td>
+                                    <td>Y</td>
                                     <td>
-                                        <select id="stick_inputs" ng-model="Calculator.GameVariables.SelectedStickInput.name" ng-change="Calculator.GameVariables.UpdateStickInput()">
-                                            <option ng-selected="$first" ng-repeat="i in Calculator.GameVariables.ControllerInputList"
-                                                    ng-attr-value="{{i.name}}">
-                                                {{i.name}}
-                                            </option>
-                                        </select>
+                                        <input name="stickY" type="number" min="-127" max="127" step="1"
+                                               ng-model="Calculator.GameVariables.Stick.y" ng-change="Calculator.GameVariables.UpdateDI()" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Angle</td>
+                                    <td>
+                                        <input name="stickAngle" type="number" min="0" max="359" step="1"
+                                               ng-model="Calculator.GameVariables.StickAngle" ng-change="Calculator.GameVariables.UpdateDIAngle()" />
                                     </td>
                                 </tr>
                             </table>
-                            <div class="stick-div">
-                                <canvas id="stickCanvas"></canvas>
-                            </div>
-
-                            <div class="stick-values">
-                                Stick position
-                                <table>
-                                    <tr>
-                                        <td>X</td>
-                                        <td>
-                                            <input name="stickX" type="number" min="-127" max="127" step="1"
-                                                   ng-model="Calculator.GameVariables.Stick.x" ng-change="Calculator.GameVariables.UpdateDI()" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Y</td>
-                                        <td>
-                                            <input name="stickY" type="number" min="-127" max="127" step="1"
-                                                   ng-model="Calculator.GameVariables.Stick.y" ng-change="Calculator.GameVariables.UpdateDI()" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Angle</td>
-                                        <td>
-                                            <input name="stickAngle" type="number" min="0" max="359" step="1"
-                                                   ng-model="Calculator.GameVariables.StickAngle" ng-change="Calculator.GameVariables.UpdateDIAngle()" />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <br />
-                            <br />
-
                         </div>
-                    </div>-->
+                        <br />
+                        <br />
+
+                    </div>
+                </div>-->
                     <div class="pos-right">
                         <!--<div class="pos-right shield-select">
-                            Shield
-                            <br />
-                            <input type="radio" name="shieldMod" ng-model="Calculator.GameVariables.ShieldState" ng-attr-value="2" ng-change="Calculator.Update()" /> Normal shield
-                            <br />
-                            <input type="radio" name="shieldMod" ng-model="Calculator.GameVariables.ShieldState" ng-attr-value="3" ng-change="Calculator.Update()" /> Perfect shield
-                            <br />
-                            <br />
-                        </div>
-                        <br />-->
+                        Shield
+                        <br />
+                        <input type="radio" name="shieldMod" ng-model="Calculator.GameVariables.ShieldState" ng-attr-value="2" ng-change="Calculator.Update()" /> Normal shield
+                        <br />
+                        <input type="radio" name="shieldMod" ng-model="Calculator.GameVariables.ShieldState" ng-attr-value="3" ng-change="Calculator.Update()" /> Perfect shield
+                        <br />
+                        <br />
+                    </div>
+                    <br />-->
                         <input type="checkbox" ng-model="Calculator.GameVariables.OpponentInAir" ng-change="Calculator.Update()" /> Target in air
                         <br />
                         <input name="crouching" type="checkbox" ng-model="Calculator.GameVariables.Crouching" ng-change="Calculator.Update()" /> Crouch cancel
@@ -977,6 +931,51 @@
             </div>
 
             <!-- /Game settings -->
+
+        </div>
+
+        <!-- Data Output -->
+        <div id="output">
+
+            <!-- Values -->
+            <div id="data">
+                <div id="data-header" class="group-header data-header" data-target="#data-content">
+                    <span class="cur-link header-group-text">Results</span>
+                </div>
+                <div id="data-content" class="collapse show content">
+
+                    <div id="results-table">
+                        <div style="padding-left:15px;">
+                            <table>
+                                <tr>
+                                    <td>
+                                        KB
+                                    </td>
+                                    <td>
+                                        <input name="kb" type="number" min="0" max="2500" step="0.1"
+                                               ng-model="Calculator.KBInput" ng-change="Calculator.Update()" />
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="padding-top:10px;">
+
+                        </div>
+                        <table class="table table-striped table-sm result-table">
+                            <tbody>
+                                <tr ng-repeat="x in results.list">
+                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+            </div>
 
         </div>
 

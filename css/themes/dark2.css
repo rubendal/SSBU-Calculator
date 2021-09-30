@@ -327,7 +327,7 @@ input[type=button] {
 #output {
     position: relative;
     display: block;
-    float: right;
+    float: left;
     width: 54%;
 }
 
@@ -337,7 +337,7 @@ input[type=button] {
     font-size: 15px;
     background: none;
     color: white;
-    float: left;
+    float: right;
     width: 45%;
 }
 
@@ -392,15 +392,13 @@ input[type=button] {
     padding: 3px;
     background: rgb(234 234 234 / 0.65);
     color: black;
-    float: right;
-    margin-right: 10px;
 }
 
 .content {
     padding-bottom: 10px;
 }
 
-.group-header.collapsed {
+.group-header.collapsed{
     width: 15%;
     min-width: 150px;
     padding-left: 40px;
@@ -410,7 +408,6 @@ input[type=button] {
         width: 10%;
         min-width: 100px;
         padding-left: 10px;
-        float:right;
     }
 
 #visualizer-content{
@@ -419,11 +416,11 @@ input[type=button] {
 
 
 
-#output .group-header.collapsed {
+#input .group-header.collapsed {
     float: right;
 }
 
-#output > div {
+#input > div{
     clear: both;
 }
 
@@ -486,15 +483,11 @@ input[type=button] {
 }
 
     #results-table > .res-data {
-        margin-left: 11%;
+        margin-left: 3%;
     }
 
 #results-table table {
     width: 88%;
-}
-
-#input .content{
-    padding-left: 10px;
 }
 
 
@@ -556,8 +549,8 @@ input[type=button] {
     float:left;
 }
 
-#shareurl{
-    width:95%;
+#shareurl {
+    width: 95%;
 }
 
 /*.data-labels{
@@ -1043,12 +1036,6 @@ optgroup {
 /* --------Screen sizes-------- */
 
 /*Remove floats inside stuff on smaller screens*/
-@media screen and (max-width: 1700px) {
-    #output .content .pos-left, #output .content .pos-right {
-        float: none;
-    }
-}
-
 @media screen and (max-width: 1290px) {
     .char-select {
         

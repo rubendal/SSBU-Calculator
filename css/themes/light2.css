@@ -2,9 +2,7 @@
     position: relative;
     margin: 0;
     min-height: 100%;
-    /*background: #FCFCFF;*/
-    background: #222222;
-    color: white;
+    background: #FCFCFF;
 }
 
 .icon {
@@ -46,9 +44,8 @@
 }
 
 .cur-link {
-    color: black;
+    color: white;
     cursor: pointer;
-    font-weight: 600;
 }
 
 .hide-link {
@@ -102,13 +99,13 @@ table, td, tr {
     right: 0;
     top: 0;
     left: 0;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
     width: 100%;
     padding: 10px 0 10px 0;
     height: auto;
     text-align: left;
     display: inline-block;
-    background: #1b1b1b;
+    background: #222222;
     color: white;
     padding-bottom: 15px;
 }
@@ -327,7 +324,7 @@ input[type=button] {
 #output {
     position: relative;
     display: block;
-    float: right;
+    float: left;
     width: 54%;
 }
 
@@ -335,9 +332,8 @@ input[type=button] {
     position: relative;
     display: block;
     font-size: 15px;
-    background: none;
-    color: white;
-    float: left;
+    color: black;
+    float: right;
     width: 45%;
 }
 
@@ -353,7 +349,7 @@ input[type=button] {
     position: relative;
     display: block;
     font-size: 15px;
-    color: white;
+    color: black;
     float: right;
     width: 50%;
 }
@@ -362,7 +358,7 @@ input[type=button] {
     position: relative;
     display: block;
     font-size: 15px;
-    color: white;
+    color: black;
     width: 100%;
 }
 
@@ -370,7 +366,7 @@ input[type=button] {
     position: relative;
     display: block;
     font-size: 15px;
-    color: white;
+    color: black;
     float: right;
     width: 70%;
 }
@@ -382,25 +378,15 @@ input[type=button] {
     /*    border-bottom-right-radius: 25px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;*/
-    background: rgb(234 234 234 / 0.78);
-    color: black;
     clear: both;
 }
 
-.sub-header {
+.sub-header{
     width: 89%;
     padding: 3px;
-    background: rgb(234 234 234 / 0.65);
-    color: black;
-    float: right;
-    margin-right: 10px;
 }
 
-.content {
-    padding-bottom: 10px;
-}
-
-.group-header.collapsed {
+.group-header.collapsed{
     width: 15%;
     min-width: 150px;
     padding-left: 40px;
@@ -410,7 +396,6 @@ input[type=button] {
         width: 10%;
         min-width: 100px;
         padding-left: 10px;
-        float:right;
     }
 
 #visualizer-content{
@@ -419,11 +404,11 @@ input[type=button] {
 
 
 
-#output .group-header.collapsed {
+#input .group-header.collapsed {
     float: right;
 }
 
-#output > div {
+#input > div{
     clear: both;
 }
 
@@ -481,25 +466,21 @@ input[type=button] {
 }
 
 #results-table {
-    color: white;
+    color: black;
     font-size: 17px;
 }
 
     #results-table > .res-data {
-        margin-left: 11%;
+        margin-left: 3%;
     }
 
 #results-table table {
     width: 88%;
 }
 
-#input .content{
-    padding-left: 10px;
-}
-
 
 #multiresults-table {
-    color: white;
+    color: black;
     margin-left: 7%;
     font-size: 17px;
     margin-top: 10px;
@@ -507,7 +488,7 @@ input[type=button] {
 }
 
 #extra-table {
-    color: white;
+    color: black;
     margin-left: 10px;
     width: 88%;
     padding-top: 10px;
@@ -556,8 +537,8 @@ input[type=button] {
     float:left;
 }
 
-#shareurl{
-    width:95%;
+#shareurl {
+    width: 95%;
 }
 
 /*.data-labels{
@@ -577,8 +558,8 @@ input[type=button] {
 
 #themeSelect, #appSelect {
     font-size: 13px;
-    color: white;
-    background: #222222;
+    color: black;
+    background: white;
 }
 
 #smash4-data{
@@ -601,7 +582,7 @@ input[type="checkbox"] {
     top: 5px;
     font: 20px/26px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
     font-weight: 600;
-    background: #222222 linear-gradient(to top, #222222, #414141);
+    background: #dedede linear-gradient(to top, #dedede, #ffffff);
     outline: none;
     border: 1px solid #a7a7a7;
     position: relative;
@@ -630,12 +611,12 @@ input[type="checkbox"] {
     }
 
     input[type="checkbox"]:checked {
-        background: #222222 linear-gradient(to top, #222222, #414141);
+        background: #dedede linear-gradient(to top, #dedede, #ffffff);
     }
 
         input[type="checkbox"]:checked:after {
             content: '\2713';
-            color: #c7c7c7;
+            color: #3b3b3b;
             position: absolute;
             left: 50%;
             top: 50%;
@@ -651,7 +632,7 @@ input[type="checkbox"] {
         top: 5px;
         font: 16px/22px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
         font-weight: 600;
-        background: #222222 linear-gradient(to top, #222222, #414141);
+        background: #dedede linear-gradient(to top, #dedede, #ffffff);
         outline: none;
         border: 1px solid #a7a7a7;
         position: relative;
@@ -678,7 +659,7 @@ input[type="checkbox"] {
 
     input[type="checkbox"].queue-cb::after {
         content: attr(data-value);
-        color: #c7c7c7;
+        color: #3b3b3b;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -688,11 +669,11 @@ input[type="checkbox"] {
         transform: translate(-50%,-50%);
     }
     input[type="checkbox"].queue-cb:checked {
-        background: rgba(195, 195, 195, 0.90);
+        background: rgba(35, 35, 35, 0.90);
     }
     input[type="checkbox"].queue-cb:checked:after {
         content: attr(data-value);
-        color: black;
+        color: white;
     }
 
 input[type="radio"] {
@@ -700,7 +681,7 @@ input[type="radio"] {
     height: 20px;
     top: 5px;
     font: 20px/26px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
-    background: #222222 linear-gradient(to top, #222222, #414141);
+    background: #dedede linear-gradient(to top, #dedede, #ffffff);
     outline: none;
     border: 1px solid #a7a7a7;
     position: relative;
@@ -728,31 +709,28 @@ input[type="radio"] {
         box-shadow: 0 0 2px 2px rgba(0, 0, 255, 0.3) !important;
     }
 
-    input[type="radio"]:checked {
-        background: #222222 linear-gradient(to top, #222222, #414141);
-    }
+input[type="radio"]:checked {
+    background: #dedede linear-gradient(to top, #dedede, #ffffff);
+}
 
-        input[type="radio"]:checked:after {
-            background: #c7c7c7;
-            font-size: 14px;
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            display: block;
-            content: ' ';
-            top: 50%;
-            left: 50%;
-            border-radius: 50%;
-            -webkit-transform: translate(-50%,-50%);
-            -moz-transform: translate(-50%,-50%);
-            -ms-transform: translate(-50%,-50%);
-            transform: translate(-50%,-50%);
-        }
+    input[type="radio"]:checked:after {
+        content: '\26ab';
+        font-size: 14px;
+        color: #3b3b3b;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        display: block;
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
 
 button {
     background-color: transparent;
     border: 1px solid #dedede;
-    color: white;
+    color: black;
     padding: 5px 10px;
     text-align: center;
     display: inline-block;
@@ -768,8 +746,8 @@ button {
 }
 
     button:hover {
-        background-color: #545454;
-        color: white;
+        background-color: #dedede;
+        color: black;
     }
 
     button:focus {
@@ -786,7 +764,7 @@ button {
 
 /* --------Sections-------- */
 
-/*.characters-header {
+.characters-header {
     background: rgba(34, 34, 34, 0.95);
 }
 
@@ -844,11 +822,11 @@ button {
 
 .filters-header {
     background: rgba(34, 34, 34, 0.95);
-}*/
+}
 
-/*.sorting-header {
+.sorting-header {
     background: rgba(34, 34, 34, 0.95);
-}*/
+}
 
 /*---Inputs---*/
 input, select {
@@ -860,10 +838,8 @@ input, select {
     font-size: 14px;
     /*font-family: 'Century Gothic';
     font-weight: 600;*/
-    border: 0.5px solid white;
-    /*background: #FCFCFF;*/
-    background: none;
-    color: white;
+    border: 0.5px solid black;
+    background: #FCFCFF;
 }
 
     input:focus, select:focus {
@@ -888,29 +864,28 @@ input[type=number].percent-input + span {
     font-style: italic;
     font-weight: 800;
     font-size: 1.5em;
-    color: white;
+    color: black;
     -webkit-text-fill-color: white;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
-    background:none;
 }
 
-    input[type=number].percent-input {
-        width: 140px;
-        font-family: 'Century Gothic';
-        font-style: italic;
-        font-weight: 800;
-        font-size: 40px;
-        border: none;
-        color: white;
-        -webkit-text-fill-color: white;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: black;
-        background: none;
-        text-shadow: 2px 2px black;
-        text-align: right;
-        padding: 0px 5px;
-    }
+input[type=number].percent-input {
+    width: 140px;
+    font-family: 'Century Gothic';
+    font-style: italic;
+    font-weight: 800;
+    font-size: 40px;
+    border: none;
+    color: black;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    background: none;
+    text-shadow: 2px 2px black;
+    text-align: right;
+    padding: 0px 5px;
+}
 
     input[type=number].percent-input:focus {
         outline: none;
@@ -992,25 +967,27 @@ select.character-select {
     width: 220px;
 }
 
+.character-select option {
+    color: black;
+    text-transform: none;
+    font-size: 15px;
+}
+
 .positionInput {
     width: 8em !important;
 }
 
-option{
-    color:white;
-    background: #222222;
-}
-
-optgroup {
-    color: white;
-    background: #222222;
-}
-
 .character-select option {
-    color: white;
-    background: #222222;
+    color: black;
     text-transform: none;
     font-size: 15px;
+}
+
+.percent-div {
+    display: inline-block;
+    position: relative;
+    left: 5px;
+    top: 5px;
 }
 
 .percent-div {
@@ -1041,14 +1018,7 @@ optgroup {
 }
 
 /* --------Screen sizes-------- */
-
 /*Remove floats inside stuff on smaller screens*/
-@media screen and (max-width: 1700px) {
-    #output .content .pos-left, #output .content .pos-right {
-        float: none;
-    }
-}
-
 @media screen and (max-width: 1290px) {
     .char-select {
         
@@ -1298,7 +1268,6 @@ optgroup {
         height: 40px;
         font: 20px/26px 'pt-sans', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
         font-weight: 600;
-
     }
 }
 
@@ -1355,30 +1324,17 @@ optgroup {
     height:auto;
 }
 
-.table, .table-striped, .table-sm {
-    color: white;
-}
-
-    .table-striped > tbody > tr:nth-of-type(odd) {
-        color: white;
-        background: #3a3a3a;
-    }
-
-    .table-striped > tbody > tr:nth-of-type(even) {
-        color: white;
-    }
-
 .character-data {
     position: absolute;
     z-index: 100;
-    background: #222222dd;
-    border: 1px solid white;
+    background: #fcfcffdd;
+    border: 1px solid black;
     top: -25px;
     left: -10px;
     width: 150px;
     display: none;
 }
 
-.character-data a{
-    color:white;
-}
+    .character-data a {
+        color: blue;
+    }

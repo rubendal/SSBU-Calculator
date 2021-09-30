@@ -110,162 +110,6 @@
     <!-- Calculator page -->
     <div id="calculator" name="calculator">
 
-        <!-- Data Output -->
-        <div id="output">
-
-            <!-- Visualizer -->
-            <div id="visualizer">
-                <div id="visualizer-header" class="group-header visualizer-header" data-target="#visualizer-content">
-                    <span class="cur-link header-group-text">Visualizer</span>
-                </div>
-                <div id="visualizer-content" class="collapse show content">
-
-                    <div id="stage">
-                        <div class="pos-left">
-                            Stage:
-                            <select name="stageSelect" ng-model="Calculator.StageName" ng-change="Calculator.UpdateStage()">
-                                <option ng-selected="$first" ng-repeat="stage in Calculator.StageList" ng-attr-value="{{stage.stage}}">
-                                    {{stage.stage}}
-                                </option>
-                            </select>
-                            <br />
-                            Set position on spawn:
-                            <select name="spawn" ng-model="Calculator.VisualizerOptions.Spawn" ng-change="Calculator.SetSpawnPosition()">
-                                <option ng-selected="$first" ng-repeat="s in Calculator.VisualizerOptions.Spawns" ng-attr-value="{{s}}">{{s}}</option>
-                            </select>
-                            <br />
-                            Target position when hit
-                            <table>
-                                <tr>
-                                    <td>X</td>
-                                    <td>
-                                        <input name="position_x" class="positionInput" type="number" min="-500" max="500" step="1"
-                                               ng-model="Calculator.VisualizerOptions.Position.x" ng-change="Calculator.Update()"  />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Y</td>
-                                    <td>
-                                        <input name="position_y" class="positionInput" type="number" min="-500" max="500" step="1"
-                                               ng-model="Calculator.VisualizerOptions.Position.y" ng-change="Calculator.Update()" />
-                                    </td>
-                                </tr>
-                            </table>
-                            <div id="graph_options">
-                                <input type="checkbox" name="inverseX" ng-model="Calculator.VisualizerOptions.InvertX" ng-change="Calculator.Update()" /> Target
-                                hit from right side
-                            </div>
-                            <br />
-                            Display <input name="extra_frames" type="number" min="0" max="99" step="1"
-                                           ng-model="Calculator.VisualizerOptions.AdditionalFramesAfterHitstun" style="width:3em;" ng-change="Calculator.Update()" /> additional actionable
-                            frames
-
-                            <br />
-                            <br />
-
-                            <br />
-                            <!--<div>
-                                <button ng-click="storeDistanceCalculation()" ng-disabled="!show_graph">Store distance calculation</button>
-                                <br />
-                                <button ng-click="clearVisualizerList()" ng-disabled="!show_graph">Clear list</button>
-                            </div>-->
-
-                        </div>
-
-                    </div>
-
-
-                    <div style="clear:both;width:100%;">
-                        <canvas id="visualizerCanvas"></canvas>
-
-                    </div>
-
-                    <br />
-
-                    <div id="extra-table">
-                        <table class="result-table table table-striped table-sm">
-                            <tbody>
-                                <tr ng-repeat="x in results.extra">
-                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.value }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Values -->
-            <div id="data">
-                <div id="data-header" class="group-header data-header" data-target="#data-content">
-                    <span class="cur-link header-group-text">Results</span>
-                </div>
-                <div id="data-content" class="collapse show content">
-
-                    <div id="results-table">
-
-                        <div id="damage-header" class="group-header data-header sub-header" data-target="#damage-content">
-                            <span class="cur-link header-group-text">Damage</span>
-                        </div>
-                        <div id="damage-content" class="res-data collapse show content">
-
-                            <table class="table table-striped table-sm">
-                                <tbody>
-                                    <tr ng-repeat="x in results.damage.list">
-                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                        <div id="knockback-header" class="group-header data-header sub-header" data-target="#knockback-content">
-                            <span class="cur-link header-group-text">Knockback</span>
-                        </div>
-                        <div id="knockback-content" class="res-data collapse show content">
-
-                            <table class="table table-striped table-sm">
-                                <tbody>
-                                    <tr ng-repeat="x in results.kb.list">
-                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-
-                        <div id="shield-header" class="group-header data-header sub-header" data-target="#shield-content">
-                            <span class="cur-link header-group-text">Shield</span>
-                        </div>
-                        <div id="shield-content" class="res-data collapse show content">
-
-                            <table class="table table-striped table-sm result-table">
-                                <tbody>
-                                    <tr ng-repeat="x in results.shield.list">
-                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
-                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-
-
-                    </div>
-
-                    <div style="padding-left: 10px;">
-                        <input class="displayDetails" name="displayDetails" type="checkbox" ng-model="Calculator.DisplayDetailedResults" ng-change="Calculator.Update()" /> Display additional data on results
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
         <!-- Data input -->
         <div id="input">
 
@@ -524,10 +368,6 @@
 
                         </select>
 
-                        <span style="padding: 0px 3px;">
-                            {{Calculator.Attacker.MoveSource}}
-                        </span>
-
                         <table>
                             <tr>
                                 <td>Damage</td>
@@ -637,12 +477,12 @@
                             </tr>
 
                             <!--<tr>
-                        <td>{{use_landing_lag == "no" ? "FAF" : "Landing frame"}}</td>
-                        <td>
-                            <input name="faf" type="number" min="0" max="1000" step="1" ng-model="faf"
-                                   ng-change="Calculator.Update()" />
-                        </td>
-                    </tr>-->
+            <td>{{use_landing_lag == "no" ? "FAF" : "Landing frame"}}</td>
+            <td>
+                <input name="faf" type="number" min="0" max="1000" step="1" ng-model="faf"
+                       ng-change="Calculator.Update()" />
+            </td>
+        </tr>-->
                         </table>
 
                         <div ng-if="Calculator.SelectedMove.MoveRef.IsAerialAttack && Calculator.SelectedMove.MoveRef.LandingLag">
@@ -674,6 +514,9 @@
                             </table>
                         </div>
 
+                        <div style="padding: 2px 0px;">
+                            {{Calculator.Attacker.MoveSource}}
+                        </div>
 
                         <div class="staleness">
                             Staleness Queue
@@ -730,7 +573,7 @@
                         weight
 
                     </div>
-
+                    
                 </div>
             </div>
 
@@ -1142,6 +985,164 @@
             <!-- /URL Sharing -->
 
         </div>
+
+        <!-- Data Output -->
+        <div id="output">
+
+            <!-- Values -->
+            <div id="data">
+                <div id="data-header" class="group-header data-header" data-target="#data-content">
+                    <span class="cur-link header-group-text">Results</span>
+                </div>
+                <div id="data-content" class="collapse show content">
+
+                    <div id="results-table">
+
+                        <div id="damage-header" class="group-header data-header sub-header" data-target="#damage-content">
+                            <span class="cur-link header-group-text">Damage</span>
+                        </div>
+                        <div id="damage-content" class="res-data collapse show content">
+
+                            <table class="table table-striped table-sm">
+                                <tbody>
+                                    <tr ng-repeat="x in results.damage.list">
+                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div id="knockback-header" class="group-header data-header sub-header" data-target="#knockback-content">
+                            <span class="cur-link header-group-text">Knockback</span>
+                        </div>
+                        <div id="knockback-content" class="res-data collapse show content">
+
+                            <table class="table table-striped table-sm">
+                                <tbody>
+                                    <tr ng-repeat="x in results.kb.list">
+                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                        <div id="shield-header" class="group-header data-header sub-header" data-target="#shield-content">
+                            <span class="cur-link header-group-text">Shield</span>
+                        </div>
+                        <div id="shield-content" class="res-data collapse show content">
+
+                            <table class="table table-striped table-sm result-table">
+                                <tbody>
+                                    <tr ng-repeat="x in results.shield.list">
+                                        <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                        <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{x.value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div style="padding-left: 10px; clear:both;">
+                        <input class="displayDetails" name="displayDetails" type="checkbox" ng-model="Calculator.DisplayDetailedResults" ng-change="Calculator.Update()" /> Display additional data on results
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualizer -->
+            <div id="visualizer">
+                <div id="visualizer-header" class="group-header visualizer-header" data-target="#visualizer-content">
+                    <span class="cur-link header-group-text">Visualizer</span>
+                </div>
+                <div id="visualizer-content" class="collapse show content">
+
+                    <div id="stage">
+                        <div class="pos-left">
+                            Stage:
+                            <select name="stageSelect" ng-model="Calculator.StageName" ng-change="Calculator.UpdateStage()">
+                                <option ng-selected="$first" ng-repeat="stage in Calculator.StageList" ng-attr-value="{{stage.stage}}">
+                                    {{stage.stage}}
+                                </option>
+                            </select>
+                            <br />
+                            Set position on spawn:
+                            <select name="spawn" ng-model="Calculator.VisualizerOptions.Spawn" ng-change="Calculator.SetSpawnPosition()">
+                                <option ng-selected="$first" ng-repeat="s in Calculator.VisualizerOptions.Spawns" ng-attr-value="{{s}}">{{s}}</option>
+                            </select>
+                            <br />
+                            Target position when hit
+                            <table>
+                                <tr>
+                                    <td>X</td>
+                                    <td>
+                                        <input name="position_x" class="positionInput" type="number" min="-500" max="500" step="1"
+                                               ng-model="Calculator.VisualizerOptions.Position.x" ng-change="Calculator.Update()" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Y</td>
+                                    <td>
+                                        <input name="position_y" class="positionInput" type="number" min="-500" max="500" step="1"
+                                               ng-model="Calculator.VisualizerOptions.Position.y" ng-change="Calculator.Update()" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="graph_options">
+                                <input type="checkbox" name="inverseX" ng-model="Calculator.VisualizerOptions.InvertX" ng-change="Calculator.Update()" /> Target
+                                hit from right side
+                            </div>
+                            <br />
+                            Display <input name="extra_frames" type="number" min="0" max="99" step="1"
+                                           ng-model="Calculator.VisualizerOptions.AdditionalFramesAfterHitstun" style="width:3em;" ng-change="Calculator.Update()" /> additional actionable
+                            frames
+
+                            <br />
+                            <br />
+
+                            <br />
+                            <!--<div>
+                        <button ng-click="storeDistanceCalculation()" ng-disabled="!show_graph">Store distance calculation</button>
+                        <br />
+                        <button ng-click="clearVisualizerList()" ng-disabled="!show_graph">Clear list</button>
+                    </div>-->
+
+                        </div>
+
+                    </div>
+
+
+                    <div style="clear:both;width:100%;">
+                        <canvas id="visualizerCanvas"></canvas>
+
+                    </div>
+
+                    <br />
+
+                    <div id="extra-table">
+                        <table class="result-table table table-striped table-sm">
+                            <tbody>
+                                <tr ng-repeat="x in results.extra">
+                                    <td class="attribute" title="{{x.title}}">{{ x.name }}</td>
+                                    <td class="value" title="{{x.title}}" ng-style="{{x.style}}">{{ x.value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
 
     </div>
 
