@@ -1340,7 +1340,17 @@ select.character-select {
     left: -10px;
     width: 150px;
     display: none;
+    padding: 3px;
 }
+
+    .character-data > div:first-child {
+        border-bottom: 1px solid black;
+        text-align: center;
+    }
+
+    .character-data > div:nth-child(2) {
+        padding-top: 5px;
+    }
 
     .character-data a {
         color: blue;
