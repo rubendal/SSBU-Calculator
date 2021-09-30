@@ -508,6 +508,7 @@ class Calculator {
             this.GameVariables.SmashChargeMaxFrames = 60;
             this.GameVariables.SmashChargeMaxDamageMultiplier = 1.4;
             this.GameVariables.SelectedHitframe = this.SelectedMove.StartFrame;
+            this.GameVariables.SelectedFAF = this.SelectedMove.MoveRef.FAF;
             this.GameVariables.AerialFrameAdvantageType = AerialFrameAdvCalculation.Normal;
             this.GameVariables.LandingFrame = this.SelectedMove.MoveRef.LandingLagEndFrame;
 

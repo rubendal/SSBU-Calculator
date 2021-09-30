@@ -186,7 +186,7 @@ var chargeMoves = [
 ];
 
 class MoveData {
-	constructor(character, move, moveType) {
+	constructor(character, move, moveType, ultHitboxes = false) {
 
 		for (var property in move) {
 			this[property] = move[property];
@@ -198,6 +198,8 @@ class MoveData {
 		this.InputType = moveType.InputType;
 		this.IsSmashAttack = moveType.IsSmashAttack;
 		this.IsAerialAttack = moveType.IsAerialAttack;
+
+		this.IsFromUltimateHitboxes = ultHitboxes;
 
 		this.Grabs = []; //Ignore grabs
 
@@ -337,7 +339,7 @@ class MoveData {
 			this.Throws[i].preDamage = 0;
 
 			for (var h = 0; h < this.Hitboxes.length; h++) {
-				if (!this.Hitboxes[h].IgnoreGrabbed) {
+				if (!this.Hitboxes[h].IgnoreGrabbed && !ultHitboxes) {
 					if (this.Hitboxes[h].StartFrame < this.Throws[i].AppliedFrame) {
 						this.Throws[i].preDamage += this.Hitboxes[h].Damage;
 					}

@@ -269,7 +269,7 @@ class Character {
 						for (var i = 0; i < moveTypes.length; i++) {
 							let moveType = moveTypes[i];
 							for (var j = 0; j < moveType.Moves.length; j++) {
-								let move = new MoveData(ref.name, moveType.Moves[j], moveType);
+								let move = new MoveData(ref.name, moveType.Moves[j], moveType, true);
 								attacks = attacks.concat(move.GetHitboxes());
 								attacks = attacks.concat(move.GetThrows());
 							}

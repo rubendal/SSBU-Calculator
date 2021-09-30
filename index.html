@@ -459,11 +459,11 @@
                             </tr>
                             <tr>
                                 <td>Hit frame</td>
-                                <td ng-if="Calculator.SelectedMove.Name != 'Custom move'">
+                                <td ng-if="Calculator.SelectedMove.Name != 'Custom move' && !Calculator.SelectedMove.MoveRef.IsFromUltimateHitboxes">
                                     <input name="hit_frame" type="number" min="{{Calculator.SelectedMove.StartFrame}}" max="{{Calculator.SelectedMove.EndFrame == 0 || Calculator.SelectedMove.EndFrame == null ? 1000 : Calculator.SelectedMove.EndFrame - 1}}" step="1"
                                            ng-model="Calculator.GameVariables.SelectedHitframe" ng-change="Calculator.Update()" />
                                 </td>
-                                <td ng-if="Calculator.SelectedMove.Name == 'Custom move'">
+                                <td ng-if="Calculator.SelectedMove.Name == 'Custom move' || Calculator.SelectedMove.MoveRef.IsFromUltimateHitboxes">
                                     <input name="hit_frame" type="number" min="1" max="1000" step="1"
                                            ng-model="Calculator.GameVariables.SelectedHitframe" ng-change="Calculator.Update()" />
                                 </td>
