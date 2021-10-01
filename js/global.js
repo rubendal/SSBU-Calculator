@@ -113,10 +113,12 @@ class Result {
         this.title = getTitle(name);
         this.value = value;
         this.hide = false;
-        this.style = "";
+        this.style = {};
 
         this.addStyle = function (style) {
-            this.style = style;
+            for (var property in style) {
+                this.style[property] = style[property];
+            }
             return this;
         }
 
@@ -146,6 +148,10 @@ class Result {
         } else {
             this.value = +this.value.toFixed(6);
         }
+
+        if (name == "Hit Advantage" || name == "Shield Advantage" || name == "Parry Advantage") {
+            this.addStyle({ 'font-weight': '500' });
+		}
 
 
     }
@@ -827,9 +833,10 @@ class Calculator {
                 kbList.push(new Result("Aerial hitstun cancel", suv_hc.aerial, (Hitstun(vskb.base_kb, this.SelectedMove.Flinchless, electric) == 0 || damageSpeedUpFrames[damageSpeedUpFrames.length - 1] <= suv_hc.aerial)));
             }
 
-            kbList.push(new Result("Hit Advantage", HitAdvantage(hitstun, this.SelectedMove.MoveRef.IsProjectile ? this.GameVariables.SelectedHitframe + Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, crouchHitlag) - 1 : this.GameVariables.SelectedHitframe,
-                this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, paralyzer ? ParalysisTime(vskb.kb, damage, this.SelectedMove.Hitlag, crouchHitlag) : 0)));
-
+            if (this.GameVariables.SelectedFAF > 0) {
+                kbList.push(new Result("Hit Advantage", HitAdvantage(hitstun, this.SelectedMove.MoveRef.IsProjectile ? this.GameVariables.SelectedHitframe + Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, crouchHitlag) - 1 : this.GameVariables.SelectedHitframe,
+                    this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, paralyzer ? ParalysisTime(vskb.kb, damage, this.SelectedMove.Hitlag, crouchHitlag) : 0)));
+            }
 
             kbList.push(new Result("Tumble", vskb.tumble ? "Yes" : "No"));
 
@@ -883,11 +890,14 @@ class Calculator {
                 shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
                 shieldList.push(new Result("Shield stun multiplier", "x" + ShieldStunMultiplier(this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack), ShieldStunMultiplier(this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack) == 1));
                 shieldList.push(new Result("Shield stun", ShieldStun(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.MoveRef.IsProjectile, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
-                if (this.GameVariables.ShieldState == ShieldStates.Perfect && this.SelectedMove.MoveRef.IsProjectile) {
-                    shieldList.push(new Result("Parry Advantage", ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
-                }
-                else {
-                    shieldList.push(new Result((this.GameVariables.ShieldState == ShieldStates.Perfect ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
+
+                if (this.GameVariables.SelectedFAF > 0) {
+                    if (this.GameVariables.ShieldState == ShieldStates.Perfect && this.SelectedMove.MoveRef.IsProjectile) {
+                        shieldList.push(new Result("Parry Advantage", ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
+                    }
+                    else {
+                        shieldList.push(new Result((this.GameVariables.ShieldState == ShieldStates.Perfect ? "Parry Advantage" : "Shield Advantage"), ShieldAdvantage(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.ShieldstunMultiplier, this.SelectedMove.Hitlag, this.GameVariables.SelectedHitframe, this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.LandingLag ? this.GameVariables.LandingFrame + this.SelectedMove.MoveRef.LandingLag : this.GameVariables.AerialFrameAdvantageType == AerialFrameAdvCalculation.Autocancel ? this.GameVariables.LandingFrame + this.Attacker.Attributes.HardLandingLag : this.GameVariables.SelectedFAF, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsSmashAttack, this.SelectedMove.MoveRef.IsAerialAttack)));
+                    }
                 }
                 if (this.DisplayDetailedResults) {
                     if (!this.SelectedMove.Flinchless) {

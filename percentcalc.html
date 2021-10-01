@@ -133,7 +133,7 @@
                                     <img ng-src="{{Calculator.Attacker.image}}"
                                          class="character-image" ng-class="Calculator.Attacker.class" />
                                     <div id="attacker-data" class="character-data">
-                                        <div>
+                                        <div class="character-data-header" ng-class="Calculator.Attacker.class">
                                             {{Calculator.Attacker.CharacterName}} data
                                         </div>
                                         <div>
@@ -189,7 +189,7 @@
                                     <img ng-src="{{Calculator.Target.image}}"
                                          class="character-image" ng-class="Calculator.Target.class" />
                                     <div id="target-data" class="character-data">
-                                        <div>
+                                        <div class="character-data-header" ng-class="Calculator.Target.class">
                                             {{Calculator.Target.CharacterName}} data
                                         </div>
                                         <div>
@@ -476,7 +476,7 @@
                             </tr>
                         </table>
 
-                        <div style="padding: 2px 0px;">
+                        <div id="moveSource">
                             {{Calculator.Attacker.MoveSource}}
                         </div>
 

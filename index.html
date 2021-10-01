@@ -134,7 +134,7 @@
                                     <img ng-src="{{Calculator.Attacker.image}}"
                                          class="character-image" ng-class="Calculator.Attacker.class" />
                                     <div id="attacker-data" class="character-data">
-                                        <div>
+                                        <div class="character-data-header" ng-class="Calculator.Attacker.class">
                                             {{Calculator.Attacker.CharacterName}} data
                                         </div>
                                         <div>
@@ -190,7 +190,7 @@
                                     <img ng-src="{{Calculator.Target.image}}"
                                          class="character-image" ng-class="Calculator.Target.class" />
                                     <div id="target-data" class="character-data">
-                                        <div>
+                                        <div class="character-data-header" ng-class="Calculator.Target.class">
                                             {{Calculator.Target.CharacterName}} data
                                         </div>
                                         <div>
@@ -475,14 +475,6 @@
                                            ng-model="Calculator.GameVariables.SelectedFAF" ng-change="Calculator.Update()" />
                                 </td>
                             </tr>
-
-                            <!--<tr>
-            <td>{{use_landing_lag == "no" ? "FAF" : "Landing frame"}}</td>
-            <td>
-                <input name="faf" type="number" min="0" max="1000" step="1" ng-model="faf"
-                       ng-change="Calculator.Update()" />
-            </td>
-        </tr>-->
                         </table>
 
                         <div ng-if="Calculator.SelectedMove.MoveRef.IsAerialAttack && Calculator.SelectedMove.MoveRef.LandingLag">
@@ -514,7 +506,7 @@
                             </table>
                         </div>
 
-                        <div style="padding: 2px 0px;">
+                        <div id="moveSource">
                             {{Calculator.Attacker.MoveSource}}
                         </div>
 
