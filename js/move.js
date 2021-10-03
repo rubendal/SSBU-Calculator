@@ -164,9 +164,8 @@ var chargeMoves = [
 	new ChargeData(["Aura Sphere (Release from Charge)"], 0, 89, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(10, 25, frames, 90) * 0.69, lerp(bkb, 35, frames, 90), lerp(kbg, 69, frames, 90), lerp(shieldDamage, 3, frames, 90)];
 	}),
-	new ChargeData(["Skull Bash"], 0, 89, function (base_damage, bkb, kbg, shieldDamage, frames) {
-		//Formula by Arthur https://twitter.com/BenArthur_7/status/917873355386183686
-		return [base_damage + ((6 / 35) * (frames + 1)), bkb, kbg, shieldDamage];
+	new ChargeData(["Skull Bash"], 0, 90, function (base_damage, bkb, kbg, shieldDamage, frames) {
+		return [lerp(base_damage, 21.4, frames, 90), bkb, kbg, shieldDamage];
 	}),
 	new ChargeData(["Rollout (Ground, Release)", "Rollout (Aerial, Release)"], 0, 6.5, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		if (frames < 2)
