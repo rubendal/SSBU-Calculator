@@ -339,7 +339,7 @@ class MoveData {
 
 			for (var h = 0; h < this.Hitboxes.length; h++) {
 				if (!this.Hitboxes[h].IgnoreGrabbed && !ultHitboxes) {
-					if (this.Hitboxes[h].StartFrame < this.Throws[i].AppliedFrame) {
+					if (this.Hitboxes[h].StartFrame < this.Throws[i].AppliedFrame && this.Hitboxes[h].Id == 0) {
 						this.Throws[i].preDamage += this.Hitboxes[h].Damage;
 					}
 				}
