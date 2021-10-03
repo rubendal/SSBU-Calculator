@@ -4614,7 +4614,7 @@
               "EndFrame": 42,
               "Part": 0,
               "Bone": "top",
-              "Damage": 1.0,
+              "Damage": 5.5,
               "Angle": 45,
               "KBG": 88.0,
               "FKB": 0.0,

@@ -426,12 +426,12 @@ function ChargeSmashMultiplier(frames, megaman_fsmash, witch_time, maxSmashCharg
 	return (1 + (frames * mult / 150));
 }
 
-function ShieldStunMultiplier(multiplier, is_projectile, is_smash, is_aerial) {
-	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
+function ShieldStunMultiplier(multiplier, is_projectile, is_attached_projectile, is_smash, is_aerial) {
+	var projectileMult = is_projectile && !is_attached_projectile ? parameters.shield.projectile : 1;
 	var groundedMult = is_smash ? parameters.shield.grounded : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
 	var mult = 1;
-	if (is_projectile)
+	if (is_projectile && !is_attached_projectile)
 		mult = projectileMult;
 	else if (is_aerial)
 		mult = aerialMult;
@@ -442,17 +442,17 @@ function ShieldStunMultiplier(multiplier, is_projectile, is_smash, is_aerial) {
 	return mult;
 }
 
-function ShieldStun(damage, multiplier, is_projectile, perfectShield, is_smash, is_aerial) {
+function ShieldStun(damage, multiplier, is_projectile, is_attached_projectile, perfectShield, is_smash, is_aerial) {
 	if (damage == 0)
 		return 0;
 
 
-	var projectileMult = is_projectile ? parameters.shield.projectile : 1;
+	var projectileMult = is_projectile && !is_attached_projectile ? parameters.shield.projectile : 1;
 	var groundedMult = is_smash ? parameters.shield.grounded : 1;
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
 	var mult = 1;
-	if (is_projectile)
+	if (is_projectile && !is_attached_projectile)
 		mult = projectileMult;
 	else if (is_aerial)
 		mult = aerialMult;
@@ -488,9 +488,14 @@ function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projec
 	if (is_projectile && !attached)
 		return 0;
 
-	if (hitlag < 1)
-		hitlag = 1;
-	hitlag *= 0.67;
+	if (is_projectile && attached) {
+
+	}
+	else {
+		if (hitlag < 1)
+			hitlag = 1;
+		hitlag *= 0.67;
+	}
 	if (damage == 0)
 		return 0;
 	if (perfectShield)
@@ -499,11 +504,11 @@ function AttackerShieldHitlag(damage, hitlag, electric, perfectShield, is_projec
 }
 
 function ShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, direct, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile && perfectshield ? 2 : (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct)));
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, attached, perfectshield, is_smash, is_aerial) + ShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile && !attached && perfectshield ? 2 : (is_projectile && !attached ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct)));
 }
 
 function VSShieldAdvantage(damage, shieldstunMult, hitlag, hitframe, FAF, is_projectile, attached, direct, electric, perfectshield, is_smash, is_aerial) {
-	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, perfectshield, is_smash, is_aerial) + VSShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile && perfectshield ? 2 : (is_projectile ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct)));
+	return hitframe - (FAF - 1) + ShieldStun(damage, shieldstunMult, is_projectile, attached, perfectshield, is_smash, is_aerial) + VSShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct) - (is_projectile && !attached && perfectshield ? 2 : (is_projectile && !attached ? 1 : AttackerShieldHitlag(damage, hitlag, electric, perfectshield, is_projectile, attached, direct)));
 }
 
 //Formula by Arthur https://twitter.com/BenArthur_7/status/926918804466225152
