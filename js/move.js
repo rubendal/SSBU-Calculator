@@ -140,7 +140,7 @@ var chargeMoves = [
 		}
 		return [base_damage + (2 * frames), bkb, kbg, shieldDamage];
 	}, 'Arm swings'),
-	new ChargeData(["Charge Shot"], 0, 112, function (base_damage, bkb, kbg, shieldDamage, frames) {
+	new ChargeData(["Charge Shot", "Charge Shot (Grounded)", "Charge Shot (Aerial)"], 0, 112, function (base_damage, bkb, kbg, shieldDamage, frames) {
 		return [lerp(5, 28, frames, 112), lerp(14, 46, frames, 112), lerp(42, 50, frames, 112), lerp(-2.5, -7, frames, 112)];
 	}),
 	new ChargeData(["Charge Blast (No Charge)"], 0, 119, function (base_damage, bkb, kbg, shieldDamage, frames) {
