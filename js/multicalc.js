@@ -52,15 +52,15 @@ app.controller('calculator', function ($scope) {
 	$scope.apps = GetApps($scope.app);
 	$scope.appLink = $scope.apps[0].link;
 	$scope.sharing_url = "";
-	$scope.attacker_characters = names;
-	$scope.characters = names;
+	$scope.attacker_characters = displayNames;
+	$scope.characters = displayNames;
 	$scope.attackerValue = attacker.display_name;
 	$scope.attackerName = attacker.display_name;
-	$scope.attackerModifiers = attacker.modifiers;
+	$scope.attackerModifiers = attacker.Modifiers;
 	$scope.encodedAttackerValue = encodeURI(attacker.name.split("(")[0].trim());
 	$scope.dataViewerAttackerValue = encodeURI(attacker.DataViewerName);
 	$scope.targetValue = target.display_name;
-	$scope.targetModifiers = target.modifiers;
+	$scope.targetModifiers = target.Modifiers;
 	$scope.attackerPercent = attacker_percent;
 	$scope.targetPercent = target_percent;
 	$scope.attacker_icon = attacker.icon;
@@ -117,13 +117,13 @@ app.controller('calculator', function ($scope) {
 	$scope.attacker_mod = $scope.attackerModifiers.length > 0 ? {} : { 'display': 'none' };
 	$scope.target_mod = $scope.targetModifiers.length > 0 ? {} : { 'display': 'none' };
 
-	$scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
-	$scope.attacker_kb_dealt = attacker.modifier.kb_dealt;
+	$scope.attacker_damage_dealt = attacker.Modifier.DamageDealtMultiplier;
+	$scope.attacker_kb_dealt = attacker.Modifier.KBDealtMultiplier;
 	$scope.target_weight = target.attributes.weight;
 	$scope.target_gravity = target.attributes.gravity;
 	$scope.target_damageflytop_gravity = target.attributes.damageflytop_gravity;
-	$scope.target_damage_taken = target.modifier.damage_taken;
-	$scope.target_kb_received = target.modifier.kb_received;
+	$scope.target_damage_taken = target.Modifier.DamageReceivedMultiplier;
+	$scope.target_kb_received = target.Modifier.KBReceivedMultiplier;
 	$scope.target_traction = target.attributes.traction;
 	$scope.target_fall_speed = target.attributes.fall_speed;
 	$scope.target_damageflytop_fall_speed = target.attributes.damageflytop_fall_speed;
@@ -553,13 +553,13 @@ app.controller('calculator', function ($scope) {
 	}
 
 	$scope.updateAttr = function () {
-		attacker.modifier.damage_dealt = parseFloat($scope.attacker_damage_dealt);
-		attacker.modifier.kb_dealt = parseFloat($scope.attacker_kb_dealt);
+		attacker.Modifier.DamageDealtMultiplier = parseFloat($scope.attacker_damage_dealt);
+		attacker.Modifier.KBDealtMultiplier = parseFloat($scope.attacker_kb_dealt);
 		target.attributes.weight = parseFloat($scope.target_weight);
 		target.attributes.gravity = parseFloat($scope.target_gravity);
 		target.attributes.damageflytop_gravity = parseFloat($scope.target_damageflytop_gravity);
-		target.modifier.damage_taken = parseFloat($scope.target_damage_taken);
-		target.modifier.kb_received = parseFloat($scope.target_kb_received);
+		target.Modifier.DamageReceivedMultiplier = parseFloat($scope.target_damage_taken);
+		target.Modifier.KBReceivedMultiplier = parseFloat($scope.target_kb_received);
 		target.attributes.traction = parseFloat($scope.target_traction);
 		target.attributes.fall_speed = parseFloat($scope.target_fall_speed);
 		target.attributes.damageflytop_fall_speed = parseFloat($scope.target_damageflytop_fall_speed);
@@ -572,9 +572,9 @@ app.controller('calculator', function ($scope) {
 		$scope.attackerName = attacker.display_name;
 		$scope.attackerMod = "Normal";
 		$scope.attackerModifiers = [];
-		for (var i = 0; i < attacker.modifiers.length; i++) {
-			if (attacker.modifiers[i].attackerShow)
-				$scope.attackerModifiers.push(attacker.modifiers[i]);
+		for (var i = 0; i < attacker.Modifiers.length; i++) {
+			if (attacker.Modifiers[i].attackerShow)
+				$scope.attackerModifiers.push(attacker.Modifiers[i]);
 		}
 		$scope.attacker_icon = attacker.icon;
 		$scope.attacker_image = attacker.image;
@@ -585,12 +585,12 @@ app.controller('calculator', function ($scope) {
 		}
 		else {
 			$scope.moveset_info = null;
-			$scope.moveset = [new Move(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+			$scope.moveset = [new MoveKH(-1, -1, "Character data not available", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
 		}
 		$scope.move = "0";
 		$scope.preDamage = 0;
-		$scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
-		$scope.attacker_kb_dealt = attacker.modifier.kb_dealt;
+		$scope.attacker_damage_dealt = attacker.Modifier.DamageDealtMultiplier;
+		$scope.attacker_kb_dealt = attacker.Modifier.KBDealtMultiplier;
 		$scope.counterMult = 0;
 		$scope.counteredDamage = 0;
 		$scope.unblockable = false;
@@ -605,37 +605,37 @@ app.controller('calculator', function ($scope) {
 	}
 
 	$scope.updateAttackerMod = function () {
-		var mod = attacker.getModifier($scope.attackerMod);
+		var mod = attacker.GetModifier($scope.attackerMod);
 		if (mod != null) {
-			attacker.modifier = mod;
+			attacker.Modifier = mod;
 			attacker.updateIcon();
 			attacker.updateImage();
 			$scope.attacker_icon = attacker.icon;
 			$scope.attacker_image = attacker.image;
 			$scope.attacker_class = attacker.class;
-			$scope.attacker_damage_dealt = attacker.modifier.damage_dealt;
-			$scope.attacker_kb_dealt = attacker.modifier.kb_dealt;
+			$scope.attacker_damage_dealt = attacker.Modifier.DamageDealtMultiplier;
+			$scope.attacker_kb_dealt = attacker.Modifier.KBDealtMultiplier;
 			$scope.update();
 		}
 	}
 
 	$scope.updateTargetMod = function () {
-		var mod = target.getModifier($scope.targetMod);
+		var mod = target.GetModifier($scope.targetMod);
 		if (mod != null) {
-			target.modifier = mod;
+			target.Modifier = mod;
 			target.updateIcon();
 			target.updateImage();
 			$scope.target_icon = target.icon;
 			$scope.target_image = target.image;
 			$scope.target_class = target.class;
 			$scope.target_weight = target.attributes.weight;
-			$scope.target_gravity = +(target.attributes.gravity * target.modifier.gravity).toFixed(6);
+			$scope.target_gravity = +(target.attributes.gravity * target.Modifier.GravityMultiplier).toFixed(6);
 			$scope.target_damageflytop_gravity = +(target.attributes.damageflytop_gravity).toFixed(6);
-			$scope.target_damage_taken = target.modifier.damage_taken;
-			$scope.target_kb_received = target.modifier.kb_received;
-			$scope.target_fall_speed = +(target.attributes.fall_speed * target.modifier.fall_speed).toFixed(6);
+			$scope.target_damage_taken = target.Modifier.DamageReceivedMultiplier;
+			$scope.target_kb_received = target.Modifier.KBReceivedMultiplier;
+			$scope.target_fall_speed = +(target.attributes.fall_speed * target.Modifier.FallSpeedMultiplier).toFixed(6);
 			$scope.target_damageflytop_fall_speed = +(target.attributes.fall_speed).toFixed(6);
-			$scope.target_traction = +(target.attributes.traction * target.modifier.traction).toFixed(6);
+			$scope.target_traction = +(target.attributes.traction * target.Modifier.GroundFrictionMultiplier).toFixed(6);
 			$scope.update();
 		}
 	}
@@ -831,9 +831,9 @@ app.controller('calculator', function ($scope) {
 		$scope.targetMod = "Normal";
 		$scope.targetModifiers = [];
 
-		for (var i = 0; i < target.modifiers.length; i++) {
-			if (target.modifiers[i].targetShow)
-				$scope.targetModifiers.push(target.modifiers[i]);
+		for (var i = 0; i < target.Modifiers.length; i++) {
+			if (target.Modifiers[i].targetShow)
+				$scope.targetModifiers.push(target.Modifiers[i]);
 		}
 		if (target.name == "Bowser Jr") {
 			$scope.targetMod = "Clown Kart";
@@ -846,13 +846,13 @@ app.controller('calculator', function ($scope) {
 		$scope.target_image = target.image;
 		$scope.target_class = target.class;
 		$scope.target_weight = target.attributes.weight;
-		$scope.target_gravity = target.attributes.gravity * target.modifier.gravity;
+		$scope.target_gravity = target.attributes.gravity * target.Modifier.GravityMultiplier;
 		$scope.target_damageflytop_gravity = target.attributes.damageflytop_gravity;
-		$scope.target_damage_taken = target.modifier.damage_taken;
-		$scope.target_kb_received = target.modifier.kb_received;
-		$scope.target_fall_speed = target.attributes.fall_speed * target.modifier.fall_speed;
+		$scope.target_damage_taken = target.Modifier.DamageReceivedMultiplier;
+		$scope.target_kb_received = target.Modifier.KBReceivedMultiplier;
+		$scope.target_fall_speed = target.attributes.fall_speed * target.Modifier.FallSpeedMultiplier;
 		$scope.target_damageflytop_fall_speed = target.attributes.damageflytop_fall_speed;
-		$scope.target_traction = target.attributes.traction * target.modifier.traction;
+		$scope.target_traction = target.attributes.traction * target.Modifier.GroundFrictionMultiplier;
 		$scope.lumaclass = target.name == "Rosalina And Luma" ? { "display": "block" } : { "display": "none" };
 		$scope.lumaPercent = 0;
 		$scope.update();
@@ -1153,7 +1153,7 @@ app.controller('calculator', function ($scope) {
         //}
         
 		if ($scope.move == 0) {
-			params.move = JSON.parse(JSON.stringify(new Move(0, "Custom", "Custom", base_damage, angle, bkb, kbg, wbkb, [], 0, -1, [], 0, 0, 0, 0)));
+			params.move = JSON.parse(JSON.stringify(new MoveKH(0, "Custom", "Custom", base_damage, angle, bkb, kbg, wbkb, [], 0, -1, [], 0, 0, 0, 0)));
 			params.move.is_smash = is_smash;
 			params.hit_frame = NaN;
 			params.faf = NaN;
@@ -1167,8 +1167,8 @@ app.controller('calculator', function ($scope) {
 		}
 
 		if ($scope.it_targets || $scope.it_mode !== "normal") {
-			for (var i = 0; i < names.length; i++) {
-				params.characters.push(new Character(names[i]));
+			for (var i = 0; i < displayNames.length; i++) {
+				params.characters.push(new Character(displayNames[i]));
 			}
 			params.characters = JSON.parse(JSON.stringify(params.characters));
 		}
