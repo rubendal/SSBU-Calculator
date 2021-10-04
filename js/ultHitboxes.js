@@ -44,6 +44,11 @@
 			Reflector: null
 		};
 
+		if (data.name.includes("(Winged)")) {
+			this.Moves.push(move);
+			return;
+		}
+
 		if (data.hitboxes) {
 			for (var i = 0; i < data.hitboxes.length; i++) {
 				let hitbox = data.hitboxes[i];
