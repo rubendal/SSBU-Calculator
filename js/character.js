@@ -256,7 +256,7 @@ class Character {
 				else {
 
 					//Use Ultimate hitboxes data (https://www.ultimate-hitboxes.com/ , Files: https://github.com/RSN-Bran/ultimate-hitboxes/tree/master/server/data)
-					LoadJsonFromPath(`./Data/_ulthitboxes/${ref.UltHitboxesFilename}.json`, function (ultHitboxData) {
+					LoadJsonFromPath(`./Data/ulthitboxes/${ref.UltHitboxesFilename}.json`, function (ultHitboxData) {
 
 						var attacks = [];
 						let moveTypes = [];
