@@ -294,6 +294,9 @@ class Character {
 				}
 
 			}
+			else {
+				ScopeUpdate($scope);
+			}
 			
 		});
 
