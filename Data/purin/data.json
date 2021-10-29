@@ -27,7 +27,7 @@
     "Weight": 68.0,
     "NairLandingLag": 9,
     "FairLandingLag": 9,
-    "BairLandingLag": 11,
+    "BairLandingLag": 8,
     "UairLandingLag": 9,
     "DairLandingLag": 12,
     "SoftLandingLag": 1,
