@@ -330,6 +330,10 @@ img.kazuya {
     background: #a52319;
 }
 
+img.sora {
+    background: #f9f9f9;
+}
+
 /*----Percent---*/
 div.mario {
     border-top: 5px solid #ff4026
@@ -663,6 +667,10 @@ div.kazuya {
     border-top: 5px solid #a52319;
 }
 
+div.sora {
+    border-top: 5px solid #f9f9f9;
+}
+
 /*Character data menu*/
 .character-data-header.mario {
     background: #ff4026aa
@@ -994,4 +1002,8 @@ div.kazuya {
 
 .character-data-header.kazuya {
     background: #a52319aa;
+}
+
+.character-data-header.sora {
+    background: #f9f9f9;
 }
