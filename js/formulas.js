@@ -23,6 +23,7 @@
 		parryConstant: 14,
 		attachedParryConstant: 11,
 		indirectHitboxConstant: 8,
+		directWeaponConstant: 11,
 		parryMax: 30
 	},
 	hitstunCancel: {
@@ -313,17 +314,17 @@ function ParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attached
 	}
 	var h = 0;
 	if (!is_projectile && direct)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.parryConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
 	else if (!is_projectile && !direct)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && !direct && !attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.constant) * electric_mult) * hitlag_mult));
 	else if (is_projectile && !direct && attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && direct && !attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.directWeaponConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && direct && attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.directWeaponConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
 
 	if (h > parameters.hitlag.parryMax + 2) {
 		return parameters.hitlag.parryMax + 2;
@@ -348,17 +349,17 @@ function VSParryHitlag(base_damage, hitlag_mult, electric, is_projectile, attach
 	}
 	var h = 0;
 	if (!is_projectile && direct)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.parryConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
 	else if (!is_projectile && !direct)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && !direct && !attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult)) + 3;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.constant) * electric_mult) * hitlag_mult)) + 3;
 	else if (is_projectile && !direct && attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && direct && !attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.directWeaponConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && direct && attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.directWeaponConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.directWeaponConstant) * electric_mult) * hitlag_mult));// - 1;
 
 	if (h > parameters.hitlag.parryMax + 2) {
 		return parameters.hitlag.parryMax + 2;
@@ -383,17 +384,17 @@ function AttackerParryHitlag(base_damage, hitlag_mult, electric, is_projectile, 
 	}
 	var h = 0;
 	if (!is_projectile && direct)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.parryConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.parryConstant) * electric_mult) * hitlag_mult));// - 1;
 	else if (!is_projectile && !direct)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.indirectHitboxConstant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && !direct && !attached)
 		h = 0;
 	else if (is_projectile && !direct && attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult));// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.indirectHitboxConstant) * electric_mult) * hitlag_mult));// - 1;
 	else if (is_projectile && direct && !attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.directWeaponConstant);// - 1;
+		h = 0;
 	else if (is_projectile && direct && attached)
-		h = Math.floor((((base_damage * parameters.hitlag.mult * player_mult + parameters.hitlag.constant) * electric_mult) * hitlag_mult * 0.6) + parameters.hitlag.directWeaponConstant);// - 1;
+		h = Math.floor((((base_damage * this.parameters.hitlag.mult * player_mult + this.parameters.hitlag.attachedParryConstant) * electric_mult) * hitlag_mult));// - 1;
 
 	if (h > parameters.hitlag.parryMax + 2) {
 		return parameters.hitlag.parryMax + 2;
