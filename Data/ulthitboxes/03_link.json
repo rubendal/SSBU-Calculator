@@ -6,8 +6,8 @@
         {
             "name": "Jab 1",
             "value": "LinkJab1",
-            "frames": 24,
-            "faf": 24,
+            "frames": 23,
+            "faf": 23,
             "hitboxes": [
                 {
                     "id": "0",
@@ -47,8 +47,7 @@
                     "sfxtype": "collision_sound_attr_cutup",
                     "type": "attack_region_sword",
                     "frames": [
-                        8,
-                        9
+                        7,8
                     ],
                     "color": "red",
                     "notes": ""
@@ -91,8 +90,7 @@
                     "sfxtype": "collision_sound_attr_cutup",
                     "type": "attack_region_sword",
                     "frames": [
-                        8,
-                        9
+                        7,8
                     ],
                     "color": "red",
                     "notes": ""
@@ -135,8 +133,7 @@
                     "sfxtype": "collision_sound_attr_cutup",
                     "type": "attack_region_sword",
                     "frames": [
-                        8,
-                        9
+                        7,8
                     ],
                     "color": "red",
                     "notes": ""
@@ -179,8 +176,7 @@
                     "sfxtype": "collision_sound_attr_cutup",
                     "type": "attack_region_sword",
                     "frames": [
-                        8,
-                        9
+                        7,8
                     ],
                     "color": "red",
                     "notes": ""
@@ -880,7 +876,7 @@
                     "part": "0",
                     "bone": "top",
                     "damage": "9.0",
-                    "angle": "80",
+                    "angle": "85",
                     "kbg": "30",
                     "fkb": "0",
                     "bkb": "90",
@@ -1904,7 +1900,7 @@
                     "bone": "sword2",
                     "damage": "11.0",
                     "angle": "80",
-                    "kbg": "96",
+                    "kbg": "101",
                     "fkb": "0",
                     "bkb": "60",
                     "size": "4.3",
@@ -1948,7 +1944,7 @@
                     "bone": "sword2",
                     "damage": "11.0",
                     "angle": "90",
-                    "kbg": "96",
+                    "kbg": "101",
                     "fkb": "0",
                     "bkb": "60",
                     "size": "4.3",
@@ -1992,7 +1988,7 @@
                     "bone": "armr",
                     "damage": "10.0",
                     "angle": "90",
-                    "kbg": "96",
+                    "kbg": "101",
                     "fkb": "0",
                     "bkb": "60",
                     "size": "3.0",
@@ -2036,7 +2032,7 @@
                     "bone": "top",
                     "damage": "9.0",
                     "angle": "90",
-                    "kbg": "96",
+                    "kbg": "101",
                     "fkb": "0",
                     "bkb": "60",
                     "size": "5.2",

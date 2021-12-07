@@ -865,7 +865,7 @@
                     "sfxtype": "collision_sound_attr_ryu_punch",
                     "type": "attack_region_punch",
                     "frames": [
-                        16
+                        15
                     ],
                     "color": "red",
                     "notes": ""
@@ -908,7 +908,7 @@
                     "sfxtype": "collision_sound_attr_ryu_punch",
                     "type": "attack_region_punch",
                     "frames": [
-                        16
+                        15
                     ],
                     "color": "red",
                     "notes": ""
@@ -951,7 +951,7 @@
                     "sfxtype": "collision_sound_attr_ryu_punch",
                     "type": "attack_region_punch",
                     "frames": [
-                        16
+                        15
                     ],
                     "color": "red",
                     "notes": ""
@@ -994,8 +994,8 @@
                     "sfxtype": "collision_sound_attr_ryu_punch",
                     "type": "attack_region_punch",
                     "frames": [
-                        18,
-                        19
+                        17,
+                        18
                     ],
                     "color": "red",
                     "notes": ""
@@ -1038,8 +1038,8 @@
                     "sfxtype": "collision_sound_attr_ryu_punch",
                     "type": "attack_region_punch",
                     "frames": [
-                        18,
-                        19
+                        17,
+                        18
                     ],
                     "color": "red",
                     "notes": ""
@@ -1082,8 +1082,8 @@
                     "sfxtype": "collision_sound_attr_ryu_punch",
                     "type": "attack_region_punch",
                     "frames": [
-                        18,
-                        19
+                        17,
+                        18
                     ],
                     "color": "red",
                     "notes": ""

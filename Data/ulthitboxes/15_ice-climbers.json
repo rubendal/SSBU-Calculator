@@ -2190,8 +2190,8 @@
         {
             "name": "Dash Attack (Popo)",
             "value": "IceClimbersPopoDashAttack",
-            "frames": 41,
-            "faf": 41,
+            "frames": 39,
+            "faf": 39,
             "hitboxes": [
                 {
                     "id": "0",
@@ -2231,10 +2231,7 @@
                     "sfxtype": "collision_sound_attr_punch",
                     "type": "attack_region_hammer",
                     "frames": [
-                        11,
-                        12,
-                        13,
-                        14
+                        9,10,11,12
                     ],
                     "color": "red",
                     "notes": ""
@@ -2277,10 +2274,7 @@
                     "sfxtype": "collision_sound_attr_punch",
                     "type": "attack_region_hammer",
                     "frames": [
-                        11,
-                        12,
-                        13,
-                        14
+                        9,10,11,12
                     ],
                     "color": "red",
                     "notes": ""
@@ -2290,8 +2284,8 @@
         {
             "name": "Dash Attack (Nana)",
             "value": "IceClimbersNanaDashAttack",
-            "frames": 41,
-            "faf": 41,
+            "frames": 39,
+            "faf": 39,
             "hitboxes": [
                 {
                     "id": "0",
@@ -2331,10 +2325,7 @@
                     "sfxtype": "collision_sound_attr_punch",
                     "type": "attack_region_hammer",
                     "frames": [
-                        11,
-                        12,
-                        13,
-                        14
+                        9,10,11,12
                     ],
                     "color": "red",
                     "notes": ""
@@ -2377,10 +2368,7 @@
                     "sfxtype": "collision_sound_attr_punch",
                     "type": "attack_region_hammer",
                     "frames": [
-                        11,
-                        12,
-                        13,
-                        14
+                        9,10,11,12
                     ],
                     "color": "red",
                     "notes": ""
@@ -3785,7 +3773,7 @@
                     "bone": "havel",
                     "damage": "13.0",
                     "angle": "60",
-                    "kbg": "100",
+                    "kbg": "105",
                     "fkb": "0",
                     "bkb": "50",
                     "size": "3.0",
@@ -3830,7 +3818,7 @@
                     "bone": "havel",
                     "damage": "13.0",
                     "angle": "60",
-                    "kbg": "100",
+                    "kbg": "105",
                     "fkb": "0",
                     "bkb": "50",
                     "size": "3.0",
@@ -3875,7 +3863,7 @@
                     "bone": "havel",
                     "damage": "13.0",
                     "angle": "60",
-                    "kbg": "100",
+                    "kbg": "105",
                     "fkb": "0",
                     "bkb": "50",
                     "size": "4.5",
@@ -3928,7 +3916,7 @@
                     "bone": "havel",
                     "damage": "9.75",
                     "angle": "60",
-                    "kbg": "120",
+                    "kbg": "126",
                     "fkb": "0",
                     "bkb": "50",
                     "size": "3.0",
@@ -3973,7 +3961,7 @@
                     "bone": "havel",
                     "damage": "9.75",
                     "angle": "60",
-                    "kbg": "120",
+                    "kbg": "126",
                     "fkb": "0",
                     "bkb": "50",
                     "size": "3.0",
@@ -4018,7 +4006,7 @@
                     "bone": "havel",
                     "damage": "9.75",
                     "angle": "60",
-                    "kbg": "120",
+                    "kbg": "126",
                     "fkb": "0",
                     "bkb": "50",
                     "size": "4.5",
@@ -10859,8 +10847,8 @@
         {
             "name": "Belay (Nana)",
             "value": "IceClimbersNanaBelay",
-            "frames": 64,
-            "faf": 64,
+            "frames": 61,
+            "faf": 61,
             "hitboxes": [
                 {
                     "id": "0",
@@ -10897,6 +10885,9 @@
                     "sfxtype": "collision_sound_attr_punch",
                     "type": "attack_region_head",
                     "frames": [
+                        13,
+                        14,
+                        15,
                         16,
                         17,
                         18,
@@ -10911,10 +10902,7 @@
                         27,
                         28,
                         29,
-                        30,
-                        31,
-                        32,
-                        33
+                        30
                     ],
                     "color": "red",
                     "notes": ""
@@ -10937,10 +10925,7 @@
                         9,
                         10,
                         11,
-                        12,
-                        13,
-                        14,
-                        15
+                        12
                     ],
                     "color": "darkblue",
                     "notes": ""
@@ -10950,6 +10935,9 @@
                     "bone": "all",
                     "hp": "",
                     "frames": [
+                        13,
+                        14,
+                        15,
                         16,
                         17,
                         18,
@@ -10964,10 +10952,7 @@
                         27,
                         28,
                         29,
-                        30,
-                        31,
-                        32,
-                        33
+                        30
                     ],
                     "color": "lightgreen",
                     "notes": ""

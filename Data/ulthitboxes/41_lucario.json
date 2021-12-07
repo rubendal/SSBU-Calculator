@@ -457,9 +457,9 @@
                     "bone": "top",
                     "damage": "6.0",
                     "angle": "361",
-                    "kbg": "98",
+                    "kbg": "105",
                     "fkb": "0",
-                    "bkb": "54",
+                    "bkb": "57",
                     "size": "3.0",
                     "x": "0.0",
                     "y": "6.0",
@@ -599,9 +599,9 @@
                     "bone": "top",
                     "damage": "6.0",
                     "angle": "361",
-                    "kbg": "98",
+                    "kbg": "105",
                     "fkb": "0",
-                    "bkb": "54",
+                    "bkb": "57",
                     "size": "3.0",
                     "x": "0.0",
                     "y": "10.7",
@@ -741,9 +741,9 @@
                     "bone": "top",
                     "damage": "6.0",
                     "angle": "361",
-                    "kbg": "98",
+                    "kbg": "105",
                     "fkb": "0",
-                    "bkb": "54",
+                    "bkb": "57",
                     "size": "3.0",
                     "x": "0.0",
                     "y": "-0.7",
@@ -933,8 +933,8 @@
         {
             "name": "Down Tilt",
             "value": "LucarioDTilt",
-            "frames": 22,
-            "faf": 22,
+            "frames": 20,
+            "faf": 20,
             "hitboxes": [
                 {
                     "id": "0",
@@ -974,10 +974,10 @@
                     "sfxtype": "collision_sound_attr_lucario",
                     "type": "attack_region_kick",
                     "frames": [
+                        7,
+                        8,
                         9,
-                        10,
-                        11,
-                        12
+                        10
                     ],
                     "color": "red",
                     "notes": ""
@@ -1027,7 +1027,7 @@
                     "frames": [
                         7,
                         8,
-                        9
+                        9,10
                     ],
                     "color": "purple",
                     "notes": ""
@@ -1042,7 +1042,7 @@
                     "fkb": "0",
                     "bkb": "74",
                     "size": "3.6",
-                    "x": "2.2",
+                    "x": "3.2",
                     "y": "0.0",
                     "z": "0.0",
                     "x2": "0.0",
@@ -1072,7 +1072,7 @@
                     "frames": [
                         7,
                         8,
-                        9
+                        9,10
                     ],
                     "color": "red",
                     "notes": ""
@@ -1112,7 +1112,6 @@
                     "sfxtype": "collision_sound_attr_lucario",
                     "type": "attack_region_kick",
                     "frames": [
-                        10,
                         11,
                         12,
                         13,
@@ -1132,7 +1131,7 @@
                     "fkb": "0",
                     "bkb": "74",
                     "size": "2.9",
-                    "x": "2.2",
+                    "x": "3.2",
                     "y": "0.0",
                     "z": "0.0",
                     "x2": "0.0",
@@ -1160,7 +1159,6 @@
                     "sfxtype": "collision_sound_attr_lucario",
                     "type": "attack_region_kick",
                     "frames": [
-                        10,
                         11,
                         12,
                         13,

@@ -32,7 +32,7 @@ class AttributeModifier {
 		if (this.name != "Normal" && (this.BaseDamageMultiplier == 1 && this.DamageDealtMultiplier == 1 && this.KBDealtMultiplier == 1))
 			this.AttackerListVisible = false;
 
-		if (this.name != "Normal" && (this.DamageReceivedMultiplier == 1 && this.KBReceivedMultiplier == 1 && this.GravityMultiplier == 1 && this.FallSpeedMultiplier == 1 && this.ShieldHPMultiplier == 1 && this.GroundFrictionMultiplier == 1))
+		if (this.name != "Normal" && !this.name.startsWith("Luma") && (this.DamageReceivedMultiplier == 1 && this.KBReceivedMultiplier == 1 && this.GravityMultiplier == 1 && this.FallSpeedMultiplier == 1 && this.ShieldHPMultiplier == 1 && this.GroundFrictionMultiplier == 1))
 			this.TargetListVisible = false;
 	}
 };
@@ -170,6 +170,9 @@ class Character {
 			this.Modifiers = this.Modifiers.concat(monado);
 		} else if (this.name == "Bowser Jr") {
 			this.Modifiers = [new AttributeModifier("Clown Kart", 1, 1, 0.88, 1, 1, 1, 1, 1, 1, 1, 1), new AttributeModifier("Body", 1, 1, 1.15, 1, 1, 1, 1, 1, 1, 1, 1)];
+			this.Modifier = this.Modifiers[0];
+		} else if (this.name == "Rosalina And Luma") {
+			this.Modifiers = [new AttributeModifier("Luma (Following)", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), new AttributeModifier("Luma (Free)", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)];
 			this.Modifier = this.Modifiers[0];
 		} else if (this.name == "Wii Fit Trainer") {
 			this.Modifiers = [new AttributeModifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), new AttributeModifier("Fast Deep Breathing", 1.25, 1, 0.9, 1, 1, 1, 1, 1, 1, 1), new AttributeModifier("Slow Deep Breathing", 1.16, 1, 0.9, 1, 1, 1, 1, 1, 1, 1)];

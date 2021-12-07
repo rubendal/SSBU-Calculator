@@ -178,8 +178,8 @@
         {
             "name": "Jab 2",
             "value": "DonkeyKongJab2",
-            "frames": 34,
-            "faf": 34,
+            "frames": 31,
+            "faf": 31,
             "hitboxes": [
                 {
                     "id": "0",
@@ -217,7 +217,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         4,
-                        5
+                        5,
+                        6
                     ],
                     "color": "red",
                     "notes": ""
@@ -258,7 +259,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         4,
-                        5
+                        5,
+                        6
                     ],
                     "color": "red",
                     "notes": ""
@@ -299,7 +301,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         4,
-                        5
+                        5,
+                        6
                     ],
                     "color": "red",
                     "notes": ""
@@ -3606,6 +3609,8 @@
                     "bone": "all",
                     "hp": "",
                     "frames": [
+                        9,
+                        10,
                         11,
                         12,
                         13,
@@ -3958,6 +3963,8 @@
                     "bone": "all",
                     "hp": "",
                     "frames": [
+                        15,
+                        16,
                         17,
                         18,
                         19,

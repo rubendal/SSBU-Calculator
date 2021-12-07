@@ -913,7 +913,7 @@
                     "id": "0",
                     "part": "0",
                     "bone": "arml",
-                    "damage": "11.5",
+                    "damage": "12.5",
                     "angle": "50",
                     "kbg": "90",
                     "fkb": "0",
@@ -957,7 +957,7 @@
                     "id": "1",
                     "part": "0",
                     "bone": "arml",
-                    "damage": "11.5",
+                    "damage": "12.5",
                     "angle": "50",
                     "kbg": "90",
                     "fkb": "0",
@@ -1001,7 +1001,7 @@
                     "id": "0",
                     "part": "0",
                     "bone": "arml",
-                    "damage": "6.8",
+                    "damage": "7.4",
                     "angle": "82",
                     "kbg": "72",
                     "fkb": "0",
@@ -1050,7 +1050,7 @@
                     "id": "1",
                     "part": "0",
                     "bone": "arml",
-                    "damage": "8.2",
+                    "damage": "8.9",
                     "angle": "82",
                     "kbg": "72",
                     "fkb": "0",
@@ -1456,7 +1456,7 @@
                     "kbg": "96",
                     "fkb": "0",
                     "bkb": "40",
-                    "size": "5.2",
+                    "size": "5.8",
                     "x": "6.5",
                     "y": "0.0",
                     "z": "0.0",
@@ -1486,7 +1486,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         19,
-                        20
+                        20,
+                        21
                     ],
                     "color": "red",
                     "notes": ""
@@ -1530,7 +1531,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         19,
-                        20
+                        20,
+                        21
                     ],
                     "color": "purple",
                     "notes": ""
@@ -1552,7 +1554,7 @@
                     "kbg": "96",
                     "fkb": "0",
                     "bkb": "40",
-                    "size": "5.2",
+                    "size": "5.8",
                     "x": "6.5",
                     "y": "0.0",
                     "z": "0.0",
@@ -1582,7 +1584,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         19,
-                        20
+                        20,
+                        21
                     ],
                     "color": "red",
                     "notes": ""
@@ -1626,7 +1629,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         19,
-                        20
+                        20,
+                        21
                     ],
                     "color": "purple",
                     "notes": ""
@@ -1648,7 +1652,7 @@
                     "kbg": "96",
                     "fkb": "0",
                     "bkb": "40",
-                    "size": "5.2",
+                    "size": "5.8",
                     "x": "6.5",
                     "y": "0.0",
                     "z": "0.0",
@@ -1678,7 +1682,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         19,
-                        20
+                        20,
+                        21
                     ],
                     "color": "red",
                     "notes": ""
@@ -1722,7 +1727,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         19,
-                        20
+                        20,
+                        21
                     ],
                     "color": "purple",
                     "notes": ""
@@ -2405,8 +2411,8 @@
         {
             "name": "Forward Air",
             "value": "KingKRoolFAir",
-            "frames": 57,
-            "faf": 57,
+            "frames": 54,
+            "faf": 54,
             "hitboxes": [
                 {
                     "id": "0",
@@ -3653,7 +3659,7 @@
                     "id": "0",
                     "damage": "16.0",
                     "angle": "90",
-                    "kbg": "40",
+                    "kbg": "44",
                     "fkb": "0",
                     "bkb": "85",
                     "hitlag": "0.0",

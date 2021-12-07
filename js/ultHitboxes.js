@@ -44,7 +44,7 @@
 			Reflector: null
 		};
 
-		if (data.name.includes("(Winged)") || data.name.includes(", Winged")) {
+		if (data.name.includes("(Winged)") || data.name.includes(", Winged") || data.name.includes("(Interpolated)")) {
 			this.Moves.push(move);
 			return;
 		}

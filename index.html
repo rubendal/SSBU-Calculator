@@ -230,6 +230,19 @@
                             </div>
 
                             <!-- /Character modifier -->
+                            <!-- Luma -->
+                            <div id="luma-data" style="clear: both; float: right; width: 10em;" ng-if="Calculator.Target.CharacterName == 'Rosalina & Luma'">
+                                <div class="percent-div">
+                                    <input name="target_luma_percent" type="number" class="percent-input" min="0" max="40" style="width:3em"
+                                           step="0.1" ng-model="Calculator.LumaPercent.Percent" ng-style="Calculator.LumaPercent.Style" ng-change="Calculator.UpdateLumaPercent()" /><!--ng-change="updatePercent()"-->
+                                    <span style="width:3em" ng-style="Calculator.LumaPercent.Style">%</span>
+                                </div>
+                                <div class="character-select" ng-class="Calculator.Target.class">
+                                    <div class="character-select">Luma</div>
+                                </div>
+                            </div>
+
+                            <!-- /Luma -->
 
                         </div>
                         <!-- /Target and right part -->

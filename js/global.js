@@ -339,6 +339,8 @@ class Calculator {
         this.AttackerPercent = new CharacterPercent();
         this.TargetPercent = new CharacterPercent();
 
+        this.LumaPercent = new CharacterPercent();
+
         this.SelectedMove = new Move(-1);
         this.GameVariables = new GameVariables();
 
@@ -465,6 +467,11 @@ class Calculator {
 
         this.UpdateTargetPercent = function () {
             this.TargetPercent.Update();
+            this.Update();
+        }
+
+        this.UpdateLumaPercent = function () {
+            this.LumaPercent.Update();
             this.Update();
         }
 
@@ -855,15 +862,20 @@ class Calculator {
             }
             
             if (this.Target.name == "Rosalina And Luma") {
+
+                var lumaBasePercent = 15;
+                if (this.Target.Modifier.name == "Luma (Following)")
+                    lumaBasePercent = 30;
+
                 if (this.SelectedMove.FKB == 0) {
-                    var luma_vskb = VSKB(15 + 0, baseDamage, lumaDamage, 100, this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled, this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.Stick);
+                    var luma_vskb = VSKB(lumaBasePercent + this.LumaPercent.Percent, baseDamage, lumaDamage, 100, this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled, this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.Stick);
                     luma_vskb.addModifier(this.Attacker.Modifier.KBDealtMultiplier);
                     luma_vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
                     kbList.push(new Result("Luma KB", +luma_vskb.kb.toFixed(6)));
                     kbList.push(new Result("Luma launched", luma_vskb.tumble ? "Yes" : "No"));
                     kbList.push(new Result("Luma hitstun", LumaHitstun(luma_vskb.kb, this.SelectedMove.Flinchless, electric) + this.SelectedMove.AdditionalHitstun, luma_vskb.tumble));
                 } else {
-                    var luma_vskb = WeightBasedKB(100, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, 15 + 0, StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.Stick);
+                    var luma_vskb = WeightBasedKB(100, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, lumaBasePercent + this.LumaPercent.Percent, StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.Stick);
                     luma_vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
                     kbList.push(new Result("Luma KB", +luma_vskb.kb.toFixed(6)));
                     kbList.push(new Result("Luma launched", luma_vskb.tumble ? "Yes" : "No"));
@@ -1953,10 +1965,14 @@ class Calculator {
                     this.Target.ModifierIndex = params.Target.ModifierIndex;
                     this.Target.ApplyModifier();
 
+                    this.LumaPercent = new CharacterPercent();
+
                     this.AttackerPercent.Percent = params.AttackerPercent;
                     this.TargetPercent.Percent = params.TargetPercent;
                     this.UpdateAttackerPercent();
                     this.UpdateTargetPercent();
+
+                    this.UpdateLumaPercent();
 
                     this.GameVariables.ChargeFrames = params.GameVariables.ChargeFrames;
                     this.GameVariables.SmashChargeMaxFrames = params.GameVariables.SmashChargeMaxFrames;

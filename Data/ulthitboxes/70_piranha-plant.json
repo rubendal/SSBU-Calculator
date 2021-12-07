@@ -705,7 +705,7 @@
                     "bone": "top",
                     "damage": "6.0",
                     "angle": "361",
-                    "kbg": "110",
+                    "kbg": "117",
                     "fkb": "0",
                     "bkb": "40",
                     "size": "6.5",
@@ -1009,8 +1009,8 @@
         {
             "name": "Down Tilt",
             "value": "PiranhaPlantDTilt",
-            "frames": 28,
-            "faf": 28,
+            "frames": 26,
+            "faf": 26,
             "hitboxes": [
                 {
                     "id": "0",
@@ -1051,7 +1051,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         9,
-                        10
+                        10,
+                        11
                     ],
                     "color": "purple",
                     "notes": ""
@@ -1095,7 +1096,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         9,
-                        10
+                        10,
+                        11
                     ],
                     "color": "purple",
                     "notes": ""
@@ -1139,7 +1141,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         9,
-                        10
+                        10,
+                        11
                     ],
                     "color": "red",
                     "notes": ""
@@ -1183,7 +1186,8 @@
                     "type": "attack_region_punch",
                     "frames": [
                         9,
-                        10
+                        10,
+                        11
                     ],
                     "color": "red",
                     "notes": ""
@@ -2446,7 +2450,8 @@
                     "type": "attack_region_body",
                     "frames": [
                         9,
-                        10
+                        10,
+                        11
                     ],
                     "color": "red",
                     "notes": ""
@@ -2490,7 +2495,8 @@
                     "type": "attack_region_body",
                     "frames": [
                         9,
-                        10
+                        10,
+                        11
                     ],
                     "color": "red",
                     "notes": ""
@@ -2533,7 +2539,6 @@
                     "sfxtype": "collision_sound_attr_kick",
                     "type": "attack_region_body",
                     "frames": [
-                        11,
                         12,
                         13,
                         14
@@ -2579,7 +2584,6 @@
                     "sfxtype": "collision_sound_attr_kick",
                     "type": "attack_region_body",
                     "frames": [
-                        11,
                         12,
                         13,
                         14

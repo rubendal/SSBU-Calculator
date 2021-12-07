@@ -674,7 +674,8 @@
                     "type": "attack_region_object",
                     "frames": [
                         14,
-                        15
+                        15,
+                        16
                     ],
                     "color": "red",
                     "notes": ""
@@ -718,7 +719,8 @@
                     "type": "attack_region_object",
                     "frames": [
                         14,
-                        15
+                        15,
+                        16
                     ],
                     "color": "red",
                     "notes": ""
@@ -761,7 +763,6 @@
                     "sfxtype": "collision_sound_attr_punch",
                     "type": "attack_region_object",
                     "frames": [
-                        16,
                         17,
                         18,
                         19
@@ -807,7 +808,6 @@
                     "sfxtype": "collision_sound_attr_punch",
                     "type": "attack_region_object",
                     "frames": [
-                        16,
                         17,
                         18,
                         19
@@ -1103,13 +1103,13 @@
                     "bone": "top",
                     "damage": "10.0",
                     "angle": "28",
-                    "kbg": "100",
+                    "kbg": "104",
                     "fkb": "0",
                     "bkb": "35",
-                    "size": "4.0",
+                    "size": "5.0",
                     "x": "0.0",
                     "y": "3.6",
-                    "z": "12.5",
+                    "z": "11.5",
                     "x2": "lua_void",
                     "y2": "lua_void",
                     "z2": "lua_void",
@@ -1147,7 +1147,7 @@
                     "bone": "top",
                     "damage": "10.0",
                     "angle": "28",
-                    "kbg": "100",
+                    "kbg": "104",
                     "fkb": "0",
                     "bkb": "35",
                     "size": "3.3",
@@ -1191,13 +1191,13 @@
                     "bone": "top",
                     "damage": "8.0",
                     "angle": "28",
-                    "kbg": "100",
+                    "kbg": "105",
                     "fkb": "0",
                     "bkb": "40",
-                    "size": "4.0",
+                    "size": "5.0",
                     "x": "0.0",
                     "y": "3.6",
-                    "z": "-12.5",
+                    "z": "-11.5",
                     "x2": "lua_void",
                     "y2": "lua_void",
                     "z2": "lua_void",
@@ -1235,7 +1235,7 @@
                     "bone": "top",
                     "damage": "8.0",
                     "angle": "28",
-                    "kbg": "100",
+                    "kbg": "105",
                     "fkb": "0",
                     "bkb": "40",
                     "size": "3.3",
@@ -2267,9 +2267,9 @@
                     "id": "0",
                     "damage": "9.0",
                     "angle": "45",
-                    "kbg": "10",
+                    "kbg": "20",
                     "fkb": "0",
-                    "bkb": "102",
+                    "bkb": "107",
                     "hitlag": "0.0",
                     "unk": "true",
                     "facingrestrict": "attack_lr_check_f",

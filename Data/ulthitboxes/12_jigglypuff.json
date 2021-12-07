@@ -137,8 +137,8 @@
         {
             "name": "Jab 2",
             "value": "JigglypuffJab2",
-            "frames": 19,
-            "faf": 19,
+            "frames": 16,
+            "faf": 16,
             "hitboxes": [
                 {
                     "id": "0",
@@ -1877,8 +1877,8 @@
         {
             "name": "Back Air",
             "value": "JigglypuffBAir",
-            "frames": 37,
-            "faf": 37,
+            "frames": 35,
+            "faf": 35,
             "hitboxes": [
                 {
                     "id": "0",
@@ -2730,8 +2730,8 @@
         {
             "name": "Down Throw",
             "value": "JigglypuffDThrow",
-            "frames": 84,
-            "faf": 84,
+            "frames": 83,
+            "faf": 83,
             "hitboxes": [
                 {
                     "id": "0",
@@ -2783,7 +2783,7 @@
                     "angle": "75",
                     "kbg": "45",
                     "fkb": "0",
-                    "bkb": "105",
+                    "bkb": "90",
                     "hitlag": "0.0",
                     "unk": "true",
                     "facingrestrict": "attack_lr_check_f",
