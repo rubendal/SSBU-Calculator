@@ -249,7 +249,7 @@ app.controller('calculator', function ($scope) {
 	$scope.ko_table = [];
 
 	$scope.createWorker = function() {
-		worker = new Worker('./js/worker/multiworker.js');
+		worker = new Worker('./js_previousVersion/worker/multiworker.js');
 
 		worker.onmessage = function (e) {
 			var data = e.data;
