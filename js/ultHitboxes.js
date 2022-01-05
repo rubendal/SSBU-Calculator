@@ -33,7 +33,7 @@
 			IsProjectile: false,
 			IsProjectileAttached: false,
 			IsItem: false,
-			FAF: data.faf,
+			FAF: data.faf + 1,
 			LandingLag: null,
 			LandingLagStartFrame: null,
 			LandingLagEndFrame: null,
