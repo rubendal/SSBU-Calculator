@@ -188,6 +188,8 @@ class GameVariables {
 		}
 
 		this.UpdateDI = function () {
+			this.StickAngle = Math.floor(GetAngle(this.Stick.x, this.Stick.y));
+
 			this.StickVisualizer.drawStick(this.Stick);
 		}
 
