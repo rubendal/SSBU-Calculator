@@ -569,7 +569,17 @@ class Calculator {
 
                 this.Update();
 			}
-		}
+        }
+
+        this.UpdateDI = function () {
+            this.GameVariables.UpdateDI();
+            this.Update();
+        }
+
+        this.UpdateDIAngle = function () {
+            this.GameVariables.UpdateDIAngle();
+            this.Update();
+        }
 
         this.SetVisualizer = function (visualizerCanvas) {
             if (visualizerCanvas) {
@@ -760,8 +770,8 @@ class Calculator {
             damageList.push(new Result("Damage", +StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled).toFixed(6) + "%"));
             damageList.push(new Result("Target's %", +(this.TargetPercent.Percent + (preDamage * staleMult) + StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled)).toFixed(6) + "%"));
             if (!paralyzer) {
-                damageList.push(new Result("Attacker Hitlag", Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.MoveRef.IsProjectile ? 0 : this.SelectedMove.Hitlag, electric, 1, this.SelectedMove.MoveRef.IsProjectile)));
-                damageList.push(new Result("Target Hitlag", Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, crouchHitlag, this.SelectedMove.MoveRef.IsProjectile)));
+                damageList.push(new Result("Attacker Hitlag", Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.MoveRef.IsProjectile && !this.SelectedMove.MoveRef.IsProjectileAttached ? 0 : this.SelectedMove.Hitlag, electric, 1, this.SelectedMove.MoveRef.IsProjectile, this.GameVariables.GameSettings.Players, this.GameVariables.GameSettings.SpiritsEnabled)));
+                damageList.push(new Result("Target Hitlag", Hitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, crouchHitlag, this.SelectedMove.MoveRef.IsProjectile, this.GameVariables.GameSettings.Players, this.GameVariables.GameSettings.SpiritsEnabled)));
             } else {
                 damageList.push(new Result("Attacker Hitlag", ParalyzerHitlag(StaleDamage(damageWithout1v1, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.MoveRef.IsProjectile ? 0 : this.SelectedMove.Hitlag, 1)));
             }
@@ -896,7 +906,7 @@ class Calculator {
                     shieldList.push(new Result("Shield Break", sv >= 50 * this.Target.Modifier.ShieldHPMultiplier ? "Yes" : "No"));
                 }
 
-                if (!this.SelectedMove.MoveRef.IsProjectile)
+                if (!this.SelectedMove.MoveRef.IsProjectile || this.SelectedMove.MoveRef.IsProjectileAttached)
                     shieldList.push(new Result("Attacker Shield Hitlag", AttackerShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect), AttackerShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect) == ShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
 
                 shieldList.push(new Result("Shield Hitlag", ShieldHitlag(StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.SelectedMove.Hitlag, electric, this.GameVariables.ShieldState == ShieldStates.Perfect, this.SelectedMove.MoveRef.IsProjectile, this.SelectedMove.MoveRef.IsProjectileAttached, this.SelectedMove.DirectIndirect)));
