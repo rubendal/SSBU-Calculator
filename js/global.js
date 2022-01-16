@@ -581,6 +581,11 @@ class Calculator {
             this.Update();
         }
 
+        this.UpdateStickInput = function () {
+            this.GameVariables.UpdateStickInput();
+            this.Update();
+        }
+
         this.SetVisualizer = function (visualizerCanvas) {
             if (visualizerCanvas) {
                 this.Visualizer = new Visualizer(visualizerCanvas);

@@ -560,7 +560,7 @@
                             <tr>
                                 <td>Input</td>
                                 <td>
-                                    <select id="stick_inputs" ng-model="Calculator.GameVariables.SelectedStickInput.name" ng-change="Calculator.GameVariables.UpdateStickInput()">
+                                    <select id="stick_inputs" ng-model="Calculator.GameVariables.SelectedStickInput.name" ng-change="Calculator.UpdateStickInput()">
                                         <option ng-selected="$first" ng-repeat="i in Calculator.GameVariables.ControllerInputList"
                                                 ng-attr-value="{{i.name}}">
                                             {{i.name}}
