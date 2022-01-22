@@ -4047,9 +4047,29 @@
               "Type": "ATTACK_REGION_KICK",
               "ShieldstunMultiplier": 1.0,
               "AdditionalHitstun": 0
-            },
+            }
+          ],
+          "Grabs": [],
+          "Throws": [],
+          "Counter": null,
+          "Reflector": null
+        },
+        {
+          "NameId": "Uair",
+          "Name": {
+            "EN": "Uair (Final Hit)",
+            "JP": null
+          },
+          "IsProjectile": false,
+          "IsProjectileAttached": false,
+          "IsItem": false,
+          "FAF": 40,
+          "LandingLag": 18,
+          "LandingLagStartFrame": 3,
+          "LandingLagEndFrame": 34,
+          "Hitboxes": [
             {
-              "Name": "Uair (Multihits)",
+              "Name": "Uair (Final Hit)",
               "Article": "samus",
               "Script": "game_AttackAirHi",
               "Id": "0",
@@ -4095,7 +4115,7 @@
               "AdditionalHitstun": 0
             },
             {
-              "Name": "Uair (Multihits)",
+              "Name": "Uair (Final Hit)",
               "Article": "samus",
               "Script": "game_AttackAirHi",
               "Id": "1",
@@ -4139,9 +4159,38 @@
               "Type": "ATTACK_REGION_KICK",
               "ShieldstunMultiplier": 1.0,
               "AdditionalHitstun": 0
-            },
+            }
+          ],
+          "Grabs": [],
+          "Throws": [],
+          "Counter": null,
+          "Reflector": null
+        }
+      ]
+    },
+    {
+      "Type": "Dair",
+      "InputType": "aerial",
+      "NameId": "Dair",
+      "IsSmashAttack": false,
+      "IsAerialAttack": true,
+      "Moves": [
+        {
+          "NameId": "Dair",
+          "Name": {
+            "EN": "Dair",
+            "JP": ""
+          },
+          "IsProjectile": false,
+          "IsProjectileAttached": false,
+          "IsItem": false,
+          "FAF": 49,
+          "LandingLag": 12,
+          "LandingLagStartFrame": 4,
+          "LandingLagEndFrame": 34,
+          "Hitboxes": [
             {
-              "Name": "Uair (Multihits)",
+              "Name": "Dair",
               "Article": "samus",
               "Script": "game_AttackAirLw",
               "Id": "1",
@@ -4187,7 +4236,7 @@
               "AdditionalHitstun": 0
             },
             {
-              "Name": "Uair (Multihits)",
+              "Name": "Dair",
               "Article": "samus",
               "Script": "game_AttackAirLw",
               "Id": "0",
@@ -4233,7 +4282,7 @@
               "AdditionalHitstun": 0
             },
             {
-              "Name": "Uair (Multihits)",
+              "Name": "Dair",
               "Article": "samus",
               "Script": "game_AttackAirLw",
               "Id": "1",
@@ -4277,29 +4326,9 @@
               "Type": "ATTACK_REGION_PUNCH",
               "ShieldstunMultiplier": 1.0,
               "AdditionalHitstun": 0
-            }
-          ],
-          "Grabs": [],
-          "Throws": [],
-          "Counter": null,
-          "Reflector": null
-        },
-        {
-          "NameId": "Uair",
-          "Name": {
-            "EN": "Uair (Final Hit)",
-            "JP": null
-          },
-          "IsProjectile": false,
-          "IsProjectileAttached": false,
-          "IsItem": false,
-          "FAF": 40,
-          "LandingLag": 18,
-          "LandingLagStartFrame": 3,
-          "LandingLagEndFrame": 34,
-          "Hitboxes": [
+            },
             {
-              "Name": "Uair (Final Hit)",
+              "Name": "Dair",
               "Article": "samus",
               "Script": "game_AttackAirLw",
               "Id": "0",
@@ -4345,7 +4374,7 @@
               "AdditionalHitstun": 0
             },
             {
-              "Name": "Uair (Final Hit)",
+              "Name": "Dair",
               "Article": "samus",
               "Script": "game_AttackAirLw",
               "Id": "1",
@@ -4391,34 +4420,6 @@
               "AdditionalHitstun": 0
             }
           ],
-          "Grabs": [],
-          "Throws": [],
-          "Counter": null,
-          "Reflector": null
-        }
-      ]
-    },
-    {
-      "Type": "Dair",
-      "InputType": "aerial",
-      "NameId": "Dair",
-      "IsSmashAttack": false,
-      "IsAerialAttack": true,
-      "Moves": [
-        {
-          "NameId": "Dair",
-          "Name": {
-            "EN": "Dair",
-            "JP": ""
-          },
-          "IsProjectile": false,
-          "IsProjectileAttached": false,
-          "IsItem": false,
-          "FAF": 49,
-          "LandingLag": 12,
-          "LandingLagStartFrame": 4,
-          "LandingLagEndFrame": 34,
-          "Hitboxes": [],
           "Grabs": [],
           "Throws": [],
           "Counter": null,
