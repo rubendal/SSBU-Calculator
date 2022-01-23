@@ -721,6 +721,14 @@ class Calculator {
             if (is1v1) {
                 damage *= 1.2;
             }
+
+            //Luma
+            if (this.Attacker.Modifier.name == "Luma (Free)") {
+                if (this.SelectedMove.Article == "rosetta_tico" && this.SelectedMove.MoveRef.NameId != "Luma Shot") {
+                    damage *= 1.5;
+                }
+            }
+
             damage *= this.Attacker.Modifier.DamageDealtMultiplier
             damage *= InkDamageMult(this.GameVariables.InkValue);
 
@@ -902,6 +910,12 @@ class Calculator {
                 var damageOnShield = baseDamage * this.Attacker.Modifier.DamageDealtMultiplier;
                 if (this.GameVariables.ShortHop) {
                     damageOnShield *= parameters.shorthop_aerial;
+                }
+                //Luma
+                if (this.Attacker.Modifier.name == "Luma (Free)") {
+                    if (this.SelectedMove.Article == "rosetta_tico" && this.SelectedMove.MoveRef.NameId != "Luma Shot") {
+                        damageOnShield *= 1.5;
+                    }
                 }
                 var s = (damageOnShield * 1.19) + (this.SelectedMove.ShieldDamage * 1.19);
                 var sv = (StaleDamage(damageOnShield, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled) * 1.19) + (this.SelectedMove.ShieldDamage * 1.19);

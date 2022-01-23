@@ -29,7 +29,7 @@ class AttributeModifier {
 		else
 			this.shieldDamage = shieldDamage;
 
-		if (this.name != "Normal" && (this.BaseDamageMultiplier == 1 && this.DamageDealtMultiplier == 1 && this.KBDealtMultiplier == 1))
+		if (this.name != "Normal" && !this.name.startsWith("Luma") && (this.BaseDamageMultiplier == 1 && this.DamageDealtMultiplier == 1 && this.KBDealtMultiplier == 1))
 			this.AttackerListVisible = false;
 
 		if (this.name != "Normal" && !this.name.startsWith("Luma") && (this.DamageReceivedMultiplier == 1 && this.KBReceivedMultiplier == 1 && this.GravityMultiplier == 1 && this.FallSpeedMultiplier == 1 && this.ShieldHPMultiplier == 1 && this.GroundFrictionMultiplier == 1))
