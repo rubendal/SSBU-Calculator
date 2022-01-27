@@ -202,6 +202,13 @@ class GameVariables {
 				this.LandingFrame = selectedMove.MoveRef.LandingLagEndFrame != null ? selectedMove.MoveRef.LandingLagEndFrame : selectedMove.MoveRef.FAF;
 			}
 		}
+
+		this.GetStick = function (invertedX) {
+			let s = new Stick(this.Stick.x, this.Stick.y);
+			if (invertedX)
+				s.x *= -1;
+			return s;
+        }
 	}
 }
 

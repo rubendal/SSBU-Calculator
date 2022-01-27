@@ -698,13 +698,13 @@ class Calculator {
             if (this.SelectedMove.FKB == 0) {
                 vskb = VSKB(this.TargetPercent.Percent + (preDamage * staleMult), baseDamage, damage, this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight,
                     this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled,
-                    this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", this.GameVariables.GameSettings.LaunchRate);
+                    this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", this.GameVariables.GameSettings.LaunchRate);
                 vskb.addModifier(this.Attacker.Modifier.KBDealtMultiplier);
                 vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
             }
             else {
                 vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
-                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", 1);
+                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", 1);
             }
 
             var damageSpeedUpFrames = [];
@@ -891,14 +891,14 @@ class Calculator {
                     lumaBasePercent = 30;
 
                 if (this.SelectedMove.FKB == 0) {
-                    var luma_vskb = VSKB(lumaBasePercent + this.LumaPercent.Percent, baseDamage, lumaDamage, 100, this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled, this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.Stick);
+                    var luma_vskb = VSKB(lumaBasePercent + this.LumaPercent.Percent, baseDamage, lumaDamage, 100, this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled, this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.GetStick(this.VisualizerOptions.InvertX));
                     luma_vskb.addModifier(this.Attacker.Modifier.KBDealtMultiplier);
                     luma_vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
                     kbList.push(new Result("Luma KB", +luma_vskb.kb.toFixed(6)));
                     kbList.push(new Result("Luma launched", luma_vskb.tumble ? "Yes" : "No"));
                     kbList.push(new Result("Luma hitstun", LumaHitstun(luma_vskb.kb, this.SelectedMove.Flinchless, electric) + this.SelectedMove.AdditionalHitstun, luma_vskb.tumble));
                 } else {
-                    var luma_vskb = WeightBasedKB(100, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, lumaBasePercent + this.LumaPercent.Percent, StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.Stick);
+                    var luma_vskb = WeightBasedKB(100, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity, this.Target.Attributes.FallSpeed, r, lumaBasePercent + this.LumaPercent.Percent, StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.GameVariables.GetStick(this.VisualizerOptions.InvertX));
                     luma_vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
                     kbList.push(new Result("Luma KB", +luma_vskb.kb.toFixed(6)));
                     kbList.push(new Result("Luma launched", luma_vskb.tumble ? "Yes" : "No"));
@@ -1805,13 +1805,13 @@ class Calculator {
             if (this.SelectedMove.FKB == 0) {
                 vskb = VSKB(this.TargetPercent.Percent + (preDamage * staleMult), baseDamage, damage, this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight,
                     this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled,
-                    this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", this.GameVariables.GameSettings.LaunchRate);
+                    this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", this.GameVariables.GameSettings.LaunchRate);
                 vskb.addModifier(this.Attacker.Modifier.KBDealtMultiplier);
                 vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
             }
             else {
                 vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
-                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.Stick, this.Target.Modifier.name == "Character Inhaled", 1);
+                    StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", 1);
             }
 
             let damageSpeedUpFrames = [];
