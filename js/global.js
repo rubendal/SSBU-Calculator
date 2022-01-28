@@ -2034,9 +2034,15 @@ class Calculator {
                     this.VisualizerOptions.InvertX = params.VisualizerOptions.InvertX;
                     this.VisualizerOptions.AdditionalFramesAfterHitstun = params.VisualizerOptions.AdditionalFramesAfterHitstun;
                     this.VisualizerOptions.Spawn = params.VisualizerOptions.Spawn;
-                    this.VisualizerOptions.Position = params.VisualizerOptions.Position;
 
                     this.UpdateStage();
+
+                    this.VisualizerOptions.Position = params.VisualizerOptions.Position;
+
+                    this.GameVariables.UpdateDI();
+
+                    this.Update();
+
                 }
             }
             catch (e) {
