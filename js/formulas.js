@@ -407,13 +407,21 @@ function ShieldStunMultiplier(multiplier, is_projectile, is_attached_projectile,
 	var groundedMult = is_smash ? parameters.shield.grounded : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
 	var mult = 1;
-	if (is_projectile && !is_attached_projectile)
-		mult = projectileMult;
-	else if (is_aerial)
-		mult = aerialMult;
-	else if (is_smash)
-		mult = groundedMult;
-	mult *= multiplier;
+	
+
+	if (is_projectile && !is_attached_projectile && multiplier != 1) {
+		mult = multiplier;
+	}
+	else {
+		if (is_projectile && !is_attached_projectile)
+			mult = projectileMult;
+		else if (is_aerial)
+			mult = aerialMult;
+		else if (is_smash)
+			mult = groundedMult;
+
+		mult *= multiplier;
+    }
 
 	return mult;
 }
@@ -428,13 +436,19 @@ function ShieldStun(damage, multiplier, is_projectile, is_attached_projectile, p
 	var perfectshieldMult = perfectShield ? parameters.shield.perfectShield : 1;
 	var aerialMult = is_aerial ? parameters.shield.aerial : 1;
 	var mult = 1;
-	if (is_projectile && !is_attached_projectile)
-		mult = projectileMult;
-	else if (is_aerial)
-		mult = aerialMult;
-	else if (is_smash)
-		mult = groundedMult;
-	mult *= multiplier;
+	if (is_projectile && !is_attached_projectile && multiplier != 1) {
+		mult = multiplier;
+	}
+	else {
+		if (is_projectile && !is_attached_projectile)
+			mult = projectileMult;
+		else if (is_aerial)
+			mult = aerialMult;
+		else if (is_smash)
+			mult = groundedMult;
+
+		mult *= multiplier;
+	}
 	return Math.floor((damage * parameters.shield.mult * mult) + parameters.shield.constant) - 1;
 }
 

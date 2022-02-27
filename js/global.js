@@ -2034,6 +2034,7 @@ class Calculator {
                     this.GameVariables.GameSettings.SpiritsEnabled = params.GameVariables.GameSettings.SpiritsEnabled;
 
                     this.VisualizerOptions.StageName = params.VisualizerOptions.StageName;
+                    this.StageName = params.VisualizerOptions.StageName;
                     this.VisualizerOptions.InvertX = params.VisualizerOptions.InvertX;
                     this.VisualizerOptions.AdditionalFramesAfterHitstun = params.VisualizerOptions.AdditionalFramesAfterHitstun;
                     this.VisualizerOptions.Spawn = params.VisualizerOptions.Spawn;
