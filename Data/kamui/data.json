@@ -1991,7 +1991,7 @@
           "IsProjectile": false,
           "IsProjectileAttached": false,
           "IsItem": false,
-          "FAF": 38,
+          "FAF": 35,
           "LandingLag": null,
           "LandingLagStartFrame": null,
           "LandingLagEndFrame": null,
