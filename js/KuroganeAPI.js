@@ -117,7 +117,6 @@ class MoveParser {
 
 		this.setweight = false;
 		this.shieldstun = 1;
-		this.addHitstun = 0;
 
         if (!this.throw) {
             this.hitboxActive = parseHitbox(hitboxActive);
@@ -155,7 +154,7 @@ class MoveParser {
         if(rehitRateRegex.test(hitboxActive)){
             this.rehitRate = parseFloat(/[0-9]+/i.exec(rehitRateRegex.exec(hitboxActive)[0])[0]);
         }
-
+        
         this.count = 1;
         this.moves = [];
         var wbkb = 0;
@@ -178,7 +177,7 @@ class MoveParser {
 
 			var setweight = false;
 			if (hitboxActiveTooltip != null && hitboxActiveTooltip.SetWeight != undefined) {
-				setweight = hitboxActiveTooltip.SetWeight;
+				shieldDamage = hitboxActiveTooltip.SetWeight;
 			} else if (baseDamageTooltip != null && baseDamageTooltip.SetWeight != undefined) {
 				setweight = baseDamageTooltip.SetWeight;
 			}
@@ -196,20 +195,6 @@ class MoveParser {
 			}
 
 			this.shieldstun = shieldstunMult;
-
-			var addHitstun = 0;
-			if (hitboxActiveTooltip != null && hitboxActiveTooltip.AdditionalHitstun != undefined && hitboxActiveTooltip.AdditionalHitstun != "") {
-				addHitstun = parseFloat(hitboxActiveTooltip.AdditionalHitstun);
-			} // addHitstun not available from API
-
-			this.addHitstun = addHitstun;
-
-			var effect = "";
-			if (hitboxActiveTooltip != null && hitboxActiveTooltip.Effect != undefined) {
-				effect = hitboxActiveTooltip.Effect;
-			} // effect not available from API
-
-			this.effect = effect;
 
 			//if (hitboxActiveTooltip) {
 			//	shieldDamageRegex = /SD: \+?(-?[0-9]+)/i;
@@ -435,7 +420,7 @@ class MoveParser {
 							}
 						}
 					}
-					this.moves.push(new Move(this.id, i, hitbox_name, this.name, parseFloat(d), parseFloat(a), parseFloat(b), parseFloat(k), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, s, this.setweight, this.shieldstun, this.addHitstun, this.effect));
+					this.moves.push(new Move(this.id, i, hitbox_name, this.name, parseFloat(d), parseFloat(a), parseFloat(b), parseFloat(k), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, s, this.setweight, this.shieldstun));
                     if (ignore_hitboxes) {
                         return;
                     }
@@ -468,17 +453,17 @@ class MoveParser {
 				}
                 if (this.base_damage == "" && this.angle == "" && this.bkb == "" && this.kbg == "") {
 					if (this.grab) {
-						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun, this.effect));
+						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun));
                     } else {
-						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun, this.effect).invalidate());
+						this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun).invalidate());
                     }
                 } else {
-					this.moves.push(new Move(this.id, 0, this.name, this.name, parseFloat(this.base_damage), parseFloat(this.angle), parseFloat(this.bkb), parseFloat(this.kbg), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun, this.effect));
+					this.moves.push(new Move(this.id, 0, this.name, this.name, parseFloat(this.base_damage), parseFloat(this.angle), parseFloat(this.bkb), parseFloat(this.kbg), parseFloat(wbkb), this.hitboxes, parseFloat(this.faf), parseFloat(this.landingLag), this.autoCancel, this.preDamage, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun));
                 }
             }
 
         } else {
-			this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, [new HitboxActiveFrames(NaN, NaN)], NaN, parseFloat(this.landingLag), this.autoCancel, 0, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun, this.addHitstun, this.effect).invalidate());
+			this.moves.push(new Move(this.id, 0, this.name, this.name, NaN, NaN, NaN, NaN, NaN, [new HitboxActiveFrames(NaN, NaN)], NaN, parseFloat(this.landingLag), this.autoCancel, 0, this.counterMult, this.rehitRate, this.shieldDamage, this.setweight, this.shieldstun).invalidate());
         }
 
 
@@ -601,7 +586,7 @@ var chargeMoves = [
 ];
 
 class Move {
-	constructor(api_id, hitbox_no, name, moveName, base_damage, angle, bkb, kbg, wbkb, hitboxActive, faf, landingLag, autoCancel, preDamage, counterMult, rehitRate, shieldDamage, setweight, shieldstun, addHitstun, effect) {
+	constructor(api_id, hitbox_no, name, moveName, base_damage, angle, bkb, kbg, wbkb, hitboxActive, faf, landingLag, autoCancel, preDamage, counterMult, rehitRate, shieldDamage, setweight, shieldstun) {
         this.api_id = api_id;
         this.id = 0;
         this.hitbox_no = hitbox_no;
@@ -622,8 +607,6 @@ class Move {
 		this.shieldDamage = shieldDamage;
 		this.setweight = setweight;
 		this.shieldstun = shieldstun;
-		this.addHitstun = addHitstun;
-		this.effect = effect;
 		this.weightDependent = false;
 
         this.eval_autoCancel = function(value){
@@ -664,7 +647,7 @@ class Move {
         this.dashAttack = this.name.includes("Dash Attack");
         this.counter = this.counterMult != 0 || this.name.includes("Counter (Attack)") || this.name.includes("Substitute (Attack") || this.name.includes("Toad (Attack") || this.name.includes("Witch Time");
         this.commandGrab = !this.grab && (this.name.includes("Grab") || this.name.includes("Confusion") || (this.name.includes("Inhale") && !this.name.includes("Spit")) || (this.name.includes("Chomp") && !this.name.includes("Food") && !this.name.includes("Eating")) || this.name.includes("Egg Lay") || this.name.includes("Flame Choke")) && !this.name.includes("Attack") && !this.name.includes("(Hitbox)");
-        this.unblockable = this.grab || this.throw || this.commandGrab || this.name.includes("Witch Time") || this.name.includes("KO Punch") || this.name == "Focus Attack (Stage 3)" || this.name == "Reflect Barrier";
+        this.unblockable = this.grab || this.throw || this.commandGrab || this.name.includes("Witch Time") || this.name.includes("KO Punch") || this.name == "Focus Attack (Stage 3)" || this.name == "Reflect Barrier"; 
         this.windbox = this.name.includes("Windbox") || this.name.includes("Flinchless") || this.name == "Hydro Pump" || this.name == "F.L.U.D.D (Attack)";
         this.multihit = /(Hit [0-9]+)/gi.test(this.name) || /(Hits [0-9]+\-[0-9]+)/gi.test(this.name) || this.name.includes("Final Hit") || this.rehitRate != 0;
 		this.spike = this.angle >= 230 && this.angle <= 310;
@@ -697,7 +680,7 @@ class Move {
 		this.check = function () {
 			if (isNaN(this.base_damage) && isNaN(this.angle) && isNaN(this.bkb) && isNaN(this.kbg))
 				this.valid = false;
-
+			
 			return this;
 		}
 
@@ -749,7 +732,7 @@ class Move {
         if(this.name.includes("True")){
             this.type += ",RyuTrue";
         }
-
+        
         if((this.name.includes("Limit") && !this.name.includes("Limit Break")) || this.name.includes("Finishing Touch") ){
             this.type += ",LimitBreak";
 		}
@@ -987,95 +970,89 @@ function getMoveset(attacker, $scope) {
 			$scope.moveset_info = "Using Samus moveset, ";
 			break;
 	}
+	
 
-	loadAsyncFunctionJSON("./Data/" + attacker.GameName + "/moves.json", function (moveset) {
-		handleMovesetData(moveset);
-	}, function () {
-	}, function () {
-		//KH Smash Ultimate API
-		loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/name/" + api_name + "?game=ultimate", function (character) {
-			if (character != null) {
-				var id = character.OwnerId;
-				loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/" + id + "/moves?expand=true&game=ultimate", function (moveset) {
-						handleMovesetData(moveset);
-					}, function () {
-						//$scope.moveset = [new Move(-1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-					}, function () {
-						$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-					});
-			} else {
-				$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+	//KH Smash Ultimate API
+	loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/name/" + api_name + "?game=ultimate", function (character) {
+		if (character != null) {
+			var id = character.OwnerId;
+			loadAsyncFunctionJSON("https://api.kuroganehammer.com/api/characters/" + id + "/moves?expand=true&game=ultimate", function (moveset) {
+				if (moveset != null) {
+					var moves = [];
+					var count = 1;
+					for (var i = 0; i < moveset.length; i++) {
+						var move = moveset[i];
+						var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage != null ? move.BaseDamage.Normal : null, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive != null ? move.HitboxActive.Frames : null, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActive, move.BaseDamage);
+						for (var c = 0; c < parser.moves.length; c++) {
+							var m = parser.moves[c];
+							m.id = count;
+							if (!m.grab && m.valid) {
+								moves.push(m.addCharacter(attacker.display_name).updateMoveData());
+								count++;
+							}
 
 
-
-			}
-		}, function () {
-			$scope.moveset = [new Move(-1, -1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-		}, function () {
-			//Ultimate data isn't available, use Smash 4
-			GetSmash4Data(attacker, $scope);
-		});
-	});
-
-	function handleMovesetData(moveset) {
-		if (moveset != null) {
-			var moves = [];
-			var count = 1;
-			for (var i = 0; i < moveset.length; i++) {
-				var move = moveset[i];
-				var parser = new MoveParser(move.InstanceId, move.Name, move.BaseDamage != null ? move.BaseDamage.Normal : null, move.Angle, move.BaseKnockBackSetKnockback, move.KnockbackGrowth, move.HitboxActive != null ? move.HitboxActive.Frames : null, move.FirstActionableFrame, move.LandingLag, move.AutoCancel, move.IsWeightDependent, false, move.HitboxActive, move.BaseDamage);
-				for (var c = 0; c < parser.moves.length; c++) {
-					var m = parser.moves[c];
-					m.id = count;
-					if (!m.grab && m.valid) {
-						moves.push(m.addCharacter(attacker.display_name).updateMoveData());
-						count++;
+							if (attacker.name == "Olimar" && m.name == "Dthrow") {
+								//Add Purple Pikmin Dthrow
+								var m2 = Object.assign({}, m);
+								m2.id = count;
+								m2.name = "Dthrow (Purple)";
+								m2.moveName = "Dthrow (Purple)";
+								moves.push(m2.addCharacter(attacker.name).updateMoveData());
+								count++;
+							}
+						}
 					}
+					moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
 
+					try {
+						$scope.$apply(function () {
+							if (moves.length > 1) {
+								if ($scope.attackerName != moves[1].character) {
+									//If this is a previous request ignore it and do not overwrite current move list
+									return;
+								}
+							} else {
+								//Get Smash 4 Data
+								GetSmash4Data(attacker, $scope);
+								return;
+							}
+							$scope.moveset_info = null;
+							$scope.moveset = moves;
+							$scope.detectAttack();
 
-					if (attacker.name == "Olimar" && m.name == "Dthrow") {
-						//Add Purple Pikmin Dthrow
-						var m2 = Object.assign({}, m);
-						m2.id = count;
-						m2.name = "Dthrow (Purple)";
-						m2.moveName = "Dthrow (Purple)";
-						moves.push(m2.addCharacter(attacker.name).updateMoveData());
-						count++;
-					}
-				}
-			}
-			moves.unshift(new Move(0, -1, "Not selected", 0, 0, 0, 0, false, 0, 0, 0).invalidate());
-
-			try {
-				$scope.$apply(function () {
-					if (moves.length > 1) {
-						if ($scope.attackerName != moves[1].character) {
-							//If this is a previous request ignore it and do not overwrite current move list
+						});
+					} catch (err) {
+						if ($scope.attackerName != moves[0].character) {
 							return;
 						}
-					} else {
-						//Get Smash 4 Data
-						GetSmash4Data(attacker, $scope);
-						return;
+						$scope.moveset_info = null;
+						$scope.moveset = moves;
+						$scope.detectAttack();
 					}
-					$scope.moveset_info = null;
-					$scope.moveset = moves;
-					$scope.detectAttack();
-
-				});
-			} catch (err) {
-				if ($scope.attackerName != moves[0].character) {
-					return;
+				} else {
+					$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
 				}
-				$scope.moveset_info = null;
-				$scope.moveset = moves;
-				$scope.detectAttack();
-			}
+			},
+				function () {
+					//$scope.moveset = [new Move(-1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+				}, function () {
+					$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+				});
 		} else {
-			$scope.moveset = [new Move(-1, -1, "Couldn't get attacks", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
-		}
-	}
+			$scope.moveset = [new Move(-1, -1, "Couldn't access API", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
 
+			
+			
+		}
+	}, function () {
+		$scope.moveset = [new Move(-1, -1, "Loading...", 0, 0, 0, 0, false, 0, 0, 1).invalidate()];
+	}, function () {
+		//Ultimate data isn't available, use Smash 4
+		GetSmash4Data(attacker, $scope);
+	});
+	
+    
 }
 
 function GetSmash4Data(attacker, $scope) {
@@ -1222,7 +1199,7 @@ function getCharactersId(names, $scope) {
                         characters.push(new CharacterId(name, id, color));
                         break;
 					}
-
+					
                 }
             }
             try {
@@ -1234,7 +1211,7 @@ function getCharactersId(names, $scope) {
                 $scope.charactersId = characters;
                 $scope.ready();
             }
-
+            
         }
     }, null, function () {
         $scope.status = "Couldn't access API";
