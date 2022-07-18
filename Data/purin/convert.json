@@ -1,0 +1,146 @@
+function getData(file){
+  return fetch(file)
+    .then(res => res.text())
+    .then(str => {
+      moveset = parse(str);
+    })
+
+  function parse(str){
+    return JSON.parse(str, function(k, v){
+      if(v instanceof Array && v.every(x=>x.length==2)){
+        return new Map(v)
+      }
+      return v;
+    })
+  }
+}
+// let moveset = getData("./data/Jigglypuff/moveset.json");
+
+function globMove(move){
+	let m = moveset.get(move);
+	m.hitboxes.forEach(
+		h => h._frames = h._frameStart + "-"+ (h._frameEnd-1)
+	);
+	let hits = Array.from(new Set(m.hitboxes.map(
+		h => h._frames
+	)));
+	let buckets = hits.map(x => m.hitboxes.filter(h => h._frames == x).sort(function(a,b){a.ID > b.ID}));
+	function same(a,b){
+		return a.Damage == b.Damage
+				&& a.Angle == b.Angle
+				&& a.BKB == b.BKB
+				&& a.KBG == b.KBG
+				&& a.FKB == b.FKB;
+	}
+	// group hit by hitboxes
+	buckets = buckets.map(b => {
+		return b.reduce(
+			(x, h) => (x.some(h2 => same(h,h2))) ? x : x.concat(h)
+		, []);
+	});
+	function allsame(a,b){
+		if(a.length != b.length) return false;
+		for(let i=0;i<a.length;i++){
+			if(!same(a[i],b[i])) return false;
+		}
+		return true;
+	}
+	// group by hits
+	buckets = buckets.reduce(
+		(x, b) => {
+			let ok = false;
+			x.forEach((g,i) => {
+				if(allsame(x[i][0], b)){ x[i]=x[i].concat([b]); ok=true; }
+			});
+			if(!ok) x = x.concat([[b]]);
+			return x;
+		}
+	, []);
+
+	// convert
+	let out = [];
+	let multi = buckets.some(g => g.length>1);
+	let hitnum = 1;
+	for(let i=0; i<buckets.length; i++){
+		let g = buckets[i];
+		let hit = g[0];
+		let obj = {
+			"InstanceId": "",
+			"OwnerId": 18,
+			"Name": m.niceName,
+			"BaseDamage": {},
+			"HitboxActive": {},
+			"FirstActionableFrame": m.faf
+		};
+		if(multi){
+			//name
+			if(g.length>1){
+				obj.Name += ` (Hits ${hitnum}-${hitnum+g.length-1})`;
+				hitnum += g.length;
+			}else if(g.length==1){
+				obj.Name += ` (Hit ${hitnum})`;
+				hitnum++;
+			}
+			// hitboxes
+			obj.HitboxActive.Frames = g.map(h=>h[0]._frames).join(", ");
+		}else{
+			//not multi
+			if(buckets.length==2 && i==1) obj.Name += " (Late)";
+			obj.HitboxActive.Frames = hit[0]._frames;
+		}
+		//damage etc
+		obj.BaseDamage.Normal = hit.map(h=>h.Damage).join("/");
+		obj.Angle = hit.map(h=>h.Angle).join("/");
+		obj.KnockbackGrowth = hit.map(h=>h.KBG).join("/");
+		let s = "";
+		for(let j=0; j<hit.length; j++){
+			if(hit[j].FKB > 0){
+				if(!s.includes("F: ")) s += "F: ";
+				s += hit[j].FKB;
+			}else{
+				if(s.includes("F: ") && !s.includes("B: ")) s += "B: ";
+				s += hit[j].BKB;
+			}
+			if(j<hit.length-1) s += "/";
+		}
+		obj.BaseKnockBackSetKnockback = s;
+
+		if(hit[0].ShieldDamage > 0) obj.HitboxActive.SD = hit[0].ShieldDamage;
+		if(hit[0].Rehit > 0) obj.HitboxActive.RehitRate = hit[0].Rehit;
+		if(hit[0].SetWeight == "True") obj.HitboxActive.SetWeight = hit[0].SetWeight;
+		s = "";
+		if(m.autocancel){
+			if(m.autocancel.before) s += `1-${m.autocancel.before}, `;
+			if(m.autocancel.after) s += `${m.autocancel.after}>`;
+			obj.HitboxActive.AutoCancel = s;
+		}
+
+		out = out.concat(obj);
+	}
+
+	return out;
+}
+
+let moves = [
+	"Attack11",
+	"Attack12",
+	"AttackDash",
+	"AttackS3",
+	"AttackHi3",
+	"AttackLw3",
+	"AttackS4",
+	"AttackHi4",
+	"AttackLw4",
+	"AttackAirN",
+	"AttackAirF",
+	"AttackAirB",
+	"AttackAirHi",
+	"AttackAirLw",
+	"SpecialN",
+	"SpecialAirN",
+	"SpecialS",
+	"SpecialHiL",
+	"SpecialLwR"
+];
+let allMoves = [];
+moves.forEach(move => allMoves = allMoves.concat(globMove(move)));
