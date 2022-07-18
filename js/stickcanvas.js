@@ -1,6 +1,6 @@
 ﻿class StickWheel {
-	constructor(f, id, position) {
-		this.f = f;
+	constructor(CalculatorRef, id, position) {
+		this.CalculatorRef = CalculatorRef;
 		this.id = id;
 		this.canvas = document.getElementById(id);
 
@@ -30,35 +30,35 @@
 			var x = e.clientX - rect.left;
 			var y = e.clientY - rect.top;
 
-			var position = { X: 0, Y: 0 };
+			var position = { x: 0, y: 0 };
 
-			position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 120), -127), 127);
-			position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 120), -127), 127);
+			position.x = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 120), -127), 127);
+			position.y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 120), -127), 127);
 
 			if (stickWheel.controller == "Wiimote") {
-				if (position.X < -24)
-					position.X = -127;
-				else if (position.X > 24)
-					position.X = 127;
+				if (position.x < -24)
+					position.x = -127;
+				else if (position.x > 24)
+					position.x = 127;
 				else
-					position.X = 0;
+					position.x = 0;
 
-				if (position.Y < -24)
-					position.Y = -127;
-				else if (position.Y > 24)
-					position.Y = 127;
+				if (position.y < -24)
+					position.y = -127;
+				else if (position.y > 24)
+					position.y = 127;
 				else
-					position.Y = 0;
+					position.y = 0;
 
 			} else {
 
-				if (!InsideStickGate(stickWheel.controllerR, position.X, position.Y))
+				if (!InsideStickGate(stickWheel.controllerR, position.x, position.y))
 					position = stickWheel.position;
 
 			}
 
 			this.position = position;
-			stickWheel.f(position);
+			stickWheel.CalculatorRef.UpdateStickFromCanvas(position);
 		}
 
 		this.canvas.ontouchmove = function(event) {
@@ -70,35 +70,35 @@
 				var x = event.touches[0].clientX - rect.left;
 				var y = event.touches[0].clientY - rect.top;
 
-				var position = { X: 0, Y: 0 };
+				var position = { x: 0, y: 0 };
 
-				position.X = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 120), -127), 127);
-				position.Y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 120), -127), 127);
+				position.x = Math.min(Math.max(Math.floor((((x - stickWheel.center.x)) / stickWheel.r) * 120), -127), 127);
+				position.y = Math.min(Math.max(Math.floor((((stickWheel.center.y - y)) / stickWheel.r) * 120), -127), 127);
 
 				if (stickWheel.controller == "Wiimote") {
-					if (position.X < -24)
-						position.X = -127;
-					else if (position.X > 24)
-						position.X = 127;
+					if (position.x < -24)
+						position.x = -127;
+					else if (position.x > 24)
+						position.x = 127;
 					else
-						position.X = 0;
+						position.x = 0;
 
-					if (position.Y < -24)
-						position.Y = -127;
-					else if (position.Y > 24)
-						position.Y = 127;
+					if (position.y < -24)
+						position.y = -127;
+					else if (position.y > 24)
+						position.y = 127;
 					else
-						position.Y = 0;
+						position.y = 0;
 
 				} else {
 
-					if (!InsideStickGate(stickWheel.controllerR, position.X, position.Y))
+					if (!InsideStickGate(stickWheel.controllerR, position.x, position.y))
 						position = stickWheel.position;
 
 				}
 
 				this.position = position;
-				stickWheel.f(position);
+				stickWheel.CalculatorRef.UpdateStickFromCanvas(position);
 			}
 		};
 
@@ -141,38 +141,38 @@
 			//context.stroke();
 			
 			context.beginPath();
-			context.arc(this.center.x, this.center.y, this.gate * this.controllerR / 128, 0, 2 * Math.PI);
+			context.arc(this.center.x, this.center.y, this.gate * this.controllerR / 128, 0, 2 * PI);
 			context.closePath();
 			context.stroke();
 
 			context.globalCompositeOperation = 'destination-out';
 			context.beginPath();
-			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.X)), this.center.y + (-this.r * StickSensibilityPosition(position.Y)), this.r2 / 1.75, 0, 2 * Math.PI);
+			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.x)), this.center.y + (-this.r * StickSensibilityPosition(position.y)), this.r2 / 1.75, 0, 2 * PI);
 			context.closePath();
 			context.fill();
 			context.globalCompositeOperation = 'source-over';
 			context.beginPath();
-			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.X)), this.center.y + (-this.r * StickSensibilityPosition(position.Y)), this.r2 / 1.75, 0, 2 * Math.PI);
+			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.x)), this.center.y + (-this.r * StickSensibilityPosition(position.y)), this.r2 / 1.75, 0, 2 * PI);
 			context.closePath();
 			context.stroke();
 			context.globalCompositeOperation = 'destination-out';
 			context.beginPath();
-			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.X)), this.center.y + (-this.r * StickSensibilityPosition(position.Y)), this.r2 / 2.5, 0, 2 * Math.PI);
+			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.x)), this.center.y + (-this.r * StickSensibilityPosition(position.y)), this.r2 / 2.5, 0, 2 * PI);
 			context.closePath();
 			context.fill();
 			context.globalCompositeOperation = 'source-over';
 			context.beginPath();
-			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.X)), this.center.y + (-this.r * StickSensibilityPosition(position.Y)), this.r2 / 2.5, 0, 2 * Math.PI);
+			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.x)), this.center.y + (-this.r * StickSensibilityPosition(position.y)), this.r2 / 2.5, 0, 2 * PI);
 			context.closePath();
 			context.stroke();
 			context.globalCompositeOperation = 'destination-out';
 			context.beginPath();
-			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.X)), this.center.y + (-this.r * StickSensibilityPosition(position.Y)), this.r2 / 4, 0, 2 * Math.PI);
+			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.x)), this.center.y + (-this.r * StickSensibilityPosition(position.y)), this.r2 / 4, 0, 2 * PI);
 			context.closePath();
 			context.fill();
 			context.globalCompositeOperation = 'source-over';
 			context.beginPath();
-			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.X)), this.center.y + (-this.r * StickSensibilityPosition(position.Y)), this.r2 / 4, 0, 2 * Math.PI);
+			context.arc(this.center.x + (this.r * StickSensibilityPosition(position.x)), this.center.y + (-this.r * StickSensibilityPosition(position.y)), this.r2 / 4, 0, 2 * PI);
 			context.closePath();
 			context.stroke();
 

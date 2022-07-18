@@ -299,7 +299,7 @@ img.hero {
 }
 
 img.banjo-and-kazooie {
-   background: #f8934b;
+    background: #f8934b;
 }
 
 img.terry {
@@ -320,6 +320,18 @@ img.steve {
 
 img.sephiroth {
     background: #374b4b;
+}
+
+img.pyra, img.mythra {
+    background: #69e6c3;
+}
+
+img.kazuya {
+    background: #a52319;
+}
+
+img.sora {
+    background: #f9f9f9;
 }
 
 /*----Percent---*/
@@ -645,4 +657,353 @@ div.steve {
 
 div.sephiroth {
     border-top: 5px solid #374b4b;
+}
+
+div.pyra, div.mythra {
+    border-top: 5px solid #69e6c3;
+}
+
+div.kazuya {
+    border-top: 5px solid #a52319;
+}
+
+div.sora {
+    border-top: 5px solid #f9f9f9;
+}
+
+/*Character data menu*/
+.character-data-header.mario {
+    background: #ff4026aa
+}
+
+.character-data-header.donkey-kong {
+    background: #f9da4aaa
+}
+
+.character-data-header.link {
+    background: #1c94c3aa
+}
+
+.character-data-header.samus {
+    background: #353f56aa
+}
+
+.character-data-header.dark-samus {
+    background: #3d395eaa
+}
+
+.character-data-header.yoshi {
+    background: #83cd65aa
+}
+
+.character-data-header.kirby {
+    background: #f2c0c4aa
+}
+
+.character-data-header.fox {
+    background: #307cdfaa
+}
+
+.character-data-header.pikachu {
+    background: #fddd05aa
+}
+
+.character-data-header.luigi {
+    background: #5ea444aa
+}
+
+.character-data-header.ness {
+    background: #de413daa
+}
+
+.character-data-header.captain-falcon {
+    background: #8e8adcaa
+}
+
+.character-data-header.jigglypuff {
+    background: #f29bf6aa
+}
+
+.character-data-header.peach {
+    background: #f5c9f0aa
+}
+
+.character-data-header.daisy {
+    background: #f0bb2caa
+}
+
+.character-data-header.bowser {
+    background: #44745eaa
+}
+
+.character-data-header.ice-climbers {
+    background: #a0cafeaa
+}
+
+.character-data-header.sheik {
+    background: #756fd0aa
+}
+
+.character-data-header.zelda {
+    background: #fdeaa4aa
+}
+
+.character-data-header.dr-mario {
+    background: #e86c6daa
+}
+
+.character-data-header.pichu {
+    background: #dedc1faa
+}
+
+.character-data-header.falco {
+    background: #69b0deaa
+}
+
+.character-data-header.marth {
+    background: #5da8c8aa
+}
+
+.character-data-header.lucina {
+    background: #7ea6c7aa
+}
+
+.character-data-header.young-link {
+    background: #a5d160aa
+}
+
+.character-data-header.ganondorf {
+    background: #7974a4aa
+}
+
+.character-data-header.mewtwo {
+    background: #927bc5aa
+}
+
+.character-data-header.roy {
+    background: #74b65baa
+}
+
+.character-data-header.chrom {
+    background: #b4b4cfaa
+}
+
+.character-data-header.mr-game-and-watch {
+    background: #a4a190aa
+}
+
+.character-data-header.meta-knight {
+    background: #5367b0aa
+}
+
+.character-data-header.pit {
+    background: #acdafaaa
+}
+
+.character-data-header.dark-pit {
+    background: #875cbeaa
+}
+
+.character-data-header.zero-suit-samus {
+    background: #205ba4aa
+}
+
+.character-data-header.wario {
+    background: #fee71faa
+}
+
+.character-data-header.snake {
+    background: #658198aa
+}
+
+.character-data-header.ike {
+    background: #b64f3eaa
+}
+
+.character-data-header.squirtle, .character-data-header.ivysaur, .character-data-header.charizard {
+    background: #ffc004aa
+}
+
+.character-data-header.diddy-kong {
+    background: #e05a52aa
+}
+
+.character-data-header.lucas {
+    background: #e06833aa
+}
+
+.character-data-header.sonic {
+    background: #659debaa
+}
+
+.character-data-header.king-dedede {
+    background: #fce87baa
+}
+
+.character-data-header.olimar {
+    background: #ccefb0aa
+}
+
+.character-data-header.lucario {
+    background: #b8e3fcaa
+}
+
+.character-data-header.rob {
+    background: #b2b8bdaa
+}
+
+.character-data-header.toon-link {
+    background: #8ce689aa
+}
+
+.character-data-header.wolf {
+    background: #ccccccaa
+}
+
+.character-data-header.villager {
+    background: #83a88eaa
+}
+
+.character-data-header.mega-man {
+    background: #86c1e0aa
+}
+
+.character-data-header.wii-fit-trainer {
+    background: #99d481aa
+}
+
+.character-data-header.rosalina-and-luma {
+    background: #98d5cdaa
+}
+
+.character-data-header.little-mac {
+    background: #5d8f72aa
+}
+
+.character-data-header.greninja {
+    background: #5673a5aa
+}
+
+.character-data-header.mii-brawler, .character-data-header.mii-swordfighter, .character-data-header.mii-gunner {
+    background: #5dc1e6aa
+}
+
+.character-data-header.palutena {
+    background: #91e5c1aa
+}
+
+.character-data-header.pac-man {
+    background: #fcb541aa
+}
+
+.character-data-header.robin {
+    background: #c387d9aa
+}
+
+.character-data-header.shulk {
+    background: #d5647aaa
+}
+
+.character-data-header.bowser-jr {
+    background: #59bf38aa
+}
+
+.character-data-header.duck-hunt {
+    background: #8c5d3aaa
+}
+
+.character-data-header.ryu {
+    background: #d0504daa
+}
+
+.character-data-header.cloud {
+    background: #419384aa
+}
+
+.character-data-header.bayonetta {
+    background: #a5a1e0aa
+}
+
+.character-data-header.corrin {
+    background: #63a7c0aa
+}
+
+.character-data-header.inkling {
+    background: #f02d7daa
+}
+
+.character-data-header.ridley {
+    background: #71456faa
+}
+
+.character-data-header.simon {
+    background: #76150eaa
+}
+
+.character-data-header.richter {
+    background: #2a6db0aa
+}
+
+.character-data-header.king-k-rool {
+    background: #65873baa
+}
+
+.character-data-header.isabelle {
+    background: #c4d37eaa;
+}
+
+.character-data-header.ken {
+    background: #cdd7dcaa;
+}
+
+.character-data-header.incineroar {
+    background: #ffd902aa;
+}
+
+.character-data-header.piranha-plant {
+    background: #00aa82aa;
+}
+
+.character-data-header.joker {
+    background: #b41201aa;
+}
+
+.character-data-header.hero {
+    background: #ccb3f4aa;
+}
+
+.character-data-header.banjo-and-kazooie {
+    background: #f8934baa;
+}
+
+.character-data-header.terry {
+    background: #6eb5ffaa;
+}
+
+.character-data-header.byleth {
+    background: #cee0d4aa;
+}
+
+.character-data-header.min-min {
+    background: #ffff5aaa;
+}
+
+.character-data-header.steve {
+    background: #ffff5aaa;
+}
+
+.character-data-header.sephiroth {
+    background: #374b4baa;
+}
+
+.character-data-header.pyra, .character-data-header.mythra {
+    background: #69e6c3aa;
+}
+
+.character-data-header.kazuya {
+    background: #a52319aa;
+}
+
+.character-data-header.sora {
+    background: #f9f9f9;
 }
