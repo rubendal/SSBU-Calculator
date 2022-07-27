@@ -504,7 +504,7 @@
                                 <tr ng-if="Calculator.GameVariables.AerialFrameAdvantageType == '3' || Calculator.GameVariables.AerialFrameAdvantageType == '2'">
                                     <td>Landing frame</td>
                                     <td>
-                                        <input name="landingLag" type="number" min="{{Calculator.SelectedMove.MoveRef.LandingLagEndFrame}}" max="1000" step="1"
+                                        <input name="landingLag" type="number" min="{{Calculator.SelectedMove.StartFrame + 1}}" max="1000" step="1"
                                                ng-model="Calculator.GameVariables.LandingFrame" ng-change="Calculator.Update()" />
                                     </td>
                                 </tr>
