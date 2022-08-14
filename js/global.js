@@ -729,7 +729,9 @@ class Calculator {
                 }
             }
 
-            damage *= this.Attacker.Modifier.DamageDealtMultiplier
+            if (this.Attacker.Modifier.name != "Winged Mode" && this.Attacker.Modifier.name != "Rage") {
+                damage *= this.Attacker.Modifier.DamageDealtMultiplier;
+            }
             damage *= InkDamageMult(this.GameVariables.InkValue);
 
             var v_hc = HitstunCancel(vskb.kb, vskb.horizontal_launch_speed, vskb.vertical_launch_speed, vskb.angle, this.SelectedMove.Flinchless, electric, this.SelectedMove.AdditionalHitstun);
