@@ -219,13 +219,15 @@ class Character {
 		var ref = this;
 		LoadCharacterData(this.GameName, function (data) {
 			ref.data = data;
-			ref.Params = data.Params;
+			ref.Params = { ...data.Params };
 			ref.Attributes = { ...data.Params };
 			if (data.Modifiers) {
 				for (var i = 0; i < data.Modifiers.length; i++) {
 					
 				}
 			}
+			calculatorRef.Update();
+
 			ref.Moves = [new Move(-1)];
 			if (loadMoveData) {
 				if (data.MoveTypes && data.MoveTypes.length > 0) {
@@ -255,6 +257,7 @@ class Character {
 					}
 
 					ScopeUpdate($scope);
+					
 				}
 				else {
 
