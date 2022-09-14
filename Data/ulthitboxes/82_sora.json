@@ -4468,6 +4468,7 @@
       "faf": 33,
       "name": "Neutral Air 2",
       "value": "SoraNAir2",
+      "custom_landing_lag": 10,
       "hitboxes": [
         {
           "id": "0",
@@ -4927,6 +4928,7 @@
       "faf": 41,
       "name": "Neutral Air 3",
       "value": "SoraNAir3",
+      "custom_landing_lag": 11,
       "hitboxes": [
         {
           "id": "0",
@@ -5436,6 +5438,7 @@
       "faf": 33,
       "name": "Forward Air 2",
       "value": "SoraFAir2",
+      "custom_landing_lag": 13,
       "hitboxes": [
         {
           "id": "0",
@@ -5895,6 +5898,7 @@
       "faf": 41,
       "name": "Forward Air 3",
       "value": "SoraFAir3",
+      "custom_landing_lag": 14,
       "hitboxes": [
         {
           "id": "0",
