@@ -147,7 +147,7 @@
 				}
 			}
 		}
-        if (data.custom_landing_lag) {
+		if (data.custom_landing_lag) {
 			//Necessary for Sora as nair and fair have different landing lags depending on number of swings
 			move.LandingLag = data.custom_landing_lag;
 		}
