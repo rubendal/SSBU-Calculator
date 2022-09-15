@@ -148,7 +148,11 @@
 			}
 		}
 
-		if (params && (data.name.includes("Nair") || data.name.includes("Fair") || data.name.includes("Bair") || data.name.includes("Uair") || data.name.includes("Dair"))) {
+		if (data.custom_landing_lag) {
+			//Necessary for Sora as nair and fair have different landing lags depending on number of swings
+			move.LandingLag = data.custom_landing_lag;
+		}
+		else if (params && (data.name.includes("Nair") || data.name.includes("Fair") || data.name.includes("Bair") || data.name.includes("Uair") || data.name.includes("Dair"))) {
 			//Use landing lag values from character parameters
 
 			if (data.name.includes("Nair")) {
