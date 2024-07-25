@@ -79,7 +79,9 @@ importScripts('./global.js', '../formulas.js');
 
 var characterList = [];
 
-var bd = base_damage;
+var original_vars = {};
+
+var baseDamage = base_damage;
 var moves = [];
 var damage = base_damage;
 var kb;
@@ -89,13 +91,13 @@ var faf;
 var hit_frame;
 var characters = [];
 var charge_data = null;
-var is_1v1 = true;
+var is1v1 = true;
 var shorthop_aerial = false;
 var use_landing_lag = "no";
 var mode = "normal";
 var ko_mode = "ko";
 var diStep = 15;
-var preDamageCalc = 0;
+var preDamage = 0;
 
 var rowMode = "Calculation";
 
@@ -150,45 +152,45 @@ function generateStickPositions(step) {
 }
 
 function calcDamage() {
-	preDamageCalc = preDamage;
+	preDamage = original_vars.preDamage;
 	if (move.charge == null) {
-		bd = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge);
+		baseDamage = ChargeSmash(original_vars.base_damage, original_vars.charge_frames, megaman_fsmash, witch_time_smash_charge);
 	} else {
-		bd = move.charge_damage(charge_frames);
+		baseDamage = move.charge_damage(original_vars.charge_frames);
 	}
 
 	if (charge_data == null && is_smash) {
-		bd = ChargeSmash(base_damage, charge_frames, megaman_fsmash, witch_time_smash_charge, move != null ? move.maxSmashChargeMult : 1.4);
+		baseDamage = ChargeSmash(original_vars.base_damage, original_vars.charge_frames, megaman_fsmash, witch_time_smash_charge, move != null ? move.maxSmashChargeMult : 1.4);
 	}
 	if (attacker.name == "Lucario") {
-		bd *= Aura(attacker_percent, stock_dif, game_format);
-		preDamageCalc *= Aura(attacker_percent, stock_dif, game_format);
+		baseDamage *= Aura(attacker_percent, stock_dif, game_format);
+		preDamage *= Aura(attacker_percent, stock_dif, game_format);
 	}
 
-	bd *= attacker.modifier.base_damage;
-	preDamageCalc *= attacker.modifier.base_damage;
+	baseDamage *= attacker.modifier.base_damage;
+	preDamage *= attacker.modifier.base_damage;
 
-	damage = bd;
+	damage = baseDamage;
 	damage *= target.modifier.damage_taken;
-	preDamageCalc *= attacker.modifier.damage_dealt;
-	preDamageCalc *= target.modifier.damage_taken;
+	preDamage *= attacker.modifier.damage_dealt;
+	preDamage *= target.modifier.damage_taken;
 
-	preDamageCalc *= InkDamageMult(ink);
+	preDamage *= InkDamageMult(ink);
 
 	//if (!move.throw) {
 	//	damage *= attacker.modifier.damage_dealt;
 	//}
 	damage *= target.modifier.damage_taken;
-	preDamageCalc *= attacker.modifier.damage_dealt;
-	preDamageCalc *= target.modifier.damage_taken;
+	preDamage *= attacker.modifier.damage_dealt;
+	preDamage *= target.modifier.damage_taken;
 
-	if (is_1v1) {
-		preDamageCalc *= 1.2;
+	if (is1v1) {
+		preDamage *= 1.2;
 	}
 
 	if (shorthop_aerial) {
 		damage *= parameters.shorthop_aerial;
-		preDamageCalc *= parameters.shorthop_aerial;
+		preDamage *= parameters.shorthop_aerial;
 	}
 
 	if (attacker.modifier.name == "Winged Mode") {
@@ -216,7 +218,7 @@ function addRow() {
 
 	var distance = new Distance(kb.kb, kb.horizontal_launch_speed, kb.vertical_launch_speed, kb.tumble, Math.max(0, kb.hitstun + addHitstun), damageSpeedUpFrames, wbkb != 0, kb.angle, kb.damageflytop, target.attributes.gravity * target.modifier.gravity, target.attributes.damageflytop_gravity, (use_landing_lag == "yes" ? faf + landing_lag : use_landing_lag == "autocancel" ? faf + attacker.attributes.hard_landing_lag : faf) - hitframe, target.attributes.fall_speed * target.modifier.fall_speed, target.attributes.damageflytop_fall_speed, target.attributes.traction * target.modifier.traction, isFinishingTouch, inverseX, onSurface, position, stage, graph, 0);
 
-	if (is_1v1) {
+	if (is1v1) {
 		damage *= 1.2;
 	}
 	damage *= attacker.modifier.damage_dealt;
@@ -226,10 +228,10 @@ function addRow() {
 
 		var hitstun = speedUpFAF - 1;
 
-		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, target_percent, move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, hitstun, speedUpFAF, distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, target_percent, move, baseDamage, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, hitstun, speedUpFAF, distance).tsv());
 	}
 	else {
-		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, target_percent, move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, Hitstun(kb.base_kb, windbox, electric) + addHitstun, FirstActionableFrame(kb.base_kb, windbox, electric) + addHitstun, distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, target_percent, move, baseDamage, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, kb, wbkb, hit_frame, Hitstun(kb.base_kb, windbox, electric) + addHitstun, FirstActionableFrame(kb.base_kb, windbox, electric) + addHitstun, distance).tsv());
 	}
 
 
@@ -240,7 +242,7 @@ function addKORow() {
 	calcDamage();
 	var data = calc(damage);
 	if(data.ko)
-		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, +data.ko_percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, data.kb, wbkb, hit_frame, data.faf - 1, data.faf, data.distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, +data.ko_percent.toFixed(6), move, baseDamage, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, data.kb, wbkb, hit_frame, data.faf - 1, data.faf, data.distance).tsv());
 	//console.log(tsv_rows);
 
 
@@ -279,7 +281,7 @@ function addKOBestDIRow() {
 		if (inverseX)
 			k.stick.X *= -1;
 
-		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, +d.percent.toFixed(6), move, bd, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, k, wbkb, hit_frame, d.data.faf - 1, d.data.faf, d.data.distance).tsv());
+		tsv_rows.push(new Row(rowMode, attacker, target, attacker_percent, +d.percent.toFixed(6), move, baseDamage, charge_frames, StaleDamage(damage, stale, ignoreStale), ignoreStale, stale, Aura(attacker_percent, stock_dif), stock_dif, r, k, wbkb, hit_frame, d.data.faf - 1, d.data.faf, d.data.distance).tsv());
 	}
 	//console.log(tsv_rows);
 
@@ -385,6 +387,7 @@ function calc(damage) {
 }
 
 update = function (vars) {
+	original_vars = Object.assign({}, vars);;
 	attacker = vars.attacker;
 	target = vars.target;
 	attacker_percent = vars.attacker_percent;
@@ -452,7 +455,7 @@ update = function (vars) {
 
 	position = vars.position;
 	charge_data = vars.charge_data;
-	is_1v1 = vars.is_1v1;
+	is1v1 = vars.is_1v1;
 	shorthop_aerial = vars.shorthop_aerial;
 	use_landing_lag = vars.use_landing_lag;
 };
@@ -479,7 +482,7 @@ onmessage = function (e) {
 	moves = params.moves;
 	move = params.move;
 	characters = params.characters;
-	bd = params.bd;
+	baseDamage = params.bd;
 	damage = params.damage;
 	hit_frame = params.hit_frame;
 	faf = params.faf;
