@@ -146,7 +146,6 @@ class Character {
 		this.GameName = gameNames[index];
 		this.DataViewerName = dataViewerNames[index];
 		this.UltHitboxesFilename = ultHitboxesFilenames[index];
-
 		this.UltHitboxesName = this.UltHitboxesFilename.substring(this.UltHitboxesFilename.indexOf("_") + 1);
 
 		this.Modifier = new AttributeModifier("Normal", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -226,8 +225,9 @@ class Character {
 					
 				}
 			}
-			calculatorRef.Update();
-
+			if (calculatorRef) {
+				calculatorRef.Update();
+			}
 			ref.Moves = [new Move(-1)];
 			if (loadMoveData) {
 				if (data.MoveTypes && data.MoveTypes.length > 0) {
@@ -246,17 +246,18 @@ class Character {
 					}
 					ref.MoveSource = MoveSources.Calculator;
 					ref.Moveset = ref.MapMovesByName(ref.Moves);
+					if ($scope) {
+						if ($scope.Calculator.SelectedMove.Shared) {
+							ref.Moveset.unshift({
+								Name: $scope.Calculator.SelectedMove.MoveRef.NameId,
+								Moves: [
+									$scope.Calculator.SelectedMove
+								]
+							});
+						}
 
-					if ($scope.Calculator.SelectedMove.Shared) {
-						ref.Moveset.unshift({
-							Name: $scope.Calculator.SelectedMove.MoveRef.NameId,
-							Moves: [
-								$scope.Calculator.SelectedMove
-							]
-						});
+						ScopeUpdate($scope);
 					}
-
-					ScopeUpdate($scope);
 					
 				}
 				else {
@@ -285,23 +286,26 @@ class Character {
 						}
 						ref.MoveSource = MoveSources.UltimateHitboxes;
 						ref.Moveset = ref.MapMovesByName(ref.Moves);
+						if ($scope) {
+							if ($scope.Calculator.SelectedMove.Shared) {
+								ref.Moveset.unshift({
+									Name: $scope.Calculator.SelectedMove.MoveRef.NameId,
+									Moves: [
+										$scope.Calculator.SelectedMove
+									]
+								});
+							}
 
-						if ($scope.Calculator.SelectedMove.Shared) {
-							ref.Moveset.unshift({
-								Name: $scope.Calculator.SelectedMove.MoveRef.NameId,
-								Moves: [
-									$scope.Calculator.SelectedMove
-								]
-							});
+							ScopeUpdate($scope);
 						}
-
-						ScopeUpdate($scope);
 					});
 				}
 
 			}
 			else {
-				ScopeUpdate($scope);
+				if ($scope) {
+					ScopeUpdate($scope);
+				}
 			}
 			
 		});
@@ -321,8 +325,9 @@ class Character {
 				this.Attributes.GroundFriction *= this.Modifier.GroundFrictionMultiplier;
 				this.Attributes.AirFriction *= this.Modifier.AirFrictionMultiplier;
 			}
-
-			calculatorRef.Update();
+			if (calculatorRef) {
+				calculatorRef.Update();
+			}
 		}
 
 		this.AttackerShowsModifierList = function () {
