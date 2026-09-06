@@ -696,14 +696,14 @@ class Calculator {
             var vskb;
 
             if (this.SelectedMove.FKB == 0) {
-                vskb = VSKB(this.TargetPercent.Percent + (preDamage * staleMult), baseDamage, damage, this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight,
+                vskb = VSKB(this.TargetPercent.Percent + (preDamage * staleMult), baseDamage, damage, this.SelectedMove.SetWeight ? 100 : (this.SelectedMove.Effect == "collision_attr_paralyze" || this.SelectedMove.Effect == "collision_attr_bury" ? 100 : this.Target.Attributes.Weight),
                     this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled,
                     this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", this.GameVariables.GameSettings.LaunchRate);
                 vskb.addModifier(this.Attacker.Modifier.KBDealtMultiplier);
                 vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
             }
             else {
-                vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
+                vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : (this.SelectedMove.Effect == "collision_attr_paralyze" || this.SelectedMove.Effect == "collision_attr_bury" ? 100 : this.Target.Attributes.Weight), this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
                     StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", 1);
             }
 
@@ -1808,14 +1808,14 @@ class Calculator {
             var staleMult = StaleNegation(this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled);
             var electric = this.SelectedMove.Effect == "collision_attr_elec";
             if (this.SelectedMove.FKB == 0) {
-                vskb = VSKB(this.TargetPercent.Percent + (preDamage * staleMult), baseDamage, damage, this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight,
+                vskb = VSKB(this.TargetPercent.Percent + (preDamage * staleMult), baseDamage, damage, this.SelectedMove.SetWeight ? 100 : (this.SelectedMove.Effect == "collision_attr_paralyze" || this.SelectedMove.Effect == "collision_attr_bury" ? 100 : this.Target.Attributes.Weight),
                     this.SelectedMove.KBG, this.SelectedMove.BKB, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled,
                     this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, electric, this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", this.GameVariables.GameSettings.LaunchRate);
                 vskb.addModifier(this.Attacker.Modifier.KBDealtMultiplier);
                 vskb.addModifier(this.Target.Modifier.KBReceivedMultiplier);
             }
             else {
-                vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : this.Target.Attributes.Weight, this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
+                vskb = WeightBasedKB(this.SelectedMove.SetWeight ? 100 : (this.SelectedMove.Effect == "collision_attr_paralyze" || this.SelectedMove.Effect == "collision_attr_bury" ? 100 : this.Target.Attributes.Weight), this.SelectedMove.BKB, this.SelectedMove.FKB, this.SelectedMove.KBG, this.Target.Attributes.Gravity * this.Target.Modifier.GravityMultiplier, this.Target.Attributes.DamageFlyTopGravity, r, this.TargetPercent.Percent,
                     StaleDamage(damage, this.GameVariables.StaleQueue, this.GameVariables.ShieldStaleQueue, this.GameVariables.StalenessDisabled), this.AttackerPercent.Percent, this.SelectedMove.Angle, this.GameVariables.OpponentInAir, this.SelectedMove.Flinchless, this.SelectedMove.Effect == "collision_attr_elec", this.SelectedMove.SetWeight, this.GameVariables.GetStick(this.VisualizerOptions.InvertX), this.Target.Modifier.name == "Character Inhaled", 1);
             }
 
